@@ -12,7 +12,7 @@ const { lang, initialCategoryId = 'sales' } = Astro.props;
 // Precompute top 3 agencies for each category to inject as JSON for instant client-side matching
 const agencyData = Object.fromEntries(
   categories.map((c) => {
-    const top = agenciesFor(c.id).slice(0, 3).map((a) => ({
+    const top = agenciesFor(c.id, lang).slice(0, 3).map((a) => ({
       id: a.id,
       name: a.name,
       website: a.website,
@@ -167,12 +167,21 @@ const agencyData = Object.fromEntries(
             </div>
           </div>
 
-          <div class="mt-6 pt-3">
+          <div class="mt-6 pt-3 flex flex-col sm:flex-row gap-3">
+            <a
+              href="https://t.me/aitopindex"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex-1 btn-primary text-xs text-center justify-center py-2.5"
+            >
+              <span>{lang === 'ru' ? 'Получить расчёт в Telegram' : 'Fast-Track via Telegram'}</span>
+              <span>↗</span>
+            </a>
             <a
               href={`/${lang}/submit/`}
-              class="w-full btn-ghost text-xs text-center justify-center"
+              class="flex-1 btn-ghost text-xs text-center justify-center py-2.5"
             >
-              <span>{lang === 'ru' ? 'Запросить аудит проекта' : 'Request Implementation Audit'} &rarr;</span>
+              <span>{lang === 'ru' ? 'Запросить аудит проекта' : 'Request Full Audit'} &rarr;</span>
             </a>
           </div>
         </div>

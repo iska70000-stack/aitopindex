@@ -36,7 +36,7 @@ export function getStaticPaths() {
 const { lang } = Astro.params as { lang: Lang; category: string };
 const { cat } = Astro.props as { cat: Category };
 
-const categoryAgencies = agenciesFor(cat.id);
+const categoryAgencies = agenciesFor(cat.id, lang);
 const verifiedStamp = formatMonthYear(latestVerified(), lang);
 
 // Category FAQs

@@ -212,7 +212,7 @@ export const categories: Category[] = [
   },
   {
     id: 'workflow',
-    slug: { en: 'n8n-make-workflow-agencies', ru: 'avtomatizaciya-n8n-make-integaciya' },
+    slug: { en: 'n8n-make-workflow-agencies', ru: 'avtomatizaciya-n8n-make-integraciya' },
     title: { en: 'n8n, Make & Autonomous Workflow Agencies', ru: 'Интеграторы n8n, Make и бизнес-процессов' },
     short: {
       en: 'Multi-agent orchestration with LangGraph & CrewAI, self-hosted n8n and Make pipelines.',

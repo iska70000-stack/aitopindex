@@ -1,96 +1,4264 @@
 [
-  {"id":"relevance-ai","name":"Relevance AI","website":"https://relevanceai.com","type":"platform","categories":["sales","workflow"],"markets":["global"],"hq":{"en":"Sydney, Australia & San Francisco, USA","ru":"Сидней, Австралия и Сан-Франциско, США"},"minProjectBudget":{"en":"$1,000+/mo","ru":"от 90 000 ₽/мес"},"avgRoiTime":{"en":"1-2 Months","ru":"1-2 месяца"},"deployedAgents":{"en":["AI BDR","Inbound Lead Qualifier","Research Agent"],"ru":["ИИ-BDR","Квалификатор входящих лидов","ИИ-исследователь"]},"techStack":["OpenAI API","Anthropic Claude","HubSpot","Salesforce","Multi-agent"],"description":{"en":"No-code platform for building teams of AI agents; widely used to deploy AI BDRs and GTM research agents connected to HubSpot and Salesforce.","ru":"No-code платформа для создания команд ИИ-агентов; популярна для запуска ИИ-BDR и исследовательских агентов с интеграцией HubSpot и Salesforce."},"score":95,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"11x","name":"11x","website":"https://www.11x.ai","type":"platform","categories":["sales"],"markets":["global"],"hq":{"en":"San Francisco, USA","ru":"Сан-Франциско, США"},"minProjectBudget":{"en":"$5,000+/mo","ru":"от 450 000 ₽/мес"},"avgRoiTime":{"en":"1-3 Months","ru":"1-3 месяца"},"deployedAgents":{"en":["AI SDR (Alice)","AI Phone Rep (Julian)","Outbound Sequencer"],"ru":["ИИ-SDR (Alice)","Телефонный ИИ-агент (Julian)","Автоматизация холодных рассылок"]},"techStack":["OpenAI API","Salesforce","HubSpot","LinkedIn","Email automation"],"description":{"en":"Builds autonomous 'digital workers' for revenue teams, including an AI SDR that researches, prospects and books meetings around the clock.","ru":"Разрабатывает автономных «цифровых сотрудников» для отделов продаж, включая ИИ-SDR, который ищет клиентов и назначает встречи 24/7."},"score":92,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"artisan","name":"Artisan AI","website":"https://www.artisan.co","type":"platform","categories":["sales"],"markets":["global"],"hq":{"en":"San Francisco, USA","ru":"Сан-Франциско, США"},"minProjectBudget":{"en":"$2,000+/mo","ru":"от 180 000 ₽/мес"},"avgRoiTime":{"en":"1-3 Months","ru":"1-3 месяца"},"deployedAgents":{"en":["AI BDR (Ava)","Lead Enrichment Agent","Email Deliverability Agent"],"ru":["ИИ-BDR (Ava)","Обогащение лидов","Контроль доставляемости писем"]},"techStack":["OpenAI API","HubSpot","Salesforce","B2B data","Email automation"],"description":{"en":"AI employee platform best known for Ava, an AI BDR that automates outbound prospecting, personalization and follow-ups.","ru":"Платформа ИИ-сотрудников, известная ИИ-BDR Ava, который автоматизирует поиск клиентов, персонализацию писем и дожимы."},"score":89,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"qualified","name":"Qualified","website":"https://www.qualified.com","type":"platform","categories":["sales"],"markets":["global"],"hq":{"en":"San Francisco, USA","ru":"Сан-Франциско, США"},"minProjectBudget":{"en":"$3,500+/mo","ru":"от 320 000 ₽/мес"},"avgRoiTime":{"en":"2-4 Months","ru":"2-4 месяца"},"deployedAgents":{"en":["AI SDR (Piper)","Website Conversational Agent","Meeting Booker"],"ru":["ИИ-SDR (Piper)","Чат-агент на сайте","Автозапись на встречи"]},"techStack":["Salesforce","HubSpot","Marketo","OpenAI API"],"description":{"en":"Agentic marketing platform for B2B pipeline generation; its AI SDR Piper engages website visitors and books meetings natively in Salesforce.","ru":"Агентная маркетинговая платформа для B2B; ИИ-SDR Piper общается с посетителями сайта и записывает встречи прямо в Salesforce."},"score":88,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"master-of-code","name":"Master of Code Global","website":"https://masterofcode.com","type":"agency","categories":["sales","voice","enterprise"],"markets":["global"],"hq":{"en":"North America & Europe (distributed)","ru":"Северная Америка и Европа (распределённая команда)"},"minProjectBudget":{"en":"$25,000+","ru":"от 2 300 000 ₽"},"avgRoiTime":{"en":"3-6 Months","ru":"3-6 месяцев"},"deployedAgents":{"en":["Conversational Sales Agent","Customer Support Agent","Voice Assistant"],"ru":["Диалоговый агент продаж","Агент поддержки клиентов","Голосовой ассистент"]},"techStack":["OpenAI API","Salesforce","Dialogflow","LangChain","RAG"],"description":{"en":"Long-standing conversational AI agency building custom generative AI chat and voice agents for enterprise brands.","ru":"Опытное агентство диалогового ИИ, создающее кастомных чат- и голосовых агентов на генеративном ИИ для крупных брендов."},"score":90,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"roistat","name":"Roistat","website":"https://roistat.com","type":"platform","categories":["sales"],"markets":["ru-cis"],"hq":{"en":"Moscow, Russia","ru":"Москва, Россия"},"minProjectBudget":{"en":"$300+/mo","ru":"от 25 000 ₽/мес"},"avgRoiTime":{"en":"1-2 Months","ru":"1-2 месяца"},"deployedAgents":{"en":["AI Call Analytics (AI Sales Manager)","Lead Source Attribution","Speech QA Agent"],"ru":["ИИ-РОП: речевая аналитика звонков","Сквозная аналитика лидов","Контроль скриптов продаж"]},"techStack":["AmoCRM","Bitrix24","Speech analytics","Calltracking"],"description":{"en":"End-to-end marketing analytics with AI speech analytics that scores every sales call against your script and syncs results to AmoCRM and Bitrix24.","ru":"Сквозная аналитика с ИИ-речевой аналитикой: оценивает каждый звонок менеджера по скрипту и передаёт результаты в AmoCRM и Bitrix24."},"score":91,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"salebot","name":"Salebot","website":"https://salebot.pro","type":"platform","categories":["sales","ecommerce"],"markets":["ru-cis"],"hq":{"en":"Russia","ru":"Россия"},"minProjectBudget":{"en":"$100+/mo","ru":"от 8 000 ₽/мес"},"avgRoiTime":{"en":"1 Month","ru":"1 месяц"},"deployedAgents":{"en":["Telegram/WhatsApp Sales Bot","GPT Lead Qualifier","Auto-funnel Bot"],"ru":["Бот продаж в Telegram/WhatsApp","GPT-квалификатор лидов","Автоворонка"]},"techStack":["OpenAI API","AmoCRM","Bitrix24","Telegram","WhatsApp"],"description":{"en":"Chatbot and auto-funnel builder for messengers with GPT blocks; a large ecosystem of certified integrators builds sales bots on it.","ru":"Конструктор чат-ботов и автоворонок для мессенджеров с GPT-блоками; большая сеть интеграторов строит на нём ботов для продаж."},"score":84,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"first-bit","name":"Первый Бит (1C-Bit)","website":"https://www.1cbit.ru","type":"agency","categories":["sales","workflow"],"markets":["ru-cis"],"hq":{"en":"Moscow, Russia","ru":"Москва, Россия"},"minProjectBudget":{"en":"$2,000+","ru":"от 150 000 ₽"},"avgRoiTime":{"en":"2-4 Months","ru":"2-4 месяца"},"deployedAgents":{"en":["Bitrix24 CoPilot Setup","Sales Pipeline Automation","1C ↔ CRM Integration"],"ru":["Настройка CoPilot в Bitrix24","Автоматизация воронки продаж","Интеграция 1С ↔ CRM"]},"techStack":["Bitrix24","1C","AmoCRM","CoPilot"],"description":{"en":"One of Russia's largest 1C and Bitrix24 integrators with offices across the country, implementing CRM automation including Bitrix24 CoPilot AI.","ru":"Один из крупнейших интеграторов 1С и Bitrix24 с офисами по всей России; внедряет автоматизацию CRM, включая ИИ-помощника CoPilot."},"score":83,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"intervolga","name":"ИНТЕРВОЛГА (Intervolga)","website":"https://www.intervolga.ru","type":"agency","categories":["sales","ecommerce"],"markets":["ru-cis"],"hq":{"en":"Moscow & Volgograd, Russia","ru":"Москва и Волгоград, Россия"},"minProjectBudget":{"en":"$3,000+","ru":"от 250 000 ₽"},"avgRoiTime":{"en":"3-6 Months","ru":"3-6 месяцев"},"deployedAgents":{"en":["Bitrix24 Process Automation","E-commerce CRM Integration","AI Content Assistant"],"ru":["Автоматизация процессов Bitrix24","Интеграция e-commerce и CRM","ИИ-ассистент для контента"]},"techStack":["Bitrix24","1C-Bitrix","1C","OpenAI API"],"description":{"en":"Veteran Bitrix24 and 1C-Bitrix integrator building CRM, portals and e-commerce automation for mid-size and enterprise clients.","ru":"Опытный интегратор Bitrix24 и 1С-Битрикс: CRM, корпоративные порталы и автоматизация e-commerce для среднего и крупного бизнеса."},"score":80,"verifiedDate":"2026-11-04","status":"verified"},
-
-  {"id":"shy-kids","name":"shy kids","website":"https://www.shy-kids.com","type":"studio","categories":["video"],"markets":["global"],"hq":{"en":"Toronto, Canada","ru":"Торонто, Канада"},"minProjectBudget":{"en":"$25,000+","ru":"от 2 300 000 ₽"},"avgRoiTime":{"en":"Campaign-based","ru":"По кампании"},"deployedAgents":{"en":["AI Short Film Pipeline","Generative Commercial Production","Hybrid Live-action + AI"],"ru":["Пайплайн ИИ-короткометражек","Генеративная реклама","Гибрид съёмки и ИИ"]},"techStack":["Sora","Runway","After Effects","Live-action"],"description":{"en":"Toronto multimedia collective known for 'Air Head', one of the first widely recognized short films made with OpenAI Sora.","ru":"Мультимедийный коллектив из Торонто, автор «Air Head» — одного из первых известных фильмов, созданных с помощью OpenAI Sora."},"score":90,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"cuebric","name":"Cuebric (by Seyhan Lee)","website":"https://cuebric.com","type":"studio","categories":["video"],"markets":["global"],"hq":{"en":"Los Angeles, USA","ru":"Лос-Анджелес, США"},"minProjectBudget":{"en":"$10,000+","ru":"от 900 000 ₽"},"avgRoiTime":{"en":"Production-based","ru":"По проекту"},"deployedAgents":{"en":["Generative Virtual Production Backgrounds","2.5D Plate Generation","AI Previs"],"ru":["Генеративные фоны для виртуального продакшна","2.5D-плейты","ИИ-превиз"]},"techStack":["Generative AI","Unreal Engine","LED volume","Stable Diffusion"],"description":{"en":"Generative AI tool and studio from Seyhan Lee that creates layered environments for LED-volume virtual production in film and TV.","ru":"Генеративный ИИ-инструмент и студия Seyhan Lee для создания многослойных окружений для виртуального продакшна на LED-экранах."},"score":85,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"asteria","name":"Asteria Film Co.","website":"https://www.asteriafilm.com","type":"studio","categories":["video"],"markets":["global"],"hq":{"en":"Los Angeles, USA","ru":"Лос-Анджелес, США"},"minProjectBudget":{"en":"$50,000+","ru":"от 4 500 000 ₽"},"avgRoiTime":{"en":"Production-based","ru":"По проекту"},"deployedAgents":{"en":["Licensed-data Generative Film Pipeline","AI VFX","Feature & Series Production"],"ru":["Пайплайн генеративного кино на лицензированных данных","ИИ-VFX","Полный метр и сериалы"]},"techStack":["Marey (Moonvalley)","Generative video","Nuke","Live-action"],"description":{"en":"AI-native film studio partnered with Moonvalley, focused on 'clean' generative models trained on licensed footage for feature and series work.","ru":"ИИ-киностудия в партнёрстве с Moonvalley, использующая «чистые» генеративные модели на лицензированных данных для кино и сериалов."},"score":88,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"synthesia","name":"Synthesia","website":"https://www.synthesia.io","type":"platform","categories":["video"],"markets":["global"],"hq":{"en":"London, UK","ru":"Лондон, Великобритания"},"minProjectBudget":{"en":"$1,000+/yr","ru":"от 90 000 ₽/год"},"avgRoiTime":{"en":"1 Month","ru":"1 месяц"},"deployedAgents":{"en":["AI Avatar Training Videos","Multilingual Localization","Interactive Video Agents"],"ru":["Обучающие видео с ИИ-аватарами","Мультиязычная локализация","Интерактивные видеоагенты"]},"techStack":["AI avatars","Text-to-speech","140+ languages","LMS/SCORM"],"description":{"en":"Enterprise AI video platform for avatar-based training, communications and localized video, used widely by Fortune 500 companies.","ru":"Корпоративная платформа ИИ-видео с аватарами для обучения, коммуникаций и локализации, используется крупнейшими компаниями мира."},"score":94,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"d-id","name":"D-ID","website":"https://www.d-id.com","type":"platform","categories":["video"],"markets":["global"],"hq":{"en":"Tel Aviv, Israel","ru":"Тель-Авив, Израиль"},"minProjectBudget":{"en":"$500+/mo","ru":"от 45 000 ₽/мес"},"avgRoiTime":{"en":"1 Month","ru":"1 месяц"},"deployedAgents":{"en":["Talking Digital Humans","Real-time Video Agents","Personalized Video at Scale"],"ru":["Говорящие цифровые люди","Видеоагенты в реальном времени","Персонализированные видео в масштабе"]},"techStack":["AI avatars","Streaming API","ElevenLabs","OpenAI API"],"description":{"en":"Creative AI company producing photorealistic talking avatars and real-time conversational video agents via API and studio services.","ru":"Компания креативного ИИ: фотореалистичные говорящие аватары и диалоговые видеоагенты в реальном времени через API и студию."},"score":87,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"runway-studios","name":"Runway Studios","website":"https://runwayml.com","type":"studio","categories":["video"],"markets":["global"],"hq":{"en":"New York, USA","ru":"Нью-Йорк, США"},"minProjectBudget":{"en":"$95+/mo (tools) · studio by quote","ru":"от 9 000 ₽/мес (инструменты) · студия по запросу"},"avgRoiTime":{"en":"Immediate (tools)","ru":"Сразу (инструменты)"},"deployedAgents":{"en":["Gen-3/Gen-4 Video Generation","Act-One Performance Capture","Studio Co-productions"],"ru":["Генерация видео Gen-3/Gen-4","Перенос актёрской игры Act-One","Совместные студийные проекты"]},"techStack":["Runway Gen-4","Runway","Act-One","API"],"description":{"en":"Creator of the Runway Gen-series video models; its studio arm co-produces films and partners with major entertainment companies.","ru":"Создатель видеомоделей Runway Gen; студийное подразделение участвует в производстве фильмов и сотрудничает с крупными медиакомпаниями."},"score":96,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"metaphysic","name":"Metaphysic","website":"https://metaphysic.ai","type":"studio","categories":["video"],"markets":["global"],"hq":{"en":"London, UK","ru":"Лондон, Великобритания"},"minProjectBudget":{"en":"$100,000+","ru":"от 9 000 000 ₽"},"avgRoiTime":{"en":"Production-based","ru":"По проекту"},"deployedAgents":{"en":["Photoreal Face Replacement","AI De-aging","Live Generative Performance"],"ru":["Фотореалистичная замена лиц","ИИ-омоложение актёров","Генеративный перформанс в реальном времени"]},"techStack":["Neural rendering","Generative VFX","Nuke"],"description":{"en":"Generative AI VFX company behind hyper-real face replacement and de-aging for feature films such as Robert Zemeckis' 'Here'.","ru":"Компания генеративного VFX: гиперреалистичная замена лиц и омоложение актёров в фильмах, например «Здесь» Роберта Земекиса."},"score":89,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"secret-level","name":"Secret Level","website":"https://www.secretlevel.co","type":"studio","categories":["video"],"markets":["global"],"hq":{"en":"Los Angeles, USA","ru":"Лос-Анджелес, США"},"minProjectBudget":{"en":"$50,000+","ru":"от 4 500 000 ₽"},"avgRoiTime":{"en":"Campaign-based","ru":"По кампании"},"deployedAgents":{"en":["AI-assisted Brand Commercials","Generative Music Videos","Hybrid CG + AI Pipelines"],"ru":["Рекламные ролики с ИИ","Генеративные клипы","Гибридный CG + ИИ пайплайн"]},"techStack":["Runway","Generative video","Unreal Engine","After Effects"],"description":{"en":"LA creative studio producing AI-assisted commercials for global brands, including a widely discussed AI-generated Coca-Cola holiday spot.","ru":"Креативная студия из Лос-Анджелеса, производящая рекламу с ИИ для мировых брендов, включая обсуждаемый новогодний ролик Coca-Cola."},"score":86,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"curious-refuge","name":"Curious Refuge","website":"https://curiousrefuge.com","type":"studio","categories":["video"],"markets":["global"],"hq":{"en":"USA (remote)","ru":"США (удалённо)"},"minProjectBudget":{"en":"$5,000+","ru":"от 450 000 ₽"},"avgRoiTime":{"en":"Project-based","ru":"По проекту"},"deployedAgents":{"en":["AI Filmmaking Training","AI Trailer Production","Studio Team Upskilling"],"ru":["Обучение ИИ-кинопроизводству","Производство ИИ-трейлеров","Обучение студийных команд"]},"techStack":["Runway","Midjourney","Kling","ElevenLabs","Sora"],"description":{"en":"AI filmmaking school and studio whose viral AI trailers popularized the genre; trains creators and production teams in generative workflows.","ru":"Школа и студия ИИ-кино, чьи вирусные ИИ-трейлеры популяризировали жанр; обучает авторов и студии генеративным процессам."},"score":84,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"main-road-post","name":"Main Road|Post","website":"https://www.mainroadpost.com","type":"studio","categories":["video"],"markets":["ru-cis"],"hq":{"en":"Moscow, Russia","ru":"Москва, Россия"},"minProjectBudget":{"en":"$30,000+","ru":"от 2 500 000 ₽"},"avgRoiTime":{"en":"Production-based","ru":"По проекту"},"deployedAgents":{"en":["Feature Film VFX","AI-assisted Compositing","Digital Doubles"],"ru":["VFX для кино","Композитинг с применением ИИ","Цифровые дублёры"]},"techStack":["Houdini","Nuke","Generative AI","Machine learning"],"description":{"en":"One of Russia's largest VFX and post-production studios, delivering visual effects for major feature films and adopting ML-driven tools.","ru":"Одна из крупнейших VFX- и постпродакшн-студий России: визуальные эффекты для крупных фильмов и применение ML-инструментов."},"score":82,"verifiedDate":"2026-11-04","status":"verified"},
-
-  {"id":"bland-ai","name":"Bland AI","website":"https://www.bland.ai","type":"platform","categories":["voice","realestate"],"markets":["global"],"hq":{"en":"San Francisco, USA","ru":"Сан-Франциско, США"},"minProjectBudget":{"en":"$0.09/min · enterprise by quote","ru":"от 8 ₽/мин · enterprise по запросу"},"avgRoiTime":{"en":"1-2 Months","ru":"1-2 месяца"},"deployedAgents":{"en":["Inbound Phone Receptionist","Outbound Qualification Caller","Appointment Setter"],"ru":["Входящий ИИ-ресепшн","Исходящий квалификатор","Запись на встречи"]},"techStack":["Bland API","Twilio","Salesforce","HubSpot","Webhooks"],"description":{"en":"Enterprise voice-AI platform for building phone agents that handle millions of calls with custom-tuned models and dedicated infrastructure.","ru":"Корпоративная платформа голосового ИИ для телефонных агентов, обрабатывающих миллионы звонков на собственной инфраструктуре."},"score":91,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"vapi","name":"Vapi","website":"https://vapi.ai","type":"platform","categories":["voice","healthcare"],"markets":["global"],"hq":{"en":"San Francisco, USA","ru":"Сан-Франциско, США"},"minProjectBudget":{"en":"$0.05/min + providers","ru":"от 5 ₽/мин + провайдеры"},"avgRoiTime":{"en":"1 Month","ru":"1 месяц"},"deployedAgents":{"en":["Voice Receptionist","Outbound Sales Caller","Support Triage Agent"],"ru":["Голосовой администратор","Исходящий агент продаж","Триаж обращений поддержки"]},"techStack":["Vapi","OpenAI API","Deepgram","ElevenLabs","Twilio","n8n"],"description":{"en":"Developer platform for sub-second voice AI agents; the de facto stack for thousands of automation agencies building phone bots.","ru":"Платформа для разработчиков голосовых ИИ-агентов с задержкой менее секунды; базовый стек тысяч агентств автоматизации."},"score":94,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"retell-ai","name":"Retell AI","website":"https://www.retellai.com","type":"platform","categories":["voice"],"markets":["global"],"hq":{"en":"San Francisco Bay Area, USA","ru":"Район залива Сан-Франциско, США"},"minProjectBudget":{"en":"$0.07/min","ru":"от 6 ₽/мин"},"avgRoiTime":{"en":"1 Month","ru":"1 месяц"},"deployedAgents":{"en":["Call Center Voice Agent","Appointment Booking Agent","Lead Qualification Caller"],"ru":["Голосовой агент колл-центра","Запись на приём","Квалификация лидов по телефону"]},"techStack":["Retell","OpenAI API","Twilio","Cal.com","Make","n8n"],"description":{"en":"Voice-agent platform focused on natural turn-taking and low latency, popular with agencies for booking and call-center automation.","ru":"Платформа голосовых агентов с естественным диалогом и низкой задержкой; популярна у агентств для записи клиентов и автоматизации колл-центров."},"score":90,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"synthflow","name":"Synthflow AI","website":"https://synthflow.ai","type":"platform","categories":["voice"],"markets":["global"],"hq":{"en":"Berlin, Germany","ru":"Берлин, Германия"},"minProjectBudget":{"en":"$450+/mo","ru":"от 40 000 ₽/мес"},"avgRoiTime":{"en":"1-2 Months","ru":"1-2 месяца"},"deployedAgents":{"en":["No-code Voice Receptionist","Outbound Reminder Caller","White-label Agency Voice Bots"],"ru":["No-code голосовой администратор","Исходящие напоминания","White-label боты для агентств"]},"techStack":["Synthflow","HubSpot","GoHighLevel","Twilio","Make"],"description":{"en":"No-code voice AI platform with a white-label program, used by agencies to deploy phone agents for SMBs in Europe and the US.","ru":"No-code платформа голосового ИИ с white-label программой, через которую агентства запускают телефонных агентов для МСБ."},"score":86,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"polyai","name":"PolyAI","website":"https://poly.ai","type":"platform","categories":["voice"],"markets":["global"],"hq":{"en":"London, UK","ru":"Лондон, Великобритания"},"minProjectBudget":{"en":"$50,000+","ru":"от 4 500 000 ₽"},"avgRoiTime":{"en":"3-6 Months","ru":"3-6 месяцев"},"deployedAgents":{"en":["Enterprise Customer-service Voice Agent","Hotel & Restaurant Reservations","Banking Call Automation"],"ru":["Голосовой агент для крупного сервиса","Бронирование отелей и ресторанов","Автоматизация звонков в банках"]},"techStack":["Proprietary LLM","Genesys","Twilio","Salesforce"],"description":{"en":"Enterprise conversational voice AI company deploying lifelike customer-service agents for hospitality, banking and utilities.","ru":"Корпоративный голосовой ИИ: реалистичные агенты клиентского сервиса для гостиничного бизнеса, банков и коммунальных компаний."},"score":92,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"elevenlabs","name":"ElevenLabs","website":"https://elevenlabs.io","type":"platform","categories":["voice","video"],"markets":["global"],"hq":{"en":"London, UK & New York, USA","ru":"Лондон, Великобритания и Нью-Йорк, США"},"minProjectBudget":{"en":"$22+/mo · enterprise by quote","ru":"от 2 000 ₽/мес · enterprise по запросу"},"avgRoiTime":{"en":"Immediate","ru":"Сразу"},"deployedAgents":{"en":["Conversational Voice Agents","AI Dubbing","Voice Cloning for Ads"],"ru":["Голосовые диалоговые агенты","ИИ-дубляж","Клонирование голоса для рекламы"]},"techStack":["ElevenLabs","Conversational AI","Twilio","API"],"description":{"en":"Leading AI audio company for text-to-speech, dubbing and conversational voice agents used by studios and enterprise contact centers.","ru":"Лидер ИИ-аудио: синтез речи, дубляж и голосовые агенты для студий и корпоративных контакт-центров."},"score":95,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"just-ai","name":"Just AI","website":"https://just-ai.com","type":"platform","categories":["voice","enterprise"],"markets":["ru-cis"],"hq":{"en":"Moscow, Russia","ru":"Москва, Россия"},"minProjectBudget":{"en":"$5,000+","ru":"от 500 000 ₽"},"avgRoiTime":{"en":"2-4 Months","ru":"2-4 месяца"},"deployedAgents":{"en":["Voice & Chat Bots for Contact Centers","Enterprise LLM Assistant (Jay Copilot)","Knowledge-base Agent"],"ru":["Голосовые и чат-боты для контакт-центров","Корпоративный LLM-ассистент","Агент базы знаний"]},"techStack":["JAICP","GigaChat","YandexGPT","RAG","Telephony"],"description":{"en":"Russian conversational AI developer with an enterprise platform for voice and chat bots and LLM-based corporate assistants.","ru":"Российский разработчик диалогового ИИ: корпоративная платформа JAICP для голосовых и чат-ботов и LLM-ассистенты для бизнеса."},"score":90,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"twin24","name":"TWIN (Twin24)","website":"https://twin24.ai","type":"platform","categories":["voice","sales"],"markets":["ru-cis"],"hq":{"en":"Russia","ru":"Россия"},"minProjectBudget":{"en":"$1,000+","ru":"от 100 000 ₽"},"avgRoiTime":{"en":"1-2 Months","ru":"1-2 месяца"},"deployedAgents":{"en":["Outbound Voice Robot","Inbound Call Handler","Omnichannel Chat Bot"],"ru":["Исходящий голосовой робот","Обработка входящих звонков","Омниканальный чат-бот"]},"techStack":["TWIN Platform","AmoCRM","Bitrix24","LLM","Telephony"],"description":{"en":"Russian platform for AI voice robots and chat bots automating outbound and inbound calls for sales, service and HR.","ru":"Российская платформа голосовых ИИ-роботов и чат-ботов для автоматизации входящих и исходящих звонков в продажах, сервисе и HR."},"score":85,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"naumen","name":"Naumen","website":"https://www.naumen.ru","type":"platform","categories":["voice","enterprise"],"markets":["ru-cis"],"hq":{"en":"Yekaterinburg, Russia","ru":"Екатеринбург, Россия"},"minProjectBudget":{"en":"$20,000+","ru":"от 1 500 000 ₽"},"avgRoiTime":{"en":"4-8 Months","ru":"4-8 месяцев"},"deployedAgents":{"en":["Contact-center Voice Bot","Operator Assist Agent","Service Desk Automation"],"ru":["Голосовой бот контакт-центра","Суфлёр оператора","Автоматизация Service Desk"]},"techStack":["Naumen Contact Center","Erudite","Speech analytics","ITSM"],"description":{"en":"Major Russian enterprise software vendor for contact centers and service management, with AI bots and speech analytics.","ru":"Крупный российский вендор ПО для контакт-центров и управления сервисом с ИИ-ботами и речевой аналитикой."},"score":87,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"zvonobot","name":"Звонобот (Zvonobot)","website":"https://zvonobot.ru","type":"platform","categories":["voice"],"markets":["ru-cis"],"hq":{"en":"Russia","ru":"Россия"},"minProjectBudget":{"en":"$50+/mo","ru":"от 5 000 ₽/мес"},"avgRoiTime":{"en":"< 1 Month","ru":"< 1 месяца"},"deployedAgents":{"en":["Mass Voice Notifications","Interactive Voice Surveys","Lead Re-activation Calls"],"ru":["Массовые голосовые оповещения","Интерактивные опросы","Реактивация базы звонками"]},"techStack":["Voice robot","AmoCRM","Bitrix24","API"],"description":{"en":"Russian service for automated voice calls and interactive voice robots used for notifications, surveys and base re-activation.","ru":"Российский сервис голосовых обзвонов и интерактивных роботов для оповещений, опросов и реактивации клиентской базы."},"score":79,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"sipuni","name":"Sipuni","website":"https://sipuni.com","type":"platform","categories":["voice"],"markets":["ru-cis"],"hq":{"en":"Russia","ru":"Россия"},"minProjectBudget":{"en":"$30+/mo","ru":"от 3 000 ₽/мес"},"avgRoiTime":{"en":"< 1 Month","ru":"< 1 месяца"},"deployedAgents":{"en":["Cloud PBX with Voice Robot","Call Transcription & AI Summary","CRM Call Routing"],"ru":["Облачная АТС с голосовым роботом","Расшифровка и ИИ-резюме звонков","Маршрутизация звонков по CRM"]},"techStack":["Cloud PBX","AmoCRM","Bitrix24","Speech-to-text"],"description":{"en":"Cloud telephony for businesses with deep AmoCRM/Bitrix24 integration, call transcription and voice robot features.","ru":"Облачная телефония для бизнеса с глубокой интеграцией AmoCRM и Bitrix24, расшифровкой звонков и голосовыми роботами."},"score":80,"verifiedDate":"2026-11-04","status":"verified"},
-
-  {"id":"eliseai","name":"EliseAI","website":"https://www.eliseai.com","type":"platform","categories":["realestate","healthcare"],"markets":["global"],"hq":{"en":"New York, USA","ru":"Нью-Йорк, США"},"minProjectBudget":{"en":"Per-unit pricing · by quote","ru":"Оплата за объект · по запросу"},"avgRoiTime":{"en":"1-3 Months","ru":"1-3 месяца"},"deployedAgents":{"en":["AI Leasing Assistant","Resident Maintenance Agent","Tour Scheduling Agent"],"ru":["ИИ-ассистент по аренде","Агент заявок жильцов","Запись на просмотры"]},"techStack":["Yardi","RealPage","Entrata","SMS/Email/Voice"],"description":{"en":"Conversational AI for property management and healthcare, automating leasing, tours, renewals and resident communications at scale.","ru":"Диалоговый ИИ для управления недвижимостью и медицины: автоматизирует аренду, показы, продления и коммуникации с жильцами."},"score":94,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"structurely","name":"Structurely","website":"https://www.structurely.com","type":"platform","categories":["realestate"],"markets":["global"],"hq":{"en":"Iowa, USA","ru":"Айова, США"},"minProjectBudget":{"en":"$200+/mo","ru":"от 18 000 ₽/мес"},"avgRoiTime":{"en":"1-2 Months","ru":"1-2 месяца"},"deployedAgents":{"en":["AI ISA (Inside Sales Agent)","Long-term Lead Nurturer","Appointment Setter"],"ru":["ИИ-ISA (ассистент продаж)","Долгосрочный прогрев лидов","Запись на встречи"]},"techStack":["Follow Up Boss","kvCORE","Lofty","SMS/Email"],"description":{"en":"AI inside-sales assistant for real estate and mortgage teams that qualifies and nurtures leads via text and email for months.","ru":"ИИ-ассистент продаж для риелторов и ипотечных брокеров: квалифицирует и прогревает лиды по SMS и email месяцами."},"score":86,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"ylopo","name":"Ylopo","website":"https://www.ylopo.com","type":"platform","categories":["realestate"],"markets":["global"],"hq":{"en":"Los Angeles, USA","ru":"Лос-Анджелес, США"},"minProjectBudget":{"en":"$500+/mo","ru":"от 45 000 ₽/мес"},"avgRoiTime":{"en":"2-4 Months","ru":"2-4 месяца"},"deployedAgents":{"en":["AI Text Assistant (raiya)","AI Voice Follow-up","Lead Generation Ads Engine"],"ru":["ИИ-ассистент в SMS","Голосовые ИИ-дозвоны","Генерация лидов из рекламы"]},"techStack":["Follow Up Boss","Meta Ads","Google Ads","SMS/Voice"],"description":{"en":"Digital marketing and AI platform for real estate teams combining lead-gen ads with AI text and voice assistants.","ru":"Маркетинговая ИИ-платформа для команд риелторов: генерация лидов из рекламы плюс ИИ-ассистенты в SMS и голосе."},"score":85,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"lofty","name":"Lofty","website":"https://lofty.com","type":"platform","categories":["realestate"],"markets":["global"],"hq":{"en":"USA","ru":"США"},"minProjectBudget":{"en":"$450+/mo","ru":"от 40 000 ₽/мес"},"avgRoiTime":{"en":"2-3 Months","ru":"2-3 месяца"},"deployedAgents":{"en":["AI Sales Assistant","Smart Plans Automation","Listing Marketing Agent"],"ru":["ИИ-ассистент продаж","Автоматизация Smart Plans","Маркетинг объектов"]},"techStack":["Lofty CRM","IDX","SMS/Email","Zapier"],"description":{"en":"All-in-one real estate CRM and IDX platform (formerly Chime) with an AI assistant that engages and converts leads.","ru":"CRM и IDX-платформа для недвижимости (ранее Chime) с ИИ-ассистентом, который общается с лидами и доводит их до сделки."},"score":83,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"rechat","name":"Rechat","website":"https://rechat.com","type":"platform","categories":["realestate"],"markets":["global"],"hq":{"en":"Dallas, USA","ru":"Даллас, США"},"minProjectBudget":{"en":"Brokerage pricing · by quote","ru":"Для агентств · по запросу"},"avgRoiTime":{"en":"2-4 Months","ru":"2-4 месяца"},"deployedAgents":{"en":["AI Marketing Copilot (Lucy)","Transaction Management Assistant","Listing Content Generator"],"ru":["ИИ-копилот маркетинга (Lucy)","Ассистент сопровождения сделок","Генератор описаний объектов"]},"techStack":["Rechat CRM","OpenAI API","MLS","Email/SMS"],"description":{"en":"Real estate super-app for brokerages with an AI copilot for marketing, CRM and transaction management.","ru":"Суперприложение для агентств недвижимости с ИИ-копилотом для маркетинга, CRM и сопровождения сделок."},"score":80,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"virtual-staging-ai","name":"Virtual Staging AI","website":"https://www.virtualstagingai.app","type":"platform","categories":["realestate"],"markets":["global"],"hq":{"en":"USA","ru":"США"},"minProjectBudget":{"en":"$16+/mo","ru":"от 1 500 ₽/мес"},"avgRoiTime":{"en":"Immediate","ru":"Сразу"},"deployedAgents":{"en":["AI Virtual Staging","Room Decluttering","Style Variations"],"ru":["ИИ-виртуальный стейджинг","Удаление мебели","Варианты стилей интерьера"]},"techStack":["Generative AI","Image diffusion","API"],"description":{"en":"AI tool that virtually stages empty rooms in seconds for listings, at a fraction of physical staging cost.","ru":"ИИ-сервис, который за секунды виртуально меблирует пустые комнаты для объявлений — в разы дешевле реального стейджинга."},"score":81,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"profitbase","name":"Profitbase","website":"https://profitbase.ru","type":"platform","categories":["realestate"],"markets":["ru-cis"],"hq":{"en":"Russia","ru":"Россия"},"minProjectBudget":{"en":"$500+/mo","ru":"от 40 000 ₽/мес"},"avgRoiTime":{"en":"2-4 Months","ru":"2-4 месяца"},"deployedAgents":{"en":["Developer Sales Automation","Interactive Apartment Picker","Smart Lead Routing"],"ru":["Автоматизация продаж застройщика","Интерактивный выбор квартир","Умное распределение лидов"]},"techStack":["Profitbase","AmoCRM","Bitrix24","API"],"description":{"en":"Russian sales-automation platform for property developers: inventory management, apartment picker widgets and CRM integrations.","ru":"Российская платформа автоматизации продаж для застройщиков: шахматка, виджет выбора квартир и интеграции с CRM."},"score":84,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"macrocrm","name":"MacroCRM","website":"https://macrocrm.ru","type":"platform","categories":["realestate"],"markets":["ru-cis"],"hq":{"en":"Russia","ru":"Россия"},"minProjectBudget":{"en":"$1,000+","ru":"от 100 000 ₽"},"avgRoiTime":{"en":"3-6 Months","ru":"3-6 месяцев"},"deployedAgents":{"en":["Developer CRM Automation","Sales Analytics","Client Portal & Bots"],"ru":["Автоматизация CRM застройщика","Аналитика продаж","Личный кабинет и боты"]},"techStack":["MacroCRM","1C","Telephony","API"],"description":{"en":"CRM and ERP system built specifically for real estate developers and agencies in Russia and the CIS.","ru":"CRM- и ERP-система, созданная специально для девелоперов и агентств недвижимости в России и СНГ."},"score":80,"verifiedDate":"2026-11-04","status":"verified"},
-
-  {"id":"hippocratic-ai","name":"Hippocratic AI","website":"https://www.hippocraticai.com","type":"platform","categories":["healthcare"],"markets":["global"],"hq":{"en":"Palo Alto, USA","ru":"Пало-Альто, США"},"minProjectBudget":{"en":"Enterprise · by quote","ru":"Enterprise · по запросу"},"avgRoiTime":{"en":"3-6 Months","ru":"3-6 месяцев"},"deployedAgents":{"en":["Safety-focused Patient Outreach Agent","Post-discharge Follow-up","Chronic Care Check-ins"],"ru":["Агент коммуникации с пациентами","Контроль после выписки","Сопровождение хронических пациентов"]},"techStack":["Healthcare LLM (Polaris)","Voice AI","EHR integration"],"description":{"en":"Builds safety-focused generative AI healthcare agents for non-diagnostic patient-facing tasks at health systems.","ru":"Разрабатывает безопасных генеративных ИИ-агентов для недиагностических задач коммуникации с пациентами в клиниках."},"score":91,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"hyro","name":"Hyro","website":"https://www.hyro.ai","type":"platform","categories":["healthcare","voice"],"markets":["global"],"hq":{"en":"New York, USA","ru":"Нью-Йорк, США"},"minProjectBudget":{"en":"Enterprise · by quote","ru":"Enterprise · по запросу"},"avgRoiTime":{"en":"2-4 Months","ru":"2-4 месяца"},"deployedAgents":{"en":["AI Call-center Agent for Health Systems","Appointment Scheduling","Prescription Refill Bot"],"ru":["ИИ-агент колл-центра больницы","Запись на приём","Бот продления рецептов"]},"techStack":["Epic","Cerner","Voice AI","Web chat"],"description":{"en":"Responsible AI agents for healthcare call centers and websites, automating scheduling, FAQs and refills for health systems.","ru":"ИИ-агенты для колл-центров и сайтов медучреждений: запись, ответы на вопросы и продление рецептов."},"score":87,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"notable","name":"Notable","website":"https://www.notablehealth.com","type":"platform","categories":["healthcare","workflow"],"markets":["global"],"hq":{"en":"San Mateo, USA","ru":"Сан-Матео, США"},"minProjectBudget":{"en":"Enterprise · by quote","ru":"Enterprise · по запросу"},"avgRoiTime":{"en":"3-6 Months","ru":"3-6 месяцев"},"deployedAgents":{"en":["Patient Intake Agent","Prior Authorization Automation","Referral Processing Agent"],"ru":["Агент регистрации пациентов","Автоматизация предавторизации","Обработка направлений"]},"techStack":["Epic","Cerner","Intelligent automation","LLM"],"description":{"en":"Intelligent automation platform for health systems automating intake, referrals, authorizations and care-gap outreach.","ru":"Платформа интеллектуальной автоматизации для клиник: регистрация, направления, предавторизация и работа с пациентами."},"score":86,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"weave","name":"Weave","website":"https://www.getweave.com","type":"platform","categories":["healthcare"],"markets":["global"],"hq":{"en":"Lehi, Utah, USA","ru":"Лихай, Юта, США"},"minProjectBudget":{"en":"$250+/mo","ru":"от 22 000 ₽/мес"},"avgRoiTime":{"en":"1-2 Months","ru":"1-2 месяца"},"deployedAgents":{"en":["Missed-call Text Back","AI Receptionist for Dental","Automated Reminders & Reviews"],"ru":["SMS на пропущенный звонок","ИИ-администратор стоматологии","Напоминания и сбор отзывов"]},"techStack":["Dentrix","Open Dental","VoIP","SMS"],"description":{"en":"Patient communication platform for dental, optometry and medical practices with phones, texting, reminders and AI features.","ru":"Платформа коммуникаций с пациентами для стоматологий и клиник: телефония, SMS, напоминания и ИИ-функции."},"score":84,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"abridge","name":"Abridge","website":"https://www.abridge.com","type":"platform","categories":["healthcare"],"markets":["global"],"hq":{"en":"Pittsburgh, USA","ru":"Питтсбург, США"},"minProjectBudget":{"en":"Enterprise · by quote","ru":"Enterprise · по запросу"},"avgRoiTime":{"en":"2-4 Months","ru":"2-4 месяца"},"deployedAgents":{"en":["Ambient Clinical Scribe","Visit Summary Generator","Coding Support"],"ru":["Фоновый ИИ-секретарь врача","Генерация резюме приёма","Помощь в кодировании"]},"techStack":["Epic","Speech AI","Medical LLM"],"description":{"en":"Generative AI for clinical documentation that turns patient-clinician conversations into structured notes inside the EHR.","ru":"Генеративный ИИ для медицинской документации: превращает разговор врача с пациентом в структурированную запись в ЭМК."},"score":92,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"infermedica","name":"Infermedica","website":"https://infermedica.com","type":"platform","categories":["healthcare"],"markets":["global"],"hq":{"en":"Wrocław, Poland","ru":"Вроцлав, Польша"},"minProjectBudget":{"en":"Enterprise · by quote","ru":"Enterprise · по запросу"},"avgRoiTime":{"en":"3-6 Months","ru":"3-6 месяцев"},"deployedAgents":{"en":["Symptom Checker","Patient Triage Agent","Intake Pre-screening"],"ru":["Проверка симптомов","Триаж пациентов","Предварительный опрос"]},"techStack":["Medical knowledge graph","API","Chat/Voice"],"description":{"en":"AI-powered symptom checking and triage platform used by insurers and health systems for digital front doors.","ru":"ИИ-платформа проверки симптомов и триажа для страховых компаний и медицинских сетей."},"score":85,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"medesk","name":"Medesk","website":"https://www.medesk.ru","type":"platform","categories":["healthcare"],"markets":["ru-cis"],"hq":{"en":"Moscow, Russia","ru":"Москва, Россия"},"minProjectBudget":{"en":"$50+/mo","ru":"от 4 000 ₽/мес"},"avgRoiTime":{"en":"1-2 Months","ru":"1-2 месяца"},"deployedAgents":{"en":["Online Booking & Reminders","Clinic CRM Automation","Patient Messaging Bot"],"ru":["Онлайн-запись и напоминания","Автоматизация CRM клиники","Бот для пациентов"]},"techStack":["Medesk MIS","Telephony","WhatsApp","API"],"description":{"en":"Cloud medical information system (МИС) for private clinics with online booking, CRM, telephony and patient reminders.","ru":"Облачная МИС для частных клиник: онлайн-запись, CRM, телефония и автоматические напоминания пациентам."},"score":81,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"third-opinion","name":"Третье Мнение (Third Opinion)","website":"https://thirdopinion.ai","type":"platform","categories":["healthcare"],"markets":["ru-cis"],"hq":{"en":"Moscow, Russia","ru":"Москва, Россия"},"minProjectBudget":{"en":"Enterprise · by quote","ru":"Enterprise · по запросу"},"avgRoiTime":{"en":"4-8 Months","ru":"4-8 месяцев"},"deployedAgents":{"en":["AI Radiology (CT/X-ray) Analysis","Screening Triage","Video Analytics for Clinics"],"ru":["ИИ-анализ КТ и рентгена","Триаж скрининга","Видеоаналитика для клиник"]},"techStack":["Computer vision","PACS","DICOM"],"description":{"en":"Russian computer-vision company analyzing medical images (CT, X-ray, mammography) to support radiologists and screening programs.","ru":"Российская компания компьютерного зрения: анализ медицинских изображений (КТ, рентген, маммография) в помощь рентгенологам."},"score":82,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"webiomed","name":"Webiomed","website":"https://webiomed.ru","type":"platform","categories":["healthcare"],"markets":["ru-cis"],"hq":{"en":"Petrozavodsk, Russia","ru":"Петрозаводск, Россия"},"minProjectBudget":{"en":"Enterprise · by quote","ru":"Enterprise · по запросу"},"avgRoiTime":{"en":"4-8 Months","ru":"4-8 месяцев"},"deployedAgents":{"en":["Predictive Risk Analytics","Clinical Decision Support","EHR Quality Control"],"ru":["Предиктивная аналитика рисков","Поддержка врачебных решений","Контроль качества ЭМК"]},"techStack":["Machine learning","EHR/MIS integration","NLP"],"description":{"en":"Predictive analytics and clinical decision support platform analyzing electronic health records to flag patient risks.","ru":"Платформа предиктивной аналитики и поддержки врачебных решений, анализирующая электронные медкарты для выявления рисков."},"score":79,"verifiedDate":"2026-11-04","status":"verified"},
-
-  {"id":"xray-tech","name":"XRAY.Tech","website":"https://www.xray.tech","type":"agency","categories":["workflow"],"markets":["global"],"hq":{"en":"USA","ru":"США"},"minProjectBudget":{"en":"$5,000+","ru":"от 450 000 ₽"},"avgRoiTime":{"en":"1-3 Months","ru":"1-3 месяца"},"deployedAgents":{"en":["Make & Zapier AI Workflows","Airtable Ops Systems","Document Processing Agent"],"ru":["ИИ-сценарии Make и Zapier","Операционные системы на Airtable","Агент обработки документов"]},"techStack":["Make","Zapier","Airtable","OpenAI API","n8n"],"description":{"en":"Workflow automation agency specializing in Make, Zapier and Airtable systems enhanced with AI for operations teams.","ru":"Агентство автоматизации на Make, Zapier и Airtable с ИИ-улучшениями для операционных команд."},"score":84,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"leewayhertz","name":"LeewayHertz","website":"https://www.leewayhertz.com","type":"agency","categories":["workflow","enterprise"],"markets":["global"],"hq":{"en":"San Francisco, USA","ru":"Сан-Франциско, США"},"minProjectBudget":{"en":"$25,000+","ru":"от 2 300 000 ₽"},"avgRoiTime":{"en":"3-6 Months","ru":"3-6 месяцев"},"deployedAgents":{"en":["Multi-agent Enterprise Systems","Custom GPT Copilots","AI Process Automation"],"ru":["Корпоративные мультиагентные системы","Кастомные GPT-копилоты","ИИ-автоматизация процессов"]},"techStack":["LangChain","LangGraph","OpenAI API","RAG","AWS"],"description":{"en":"AI development company building generative AI solutions, autonomous agents and enterprise platforms such as ZBrain.","ru":"Компания разработки ИИ: генеративные решения, автономные агенты и корпоративные платформы, включая ZBrain."},"score":86,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"markovate","name":"Markovate","website":"https://markovate.com","type":"agency","categories":["workflow","enterprise"],"markets":["global"],"hq":{"en":"San Francisco, USA & Toronto, Canada","ru":"Сан-Франциско, США и Торонто, Канада"},"minProjectBudget":{"en":"$20,000+","ru":"от 1 800 000 ₽"},"avgRoiTime":{"en":"3-6 Months","ru":"3-6 месяцев"},"deployedAgents":{"en":["Agentic Workflow Automation","RAG Knowledge Assistants","AI Product MVPs"],"ru":["Агентная автоматизация процессов","RAG-ассистенты по знаниям","MVP ИИ-продуктов"]},"techStack":["LangChain","CrewAI","OpenAI API","RAG","Azure"],"description":{"en":"AI engineering firm delivering generative AI agents, RAG systems and AI product development for startups and enterprises.","ru":"Инженерная ИИ-компания: генеративные агенты, RAG-системы и разработка ИИ-продуктов для стартапов и корпораций."},"score":83,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"crewai","name":"CrewAI","website":"https://www.crewai.com","type":"platform","categories":["workflow"],"markets":["global"],"hq":{"en":"USA","ru":"США"},"minProjectBudget":{"en":"Open-source · enterprise by quote","ru":"Open-source · enterprise по запросу"},"avgRoiTime":{"en":"1-3 Months","ru":"1-3 месяца"},"deployedAgents":{"en":["Role-based Multi-agent Crews","Research & Content Crews","Enterprise Agent Ops"],"ru":["Команды ролевых агентов","Исследовательские и контент-команды","Корпоративный AgentOps"]},"techStack":["CrewAI","Python","OpenAI API","Anthropic Claude","Multi-agent"],"description":{"en":"Open-source framework and enterprise platform for orchestrating role-playing, autonomous multi-agent systems.","ru":"Open-source фреймворк и корпоративная платформа для оркестрации автономных мультиагентных систем."},"score":90,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"langchain","name":"LangChain (LangGraph)","website":"https://www.langchain.com","type":"platform","categories":["workflow","enterprise"],"markets":["global"],"hq":{"en":"San Francisco, USA","ru":"Сан-Франциско, США"},"minProjectBudget":{"en":"Open-source · LangSmith from $39/seat","ru":"Open-source · LangSmith от 3 500 ₽/место"},"avgRoiTime":{"en":"1-3 Months","ru":"1-3 месяца"},"deployedAgents":{"en":["Stateful LangGraph Agents","RAG Pipelines","Agent Observability (LangSmith)"],"ru":["Агенты с состоянием на LangGraph","RAG-пайплайны","Наблюдаемость агентов (LangSmith)"]},"techStack":["LangChain","LangGraph","LangSmith","RAG","Python"],"description":{"en":"Creator of LangChain and LangGraph — the most widely used open-source frameworks for building LLM agents — plus LangSmith observability.","ru":"Создатель LangChain и LangGraph — самых популярных open-source фреймворков для LLM-агентов — и платформы наблюдаемости LangSmith."},"score":96,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"albato","name":"Albato","website":"https://albato.ru","type":"platform","categories":["workflow","ecommerce"],"markets":["ru-cis"],"hq":{"en":"Russia","ru":"Россия"},"minProjectBudget":{"en":"$15+/mo · integrator projects by quote","ru":"от 1 500 ₽/мес · проекты по запросу"},"avgRoiTime":{"en":"< 1 Month","ru":"< 1 месяца"},"deployedAgents":{"en":["No-code CRM Integrations","GPT Automation Bundles","Marketplace Order Sync"],"ru":["No-code интеграции CRM","Связки с GPT","Синхронизация заказов маркетплейсов"]},"techStack":["Albato","AmoCRM","Bitrix24","OpenAI API","Wildberries","Ozon"],"description":{"en":"No-code integration platform with hundreds of ready connectors for Russian and global services, including AmoCRM, Bitrix24 and marketplaces.","ru":"No-code платформа интеграций с сотнями готовых коннекторов: AmoCRM, Bitrix24, маркетплейсы, GPT и другие сервисы."},"score":85,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"hatchworks","name":"HatchWorks AI","website":"https://hatchworks.com","type":"agency","categories":["workflow","enterprise"],"markets":["global"],"hq":{"en":"Atlanta, USA","ru":"Атланта, США"},"minProjectBudget":{"en":"$25,000+","ru":"от 2 300 000 ₽"},"avgRoiTime":{"en":"3-6 Months","ru":"3-6 месяцев"},"deployedAgents":{"en":["GenAI Agent Accelerators","Data & RAG Platforms","AI-augmented Software Delivery"],"ru":["Ускорители GenAI-агентов","Платформы данных и RAG","Разработка ПО с ИИ"]},"techStack":["LangChain","Databricks","Azure OpenAI","RAG"],"description":{"en":"US nearshore AI and software firm delivering generative AI agents, data platforms and AI-augmented engineering teams.","ru":"Американская ИИ- и софтверная компания: генеративные агенты, платформы данных и команды разработки с ИИ."},"score":82,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"kt-team","name":"KT.Team","website":"https://kt.team","type":"agency","categories":["workflow","ecommerce"],"markets":["ru-cis"],"hq":{"en":"Moscow, Russia","ru":"Москва, Россия"},"minProjectBudget":{"en":"$10,000+","ru":"от 800 000 ₽"},"avgRoiTime":{"en":"3-6 Months","ru":"3-6 месяцев"},"deployedAgents":{"en":["Integration Bus & Data Pipelines","PIM / Catalog Automation","AI Data Enrichment"],"ru":["Интеграционная шина и пайплайны данных","Автоматизация PIM и каталога","ИИ-обогащение данных"]},"techStack":["ESB","n8n","1C","PIM","API"],"description":{"en":"Russian integration and e-commerce engineering company building integration buses, PIM systems and automation for retail.","ru":"Российская компания интеграций и e-commerce: интеграционные шины, PIM-системы и автоматизация для ритейла."},"score":80,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"workato","name":"Workato","website":"https://www.workato.com","type":"platform","categories":["workflow"],"markets":["global"],"hq":{"en":"Mountain View, USA","ru":"Маунтин-Вью, США"},"minProjectBudget":{"en":"$10,000+/yr","ru":"от 900 000 ₽/год"},"avgRoiTime":{"en":"2-4 Months","ru":"2-4 месяца"},"deployedAgents":{"en":["Enterprise Agentic Automation (Genies)","IT & HR Workflow Bots","Cross-app Orchestration"],"ru":["Корпоративная агентная автоматизация","Боты для IT и HR","Оркестрация между системами"]},"techStack":["Workato","Salesforce","Slack","NetSuite","OpenAI API"],"description":{"en":"Enterprise integration and automation platform with AI agents that orchestrate workflows across hundreds of business apps.","ru":"Корпоративная платформа интеграции и автоматизации с ИИ-агентами, оркестрирующими процессы в сотнях бизнес-приложений."},"score":88,"verifiedDate":"2026-11-04","status":"verified"},
-
-  {"id":"gorgias","name":"Gorgias","website":"https://www.gorgias.com","type":"platform","categories":["ecommerce"],"markets":["global"],"hq":{"en":"San Francisco, USA","ru":"Сан-Франциско, США"},"minProjectBudget":{"en":"$60+/mo","ru":"от 5 500 ₽/мес"},"avgRoiTime":{"en":"1 Month","ru":"1 месяц"},"deployedAgents":{"en":["AI Support Agent","AI Shopping Assistant","Order Status Automation"],"ru":["ИИ-агент поддержки","ИИ-консультант покупателей","Автоответы о статусе заказа"]},"techStack":["Shopify","Magento","BigCommerce","OpenAI API"],"description":{"en":"Customer experience platform for e-commerce with an AI Agent that resolves support tickets and drives sales on Shopify stores.","ru":"Платформа клиентского сервиса для e-commerce с ИИ-агентом, который закрывает обращения и помогает продавать в Shopify."},"score":91,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"rep-ai","name":"Rep AI","website":"https://www.hellorep.ai","type":"platform","categories":["ecommerce"],"markets":["global"],"hq":{"en":"USA","ru":"США"},"minProjectBudget":{"en":"$30+/mo","ru":"от 3 000 ₽/мес"},"avgRoiTime":{"en":"1 Month","ru":"1 месяц"},"deployedAgents":{"en":["AI Shopping Concierge","Abandonment Recovery Agent","Support Deflection Bot"],"ru":["ИИ-консультант магазина","Возврат брошенных корзин","Бот снижения нагрузки на поддержку"]},"techStack":["Shopify","OpenAI API","Klaviyo"],"description":{"en":"AI sales and support concierge for Shopify brands that detects hesitant shoppers and guides them to purchase.","ru":"ИИ-консультант продаж и поддержки для Shopify-брендов, который распознаёт сомневающихся покупателей и доводит до покупки."},"score":82,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"octane-ai","name":"Octane AI","website":"https://www.octaneai.com","type":"platform","categories":["ecommerce"],"markets":["global"],"hq":{"en":"San Francisco, USA","ru":"Сан-Франциско, США"},"minProjectBudget":{"en":"$50+/mo","ru":"от 4 500 ₽/мес"},"avgRoiTime":{"en":"1-2 Months","ru":"1-2 месяца"},"deployedAgents":{"en":["AI Product Quiz","Zero-party Data Agent","Personalized Recommendations"],"ru":["ИИ-квиз подбора товара","Сбор данных о покупателе","Персональные рекомендации"]},"techStack":["Shopify","Klaviyo","OpenAI API"],"description":{"en":"AI-powered product quizzes and personalization for Shopify brands that collect zero-party data and lift conversion.","ru":"ИИ-квизы подбора товаров и персонализация для Shopify-брендов, собирающие данные о покупателях и повышающие конверсию."},"score":80,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"klevu","name":"Klevu","website":"https://www.klevu.com","type":"platform","categories":["ecommerce"],"markets":["global"],"hq":{"en":"London, UK","ru":"Лондон, Великобритания"},"minProjectBudget":{"en":"$500+/mo","ru":"от 45 000 ₽/мес"},"avgRoiTime":{"en":"2-3 Months","ru":"2-3 месяца"},"deployedAgents":{"en":["AI Site Search","Product Discovery Agent","Merchandising Automation"],"ru":["ИИ-поиск по сайту","Агент подбора товаров","Автоматизация мерчандайзинга"]},"techStack":["Shopify","Magento","BigCommerce","NLP"],"description":{"en":"AI-powered search and product discovery platform for mid-market and enterprise online retailers.","ru":"ИИ-платформа поиска и подбора товаров для интернет-магазинов среднего и крупного бизнеса."},"score":81,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"bloomreach","name":"Bloomreach","website":"https://www.bloomreach.com","type":"platform","categories":["ecommerce"],"markets":["global"],"hq":{"en":"USA & Europe","ru":"США и Европа"},"minProjectBudget":{"en":"Enterprise · by quote","ru":"Enterprise · по запросу"},"avgRoiTime":{"en":"3-6 Months","ru":"3-6 месяцев"},"deployedAgents":{"en":["Conversational Shopping Agent (Clarity)","AI Personalization","Autonomous Marketing (Loomi)"],"ru":["Диалоговый шопинг-агент","ИИ-персонализация","Автономный маркетинг (Loomi)"]},"techStack":["Bloomreach Engagement","Discovery","CDP","LLM"],"description":{"en":"Commerce experience cloud combining AI search, personalization and an agentic conversational shopping assistant.","ru":"Облако коммерческого опыта: ИИ-поиск, персонализация и агентный диалоговый шопинг-ассистент."},"score":87,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"mpstats","name":"MPSTATS","website":"https://mpstats.io","type":"platform","categories":["ecommerce"],"markets":["ru-cis"],"hq":{"en":"Moscow, Russia","ru":"Москва, Россия"},"minProjectBudget":{"en":"$50+/mo","ru":"от 4 800 ₽/мес"},"avgRoiTime":{"en":"< 1 Month","ru":"< 1 месяца"},"deployedAgents":{"en":["Marketplace Analytics","AI Review Responder","SEO Card Optimizer"],"ru":["Аналитика маркетплейсов","ИИ-ответы на отзывы","SEO-оптимизация карточек"]},"techStack":["Wildberries","Ozon","Yandex Market","OpenAI API"],"description":{"en":"Leading analytics service for Wildberries and Ozon sellers with AI tools for card SEO and automated review replies.","ru":"Ведущий сервис аналитики для селлеров Wildberries и Ozon с ИИ-инструментами для SEO карточек и автоответов на отзывы."},"score":86,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"rubbles","name":"Rubbles","website":"https://rubbles.ru","type":"agency","categories":["ecommerce","enterprise"],"markets":["ru-cis"],"hq":{"en":"Moscow, Russia","ru":"Москва, Россия"},"minProjectBudget":{"en":"$20,000+","ru":"от 1 500 000 ₽"},"avgRoiTime":{"en":"3-6 Months","ru":"3-6 месяцев"},"deployedAgents":{"en":["AI Dynamic Pricing","Promo Optimization","Demand Forecasting"],"ru":["ИИ-ценообразование","Оптимизация промо","Прогноз спроса"]},"techStack":["Machine learning","Python","Retail data","Price optimization"],"description":{"en":"Russian AI company building machine-learning pricing, promo and demand forecasting solutions for large retailers.","ru":"Российская ИИ-компания: ML-решения для ценообразования, промо и прогнозирования спроса для крупного ритейла."},"score":84,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"napoleon-it","name":"Napoleon IT","website":"https://napoleonit.ru","type":"agency","categories":["ecommerce","enterprise"],"markets":["ru-cis"],"hq":{"en":"Chelyabinsk & Moscow, Russia","ru":"Челябинск и Москва, Россия"},"minProjectBudget":{"en":"$15,000+","ru":"от 1 200 000 ₽"},"avgRoiTime":{"en":"3-6 Months","ru":"3-6 месяцев"},"deployedAgents":{"en":["Computer Vision for Retail","AI Product Development","LLM Assistants"],"ru":["Компьютерное зрение для ритейла","Разработка ИИ-продуктов","LLM-ассистенты"]},"techStack":["Computer vision","Python","LLM","Mobile"],"description":{"en":"Russian AI and digital product company building computer vision, LLM and mobile solutions for retail and enterprise.","ru":"Российская компания ИИ и цифровых продуктов: компьютерное зрение, LLM и мобильные решения для ритейла и корпораций."},"score":81,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"selsup","name":"SelSup","website":"https://selsup.ru","type":"platform","categories":["ecommerce"],"markets":["ru-cis"],"hq":{"en":"Russia","ru":"Россия"},"minProjectBudget":{"en":"$30+/mo","ru":"от 2 500 ₽/мес"},"avgRoiTime":{"en":"< 1 Month","ru":"< 1 месяца"},"deployedAgents":{"en":["Multi-marketplace Stock Sync","Card Generation Assistant","Order Automation"],"ru":["Синхронизация остатков на маркетплейсах","Помощник создания карточек","Автоматизация заказов"]},"techStack":["Wildberries","Ozon","Yandex Market","1C"],"description":{"en":"Multi-marketplace management service for sellers: stock and price sync, card creation and order automation for WB, Ozon, Yandex Market.","ru":"Сервис управления продажами на маркетплейсах: остатки, цены, карточки и заказы для WB, Ozon и Яндекс Маркета."},"score":78,"verifiedDate":"2026-11-04","status":"verified"},
-
-  {"id":"harvey","name":"Harvey","website":"https://www.harvey.ai","type":"platform","categories":["enterprise"],"markets":["global"],"hq":{"en":"San Francisco, USA","ru":"Сан-Франциско, США"},"minProjectBudget":{"en":"Enterprise · by quote","ru":"Enterprise · по запросу"},"avgRoiTime":{"en":"2-4 Months","ru":"2-4 месяца"},"deployedAgents":{"en":["Legal Research Agent","Contract Review & Drafting","Due-diligence Workflows"],"ru":["Агент юридических исследований","Проверка и составление договоров","Due diligence"]},"techStack":["Custom legal LLMs","RAG","Microsoft Word","SharePoint"],"description":{"en":"Generative AI platform for elite law firms and in-house legal teams covering research, drafting, review and due diligence.","ru":"Генеративная ИИ-платформа для ведущих юрфирм и корпоративных юристов: исследования, составление, проверка и due diligence."},"score":96,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"cohere","name":"Cohere","website":"https://cohere.com","type":"platform","categories":["enterprise"],"markets":["global"],"hq":{"en":"Toronto, Canada","ru":"Торонто, Канада"},"minProjectBudget":{"en":"Enterprise · by quote","ru":"Enterprise · по запросу"},"avgRoiTime":{"en":"3-6 Months","ru":"3-6 месяцев"},"deployedAgents":{"en":["Private RAG Assistants (North)","Enterprise Search with Rerank","On-premise LLM Deployments"],"ru":["Приватные RAG-ассистенты (North)","Корпоративный поиск с Rerank","LLM в контуре компании"]},"techStack":["Command","Embed","Rerank","RAG","On-premise"],"description":{"en":"Enterprise LLM company offering Command models, embeddings and rerank for secure, private and on-premise RAG deployments.","ru":"Корпоративные LLM: модели Command, эмбеддинги и rerank для защищённых приватных и on-premise RAG-систем."},"score":93,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"glean","name":"Glean","website":"https://www.glean.com","type":"platform","categories":["enterprise"],"markets":["global"],"hq":{"en":"Palo Alto, USA","ru":"Пало-Альто, США"},"minProjectBudget":{"en":"Enterprise · by quote","ru":"Enterprise · по запросу"},"avgRoiTime":{"en":"2-4 Months","ru":"2-4 месяца"},"deployedAgents":{"en":["Enterprise Knowledge Assistant","Permission-aware Search","Custom Work Agents"],"ru":["Корпоративный ассистент знаний","Поиск с учётом прав доступа","Кастомные рабочие агенты"]},"techStack":["RAG","Knowledge graph","Slack","Google Workspace","Microsoft 365"],"description":{"en":"Work AI platform connecting company apps into a permission-aware knowledge graph for search, assistants and agents.","ru":"Платформа Work AI: объединяет корпоративные приложения в граф знаний с учётом прав доступа для поиска и агентов."},"score":94,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"hebbia","name":"Hebbia","website":"https://www.hebbia.com","type":"platform","categories":["enterprise"],"markets":["global"],"hq":{"en":"New York, USA","ru":"Нью-Йорк, США"},"minProjectBudget":{"en":"Enterprise · by quote","ru":"Enterprise · по запросу"},"avgRoiTime":{"en":"2-4 Months","ru":"2-4 месяца"},"deployedAgents":{"en":["Financial Document Analysis (Matrix)","Deal Diligence Agent","Research Synthesis"],"ru":["Анализ финансовых документов (Matrix)","Агент due diligence сделок","Синтез исследований"]},"techStack":["Multi-agent","RAG","OpenAI API","Data rooms"],"description":{"en":"AI platform for finance and legal professionals that runs multi-agent analysis across thousands of documents at once.","ru":"ИИ-платформа для финансистов и юристов: мультиагентный анализ тысяч документов одновременно."},"score":89,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"writer","name":"Writer","website":"https://writer.com","type":"platform","categories":["enterprise"],"markets":["global"],"hq":{"en":"San Francisco, USA","ru":"Сан-Франциско, США"},"minProjectBudget":{"en":"Enterprise · by quote","ru":"Enterprise · по запросу"},"avgRoiTime":{"en":"2-4 Months","ru":"2-4 месяца"},"deployedAgents":{"en":["Enterprise AI Agents (AI Studio)","Graph-based RAG","Brand-governed Content Agents"],"ru":["Корпоративные ИИ-агенты (AI Studio)","Графовый RAG","Контент-агенты с брендовыми правилами"]},"techStack":["Palmyra LLMs","Knowledge Graph","RAG","API"],"description":{"en":"Full-stack enterprise generative AI platform with its own Palmyra models, graph-based RAG and no-code agent builder.","ru":"Полностековая корпоративная GenAI-платформа с собственными моделями Palmyra, графовым RAG и no-code конструктором агентов."},"score":89,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"luminance","name":"Luminance","website":"https://www.luminance.com","type":"platform","categories":["enterprise"],"markets":["global"],"hq":{"en":"Cambridge & London, UK","ru":"Кембридж и Лондон, Великобритания"},"minProjectBudget":{"en":"Enterprise · by quote","ru":"Enterprise · по запросу"},"avgRoiTime":{"en":"2-4 Months","ru":"2-4 месяца"},"deployedAgents":{"en":["Autonomous Contract Negotiation","Contract Review Agent","Legal Intake Automation"],"ru":["Автономные переговоры по договорам","Агент проверки договоров","Автоматизация юридических запросов"]},"techStack":["Legal-grade AI","Microsoft Word","Salesforce","CLM"],"description":{"en":"Legal-grade AI company from Cambridge offering contract review, autonomous negotiation and legal workflow automation.","ru":"Кембриджская компания юридического ИИ: проверка договоров, автономные переговоры и автоматизация юридических процессов."},"score":88,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"spellbook","name":"Spellbook","website":"https://www.spellbook.legal","type":"platform","categories":["enterprise"],"markets":["global"],"hq":{"en":"Toronto, Canada","ru":"Торонто, Канада"},"minProjectBudget":{"en":"Per-seat · by quote","ru":"За пользователя · по запросу"},"avgRoiTime":{"en":"1-2 Months","ru":"1-2 месяца"},"deployedAgents":{"en":["Contract Drafting in Word","Clause Benchmarking","Redline Review Agent"],"ru":["Составление договоров в Word","Сравнение условий с рынком","Агент редлайнинга"]},"techStack":["Microsoft Word","OpenAI API","Anthropic Claude"],"description":{"en":"AI contract drafting and review copilot that works directly inside Microsoft Word for transactional lawyers.","ru":"ИИ-копилот для составления и проверки договоров прямо в Microsoft Word для юристов по сделкам."},"score":85,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"red-mad-robot","name":"red_mad_robot","website":"https://redmadrobot.ru","type":"agency","categories":["enterprise","workflow"],"markets":["ru-cis"],"hq":{"en":"Moscow & St. Petersburg, Russia","ru":"Москва и Санкт-Петербург, Россия"},"minProjectBudget":{"en":"$30,000+","ru":"от 3 000 000 ₽"},"avgRoiTime":{"en":"3-6 Months","ru":"3-6 месяцев"},"deployedAgents":{"en":["Corporate GenAI Assistants","RAG Knowledge Platforms","Multi-agent Business Systems"],"ru":["Корпоративные GenAI-ассистенты","RAG-платформы знаний","Мультиагентные бизнес-системы"]},"techStack":["GigaChat","YandexGPT","Open-source LLMs","RAG","On-premise"],"description":{"en":"Major Russian digital product studio with a dedicated GenAI practice building enterprise LLM assistants and RAG platforms.","ru":"Крупная российская студия цифровых продуктов с GenAI-направлением: корпоративные LLM-ассистенты и RAG-платформы."},"score":88,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"directum","name":"Directum","website":"https://www.directum.ru","type":"platform","categories":["enterprise"],"markets":["ru-cis"],"hq":{"en":"Izhevsk, Russia","ru":"Ижевск, Россия"},"minProjectBudget":{"en":"$15,000+","ru":"от 1 000 000 ₽"},"avgRoiTime":{"en":"4-8 Months","ru":"4-8 месяцев"},"deployedAgents":{"en":["Intelligent Document Classification","Contract Data Extraction","AI ECM Assistant"],"ru":["Интеллектуальная классификация документов","Извлечение данных из договоров","ИИ-ассистент СЭД"]},"techStack":["Directum RX","Ario","NLP","On-premise"],"description":{"en":"Russian ECM/document-management vendor with the Ario AI module for document recognition, classification and data extraction.","ru":"Российский вендор СЭД/ECM с ИИ-модулем Ario для распознавания, классификации документов и извлечения данных."},"score":83,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"doczilla","name":"Doczilla","website":"https://doczilla.pro","type":"platform","categories":["enterprise"],"markets":["ru-cis"],"hq":{"en":"Russia","ru":"Россия"},"minProjectBudget":{"en":"Per-seat · by quote","ru":"За пользователя · по запросу"},"avgRoiTime":{"en":"1-3 Months","ru":"1-3 месяца"},"deployedAgents":{"en":["Contract Template Automation","Legal Document Constructor","AI Clause Assistant"],"ru":["Автоматизация шаблонов договоров","Конструктор юридических документов","ИИ-помощник по условиям"]},"techStack":["Document automation","Microsoft Word","LLM"],"description":{"en":"Russian legal-tech platform for automating contract templates and document assembly for in-house legal teams.","ru":"Российская legal-tech платформа для автоматизации шаблонов договоров и сборки документов для юристов компаний."},"score":77,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"mts-ai","name":"MTS AI","website":"https://mts.ai","type":"lab","categories":["enterprise","voice"],"markets":["ru-cis"],"hq":{"en":"Moscow, Russia","ru":"Москва, Россия"},"minProjectBudget":{"en":"Enterprise · by quote","ru":"Enterprise · по запросу"},"avgRoiTime":{"en":"4-8 Months","ru":"4-8 месяцев"},"deployedAgents":{"en":["Corporate LLM (Cotype)","Speech Recognition & Synthesis","Contact-center AI"],"ru":["Корпоративная LLM (Cotype)","Распознавание и синтез речи","ИИ для контакт-центров"]},"techStack":["Cotype LLM","Speech AI","On-premise","RAG"],"description":{"en":"AI center of MTS group developing the Cotype enterprise LLM, speech technologies and on-premise AI for business.","ru":"ИИ-центр группы МТС: корпоративная LLM Cotype, речевые технологии и on-premise ИИ для бизнеса."},"score":86,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"indata-labs","name":"InData Labs","website":"https://indatalabs.com","type":"agency","categories":["enterprise","workflow"],"markets":["global"],"hq":{"en":"Nicosia, Cyprus","ru":"Никосия, Кипр"},"minProjectBudget":{"en":"$20,000+","ru":"от 1 800 000 ₽"},"avgRoiTime":{"en":"3-6 Months","ru":"3-6 месяцев"},"deployedAgents":{"en":["Custom LLM Solutions","Computer Vision Systems","Predictive Analytics"],"ru":["Кастомные LLM-решения","Системы компьютерного зрения","Предиктивная аналитика"]},"techStack":["Python","LangChain","RAG","Computer vision","AWS"],"description":{"en":"Data science and AI development company delivering generative AI, NLP and computer vision solutions for global clients.","ru":"Компания data science и разработки ИИ: генеративный ИИ, NLP и компьютерное зрение для международных клиентов."},"score":83,"verifiedDate":"2026-11-04","status":"verified"},
-
-  {"id":"first-page-sage","name":"First Page Sage","website":"https://firstpagesage.com","type":"agency","categories":["geo"],"markets":["global"],"hq":{"en":"San Francisco, USA","ru":"Сан-Франциско, США"},"minProjectBudget":{"en":"$7,500+/mo","ru":"от 700 000 ₽/мес"},"avgRoiTime":{"en":"4-9 Months","ru":"4-9 месяцев"},"deployedAgents":{"en":["Generative Engine Optimization Program","Thought-leadership SEO","AI Citation Tracking"],"ru":["Программа GEO-продвижения","SEO на экспертном контенте","Мониторинг цитирования в ИИ"]},"techStack":["GEO","Content strategy","JSON-LD","Analytics"],"description":{"en":"B2B thought-leadership SEO agency that publishes research on generative engine optimization and runs GEO programs.","ru":"B2B-агентство SEO на экспертном контенте, публикующее исследования по GEO и ведущее программы продвижения в ИИ."},"score":89,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"np-digital","name":"NP Digital","website":"https://npdigital.com","type":"agency","categories":["geo"],"markets":["global"],"hq":{"en":"USA (global offices)","ru":"США (офисы по всему миру)"},"minProjectBudget":{"en":"$10,000+/mo","ru":"от 900 000 ₽/мес"},"avgRoiTime":{"en":"3-9 Months","ru":"3-9 месяцев"},"deployedAgents":{"en":["AI Search Visibility Program","Omnichannel SEO","Content at Scale"],"ru":["Программа видимости в ИИ-поиске","Омниканальное SEO","Контент в масштабе"]},"techStack":["GEO","SEO","Ubersuggest","Analytics"],"description":{"en":"Global performance marketing agency co-founded by Neil Patel with dedicated AI-search and LLM visibility services.","ru":"Глобальное performance-агентство, сооснованное Нилом Пателом, с отдельным направлением продвижения в ИИ-поиске."},"score":88,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"siege-media","name":"Siege Media","website":"https://www.siegemedia.com","type":"agency","categories":["geo"],"markets":["global"],"hq":{"en":"USA","ru":"США"},"minProjectBudget":{"en":"$10,000+/mo","ru":"от 900 000 ₽/мес"},"avgRoiTime":{"en":"4-9 Months","ru":"4-9 месяцев"},"deployedAgents":{"en":["Content Marketing for AI Search","Digital PR Link Earning","Brand Mention Strategy"],"ru":["Контент-маркетинг для ИИ-поиска","Digital PR и ссылки","Стратегия упоминаний бренда"]},"techStack":["GEO","Content marketing","Digital PR","SEO"],"description":{"en":"Content marketing and SEO agency known for data-driven content and digital PR that earns citations in search and AI answers.","ru":"Агентство контент-маркетинга и SEO, известное контентом на данных и digital PR, которые приносят цитирования в поиске и ИИ."},"score":86,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"ipullrank","name":"iPullRank","website":"https://ipullrank.com","type":"agency","categories":["geo"],"markets":["global"],"hq":{"en":"New York, USA","ru":"Нью-Йорк, США"},"minProjectBudget":{"en":"$15,000+/mo","ru":"от 1 300 000 ₽/мес"},"avgRoiTime":{"en":"4-9 Months","ru":"4-9 месяцев"},"deployedAgents":{"en":["Relevance Engineering for AI Search","Technical SEO for LLM Crawlers","AI Overviews Strategy"],"ru":["Relevance engineering для ИИ-поиска","Техническое SEO для LLM-краулеров","Стратегия для AI Overviews"]},"techStack":["GEO","Technical SEO","Embeddings","Python"],"description":{"en":"Technical SEO agency led by Mike King, a prominent voice on AI search, relevance engineering and AI Overviews.","ru":"Агентство технического SEO под руководством Майка Кинга — одного из главных экспертов по ИИ-поиску и AI Overviews."},"score":88,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"go-fish-digital","name":"Go Fish Digital","website":"https://gofishdigital.com","type":"agency","categories":["geo"],"markets":["global"],"hq":{"en":"Raleigh, USA","ru":"Роли, США"},"minProjectBudget":{"en":"$7,500+/mo","ru":"от 700 000 ₽/мес"},"avgRoiTime":{"en":"4-9 Months","ru":"4-9 месяцев"},"deployedAgents":{"en":["GEO Audits","Entity & Schema Optimization","Reputation for AI Answers"],"ru":["GEO-аудиты","Оптимизация сущностей и микроразметки","Репутация в ответах ИИ"]},"techStack":["GEO","JSON-LD","SEO","Digital PR"],"description":{"en":"SEO, digital PR and reputation agency offering generative engine optimization services for brands in AI answers.","ru":"Агентство SEO, digital PR и репутации с услугами GEO-продвижения брендов в ответах нейросетей."},"score":84,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"profound","name":"Profound","website":"https://www.tryprofound.com","type":"platform","categories":["geo"],"markets":["global"],"hq":{"en":"New York, USA","ru":"Нью-Йорк, США"},"minProjectBudget":{"en":"$500+/mo","ru":"от 45 000 ₽/мес"},"avgRoiTime":{"en":"1-3 Months","ru":"1-3 месяца"},"deployedAgents":{"en":["AI Visibility Monitoring","Answer Engine Insights","AI Crawler Analytics"],"ru":["Мониторинг видимости в ИИ","Аналитика ответов нейросетей","Аналитика ИИ-краулеров"]},"techStack":["ChatGPT","Perplexity","Gemini","Claude","Analytics"],"description":{"en":"AI-visibility platform that tracks how brands appear in ChatGPT, Perplexity, Gemini and other answer engines.","ru":"Платформа мониторинга того, как бренды появляются в ChatGPT, Perplexity, Gemini и других ИИ-ассистентах."},"score":90,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"ashmanov","name":"Ашманов и партнёры (Ashmanov & Partners)","website":"https://www.ashmanov.com","type":"agency","categories":["geo","enterprise"],"markets":["ru-cis"],"hq":{"en":"Moscow, Russia","ru":"Москва, Россия"},"minProjectBudget":{"en":"$2,000+/mo","ru":"от 150 000 ₽/мес"},"avgRoiTime":{"en":"3-6 Months","ru":"3-6 месяцев"},"deployedAgents":{"en":["SEO & AI Search Promotion","Reputation Monitoring","NLP / Chatbot Solutions"],"ru":["SEO и продвижение в ИИ-поиске","Мониторинг репутации","NLP и чат-боты"]},"techStack":["GEO","Yandex","SEO","NLP"],"description":{"en":"One of Russia's oldest search marketing agencies with its own AI/NLP lab, reputation management and AI-search promotion.","ru":"Одно из старейших агентств поискового маркетинга в России с собственной ИИ/NLP-лабораторией, ORM и продвижением в ИИ-поиске."},"score":87,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"rush-agency","name":"Rush Agency","website":"https://rush-agency.ru","type":"agency","categories":["geo"],"markets":["ru-cis"],"hq":{"en":"Moscow, Russia","ru":"Москва, Россия"},"minProjectBudget":{"en":"$1,500+/mo","ru":"от 120 000 ₽/мес"},"avgRoiTime":{"en":"3-6 Months","ru":"3-6 месяцев"},"deployedAgents":{"en":["SEO & GEO Promotion","Content Marketing","Yandex Neuro Visibility"],"ru":["SEO и GEO-продвижение","Контент-маркетинг","Видимость в Яндекс Нейро"]},"techStack":["GEO","Yandex","Google","Content"],"description":{"en":"Russian SEO and content agency known for its search-industry research and promotion in Yandex and AI-search surfaces.","ru":"Российское SEO- и контент-агентство, известное исследованиями рынка поиска и продвижением в Яндексе и ИИ-поиске."},"score":84,"verifiedDate":"2026-11-04","status":"verified"},
-  {"id":"ingate","name":"Ingate","website":"https://ingate.ru","type":"agency","categories":["geo"],"markets":["ru-cis"],"hq":{"en":"Moscow, Russia","ru":"Москва, Россия"},"minProjectBudget":{"en":"$1,500+/mo","ru":"от 120 000 ₽/мес"},"avgRoiTime":{"en":"3-6 Months","ru":"3-6 месяцев"},"deployedAgents":{"en":["Performance SEO","AI-search Content Optimization","Programmatic Landing Pages"],"ru":["Performance SEO","Оптимизация контента под ИИ-поиск","Программатик-лендинги"]},"techStack":["GEO","SEO","Yandex","Analytics"],"description":{"en":"Large Russian digital agency providing SEO, performance marketing and content optimization for AI-powered search.","ru":"Крупное российское digital-агентство: SEO, performance-маркетинг и оптимизация контента под ИИ-поиск."},"score":82,"verifiedDate":"2026-11-04","status":"verified"}
+  {
+    "id": "relevance-ai",
+    "name": "Relevance AI",
+    "website": "https://relevanceai.com",
+    "type": "platform",
+    "categories": [
+      "sales",
+      "workflow"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "Sydney, Australia & San Francisco, USA",
+      "ru": "Сидней, Австралия и Сан-Франциско, США"
+    },
+    "minProjectBudget": {
+      "en": "$1,000+/mo",
+      "ru": "от 90 000 ₽/мес"
+    },
+    "avgRoiTime": {
+      "en": "1-2 Months",
+      "ru": "1-2 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "AI BDR",
+        "Inbound Lead Qualifier",
+        "Research Agent"
+      ],
+      "ru": [
+        "ИИ-BDR",
+        "Квалификатор входящих лидов",
+        "ИИ-исследователь"
+      ]
+    },
+    "techStack": [
+      "OpenAI API",
+      "Anthropic Claude",
+      "HubSpot",
+      "Salesforce",
+      "Multi-agent"
+    ],
+    "description": {
+      "en": "No-code platform for building teams of AI agents; widely used to deploy AI BDRs and GTM research agents connected to HubSpot and Salesforce.",
+      "ru": "No-code платформа для создания команд ИИ-агентов; популярна для запуска ИИ-BDR и исследовательских агентов с интеграцией HubSpot и Salesforce."
+    },
+    "score": 95,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "11x",
+    "name": "11x",
+    "website": "https://www.11x.ai",
+    "type": "platform",
+    "categories": [
+      "sales"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "San Francisco, USA",
+      "ru": "Сан-Франциско, США"
+    },
+    "minProjectBudget": {
+      "en": "$5,000+/mo",
+      "ru": "от 450 000 ₽/мес"
+    },
+    "avgRoiTime": {
+      "en": "1-3 Months",
+      "ru": "1-3 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "AI SDR (Alice)",
+        "AI Phone Rep (Julian)",
+        "Outbound Sequencer"
+      ],
+      "ru": [
+        "ИИ-SDR (Alice)",
+        "Телефонный ИИ-агент (Julian)",
+        "Автоматизация холодных рассылок"
+      ]
+    },
+    "techStack": [
+      "OpenAI API",
+      "Salesforce",
+      "HubSpot",
+      "LinkedIn",
+      "Email automation"
+    ],
+    "description": {
+      "en": "Builds autonomous 'digital workers' for revenue teams, including an AI SDR that researches, prospects and books meetings around the clock.",
+      "ru": "Разрабатывает автономных «цифровых сотрудников» для отделов продаж, включая ИИ-SDR, который ищет клиентов и назначает встречи 24/7."
+    },
+    "score": 92,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "artisan",
+    "name": "Artisan AI",
+    "website": "https://www.artisan.co",
+    "type": "platform",
+    "categories": [
+      "sales"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "San Francisco, USA",
+      "ru": "Сан-Франциско, США"
+    },
+    "minProjectBudget": {
+      "en": "$2,000+/mo",
+      "ru": "от 180 000 ₽/мес"
+    },
+    "avgRoiTime": {
+      "en": "1-3 Months",
+      "ru": "1-3 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "AI BDR (Ava)",
+        "Lead Enrichment Agent",
+        "Email Deliverability Agent"
+      ],
+      "ru": [
+        "ИИ-BDR (Ava)",
+        "Обогащение лидов",
+        "Контроль доставляемости писем"
+      ]
+    },
+    "techStack": [
+      "OpenAI API",
+      "HubSpot",
+      "Salesforce",
+      "B2B data",
+      "Email automation"
+    ],
+    "description": {
+      "en": "AI employee platform best known for Ava, an AI BDR that automates outbound prospecting, personalization and follow-ups.",
+      "ru": "Платформа ИИ-сотрудников, известная ИИ-BDR Ava, который автоматизирует поиск клиентов, персонализацию писем и дожимы."
+    },
+    "score": 89,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "qualified",
+    "name": "Qualified",
+    "website": "https://www.qualified.com",
+    "type": "platform",
+    "categories": [
+      "sales"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "San Francisco, USA",
+      "ru": "Сан-Франциско, США"
+    },
+    "minProjectBudget": {
+      "en": "$3,500+/mo",
+      "ru": "от 320 000 ₽/мес"
+    },
+    "avgRoiTime": {
+      "en": "2-4 Months",
+      "ru": "2-4 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "AI SDR (Piper)",
+        "Website Conversational Agent",
+        "Meeting Booker"
+      ],
+      "ru": [
+        "ИИ-SDR (Piper)",
+        "Чат-агент на сайте",
+        "Автозапись на встречи"
+      ]
+    },
+    "techStack": [
+      "Salesforce",
+      "HubSpot",
+      "Marketo",
+      "OpenAI API"
+    ],
+    "description": {
+      "en": "Agentic marketing platform for B2B pipeline generation; its AI SDR Piper engages website visitors and books meetings natively in Salesforce.",
+      "ru": "Агентная маркетинговая платформа для B2B; ИИ-SDR Piper общается с посетителями сайта и записывает встречи прямо в Salesforce."
+    },
+    "score": 88,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "master-of-code",
+    "name": "Master of Code Global",
+    "website": "https://masterofcode.com",
+    "type": "agency",
+    "categories": [
+      "sales",
+      "voice",
+      "enterprise"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "North America & Europe (distributed)",
+      "ru": "Северная Америка и Европа (распределённая команда)"
+    },
+    "minProjectBudget": {
+      "en": "$25,000+",
+      "ru": "от 2 300 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "3-6 Months",
+      "ru": "3-6 месяцев"
+    },
+    "deployedAgents": {
+      "en": [
+        "Conversational Sales Agent",
+        "Customer Support Agent",
+        "Voice Assistant"
+      ],
+      "ru": [
+        "Диалоговый агент продаж",
+        "Агент поддержки клиентов",
+        "Голосовой ассистент"
+      ]
+    },
+    "techStack": [
+      "OpenAI API",
+      "Salesforce",
+      "Dialogflow",
+      "LangChain",
+      "RAG"
+    ],
+    "description": {
+      "en": "Long-standing conversational AI agency building custom generative AI chat and voice agents for enterprise brands.",
+      "ru": "Опытное агентство диалогового ИИ, создающее кастомных чат- и голосовых агентов на генеративном ИИ для крупных брендов."
+    },
+    "score": 90,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "roistat",
+    "name": "Roistat",
+    "website": "https://roistat.com",
+    "type": "platform",
+    "categories": [
+      "sales"
+    ],
+    "markets": [
+      "ru-cis"
+    ],
+    "hq": {
+      "en": "Moscow, Russia",
+      "ru": "Москва, Россия"
+    },
+    "minProjectBudget": {
+      "en": "$300+/mo",
+      "ru": "от 25 000 ₽/мес"
+    },
+    "avgRoiTime": {
+      "en": "1-2 Months",
+      "ru": "1-2 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "AI Call Analytics (AI Sales Manager)",
+        "Lead Source Attribution",
+        "Speech QA Agent"
+      ],
+      "ru": [
+        "ИИ-РОП: речевая аналитика звонков",
+        "Сквозная аналитика лидов",
+        "Контроль скриптов продаж"
+      ]
+    },
+    "techStack": [
+      "AmoCRM",
+      "Bitrix24",
+      "Speech analytics",
+      "Calltracking"
+    ],
+    "description": {
+      "en": "End-to-end marketing analytics with AI speech analytics that scores every sales call against your script and syncs results to AmoCRM and Bitrix24.",
+      "ru": "Сквозная аналитика с ИИ-речевой аналитикой: оценивает каждый звонок менеджера по скрипту и передаёт результаты в AmoCRM и Bitrix24."
+    },
+    "score": 91,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "salebot",
+    "name": "Salebot",
+    "website": "https://salebot.pro",
+    "type": "platform",
+    "categories": [
+      "sales",
+      "ecommerce"
+    ],
+    "markets": [
+      "ru-cis"
+    ],
+    "hq": {
+      "en": "Russia",
+      "ru": "Россия"
+    },
+    "minProjectBudget": {
+      "en": ",000+ (Turnkey Funnel)",
+      "ru": "от 120 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "1 Month",
+      "ru": "1 месяц"
+    },
+    "deployedAgents": {
+      "en": [
+        "Telegram/WhatsApp Sales Bot",
+        "GPT Lead Qualifier",
+        "Auto-funnel Bot"
+      ],
+      "ru": [
+        "Бот продаж в Telegram/WhatsApp",
+        "GPT-квалификатор лидов",
+        "Автоворонка"
+      ]
+    },
+    "techStack": [
+      "OpenAI API",
+      "AmoCRM",
+      "Bitrix24",
+      "Telegram",
+      "WhatsApp"
+    ],
+    "description": {
+      "en": "Chatbot and auto-funnel builder for messengers with GPT blocks; a large ecosystem of certified integrators builds sales bots on it.",
+      "ru": "Конструктор чат-ботов и автоворонок для мессенджеров с GPT-блоками; большая сеть интеграторов строит на нём ботов для продаж."
+    },
+    "score": 84,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "first-bit",
+    "name": "Первый Бит (1C-Bit)",
+    "website": "https://www.1cbit.ru",
+    "type": "agency",
+    "categories": [
+      "sales",
+      "workflow"
+    ],
+    "markets": [
+      "ru-cis"
+    ],
+    "hq": {
+      "en": "Moscow, Russia",
+      "ru": "Москва, Россия"
+    },
+    "minProjectBudget": {
+      "en": "$2,000+",
+      "ru": "от 150 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "2-4 Months",
+      "ru": "2-4 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "Bitrix24 CoPilot Setup",
+        "Sales Pipeline Automation",
+        "1C ↔ CRM Integration"
+      ],
+      "ru": [
+        "Настройка CoPilot в Bitrix24",
+        "Автоматизация воронки продаж",
+        "Интеграция 1С ↔ CRM"
+      ]
+    },
+    "techStack": [
+      "Bitrix24",
+      "1C",
+      "AmoCRM",
+      "CoPilot"
+    ],
+    "description": {
+      "en": "One of Russia's largest 1C and Bitrix24 integrators with offices across the country, implementing CRM automation including Bitrix24 CoPilot AI.",
+      "ru": "Один из крупнейших интеграторов 1С и Bitrix24 с офисами по всей России; внедряет автоматизацию CRM, включая ИИ-помощника CoPilot."
+    },
+    "score": 83,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "intervolga",
+    "name": "ИНТЕРВОЛГА (Intervolga)",
+    "website": "https://www.intervolga.ru",
+    "type": "agency",
+    "categories": [
+      "sales",
+      "ecommerce"
+    ],
+    "markets": [
+      "ru-cis"
+    ],
+    "hq": {
+      "en": "Moscow & Volgograd, Russia",
+      "ru": "Москва и Волгоград, Россия"
+    },
+    "minProjectBudget": {
+      "en": "$3,000+",
+      "ru": "от 250 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "3-6 Months",
+      "ru": "3-6 месяцев"
+    },
+    "deployedAgents": {
+      "en": [
+        "Bitrix24 Process Automation",
+        "E-commerce CRM Integration",
+        "AI Content Assistant"
+      ],
+      "ru": [
+        "Автоматизация процессов Bitrix24",
+        "Интеграция e-commerce и CRM",
+        "ИИ-ассистент для контента"
+      ]
+    },
+    "techStack": [
+      "Bitrix24",
+      "1C-Bitrix",
+      "1C",
+      "OpenAI API"
+    ],
+    "description": {
+      "en": "Veteran Bitrix24 and 1C-Bitrix integrator building CRM, portals and e-commerce automation for mid-size and enterprise clients.",
+      "ru": "Опытный интегратор Bitrix24 и 1С-Битрикс: CRM, корпоративные порталы и автоматизация e-commerce для среднего и крупного бизнеса."
+    },
+    "score": 80,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "shy-kids",
+    "name": "shy kids",
+    "website": "https://www.shy-kids.com",
+    "type": "studio",
+    "categories": [
+      "video"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "Toronto, Canada",
+      "ru": "Торонто, Канада"
+    },
+    "minProjectBudget": {
+      "en": "$25,000+",
+      "ru": "от 2 300 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "1-3 Months",
+      "ru": "1-3 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "AI Short Film Pipeline",
+        "Generative Commercial Production",
+        "Hybrid Live-action + AI"
+      ],
+      "ru": [
+        "Пайплайн ИИ-короткометражек",
+        "Генеративная реклама",
+        "Гибрид съёмки и ИИ"
+      ]
+    },
+    "techStack": [
+      "Sora",
+      "Runway",
+      "After Effects",
+      "Live-action"
+    ],
+    "description": {
+      "en": "Toronto multimedia collective known for 'Air Head', one of the first widely recognized short films made with OpenAI Sora.",
+      "ru": "Мультимедийный коллектив из Торонто, автор «Air Head» — одного из первых известных фильмов, созданных с помощью OpenAI Sora."
+    },
+    "score": 90,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "cuebric",
+    "name": "Cuebric (by Seyhan Lee)",
+    "website": "https://cuebric.com",
+    "type": "studio",
+    "categories": [
+      "video"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "Los Angeles, USA",
+      "ru": "Лос-Анджелес, США"
+    },
+    "minProjectBudget": {
+      "en": "$10,000+",
+      "ru": "от 900 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "2-4 Months",
+      "ru": "2-4 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "Generative Virtual Production Backgrounds",
+        "2.5D Plate Generation",
+        "AI Previs"
+      ],
+      "ru": [
+        "Генеративные фоны для виртуального продакшна",
+        "2.5D-плейты",
+        "ИИ-превиз"
+      ]
+    },
+    "techStack": [
+      "Generative AI",
+      "Unreal Engine",
+      "LED volume",
+      "Stable Diffusion"
+    ],
+    "description": {
+      "en": "Generative AI tool and studio from Seyhan Lee that creates layered environments for LED-volume virtual production in film and TV.",
+      "ru": "Генеративный ИИ-инструмент и студия Seyhan Lee для создания многослойных окружений для виртуального продакшна на LED-экранах."
+    },
+    "score": 85,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "asteria",
+    "name": "Asteria Film Co.",
+    "website": "https://www.asteriafilm.com",
+    "type": "studio",
+    "categories": [
+      "video"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "Los Angeles, USA",
+      "ru": "Лос-Анджелес, США"
+    },
+    "minProjectBudget": {
+      "en": "$50,000+",
+      "ru": "от 4 500 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "2-4 Months",
+      "ru": "2-4 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "Licensed-data Generative Film Pipeline",
+        "AI VFX",
+        "Feature & Series Production"
+      ],
+      "ru": [
+        "Пайплайн генеративного кино на лицензированных данных",
+        "ИИ-VFX",
+        "Полный метр и сериалы"
+      ]
+    },
+    "techStack": [
+      "Marey (Moonvalley)",
+      "Generative video",
+      "Nuke",
+      "Live-action"
+    ],
+    "description": {
+      "en": "AI-native film studio partnered with Moonvalley, focused on 'clean' generative models trained on licensed footage for feature and series work.",
+      "ru": "ИИ-киностудия в партнёрстве с Moonvalley, использующая «чистые» генеративные модели на лицензированных данных для кино и сериалов."
+    },
+    "score": 88,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "synthesia",
+    "name": "Synthesia",
+    "website": "https://www.synthesia.io",
+    "type": "platform",
+    "categories": [
+      "video"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "London, UK",
+      "ru": "Лондон, Великобритания"
+    },
+    "minProjectBudget": {
+      "en": "$1,000+/yr",
+      "ru": "от 90 000 ₽/год"
+    },
+    "avgRoiTime": {
+      "en": "1 Month",
+      "ru": "1 месяц"
+    },
+    "deployedAgents": {
+      "en": [
+        "AI Avatar Training Videos",
+        "Multilingual Localization",
+        "Interactive Video Agents"
+      ],
+      "ru": [
+        "Обучающие видео с ИИ-аватарами",
+        "Мультиязычная локализация",
+        "Интерактивные видеоагенты"
+      ]
+    },
+    "techStack": [
+      "AI avatars",
+      "Text-to-speech",
+      "140+ languages",
+      "LMS/SCORM"
+    ],
+    "description": {
+      "en": "Enterprise AI video platform for avatar-based training, communications and localized video, used widely by Fortune 500 companies.",
+      "ru": "Корпоративная платформа ИИ-видео с аватарами для обучения, коммуникаций и локализации, используется крупнейшими компаниями мира."
+    },
+    "score": 94,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "d-id",
+    "name": "D-ID",
+    "website": "https://www.d-id.com",
+    "type": "platform",
+    "categories": [
+      "video"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "Tel Aviv, Israel",
+      "ru": "Тель-Авив, Израиль"
+    },
+    "minProjectBudget": {
+      "en": "$500+/mo",
+      "ru": "от 45 000 ₽/мес"
+    },
+    "avgRoiTime": {
+      "en": "1 Month",
+      "ru": "1 месяц"
+    },
+    "deployedAgents": {
+      "en": [
+        "Talking Digital Humans",
+        "Real-time Video Agents",
+        "Personalized Video at Scale"
+      ],
+      "ru": [
+        "Говорящие цифровые люди",
+        "Видеоагенты в реальном времени",
+        "Персонализированные видео в масштабе"
+      ]
+    },
+    "techStack": [
+      "AI avatars",
+      "Streaming API",
+      "ElevenLabs",
+      "OpenAI API"
+    ],
+    "description": {
+      "en": "Creative AI company producing photorealistic talking avatars and real-time conversational video agents via API and studio services.",
+      "ru": "Компания креативного ИИ: фотореалистичные говорящие аватары и диалоговые видеоагенты в реальном времени через API и студию."
+    },
+    "score": 87,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "petrick",
+    "name": "Petrick Studio",
+    "website": "https://petrick.co",
+    "type": "studio",
+    "categories": [
+      "video"
+    ],
+    "markets": [
+      "ru-cis",
+      "global"
+    ],
+    "hq": {
+      "en": "Moscow, Russia & Global",
+      "ru": "Москва, Россия и Global"
+    },
+    "minProjectBudget": {
+      "en": ",000+",
+      "ru": "от 600 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "1-2 Months",
+      "ru": "1-2 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "AI Commercial Production",
+        "Generative Animation Pipelines",
+        "AI Character Design"
+      ],
+      "ru": [
+        "Производство ИИ-видеорекламы",
+        "Генеративные анимационные пайплайны",
+        "Разработка ИИ-персонажей"
+      ]
+    },
+    "techStack": [
+      "Runway",
+      "Midjourney",
+      "ComfyUI",
+      "Stable Diffusion",
+      "After Effects"
+    ],
+    "description": {
+      "en": "Renowned creative and animation studio producing commercial AI films, advertising, and generative visuals for top brands.",
+      "ru": "Известная креативная и анимационная студия: коммерческие рекламные ролики с ИИ, генеративная анимация и визуальные эффекты для брендов."
+    },
+    "score": 93,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "metaphysic",
+    "name": "Metaphysic",
+    "website": "https://metaphysic.ai",
+    "type": "studio",
+    "categories": [
+      "video"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "London, UK",
+      "ru": "Лондон, Великобритания"
+    },
+    "minProjectBudget": {
+      "en": "$100,000+",
+      "ru": "от 9 000 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "2-4 Months",
+      "ru": "2-4 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "Photoreal Face Replacement",
+        "AI De-aging",
+        "Live Generative Performance"
+      ],
+      "ru": [
+        "Фотореалистичная замена лиц",
+        "ИИ-омоложение актёров",
+        "Генеративный перформанс в реальном времени"
+      ]
+    },
+    "techStack": [
+      "Neural rendering",
+      "Generative VFX",
+      "Nuke"
+    ],
+    "description": {
+      "en": "Generative AI VFX company behind hyper-real face replacement and de-aging for feature films such as Robert Zemeckis' 'Here'.",
+      "ru": "Компания генеративного VFX: гиперреалистичная замена лиц и омоложение актёров в фильмах, например «Здесь» Роберта Земекиса."
+    },
+    "score": 89,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "secret-level",
+    "name": "Secret Level",
+    "website": "https://www.secretlevel.co",
+    "type": "studio",
+    "categories": [
+      "video"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "Los Angeles, USA",
+      "ru": "Лос-Анджелес, США"
+    },
+    "minProjectBudget": {
+      "en": "$50,000+",
+      "ru": "от 4 500 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "1-3 Months",
+      "ru": "1-3 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "AI-assisted Brand Commercials",
+        "Generative Music Videos",
+        "Hybrid CG + AI Pipelines"
+      ],
+      "ru": [
+        "Рекламные ролики с ИИ",
+        "Генеративные клипы",
+        "Гибридный CG + ИИ пайплайн"
+      ]
+    },
+    "techStack": [
+      "Runway",
+      "Generative video",
+      "Unreal Engine",
+      "After Effects"
+    ],
+    "description": {
+      "en": "LA creative studio producing AI-assisted commercials for global brands, including a widely discussed AI-generated Coca-Cola holiday spot.",
+      "ru": "Креативная студия из Лос-Анджелеса, производящая рекламу с ИИ для мировых брендов, включая обсуждаемый новогодний ролик Coca-Cola."
+    },
+    "score": 86,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "curious-refuge",
+    "name": "Curious Refuge",
+    "website": "https://curiousrefuge.com",
+    "type": "studio",
+    "categories": [
+      "video"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "USA (remote)",
+      "ru": "США (удалённо)"
+    },
+    "minProjectBudget": {
+      "en": "$5,000+",
+      "ru": "от 450 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "2-4 Months",
+      "ru": "2-4 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "AI Filmmaking Training",
+        "AI Trailer Production",
+        "Studio Team Upskilling"
+      ],
+      "ru": [
+        "Обучение ИИ-кинопроизводству",
+        "Производство ИИ-трейлеров",
+        "Обучение студийных команд"
+      ]
+    },
+    "techStack": [
+      "Runway",
+      "Midjourney",
+      "Kling",
+      "ElevenLabs",
+      "Sora"
+    ],
+    "description": {
+      "en": "AI filmmaking school and studio whose viral AI trailers popularized the genre; trains creators and production teams in generative workflows.",
+      "ru": "Школа и студия ИИ-кино, чьи вирусные ИИ-трейлеры популяризировали жанр; обучает авторов и студии генеративным процессам."
+    },
+    "score": 84,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "main-road-post",
+    "name": "Main Road|Post",
+    "website": "https://www.mainroadpost.com",
+    "type": "studio",
+    "categories": [
+      "video"
+    ],
+    "markets": [
+      "ru-cis"
+    ],
+    "hq": {
+      "en": "Moscow, Russia",
+      "ru": "Москва, Россия"
+    },
+    "minProjectBudget": {
+      "en": "$30,000+",
+      "ru": "от 2 500 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "2-4 Months",
+      "ru": "2-4 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "Feature Film VFX",
+        "AI-assisted Compositing",
+        "Digital Doubles"
+      ],
+      "ru": [
+        "VFX для кино",
+        "Композитинг с применением ИИ",
+        "Цифровые дублёры"
+      ]
+    },
+    "techStack": [
+      "Houdini",
+      "Nuke",
+      "Generative AI",
+      "Machine learning"
+    ],
+    "description": {
+      "en": "One of Russia's largest VFX and post-production studios, delivering visual effects for major feature films and adopting ML-driven tools.",
+      "ru": "Одна из крупнейших VFX- и постпродакшн-студий России: визуальные эффекты для крупных фильмов и применение ML-инструментов."
+    },
+    "score": 82,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "bland-ai",
+    "name": "Bland AI",
+    "website": "https://www.bland.ai",
+    "type": "platform",
+    "categories": [
+      "voice",
+      "realestate"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "San Francisco, USA",
+      "ru": "Сан-Франциско, США"
+    },
+    "minProjectBudget": {
+      "en": ",000+ (Enterprise Setup)",
+      "ru": "от 300 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "1-2 Months",
+      "ru": "1-2 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "Inbound Phone Receptionist",
+        "Outbound Qualification Caller",
+        "Appointment Setter"
+      ],
+      "ru": [
+        "Входящий ИИ-ресепшн",
+        "Исходящий квалификатор",
+        "Запись на встречи"
+      ]
+    },
+    "techStack": [
+      "Bland API",
+      "Twilio",
+      "Salesforce",
+      "HubSpot",
+      "Webhooks"
+    ],
+    "description": {
+      "en": "Enterprise voice-AI platform for building phone agents that handle millions of calls with custom-tuned models and dedicated infrastructure.",
+      "ru": "Корпоративная платформа голосового ИИ для телефонных агентов, обрабатывающих миллионы звонков на собственной инфраструктуре."
+    },
+    "score": 91,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "vapi",
+    "name": "Vapi",
+    "website": "https://vapi.ai",
+    "type": "platform",
+    "categories": [
+      "voice",
+      "healthcare"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "San Francisco, USA",
+      "ru": "Сан-Франциско, США"
+    },
+    "minProjectBudget": {
+      "en": ",000+ (Partner Setup)",
+      "ru": "от 250 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "1 Month",
+      "ru": "1 месяц"
+    },
+    "deployedAgents": {
+      "en": [
+        "Voice Receptionist",
+        "Outbound Sales Caller",
+        "Support Triage Agent"
+      ],
+      "ru": [
+        "Голосовой администратор",
+        "Исходящий агент продаж",
+        "Триаж обращений поддержки"
+      ]
+    },
+    "techStack": [
+      "Vapi",
+      "OpenAI API",
+      "Deepgram",
+      "ElevenLabs",
+      "Twilio",
+      "n8n"
+    ],
+    "description": {
+      "en": "Developer platform for sub-second voice AI agents; the de facto stack for thousands of automation agencies building phone bots.",
+      "ru": "Платформа для разработчиков голосовых ИИ-агентов с задержкой менее секунды; базовый стек тысяч агентств автоматизации."
+    },
+    "score": 94,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "retell-ai",
+    "name": "Retell AI",
+    "website": "https://www.retellai.com",
+    "type": "platform",
+    "categories": [
+      "voice"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "San Francisco Bay Area, USA",
+      "ru": "Район залива Сан-Франциско, США"
+    },
+    "minProjectBudget": {
+      "en": ",000+ (Custom Implementation)",
+      "ru": "от 250 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "1 Month",
+      "ru": "1 месяц"
+    },
+    "deployedAgents": {
+      "en": [
+        "Call Center Voice Agent",
+        "Appointment Booking Agent",
+        "Lead Qualification Caller"
+      ],
+      "ru": [
+        "Голосовой агент колл-центра",
+        "Запись на приём",
+        "Квалификация лидов по телефону"
+      ]
+    },
+    "techStack": [
+      "Retell",
+      "OpenAI API",
+      "Twilio",
+      "Cal.com",
+      "Make",
+      "n8n"
+    ],
+    "description": {
+      "en": "Voice-agent platform focused on natural turn-taking and low latency, popular with agencies for booking and call-center automation.",
+      "ru": "Платформа голосовых агентов с естественным диалогом и низкой задержкой; популярна у агентств для записи клиентов и автоматизации колл-центров."
+    },
+    "score": 90,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "synthflow",
+    "name": "Synthflow AI",
+    "website": "https://synthflow.ai",
+    "type": "platform",
+    "categories": [
+      "voice"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "Berlin, Germany",
+      "ru": "Берлин, Германия"
+    },
+    "minProjectBudget": {
+      "en": "$450+/mo",
+      "ru": "от 40 000 ₽/мес"
+    },
+    "avgRoiTime": {
+      "en": "1-2 Months",
+      "ru": "1-2 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "No-code Voice Receptionist",
+        "Outbound Reminder Caller",
+        "White-label Agency Voice Bots"
+      ],
+      "ru": [
+        "No-code голосовой администратор",
+        "Исходящие напоминания",
+        "White-label боты для агентств"
+      ]
+    },
+    "techStack": [
+      "Synthflow",
+      "HubSpot",
+      "GoHighLevel",
+      "Twilio",
+      "Make"
+    ],
+    "description": {
+      "en": "No-code voice AI platform with a white-label program, used by agencies to deploy phone agents for SMBs in Europe and the US.",
+      "ru": "No-code платформа голосового ИИ с white-label программой, через которую агентства запускают телефонных агентов для МСБ."
+    },
+    "score": 86,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "polyai",
+    "name": "PolyAI",
+    "website": "https://poly.ai",
+    "type": "platform",
+    "categories": [
+      "voice"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "London, UK",
+      "ru": "Лондон, Великобритания"
+    },
+    "minProjectBudget": {
+      "en": "$50,000+",
+      "ru": "от 4 500 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "3-6 Months",
+      "ru": "3-6 месяцев"
+    },
+    "deployedAgents": {
+      "en": [
+        "Enterprise Customer-service Voice Agent",
+        "Hotel & Restaurant Reservations",
+        "Banking Call Automation"
+      ],
+      "ru": [
+        "Голосовой агент для крупного сервиса",
+        "Бронирование отелей и ресторанов",
+        "Автоматизация звонков в банках"
+      ]
+    },
+    "techStack": [
+      "Proprietary LLM",
+      "Genesys",
+      "Twilio",
+      "Salesforce"
+    ],
+    "description": {
+      "en": "Enterprise conversational voice AI company deploying lifelike customer-service agents for hospitality, banking and utilities.",
+      "ru": "Корпоративный голосовой ИИ: реалистичные агенты клиентского сервиса для гостиничного бизнеса, банков и коммунальных компаний."
+    },
+    "score": 92,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "elevenlabs",
+    "name": "ElevenLabs",
+    "website": "https://elevenlabs.io",
+    "type": "platform",
+    "categories": [
+      "voice",
+      "video"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "London, UK & New York, USA",
+      "ru": "Лондон, Великобритания и Нью-Йорк, США"
+    },
+    "minProjectBudget": {
+      "en": ",000+ (Enterprise Voice)",
+      "ru": "от 250 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "1-2 Months",
+      "ru": "1-2 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "Conversational Voice Agents",
+        "AI Dubbing",
+        "Voice Cloning for Ads"
+      ],
+      "ru": [
+        "Голосовые диалоговые агенты",
+        "ИИ-дубляж",
+        "Клонирование голоса для рекламы"
+      ]
+    },
+    "techStack": [
+      "ElevenLabs",
+      "Conversational AI",
+      "Twilio",
+      "API"
+    ],
+    "description": {
+      "en": "Leading AI audio company for text-to-speech, dubbing and conversational voice agents used by studios and enterprise contact centers.",
+      "ru": "Лидер ИИ-аудио: синтез речи, дубляж и голосовые агенты для студий и корпоративных контакт-центров."
+    },
+    "score": 95,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "just-ai",
+    "name": "Just AI",
+    "website": "https://just-ai.com",
+    "type": "platform",
+    "categories": [
+      "voice",
+      "enterprise"
+    ],
+    "markets": [
+      "ru-cis"
+    ],
+    "hq": {
+      "en": "Moscow, Russia",
+      "ru": "Москва, Россия"
+    },
+    "minProjectBudget": {
+      "en": "$5,000+",
+      "ru": "от 500 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "2-4 Months",
+      "ru": "2-4 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "Voice & Chat Bots for Contact Centers",
+        "Enterprise LLM Assistant (Jay Copilot)",
+        "Knowledge-base Agent"
+      ],
+      "ru": [
+        "Голосовые и чат-боты для контакт-центров",
+        "Корпоративный LLM-ассистент",
+        "Агент базы знаний"
+      ]
+    },
+    "techStack": [
+      "JAICP",
+      "GigaChat",
+      "YandexGPT",
+      "RAG",
+      "Telephony"
+    ],
+    "description": {
+      "en": "Russian conversational AI developer with an enterprise platform for voice and chat bots and LLM-based corporate assistants.",
+      "ru": "Российский разработчик диалогового ИИ: корпоративная платформа JAICP для голосовых и чат-ботов и LLM-ассистенты для бизнеса."
+    },
+    "score": 90,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "twin24",
+    "name": "TWIN (Twin24)",
+    "website": "https://twin24.ai",
+    "type": "platform",
+    "categories": [
+      "voice",
+      "sales"
+    ],
+    "markets": [
+      "ru-cis"
+    ],
+    "hq": {
+      "en": "Russia",
+      "ru": "Россия"
+    },
+    "minProjectBudget": {
+      "en": "$1,000+",
+      "ru": "от 100 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "1-2 Months",
+      "ru": "1-2 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "Outbound Voice Robot",
+        "Inbound Call Handler",
+        "Omnichannel Chat Bot"
+      ],
+      "ru": [
+        "Исходящий голосовой робот",
+        "Обработка входящих звонков",
+        "Омниканальный чат-бот"
+      ]
+    },
+    "techStack": [
+      "TWIN Platform",
+      "AmoCRM",
+      "Bitrix24",
+      "LLM",
+      "Telephony"
+    ],
+    "description": {
+      "en": "Russian platform for AI voice robots and chat bots automating outbound and inbound calls for sales, service and HR.",
+      "ru": "Российская платформа голосовых ИИ-роботов и чат-ботов для автоматизации входящих и исходящих звонков в продажах, сервисе и HR."
+    },
+    "score": 85,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "naumen",
+    "name": "Naumen",
+    "website": "https://www.naumen.ru",
+    "type": "platform",
+    "categories": [
+      "voice",
+      "enterprise"
+    ],
+    "markets": [
+      "ru-cis"
+    ],
+    "hq": {
+      "en": "Yekaterinburg, Russia",
+      "ru": "Екатеринбург, Россия"
+    },
+    "minProjectBudget": {
+      "en": "$20,000+",
+      "ru": "от 1 500 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "4-8 Months",
+      "ru": "4-8 месяцев"
+    },
+    "deployedAgents": {
+      "en": [
+        "Contact-center Voice Bot",
+        "Operator Assist Agent",
+        "Service Desk Automation"
+      ],
+      "ru": [
+        "Голосовой бот контакт-центра",
+        "Суфлёр оператора",
+        "Автоматизация Service Desk"
+      ]
+    },
+    "techStack": [
+      "Naumen Contact Center",
+      "Erudite",
+      "Speech analytics",
+      "ITSM"
+    ],
+    "description": {
+      "en": "Major Russian enterprise software vendor for contact centers and service management, with AI bots and speech analytics.",
+      "ru": "Крупный российский вендор ПО для контакт-центров и управления сервисом с ИИ-ботами и речевой аналитикой."
+    },
+    "score": 87,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "zvonobot",
+    "name": "Звонобот (Zvonobot)",
+    "website": "https://zvonobot.ru",
+    "type": "platform",
+    "categories": [
+      "voice"
+    ],
+    "markets": [
+      "ru-cis"
+    ],
+    "hq": {
+      "en": "Russia",
+      "ru": "Россия"
+    },
+    "minProjectBudget": {
+      "en": ",500+ (Turnkey Bot)",
+      "ru": "от 80 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "1-2 Months",
+      "ru": "1-2 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "Mass Voice Notifications",
+        "Interactive Voice Surveys",
+        "Lead Re-activation Calls"
+      ],
+      "ru": [
+        "Массовые голосовые оповещения",
+        "Интерактивные опросы",
+        "Реактивация базы звонками"
+      ]
+    },
+    "techStack": [
+      "Voice robot",
+      "AmoCRM",
+      "Bitrix24",
+      "API"
+    ],
+    "description": {
+      "en": "Russian service for automated voice calls and interactive voice robots used for notifications, surveys and base re-activation.",
+      "ru": "Российский сервис голосовых обзвонов и интерактивных роботов для оповещений, опросов и реактивации клиентской базы."
+    },
+    "score": 79,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "sipuni",
+    "name": "Sipuni",
+    "website": "https://sipuni.com",
+    "type": "platform",
+    "categories": [
+      "voice"
+    ],
+    "markets": [
+      "ru-cis"
+    ],
+    "hq": {
+      "en": "Russia",
+      "ru": "Россия"
+    },
+    "minProjectBudget": {
+      "en": ",500+ (CRM Telephony)",
+      "ru": "от 80 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "1-2 Months",
+      "ru": "1-2 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "Cloud PBX with Voice Robot",
+        "Call Transcription & AI Summary",
+        "CRM Call Routing"
+      ],
+      "ru": [
+        "Облачная АТС с голосовым роботом",
+        "Расшифровка и ИИ-резюме звонков",
+        "Маршрутизация звонков по CRM"
+      ]
+    },
+    "techStack": [
+      "Cloud PBX",
+      "AmoCRM",
+      "Bitrix24",
+      "Speech-to-text"
+    ],
+    "description": {
+      "en": "Cloud telephony for businesses with deep AmoCRM/Bitrix24 integration, call transcription and voice robot features.",
+      "ru": "Облачная телефония для бизнеса с глубокой интеграцией AmoCRM и Bitrix24, расшифровкой звонков и голосовыми роботами."
+    },
+    "score": 80,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "eliseai",
+    "name": "EliseAI",
+    "website": "https://www.eliseai.com",
+    "type": "platform",
+    "categories": [
+      "realestate",
+      "healthcare"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "New York, USA",
+      "ru": "Нью-Йорк, США"
+    },
+    "minProjectBudget": {
+      "en": ",000+ (Portfolio Tier)",
+      "ru": "от 600 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "1-3 Months",
+      "ru": "1-3 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "AI Leasing Assistant",
+        "Resident Maintenance Agent",
+        "Tour Scheduling Agent"
+      ],
+      "ru": [
+        "ИИ-ассистент по аренде",
+        "Агент заявок жильцов",
+        "Запись на просмотры"
+      ]
+    },
+    "techStack": [
+      "Yardi",
+      "RealPage",
+      "Entrata",
+      "SMS/Email/Voice"
+    ],
+    "description": {
+      "en": "Conversational AI for property management and healthcare, automating leasing, tours, renewals and resident communications at scale.",
+      "ru": "Диалоговый ИИ для управления недвижимостью и медицины: автоматизирует аренду, показы, продления и коммуникации с жильцами."
+    },
+    "score": 94,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "structurely",
+    "name": "Structurely",
+    "website": "https://www.structurely.com",
+    "type": "platform",
+    "categories": [
+      "realestate"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "Iowa, USA",
+      "ru": "Айова, США"
+    },
+    "minProjectBudget": {
+      "en": "$200+/mo",
+      "ru": "от 18 000 ₽/мес"
+    },
+    "avgRoiTime": {
+      "en": "1-2 Months",
+      "ru": "1-2 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "AI ISA (Inside Sales Agent)",
+        "Long-term Lead Nurturer",
+        "Appointment Setter"
+      ],
+      "ru": [
+        "ИИ-ISA (ассистент продаж)",
+        "Долгосрочный прогрев лидов",
+        "Запись на встречи"
+      ]
+    },
+    "techStack": [
+      "Follow Up Boss",
+      "kvCORE",
+      "Lofty",
+      "SMS/Email"
+    ],
+    "description": {
+      "en": "AI inside-sales assistant for real estate and mortgage teams that qualifies and nurtures leads via text and email for months.",
+      "ru": "ИИ-ассистент продаж для риелторов и ипотечных брокеров: квалифицирует и прогревает лиды по SMS и email месяцами."
+    },
+    "score": 86,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "ylopo",
+    "name": "Ylopo",
+    "website": "https://www.ylopo.com",
+    "type": "platform",
+    "categories": [
+      "realestate"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "Los Angeles, USA",
+      "ru": "Лос-Анджелес, США"
+    },
+    "minProjectBudget": {
+      "en": "$500+/mo",
+      "ru": "от 45 000 ₽/мес"
+    },
+    "avgRoiTime": {
+      "en": "2-4 Months",
+      "ru": "2-4 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "AI Text Assistant (raiya)",
+        "AI Voice Follow-up",
+        "Lead Generation Ads Engine"
+      ],
+      "ru": [
+        "ИИ-ассистент в SMS",
+        "Голосовые ИИ-дозвоны",
+        "Генерация лидов из рекламы"
+      ]
+    },
+    "techStack": [
+      "Follow Up Boss",
+      "Meta Ads",
+      "Google Ads",
+      "SMS/Voice"
+    ],
+    "description": {
+      "en": "Digital marketing and AI platform for real estate teams combining lead-gen ads with AI text and voice assistants.",
+      "ru": "Маркетинговая ИИ-платформа для команд риелторов: генерация лидов из рекламы плюс ИИ-ассистенты в SMS и голосе."
+    },
+    "score": 85,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "lofty",
+    "name": "Lofty",
+    "website": "https://lofty.com",
+    "type": "platform",
+    "categories": [
+      "realestate"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "USA",
+      "ru": "США"
+    },
+    "minProjectBudget": {
+      "en": "$450+/mo",
+      "ru": "от 40 000 ₽/мес"
+    },
+    "avgRoiTime": {
+      "en": "2-3 Months",
+      "ru": "2-3 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "AI Sales Assistant",
+        "Smart Plans Automation",
+        "Listing Marketing Agent"
+      ],
+      "ru": [
+        "ИИ-ассистент продаж",
+        "Автоматизация Smart Plans",
+        "Маркетинг объектов"
+      ]
+    },
+    "techStack": [
+      "Lofty CRM",
+      "IDX",
+      "SMS/Email",
+      "Zapier"
+    ],
+    "description": {
+      "en": "All-in-one real estate CRM and IDX platform (formerly Chime) with an AI assistant that engages and converts leads.",
+      "ru": "CRM и IDX-платформа для недвижимости (ранее Chime) с ИИ-ассистентом, который общается с лидами и доводит их до сделки."
+    },
+    "score": 83,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "rechat",
+    "name": "Rechat",
+    "website": "https://rechat.com",
+    "type": "platform",
+    "categories": [
+      "realestate"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "Dallas, USA",
+      "ru": "Даллас, США"
+    },
+    "minProjectBudget": {
+      "en": ",000+ (Brokerage Rollout)",
+      "ru": "от 350 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "2-4 Months",
+      "ru": "2-4 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "AI Marketing Copilot (Lucy)",
+        "Transaction Management Assistant",
+        "Listing Content Generator"
+      ],
+      "ru": [
+        "ИИ-копилот маркетинга (Lucy)",
+        "Ассистент сопровождения сделок",
+        "Генератор описаний объектов"
+      ]
+    },
+    "techStack": [
+      "Rechat CRM",
+      "OpenAI API",
+      "MLS",
+      "Email/SMS"
+    ],
+    "description": {
+      "en": "Real estate super-app for brokerages with an AI copilot for marketing, CRM and transaction management.",
+      "ru": "Суперприложение для агентств недвижимости с ИИ-копилотом для маркетинга, CRM и сопровождения сделок."
+    },
+    "score": 80,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "virtual-staging-ai",
+    "name": "Virtual Staging AI",
+    "website": "https://www.virtualstagingai.app",
+    "type": "platform",
+    "categories": [
+      "realestate"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "USA",
+      "ru": "США"
+    },
+    "minProjectBudget": {
+      "en": ",500+ (Agency Integration)",
+      "ru": "от 100 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "1-2 Months",
+      "ru": "1-2 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "AI Virtual Staging",
+        "Room Decluttering",
+        "Style Variations"
+      ],
+      "ru": [
+        "ИИ-виртуальный стейджинг",
+        "Удаление мебели",
+        "Варианты стилей интерьера"
+      ]
+    },
+    "techStack": [
+      "Generative AI",
+      "Image diffusion",
+      "API"
+    ],
+    "description": {
+      "en": "AI tool that virtually stages empty rooms in seconds for listings, at a fraction of physical staging cost.",
+      "ru": "ИИ-сервис, который за секунды виртуально меблирует пустые комнаты для объявлений — в разы дешевле реального стейджинга."
+    },
+    "score": 81,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "profitbase",
+    "name": "Profitbase",
+    "website": "https://profitbase.ru",
+    "type": "platform",
+    "categories": [
+      "realestate"
+    ],
+    "markets": [
+      "ru-cis"
+    ],
+    "hq": {
+      "en": "Russia",
+      "ru": "Россия"
+    },
+    "minProjectBudget": {
+      "en": "$500+/mo",
+      "ru": "от 40 000 ₽/мес"
+    },
+    "avgRoiTime": {
+      "en": "2-4 Months",
+      "ru": "2-4 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "Developer Sales Automation",
+        "Interactive Apartment Picker",
+        "Smart Lead Routing"
+      ],
+      "ru": [
+        "Автоматизация продаж застройщика",
+        "Интерактивный выбор квартир",
+        "Умное распределение лидов"
+      ]
+    },
+    "techStack": [
+      "Profitbase",
+      "AmoCRM",
+      "Bitrix24",
+      "API"
+    ],
+    "description": {
+      "en": "Russian sales-automation platform for property developers: inventory management, apartment picker widgets and CRM integrations.",
+      "ru": "Российская платформа автоматизации продаж для застройщиков: шахматка, виджет выбора квартир и интеграции с CRM."
+    },
+    "score": 84,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "macrocrm",
+    "name": "MacroCRM",
+    "website": "https://macrocrm.ru",
+    "type": "platform",
+    "categories": [
+      "realestate"
+    ],
+    "markets": [
+      "ru-cis"
+    ],
+    "hq": {
+      "en": "Russia",
+      "ru": "Россия"
+    },
+    "minProjectBudget": {
+      "en": "$1,000+",
+      "ru": "от 100 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "3-6 Months",
+      "ru": "3-6 месяцев"
+    },
+    "deployedAgents": {
+      "en": [
+        "Developer CRM Automation",
+        "Sales Analytics",
+        "Client Portal & Bots"
+      ],
+      "ru": [
+        "Автоматизация CRM застройщика",
+        "Аналитика продаж",
+        "Личный кабинет и боты"
+      ]
+    },
+    "techStack": [
+      "MacroCRM",
+      "1C",
+      "Telephony",
+      "API"
+    ],
+    "description": {
+      "en": "CRM and ERP system built specifically for real estate developers and agencies in Russia and the CIS.",
+      "ru": "CRM- и ERP-система, созданная специально для девелоперов и агентств недвижимости в России и СНГ."
+    },
+    "score": 80,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "hippocratic-ai",
+    "name": "Hippocratic AI",
+    "website": "https://www.hippocraticai.com",
+    "type": "platform",
+    "categories": [
+      "healthcare"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "Palo Alto, USA",
+      "ru": "Пало-Альто, США"
+    },
+    "minProjectBudget": {
+      "en": "Enterprise · by quote",
+      "ru": "Enterprise · по запросу"
+    },
+    "avgRoiTime": {
+      "en": "3-6 Months",
+      "ru": "3-6 месяцев"
+    },
+    "deployedAgents": {
+      "en": [
+        "Safety-focused Patient Outreach Agent",
+        "Post-discharge Follow-up",
+        "Chronic Care Check-ins"
+      ],
+      "ru": [
+        "Агент коммуникации с пациентами",
+        "Контроль после выписки",
+        "Сопровождение хронических пациентов"
+      ]
+    },
+    "techStack": [
+      "Healthcare LLM (Polaris)",
+      "Voice AI",
+      "EHR integration"
+    ],
+    "description": {
+      "en": "Builds safety-focused generative AI healthcare agents for non-diagnostic patient-facing tasks at health systems.",
+      "ru": "Разрабатывает безопасных генеративных ИИ-агентов для недиагностических задач коммуникации с пациентами в клиниках."
+    },
+    "score": 91,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "hyro",
+    "name": "Hyro",
+    "website": "https://www.hyro.ai",
+    "type": "platform",
+    "categories": [
+      "healthcare",
+      "voice"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "New York, USA",
+      "ru": "Нью-Йорк, США"
+    },
+    "minProjectBudget": {
+      "en": "Enterprise · by quote",
+      "ru": "Enterprise · по запросу"
+    },
+    "avgRoiTime": {
+      "en": "2-4 Months",
+      "ru": "2-4 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "AI Call-center Agent for Health Systems",
+        "Appointment Scheduling",
+        "Prescription Refill Bot"
+      ],
+      "ru": [
+        "ИИ-агент колл-центра больницы",
+        "Запись на приём",
+        "Бот продления рецептов"
+      ]
+    },
+    "techStack": [
+      "Epic",
+      "Cerner",
+      "Voice AI",
+      "Web chat"
+    ],
+    "description": {
+      "en": "Responsible AI agents for healthcare call centers and websites, automating scheduling, FAQs and refills for health systems.",
+      "ru": "ИИ-агенты для колл-центров и сайтов медучреждений: запись, ответы на вопросы и продление рецептов."
+    },
+    "score": 87,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "notable",
+    "name": "Notable",
+    "website": "https://www.notablehealth.com",
+    "type": "platform",
+    "categories": [
+      "healthcare",
+      "workflow"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "San Mateo, USA",
+      "ru": "Сан-Матео, США"
+    },
+    "minProjectBudget": {
+      "en": "Enterprise · by quote",
+      "ru": "Enterprise · по запросу"
+    },
+    "avgRoiTime": {
+      "en": "3-6 Months",
+      "ru": "3-6 месяцев"
+    },
+    "deployedAgents": {
+      "en": [
+        "Patient Intake Agent",
+        "Prior Authorization Automation",
+        "Referral Processing Agent"
+      ],
+      "ru": [
+        "Агент регистрации пациентов",
+        "Автоматизация предавторизации",
+        "Обработка направлений"
+      ]
+    },
+    "techStack": [
+      "Epic",
+      "Cerner",
+      "Intelligent automation",
+      "LLM"
+    ],
+    "description": {
+      "en": "Intelligent automation platform for health systems automating intake, referrals, authorizations and care-gap outreach.",
+      "ru": "Платформа интеллектуальной автоматизации для клиник: регистрация, направления, предавторизация и работа с пациентами."
+    },
+    "score": 86,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "weave",
+    "name": "Weave",
+    "website": "https://www.getweave.com",
+    "type": "platform",
+    "categories": [
+      "healthcare"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "Lehi, Utah, USA",
+      "ru": "Лихай, Юта, США"
+    },
+    "minProjectBudget": {
+      "en": "$250+/mo",
+      "ru": "от 22 000 ₽/мес"
+    },
+    "avgRoiTime": {
+      "en": "1-2 Months",
+      "ru": "1-2 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "Missed-call Text Back",
+        "AI Receptionist for Dental",
+        "Automated Reminders & Reviews"
+      ],
+      "ru": [
+        "SMS на пропущенный звонок",
+        "ИИ-администратор стоматологии",
+        "Напоминания и сбор отзывов"
+      ]
+    },
+    "techStack": [
+      "Dentrix",
+      "Open Dental",
+      "VoIP",
+      "SMS"
+    ],
+    "description": {
+      "en": "Patient communication platform for dental, optometry and medical practices with phones, texting, reminders and AI features.",
+      "ru": "Платформа коммуникаций с пациентами для стоматологий и клиник: телефония, SMS, напоминания и ИИ-функции."
+    },
+    "score": 84,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "abridge",
+    "name": "Abridge",
+    "website": "https://www.abridge.com",
+    "type": "platform",
+    "categories": [
+      "healthcare"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "Pittsburgh, USA",
+      "ru": "Питтсбург, США"
+    },
+    "minProjectBudget": {
+      "en": "Enterprise · by quote",
+      "ru": "Enterprise · по запросу"
+    },
+    "avgRoiTime": {
+      "en": "2-4 Months",
+      "ru": "2-4 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "Ambient Clinical Scribe",
+        "Visit Summary Generator",
+        "Coding Support"
+      ],
+      "ru": [
+        "Фоновый ИИ-секретарь врача",
+        "Генерация резюме приёма",
+        "Помощь в кодировании"
+      ]
+    },
+    "techStack": [
+      "Epic",
+      "Speech AI",
+      "Medical LLM"
+    ],
+    "description": {
+      "en": "Generative AI for clinical documentation that turns patient-clinician conversations into structured notes inside the EHR.",
+      "ru": "Генеративный ИИ для медицинской документации: превращает разговор врача с пациентом в структурированную запись в ЭМК."
+    },
+    "score": 92,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "infermedica",
+    "name": "Infermedica",
+    "website": "https://infermedica.com",
+    "type": "platform",
+    "categories": [
+      "healthcare"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "Wrocław, Poland",
+      "ru": "Вроцлав, Польша"
+    },
+    "minProjectBudget": {
+      "en": "Enterprise · by quote",
+      "ru": "Enterprise · по запросу"
+    },
+    "avgRoiTime": {
+      "en": "3-6 Months",
+      "ru": "3-6 месяцев"
+    },
+    "deployedAgents": {
+      "en": [
+        "Symptom Checker",
+        "Patient Triage Agent",
+        "Intake Pre-screening"
+      ],
+      "ru": [
+        "Проверка симптомов",
+        "Триаж пациентов",
+        "Предварительный опрос"
+      ]
+    },
+    "techStack": [
+      "Medical knowledge graph",
+      "API",
+      "Chat/Voice"
+    ],
+    "description": {
+      "en": "AI-powered symptom checking and triage platform used by insurers and health systems for digital front doors.",
+      "ru": "ИИ-платформа проверки симптомов и триажа для страховых компаний и медицинских сетей."
+    },
+    "score": 85,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "medesk",
+    "name": "Medesk",
+    "website": "https://www.medesk.ru",
+    "type": "platform",
+    "categories": [
+      "healthcare"
+    ],
+    "markets": [
+      "ru-cis"
+    ],
+    "hq": {
+      "en": "Moscow, Russia",
+      "ru": "Москва, Россия"
+    },
+    "minProjectBudget": {
+      "en": "$50+/mo",
+      "ru": "от 4 000 ₽/мес"
+    },
+    "avgRoiTime": {
+      "en": "1-2 Months",
+      "ru": "1-2 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "Online Booking & Reminders",
+        "Clinic CRM Automation",
+        "Patient Messaging Bot"
+      ],
+      "ru": [
+        "Онлайн-запись и напоминания",
+        "Автоматизация CRM клиники",
+        "Бот для пациентов"
+      ]
+    },
+    "techStack": [
+      "Medesk MIS",
+      "Telephony",
+      "WhatsApp",
+      "API"
+    ],
+    "description": {
+      "en": "Cloud medical information system (МИС) for private clinics with online booking, CRM, telephony and patient reminders.",
+      "ru": "Облачная МИС для частных клиник: онлайн-запись, CRM, телефония и автоматические напоминания пациентам."
+    },
+    "score": 81,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "third-opinion",
+    "name": "Третье Мнение (Third Opinion)",
+    "website": "https://thirdopinion.ai",
+    "type": "platform",
+    "categories": [
+      "healthcare"
+    ],
+    "markets": [
+      "ru-cis"
+    ],
+    "hq": {
+      "en": "Moscow, Russia",
+      "ru": "Москва, Россия"
+    },
+    "minProjectBudget": {
+      "en": "Enterprise · by quote",
+      "ru": "Enterprise · по запросу"
+    },
+    "avgRoiTime": {
+      "en": "4-8 Months",
+      "ru": "4-8 месяцев"
+    },
+    "deployedAgents": {
+      "en": [
+        "AI Radiology (CT/X-ray) Analysis",
+        "Screening Triage",
+        "Video Analytics for Clinics"
+      ],
+      "ru": [
+        "ИИ-анализ КТ и рентгена",
+        "Триаж скрининга",
+        "Видеоаналитика для клиник"
+      ]
+    },
+    "techStack": [
+      "Computer vision",
+      "PACS",
+      "DICOM"
+    ],
+    "description": {
+      "en": "Russian computer-vision company analyzing medical images (CT, X-ray, mammography) to support radiologists and screening programs.",
+      "ru": "Российская компания компьютерного зрения: анализ медицинских изображений (КТ, рентген, маммография) в помощь рентгенологам."
+    },
+    "score": 82,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "webiomed",
+    "name": "Webiomed",
+    "website": "https://webiomed.ru",
+    "type": "platform",
+    "categories": [
+      "healthcare"
+    ],
+    "markets": [
+      "ru-cis"
+    ],
+    "hq": {
+      "en": "Petrozavodsk, Russia",
+      "ru": "Петрозаводск, Россия"
+    },
+    "minProjectBudget": {
+      "en": "Enterprise · by quote",
+      "ru": "Enterprise · по запросу"
+    },
+    "avgRoiTime": {
+      "en": "4-8 Months",
+      "ru": "4-8 месяцев"
+    },
+    "deployedAgents": {
+      "en": [
+        "Predictive Risk Analytics",
+        "Clinical Decision Support",
+        "EHR Quality Control"
+      ],
+      "ru": [
+        "Предиктивная аналитика рисков",
+        "Поддержка врачебных решений",
+        "Контроль качества ЭМК"
+      ]
+    },
+    "techStack": [
+      "Machine learning",
+      "EHR/MIS integration",
+      "NLP"
+    ],
+    "description": {
+      "en": "Predictive analytics and clinical decision support platform analyzing electronic health records to flag patient risks.",
+      "ru": "Платформа предиктивной аналитики и поддержки врачебных решений, анализирующая электронные медкарты для выявления рисков."
+    },
+    "score": 79,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "xray-tech",
+    "name": "XRAY.Tech",
+    "website": "https://www.xray.tech",
+    "type": "agency",
+    "categories": [
+      "workflow"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "USA",
+      "ru": "США"
+    },
+    "minProjectBudget": {
+      "en": "$5,000+",
+      "ru": "от 450 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "1-3 Months",
+      "ru": "1-3 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "Make & Zapier AI Workflows",
+        "Airtable Ops Systems",
+        "Document Processing Agent"
+      ],
+      "ru": [
+        "ИИ-сценарии Make и Zapier",
+        "Операционные системы на Airtable",
+        "Агент обработки документов"
+      ]
+    },
+    "techStack": [
+      "Make",
+      "Zapier",
+      "Airtable",
+      "OpenAI API",
+      "n8n"
+    ],
+    "description": {
+      "en": "Workflow automation agency specializing in Make, Zapier and Airtable systems enhanced with AI for operations teams.",
+      "ru": "Агентство автоматизации на Make, Zapier и Airtable с ИИ-улучшениями для операционных команд."
+    },
+    "score": 84,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "leewayhertz",
+    "name": "LeewayHertz",
+    "website": "https://www.leewayhertz.com",
+    "type": "agency",
+    "categories": [
+      "workflow",
+      "enterprise"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "San Francisco, USA",
+      "ru": "Сан-Франциско, США"
+    },
+    "minProjectBudget": {
+      "en": "$25,000+",
+      "ru": "от 2 300 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "3-6 Months",
+      "ru": "3-6 месяцев"
+    },
+    "deployedAgents": {
+      "en": [
+        "Multi-agent Enterprise Systems",
+        "Custom GPT Copilots",
+        "AI Process Automation"
+      ],
+      "ru": [
+        "Корпоративные мультиагентные системы",
+        "Кастомные GPT-копилоты",
+        "ИИ-автоматизация процессов"
+      ]
+    },
+    "techStack": [
+      "LangChain",
+      "LangGraph",
+      "OpenAI API",
+      "RAG",
+      "AWS"
+    ],
+    "description": {
+      "en": "AI development company building generative AI solutions, autonomous agents and enterprise platforms such as ZBrain.",
+      "ru": "Компания разработки ИИ: генеративные решения, автономные агенты и корпоративные платформы, включая ZBrain."
+    },
+    "score": 86,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "markovate",
+    "name": "Markovate",
+    "website": "https://markovate.com",
+    "type": "agency",
+    "categories": [
+      "workflow",
+      "enterprise"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "San Francisco, USA & Toronto, Canada",
+      "ru": "Сан-Франциско, США и Торонто, Канада"
+    },
+    "minProjectBudget": {
+      "en": "$20,000+",
+      "ru": "от 1 800 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "3-6 Months",
+      "ru": "3-6 месяцев"
+    },
+    "deployedAgents": {
+      "en": [
+        "Agentic Workflow Automation",
+        "RAG Knowledge Assistants",
+        "AI Product MVPs"
+      ],
+      "ru": [
+        "Агентная автоматизация процессов",
+        "RAG-ассистенты по знаниям",
+        "MVP ИИ-продуктов"
+      ]
+    },
+    "techStack": [
+      "LangChain",
+      "CrewAI",
+      "OpenAI API",
+      "RAG",
+      "Azure"
+    ],
+    "description": {
+      "en": "AI engineering firm delivering generative AI agents, RAG systems and AI product development for startups and enterprises.",
+      "ru": "Инженерная ИИ-компания: генеративные агенты, RAG-системы и разработка ИИ-продуктов для стартапов и корпораций."
+    },
+    "score": 83,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "crewai",
+    "name": "CrewAI",
+    "website": "https://www.crewai.com",
+    "type": "platform",
+    "categories": [
+      "workflow"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "USA",
+      "ru": "США"
+    },
+    "minProjectBudget": {
+      "en": ",000+ (Enterprise Multi-Agent)",
+      "ru": "от 600 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "1-3 Months",
+      "ru": "1-3 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "Role-based Multi-agent Crews",
+        "Research & Content Crews",
+        "Enterprise Agent Ops"
+      ],
+      "ru": [
+        "Команды ролевых агентов",
+        "Исследовательские и контент-команды",
+        "Корпоративный AgentOps"
+      ]
+    },
+    "techStack": [
+      "CrewAI",
+      "Python",
+      "OpenAI API",
+      "Anthropic Claude",
+      "Multi-agent"
+    ],
+    "description": {
+      "en": "Open-source framework and enterprise platform for orchestrating role-playing, autonomous multi-agent systems.",
+      "ru": "Open-source фреймворк и корпоративная платформа для оркестрации автономных мультиагентных систем."
+    },
+    "score": 90,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "croc",
+    "name": "КРОК (CROC AI Systems)",
+    "website": "https://www.croc.ru",
+    "type": "agency",
+    "categories": [
+      "workflow",
+      "enterprise"
+    ],
+    "markets": [
+      "ru-cis",
+      "global"
+    ],
+    "hq": {
+      "en": "Moscow, Russia",
+      "ru": "Москва, Россия"
+    },
+    "minProjectBudget": {
+      "en": ",000+",
+      "ru": "от 1 200 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "3-6 Months",
+      "ru": "3-6 месяцев"
+    },
+    "deployedAgents": {
+      "en": [
+        "Multi-agent LangGraph Orchestration",
+        "Enterprise RAG Copilot",
+        "Process Automation Agents"
+      ],
+      "ru": [
+        "Мультиагентные системы на LangGraph",
+        "Корпоративный RAG-копилот",
+        "Автоматизация сквозных процессов"
+      ]
+    },
+    "techStack": [
+      "LangGraph",
+      "n8n",
+      "Python",
+      "RAG",
+      "PostgreSQL",
+      "On-premise"
+    ],
+    "description": {
+      "en": "Major enterprise systems integrator implementing production multi-agent workflows, LangGraph pipelines, and on-premise AI assistants.",
+      "ru": "Крупный системный интегратор: внедрение мультиагентных систем на базе LangGraph, защищённых RAG-архитектур и автоматизация корпоративных процессов."
+    },
+    "score": 93,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "albato",
+    "name": "Albato",
+    "website": "https://albato.ru",
+    "type": "platform",
+    "categories": [
+      "workflow",
+      "ecommerce"
+    ],
+    "markets": [
+      "ru-cis"
+    ],
+    "hq": {
+      "en": "Russia",
+      "ru": "Россия"
+    },
+    "minProjectBudget": {
+      "en": ",000+ (Agency Setup)",
+      "ru": "от 120 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "1-2 Months",
+      "ru": "1-2 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "No-code CRM Integrations",
+        "GPT Automation Bundles",
+        "Marketplace Order Sync"
+      ],
+      "ru": [
+        "No-code интеграции CRM",
+        "Связки с GPT",
+        "Синхронизация заказов маркетплейсов"
+      ]
+    },
+    "techStack": [
+      "Albato",
+      "AmoCRM",
+      "Bitrix24",
+      "OpenAI API",
+      "Wildberries",
+      "Ozon"
+    ],
+    "description": {
+      "en": "No-code integration platform with hundreds of ready connectors for Russian and global services, including AmoCRM, Bitrix24 and marketplaces.",
+      "ru": "No-code платформа интеграций с сотнями готовых коннекторов: AmoCRM, Bitrix24, маркетплейсы, GPT и другие сервисы."
+    },
+    "score": 85,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "hatchworks",
+    "name": "HatchWorks AI",
+    "website": "https://hatchworks.com",
+    "type": "agency",
+    "categories": [
+      "workflow",
+      "enterprise"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "Atlanta, USA",
+      "ru": "Атланта, США"
+    },
+    "minProjectBudget": {
+      "en": "$25,000+",
+      "ru": "от 2 300 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "3-6 Months",
+      "ru": "3-6 месяцев"
+    },
+    "deployedAgents": {
+      "en": [
+        "GenAI Agent Accelerators",
+        "Data & RAG Platforms",
+        "AI-augmented Software Delivery"
+      ],
+      "ru": [
+        "Ускорители GenAI-агентов",
+        "Платформы данных и RAG",
+        "Разработка ПО с ИИ"
+      ]
+    },
+    "techStack": [
+      "LangChain",
+      "Databricks",
+      "Azure OpenAI",
+      "RAG"
+    ],
+    "description": {
+      "en": "US nearshore AI and software firm delivering generative AI agents, data platforms and AI-augmented engineering teams.",
+      "ru": "Американская ИИ- и софтверная компания: генеративные агенты, платформы данных и команды разработки с ИИ."
+    },
+    "score": 82,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "kt-team",
+    "name": "KT.Team",
+    "website": "https://kt.team",
+    "type": "agency",
+    "categories": [
+      "workflow",
+      "ecommerce"
+    ],
+    "markets": [
+      "ru-cis"
+    ],
+    "hq": {
+      "en": "Moscow, Russia",
+      "ru": "Москва, Россия"
+    },
+    "minProjectBudget": {
+      "en": "$10,000+",
+      "ru": "от 800 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "3-6 Months",
+      "ru": "3-6 месяцев"
+    },
+    "deployedAgents": {
+      "en": [
+        "Integration Bus & Data Pipelines",
+        "PIM / Catalog Automation",
+        "AI Data Enrichment"
+      ],
+      "ru": [
+        "Интеграционная шина и пайплайны данных",
+        "Автоматизация PIM и каталога",
+        "ИИ-обогащение данных"
+      ]
+    },
+    "techStack": [
+      "ESB",
+      "n8n",
+      "1C",
+      "PIM",
+      "API"
+    ],
+    "description": {
+      "en": "Russian integration and e-commerce engineering company building integration buses, PIM systems and automation for retail.",
+      "ru": "Российская компания интеграций и e-commerce: интеграционные шины, PIM-системы и автоматизация для ритейла."
+    },
+    "score": 80,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "workato",
+    "name": "Workato",
+    "website": "https://www.workato.com",
+    "type": "platform",
+    "categories": [
+      "workflow"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "Mountain View, USA",
+      "ru": "Маунтин-Вью, США"
+    },
+    "minProjectBudget": {
+      "en": "$10,000+/yr",
+      "ru": "от 900 000 ₽/год"
+    },
+    "avgRoiTime": {
+      "en": "2-4 Months",
+      "ru": "2-4 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "Enterprise Agentic Automation (Genies)",
+        "IT & HR Workflow Bots",
+        "Cross-app Orchestration"
+      ],
+      "ru": [
+        "Корпоративная агентная автоматизация",
+        "Боты для IT и HR",
+        "Оркестрация между системами"
+      ]
+    },
+    "techStack": [
+      "Workato",
+      "Salesforce",
+      "Slack",
+      "NetSuite",
+      "OpenAI API"
+    ],
+    "description": {
+      "en": "Enterprise integration and automation platform with AI agents that orchestrate workflows across hundreds of business apps.",
+      "ru": "Корпоративная платформа интеграции и автоматизации с ИИ-агентами, оркестрирующими процессы в сотнях бизнес-приложений."
+    },
+    "score": 88,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "gorgias",
+    "name": "Gorgias",
+    "website": "https://www.gorgias.com",
+    "type": "platform",
+    "categories": [
+      "ecommerce"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "San Francisco, USA",
+      "ru": "Сан-Франциско, США"
+    },
+    "minProjectBudget": {
+      "en": "$60+/mo",
+      "ru": "от 5 500 ₽/мес"
+    },
+    "avgRoiTime": {
+      "en": "1 Month",
+      "ru": "1 месяц"
+    },
+    "deployedAgents": {
+      "en": [
+        "AI Support Agent",
+        "AI Shopping Assistant",
+        "Order Status Automation"
+      ],
+      "ru": [
+        "ИИ-агент поддержки",
+        "ИИ-консультант покупателей",
+        "Автоответы о статусе заказа"
+      ]
+    },
+    "techStack": [
+      "Shopify",
+      "Magento",
+      "BigCommerce",
+      "OpenAI API"
+    ],
+    "description": {
+      "en": "Customer experience platform for e-commerce with an AI Agent that resolves support tickets and drives sales on Shopify stores.",
+      "ru": "Платформа клиентского сервиса для e-commerce с ИИ-агентом, который закрывает обращения и помогает продавать в Shopify."
+    },
+    "score": 91,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "rep-ai",
+    "name": "Rep AI",
+    "website": "https://www.hellorep.ai",
+    "type": "platform",
+    "categories": [
+      "ecommerce"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "USA",
+      "ru": "США"
+    },
+    "minProjectBudget": {
+      "en": "$30+/mo",
+      "ru": "от 3 000 ₽/мес"
+    },
+    "avgRoiTime": {
+      "en": "1 Month",
+      "ru": "1 месяц"
+    },
+    "deployedAgents": {
+      "en": [
+        "AI Shopping Concierge",
+        "Abandonment Recovery Agent",
+        "Support Deflection Bot"
+      ],
+      "ru": [
+        "ИИ-консультант магазина",
+        "Возврат брошенных корзин",
+        "Бот снижения нагрузки на поддержку"
+      ]
+    },
+    "techStack": [
+      "Shopify",
+      "OpenAI API",
+      "Klaviyo"
+    ],
+    "description": {
+      "en": "AI sales and support concierge for Shopify brands that detects hesitant shoppers and guides them to purchase.",
+      "ru": "ИИ-консультант продаж и поддержки для Shopify-брендов, который распознаёт сомневающихся покупателей и доводит до покупки."
+    },
+    "score": 82,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "octane-ai",
+    "name": "Octane AI",
+    "website": "https://www.octaneai.com",
+    "type": "platform",
+    "categories": [
+      "ecommerce"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "San Francisco, USA",
+      "ru": "Сан-Франциско, США"
+    },
+    "minProjectBudget": {
+      "en": "$50+/mo",
+      "ru": "от 4 500 ₽/мес"
+    },
+    "avgRoiTime": {
+      "en": "1-2 Months",
+      "ru": "1-2 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "AI Product Quiz",
+        "Zero-party Data Agent",
+        "Personalized Recommendations"
+      ],
+      "ru": [
+        "ИИ-квиз подбора товара",
+        "Сбор данных о покупателе",
+        "Персональные рекомендации"
+      ]
+    },
+    "techStack": [
+      "Shopify",
+      "Klaviyo",
+      "OpenAI API"
+    ],
+    "description": {
+      "en": "AI-powered product quizzes and personalization for Shopify brands that collect zero-party data and lift conversion.",
+      "ru": "ИИ-квизы подбора товаров и персонализация для Shopify-брендов, собирающие данные о покупателях и повышающие конверсию."
+    },
+    "score": 80,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "klevu",
+    "name": "Klevu",
+    "website": "https://www.klevu.com",
+    "type": "platform",
+    "categories": [
+      "ecommerce"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "London, UK",
+      "ru": "Лондон, Великобритания"
+    },
+    "minProjectBudget": {
+      "en": "$500+/mo",
+      "ru": "от 45 000 ₽/мес"
+    },
+    "avgRoiTime": {
+      "en": "2-3 Months",
+      "ru": "2-3 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "AI Site Search",
+        "Product Discovery Agent",
+        "Merchandising Automation"
+      ],
+      "ru": [
+        "ИИ-поиск по сайту",
+        "Агент подбора товаров",
+        "Автоматизация мерчандайзинга"
+      ]
+    },
+    "techStack": [
+      "Shopify",
+      "Magento",
+      "BigCommerce",
+      "NLP"
+    ],
+    "description": {
+      "en": "AI-powered search and product discovery platform for mid-market and enterprise online retailers.",
+      "ru": "ИИ-платформа поиска и подбора товаров для интернет-магазинов среднего и крупного бизнеса."
+    },
+    "score": 81,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "bloomreach",
+    "name": "Bloomreach",
+    "website": "https://www.bloomreach.com",
+    "type": "platform",
+    "categories": [
+      "ecommerce"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "USA & Europe",
+      "ru": "США и Европа"
+    },
+    "minProjectBudget": {
+      "en": "Enterprise · by quote",
+      "ru": "Enterprise · по запросу"
+    },
+    "avgRoiTime": {
+      "en": "3-6 Months",
+      "ru": "3-6 месяцев"
+    },
+    "deployedAgents": {
+      "en": [
+        "Conversational Shopping Agent (Clarity)",
+        "AI Personalization",
+        "Autonomous Marketing (Loomi)"
+      ],
+      "ru": [
+        "Диалоговый шопинг-агент",
+        "ИИ-персонализация",
+        "Автономный маркетинг (Loomi)"
+      ]
+    },
+    "techStack": [
+      "Bloomreach Engagement",
+      "Discovery",
+      "CDP",
+      "LLM"
+    ],
+    "description": {
+      "en": "Commerce experience cloud combining AI search, personalization and an agentic conversational shopping assistant.",
+      "ru": "Облако коммерческого опыта: ИИ-поиск, персонализация и агентный диалоговый шопинг-ассистент."
+    },
+    "score": 87,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "mpstats",
+    "name": "MPSTATS",
+    "website": "https://mpstats.io",
+    "type": "platform",
+    "categories": [
+      "ecommerce"
+    ],
+    "markets": [
+      "ru-cis"
+    ],
+    "hq": {
+      "en": "Moscow, Russia",
+      "ru": "Москва, Россия"
+    },
+    "minProjectBudget": {
+      "en": ",000+ (Enterprise API)",
+      "ru": "от 120 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "1-2 Months",
+      "ru": "1-2 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "Marketplace Analytics",
+        "AI Review Responder",
+        "SEO Card Optimizer"
+      ],
+      "ru": [
+        "Аналитика маркетплейсов",
+        "ИИ-ответы на отзывы",
+        "SEO-оптимизация карточек"
+      ]
+    },
+    "techStack": [
+      "Wildberries",
+      "Ozon",
+      "Yandex Market",
+      "OpenAI API"
+    ],
+    "description": {
+      "en": "Leading analytics service for Wildberries and Ozon sellers with AI tools for card SEO and automated review replies.",
+      "ru": "Ведущий сервис аналитики для селлеров Wildberries и Ozon с ИИ-инструментами для SEO карточек и автоответов на отзывы."
+    },
+    "score": 86,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "rubbles",
+    "name": "Rubbles",
+    "website": "https://rubbles.ru",
+    "type": "agency",
+    "categories": [
+      "ecommerce",
+      "enterprise"
+    ],
+    "markets": [
+      "ru-cis"
+    ],
+    "hq": {
+      "en": "Moscow, Russia",
+      "ru": "Москва, Россия"
+    },
+    "minProjectBudget": {
+      "en": "$20,000+",
+      "ru": "от 1 500 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "3-6 Months",
+      "ru": "3-6 месяцев"
+    },
+    "deployedAgents": {
+      "en": [
+        "AI Dynamic Pricing",
+        "Promo Optimization",
+        "Demand Forecasting"
+      ],
+      "ru": [
+        "ИИ-ценообразование",
+        "Оптимизация промо",
+        "Прогноз спроса"
+      ]
+    },
+    "techStack": [
+      "Machine learning",
+      "Python",
+      "Retail data",
+      "Price optimization"
+    ],
+    "description": {
+      "en": "Russian AI company building machine-learning pricing, promo and demand forecasting solutions for large retailers.",
+      "ru": "Российская ИИ-компания: ML-решения для ценообразования, промо и прогнозирования спроса для крупного ритейла."
+    },
+    "score": 84,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "napoleon-it",
+    "name": "Napoleon IT",
+    "website": "https://napoleonit.ru",
+    "type": "agency",
+    "categories": [
+      "ecommerce",
+      "enterprise"
+    ],
+    "markets": [
+      "ru-cis"
+    ],
+    "hq": {
+      "en": "Chelyabinsk & Moscow, Russia",
+      "ru": "Челябинск и Москва, Россия"
+    },
+    "minProjectBudget": {
+      "en": "$15,000+",
+      "ru": "от 1 200 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "3-6 Months",
+      "ru": "3-6 месяцев"
+    },
+    "deployedAgents": {
+      "en": [
+        "Computer Vision for Retail",
+        "AI Product Development",
+        "LLM Assistants"
+      ],
+      "ru": [
+        "Компьютерное зрение для ритейла",
+        "Разработка ИИ-продуктов",
+        "LLM-ассистенты"
+      ]
+    },
+    "techStack": [
+      "Computer vision",
+      "Python",
+      "LLM",
+      "Mobile"
+    ],
+    "description": {
+      "en": "Russian AI and digital product company building computer vision, LLM and mobile solutions for retail and enterprise.",
+      "ru": "Российская компания ИИ и цифровых продуктов: компьютерное зрение, LLM и мобильные решения для ритейла и корпораций."
+    },
+    "score": 81,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "selsup",
+    "name": "SelSup",
+    "website": "https://selsup.ru",
+    "type": "platform",
+    "categories": [
+      "ecommerce"
+    ],
+    "markets": [
+      "ru-cis"
+    ],
+    "hq": {
+      "en": "Russia",
+      "ru": "Россия"
+    },
+    "minProjectBudget": {
+      "en": ",500+ (Integration Setup)",
+      "ru": "от 100 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "1-2 Months",
+      "ru": "1-2 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "Multi-marketplace Stock Sync",
+        "Card Generation Assistant",
+        "Order Automation"
+      ],
+      "ru": [
+        "Синхронизация остатков на маркетплейсах",
+        "Помощник создания карточек",
+        "Автоматизация заказов"
+      ]
+    },
+    "techStack": [
+      "Wildberries",
+      "Ozon",
+      "Yandex Market",
+      "1C"
+    ],
+    "description": {
+      "en": "Multi-marketplace management service for sellers: stock and price sync, card creation and order automation for WB, Ozon, Yandex Market.",
+      "ru": "Сервис управления продажами на маркетплейсах: остатки, цены, карточки и заказы для WB, Ozon и Яндекс Маркета."
+    },
+    "score": 78,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "harvey",
+    "name": "Harvey",
+    "website": "https://www.harvey.ai",
+    "type": "platform",
+    "categories": [
+      "enterprise"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "San Francisco, USA",
+      "ru": "Сан-Франциско, США"
+    },
+    "minProjectBudget": {
+      "en": "Enterprise · by quote",
+      "ru": "Enterprise · по запросу"
+    },
+    "avgRoiTime": {
+      "en": "2-4 Months",
+      "ru": "2-4 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "Legal Research Agent",
+        "Contract Review & Drafting",
+        "Due-diligence Workflows"
+      ],
+      "ru": [
+        "Агент юридических исследований",
+        "Проверка и составление договоров",
+        "Due diligence"
+      ]
+    },
+    "techStack": [
+      "Custom legal LLMs",
+      "RAG",
+      "Microsoft Word",
+      "SharePoint"
+    ],
+    "description": {
+      "en": "Generative AI platform for elite law firms and in-house legal teams covering research, drafting, review and due diligence.",
+      "ru": "Генеративная ИИ-платформа для ведущих юрфирм и корпоративных юристов: исследования, составление, проверка и due diligence."
+    },
+    "score": 96,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "cohere",
+    "name": "Cohere",
+    "website": "https://cohere.com",
+    "type": "platform",
+    "categories": [
+      "enterprise"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "Toronto, Canada",
+      "ru": "Торонто, Канада"
+    },
+    "minProjectBudget": {
+      "en": "Enterprise · by quote",
+      "ru": "Enterprise · по запросу"
+    },
+    "avgRoiTime": {
+      "en": "3-6 Months",
+      "ru": "3-6 месяцев"
+    },
+    "deployedAgents": {
+      "en": [
+        "Private RAG Assistants (North)",
+        "Enterprise Search with Rerank",
+        "On-premise LLM Deployments"
+      ],
+      "ru": [
+        "Приватные RAG-ассистенты (North)",
+        "Корпоративный поиск с Rerank",
+        "LLM в контуре компании"
+      ]
+    },
+    "techStack": [
+      "Command",
+      "Embed",
+      "Rerank",
+      "RAG",
+      "On-premise"
+    ],
+    "description": {
+      "en": "Enterprise LLM company offering Command models, embeddings and rerank for secure, private and on-premise RAG deployments.",
+      "ru": "Корпоративные LLM: модели Command, эмбеддинги и rerank для защищённых приватных и on-premise RAG-систем."
+    },
+    "score": 93,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "glean",
+    "name": "Glean",
+    "website": "https://www.glean.com",
+    "type": "platform",
+    "categories": [
+      "enterprise"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "Palo Alto, USA",
+      "ru": "Пало-Альто, США"
+    },
+    "minProjectBudget": {
+      "en": "Enterprise · by quote",
+      "ru": "Enterprise · по запросу"
+    },
+    "avgRoiTime": {
+      "en": "2-4 Months",
+      "ru": "2-4 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "Enterprise Knowledge Assistant",
+        "Permission-aware Search",
+        "Custom Work Agents"
+      ],
+      "ru": [
+        "Корпоративный ассистент знаний",
+        "Поиск с учётом прав доступа",
+        "Кастомные рабочие агенты"
+      ]
+    },
+    "techStack": [
+      "RAG",
+      "Knowledge graph",
+      "Slack",
+      "Google Workspace",
+      "Microsoft 365"
+    ],
+    "description": {
+      "en": "Work AI platform connecting company apps into a permission-aware knowledge graph for search, assistants and agents.",
+      "ru": "Платформа Work AI: объединяет корпоративные приложения в граф знаний с учётом прав доступа для поиска и агентов."
+    },
+    "score": 94,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "hebbia",
+    "name": "Hebbia",
+    "website": "https://www.hebbia.com",
+    "type": "platform",
+    "categories": [
+      "enterprise"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "New York, USA",
+      "ru": "Нью-Йорк, США"
+    },
+    "minProjectBudget": {
+      "en": "Enterprise · by quote",
+      "ru": "Enterprise · по запросу"
+    },
+    "avgRoiTime": {
+      "en": "2-4 Months",
+      "ru": "2-4 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "Financial Document Analysis (Matrix)",
+        "Deal Diligence Agent",
+        "Research Synthesis"
+      ],
+      "ru": [
+        "Анализ финансовых документов (Matrix)",
+        "Агент due diligence сделок",
+        "Синтез исследований"
+      ]
+    },
+    "techStack": [
+      "Multi-agent",
+      "RAG",
+      "OpenAI API",
+      "Data rooms"
+    ],
+    "description": {
+      "en": "AI platform for finance and legal professionals that runs multi-agent analysis across thousands of documents at once.",
+      "ru": "ИИ-платформа для финансистов и юристов: мультиагентный анализ тысяч документов одновременно."
+    },
+    "score": 89,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "writer",
+    "name": "Writer",
+    "website": "https://writer.com",
+    "type": "platform",
+    "categories": [
+      "enterprise"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "San Francisco, USA",
+      "ru": "Сан-Франциско, США"
+    },
+    "minProjectBudget": {
+      "en": "Enterprise · by quote",
+      "ru": "Enterprise · по запросу"
+    },
+    "avgRoiTime": {
+      "en": "2-4 Months",
+      "ru": "2-4 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "Enterprise AI Agents (AI Studio)",
+        "Graph-based RAG",
+        "Brand-governed Content Agents"
+      ],
+      "ru": [
+        "Корпоративные ИИ-агенты (AI Studio)",
+        "Графовый RAG",
+        "Контент-агенты с брендовыми правилами"
+      ]
+    },
+    "techStack": [
+      "Palmyra LLMs",
+      "Knowledge Graph",
+      "RAG",
+      "API"
+    ],
+    "description": {
+      "en": "Full-stack enterprise generative AI platform with its own Palmyra models, graph-based RAG and no-code agent builder.",
+      "ru": "Полностековая корпоративная GenAI-платформа с собственными моделями Palmyra, графовым RAG и no-code конструктором агентов."
+    },
+    "score": 89,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "luminance",
+    "name": "Luminance",
+    "website": "https://www.luminance.com",
+    "type": "platform",
+    "categories": [
+      "enterprise"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "Cambridge & London, UK",
+      "ru": "Кембридж и Лондон, Великобритания"
+    },
+    "minProjectBudget": {
+      "en": "Enterprise · by quote",
+      "ru": "Enterprise · по запросу"
+    },
+    "avgRoiTime": {
+      "en": "2-4 Months",
+      "ru": "2-4 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "Autonomous Contract Negotiation",
+        "Contract Review Agent",
+        "Legal Intake Automation"
+      ],
+      "ru": [
+        "Автономные переговоры по договорам",
+        "Агент проверки договоров",
+        "Автоматизация юридических запросов"
+      ]
+    },
+    "techStack": [
+      "Legal-grade AI",
+      "Microsoft Word",
+      "Salesforce",
+      "CLM"
+    ],
+    "description": {
+      "en": "Legal-grade AI company from Cambridge offering contract review, autonomous negotiation and legal workflow automation.",
+      "ru": "Кембриджская компания юридического ИИ: проверка договоров, автономные переговоры и автоматизация юридических процессов."
+    },
+    "score": 88,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "spellbook",
+    "name": "Spellbook",
+    "website": "https://www.spellbook.legal",
+    "type": "platform",
+    "categories": [
+      "enterprise"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "Toronto, Canada",
+      "ru": "Торонто, Канада"
+    },
+    "minProjectBudget": {
+      "en": ",000+ (Firm Rollout)",
+      "ru": "от 350 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "1-2 Months",
+      "ru": "1-2 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "Contract Drafting in Word",
+        "Clause Benchmarking",
+        "Redline Review Agent"
+      ],
+      "ru": [
+        "Составление договоров в Word",
+        "Сравнение условий с рынком",
+        "Агент редлайнинга"
+      ]
+    },
+    "techStack": [
+      "Microsoft Word",
+      "OpenAI API",
+      "Anthropic Claude"
+    ],
+    "description": {
+      "en": "AI contract drafting and review copilot that works directly inside Microsoft Word for transactional lawyers.",
+      "ru": "ИИ-копилот для составления и проверки договоров прямо в Microsoft Word для юристов по сделкам."
+    },
+    "score": 85,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "red-mad-robot",
+    "name": "red_mad_robot",
+    "website": "https://redmadrobot.ru",
+    "type": "agency",
+    "categories": [
+      "enterprise",
+      "workflow"
+    ],
+    "markets": [
+      "ru-cis"
+    ],
+    "hq": {
+      "en": "Moscow & St. Petersburg, Russia",
+      "ru": "Москва и Санкт-Петербург, Россия"
+    },
+    "minProjectBudget": {
+      "en": "$30,000+",
+      "ru": "от 3 000 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "3-6 Months",
+      "ru": "3-6 месяцев"
+    },
+    "deployedAgents": {
+      "en": [
+        "Corporate GenAI Assistants",
+        "RAG Knowledge Platforms",
+        "Multi-agent Business Systems"
+      ],
+      "ru": [
+        "Корпоративные GenAI-ассистенты",
+        "RAG-платформы знаний",
+        "Мультиагентные бизнес-системы"
+      ]
+    },
+    "techStack": [
+      "GigaChat",
+      "YandexGPT",
+      "Open-source LLMs",
+      "RAG",
+      "On-premise"
+    ],
+    "description": {
+      "en": "Major Russian digital product studio with a dedicated GenAI practice building enterprise LLM assistants and RAG platforms.",
+      "ru": "Крупная российская студия цифровых продуктов с GenAI-направлением: корпоративные LLM-ассистенты и RAG-платформы."
+    },
+    "score": 88,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "directum",
+    "name": "Directum",
+    "website": "https://www.directum.ru",
+    "type": "platform",
+    "categories": [
+      "enterprise"
+    ],
+    "markets": [
+      "ru-cis"
+    ],
+    "hq": {
+      "en": "Izhevsk, Russia",
+      "ru": "Ижевск, Россия"
+    },
+    "minProjectBudget": {
+      "en": "$15,000+",
+      "ru": "от 1 000 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "4-8 Months",
+      "ru": "4-8 месяцев"
+    },
+    "deployedAgents": {
+      "en": [
+        "Intelligent Document Classification",
+        "Contract Data Extraction",
+        "AI ECM Assistant"
+      ],
+      "ru": [
+        "Интеллектуальная классификация документов",
+        "Извлечение данных из договоров",
+        "ИИ-ассистент СЭД"
+      ]
+    },
+    "techStack": [
+      "Directum RX",
+      "Ario",
+      "NLP",
+      "On-premise"
+    ],
+    "description": {
+      "en": "Russian ECM/document-management vendor with the Ario AI module for document recognition, classification and data extraction.",
+      "ru": "Российский вендор СЭД/ECM с ИИ-модулем Ario для распознавания, классификации документов и извлечения данных."
+    },
+    "score": 83,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "doczilla",
+    "name": "Doczilla",
+    "website": "https://doczilla.pro",
+    "type": "platform",
+    "categories": [
+      "enterprise"
+    ],
+    "markets": [
+      "ru-cis"
+    ],
+    "hq": {
+      "en": "Russia",
+      "ru": "Россия"
+    },
+    "minProjectBudget": {
+      "en": ",000+ (Corporate Integration)",
+      "ru": "от 250 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "1-3 Months",
+      "ru": "1-3 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "Contract Template Automation",
+        "Legal Document Constructor",
+        "AI Clause Assistant"
+      ],
+      "ru": [
+        "Автоматизация шаблонов договоров",
+        "Конструктор юридических документов",
+        "ИИ-помощник по условиям"
+      ]
+    },
+    "techStack": [
+      "Document automation",
+      "Microsoft Word",
+      "LLM"
+    ],
+    "description": {
+      "en": "Russian legal-tech platform for automating contract templates and document assembly for in-house legal teams.",
+      "ru": "Российская legal-tech платформа для автоматизации шаблонов договоров и сборки документов для юристов компаний."
+    },
+    "score": 77,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "mts-ai",
+    "name": "MTS AI",
+    "website": "https://mts.ai",
+    "type": "lab",
+    "categories": [
+      "enterprise",
+      "voice"
+    ],
+    "markets": [
+      "ru-cis"
+    ],
+    "hq": {
+      "en": "Moscow, Russia",
+      "ru": "Москва, Россия"
+    },
+    "minProjectBudget": {
+      "en": "Enterprise · by quote",
+      "ru": "Enterprise · по запросу"
+    },
+    "avgRoiTime": {
+      "en": "4-8 Months",
+      "ru": "4-8 месяцев"
+    },
+    "deployedAgents": {
+      "en": [
+        "Corporate LLM (Cotype)",
+        "Speech Recognition & Synthesis",
+        "Contact-center AI"
+      ],
+      "ru": [
+        "Корпоративная LLM (Cotype)",
+        "Распознавание и синтез речи",
+        "ИИ для контакт-центров"
+      ]
+    },
+    "techStack": [
+      "Cotype LLM",
+      "Speech AI",
+      "On-premise",
+      "RAG"
+    ],
+    "description": {
+      "en": "AI center of MTS group developing the Cotype enterprise LLM, speech technologies and on-premise AI for business.",
+      "ru": "ИИ-центр группы МТС: корпоративная LLM Cotype, речевые технологии и on-premise ИИ для бизнеса."
+    },
+    "score": 86,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "indata-labs",
+    "name": "InData Labs",
+    "website": "https://indatalabs.com",
+    "type": "agency",
+    "categories": [
+      "enterprise",
+      "workflow"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "Nicosia, Cyprus",
+      "ru": "Никосия, Кипр"
+    },
+    "minProjectBudget": {
+      "en": "$20,000+",
+      "ru": "от 1 800 000 ₽"
+    },
+    "avgRoiTime": {
+      "en": "3-6 Months",
+      "ru": "3-6 месяцев"
+    },
+    "deployedAgents": {
+      "en": [
+        "Custom LLM Solutions",
+        "Computer Vision Systems",
+        "Predictive Analytics"
+      ],
+      "ru": [
+        "Кастомные LLM-решения",
+        "Системы компьютерного зрения",
+        "Предиктивная аналитика"
+      ]
+    },
+    "techStack": [
+      "Python",
+      "LangChain",
+      "RAG",
+      "Computer vision",
+      "AWS"
+    ],
+    "description": {
+      "en": "Data science and AI development company delivering generative AI, NLP and computer vision solutions for global clients.",
+      "ru": "Компания data science и разработки ИИ: генеративный ИИ, NLP и компьютерное зрение для международных клиентов."
+    },
+    "score": 83,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "first-page-sage",
+    "name": "First Page Sage",
+    "website": "https://firstpagesage.com",
+    "type": "agency",
+    "categories": [
+      "geo"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "San Francisco, USA",
+      "ru": "Сан-Франциско, США"
+    },
+    "minProjectBudget": {
+      "en": "$7,500+/mo",
+      "ru": "от 700 000 ₽/мес"
+    },
+    "avgRoiTime": {
+      "en": "4-9 Months",
+      "ru": "4-9 месяцев"
+    },
+    "deployedAgents": {
+      "en": [
+        "Generative Engine Optimization Program",
+        "Thought-leadership SEO",
+        "AI Citation Tracking"
+      ],
+      "ru": [
+        "Программа GEO-продвижения",
+        "SEO на экспертном контенте",
+        "Мониторинг цитирования в ИИ"
+      ]
+    },
+    "techStack": [
+      "GEO",
+      "Content strategy",
+      "JSON-LD",
+      "Analytics"
+    ],
+    "description": {
+      "en": "B2B thought-leadership SEO agency that publishes research on generative engine optimization and runs GEO programs.",
+      "ru": "B2B-агентство SEO на экспертном контенте, публикующее исследования по GEO и ведущее программы продвижения в ИИ."
+    },
+    "score": 89,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "np-digital",
+    "name": "NP Digital",
+    "website": "https://npdigital.com",
+    "type": "agency",
+    "categories": [
+      "geo"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "USA (global offices)",
+      "ru": "США (офисы по всему миру)"
+    },
+    "minProjectBudget": {
+      "en": "$10,000+/mo",
+      "ru": "от 900 000 ₽/мес"
+    },
+    "avgRoiTime": {
+      "en": "3-9 Months",
+      "ru": "3-9 месяцев"
+    },
+    "deployedAgents": {
+      "en": [
+        "AI Search Visibility Program",
+        "Omnichannel SEO",
+        "Content at Scale"
+      ],
+      "ru": [
+        "Программа видимости в ИИ-поиске",
+        "Омниканальное SEO",
+        "Контент в масштабе"
+      ]
+    },
+    "techStack": [
+      "GEO",
+      "SEO",
+      "Ubersuggest",
+      "Analytics"
+    ],
+    "description": {
+      "en": "Global performance marketing agency co-founded by Neil Patel with dedicated AI-search and LLM visibility services.",
+      "ru": "Глобальное performance-агентство, сооснованное Нилом Пателом, с отдельным направлением продвижения в ИИ-поиске."
+    },
+    "score": 88,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "siege-media",
+    "name": "Siege Media",
+    "website": "https://www.siegemedia.com",
+    "type": "agency",
+    "categories": [
+      "geo"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "USA",
+      "ru": "США"
+    },
+    "minProjectBudget": {
+      "en": "$10,000+/mo",
+      "ru": "от 900 000 ₽/мес"
+    },
+    "avgRoiTime": {
+      "en": "4-9 Months",
+      "ru": "4-9 месяцев"
+    },
+    "deployedAgents": {
+      "en": [
+        "Content Marketing for AI Search",
+        "Digital PR Link Earning",
+        "Brand Mention Strategy"
+      ],
+      "ru": [
+        "Контент-маркетинг для ИИ-поиска",
+        "Digital PR и ссылки",
+        "Стратегия упоминаний бренда"
+      ]
+    },
+    "techStack": [
+      "GEO",
+      "Content marketing",
+      "Digital PR",
+      "SEO"
+    ],
+    "description": {
+      "en": "Content marketing and SEO agency known for data-driven content and digital PR that earns citations in search and AI answers.",
+      "ru": "Агентство контент-маркетинга и SEO, известное контентом на данных и digital PR, которые приносят цитирования в поиске и ИИ."
+    },
+    "score": 86,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "ipullrank",
+    "name": "iPullRank",
+    "website": "https://ipullrank.com",
+    "type": "agency",
+    "categories": [
+      "geo"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "New York, USA",
+      "ru": "Нью-Йорк, США"
+    },
+    "minProjectBudget": {
+      "en": "$15,000+/mo",
+      "ru": "от 1 300 000 ₽/мес"
+    },
+    "avgRoiTime": {
+      "en": "4-9 Months",
+      "ru": "4-9 месяцев"
+    },
+    "deployedAgents": {
+      "en": [
+        "Relevance Engineering for AI Search",
+        "Technical SEO for LLM Crawlers",
+        "AI Overviews Strategy"
+      ],
+      "ru": [
+        "Relevance engineering для ИИ-поиска",
+        "Техническое SEO для LLM-краулеров",
+        "Стратегия для AI Overviews"
+      ]
+    },
+    "techStack": [
+      "GEO",
+      "Technical SEO",
+      "Embeddings",
+      "Python"
+    ],
+    "description": {
+      "en": "Technical SEO agency led by Mike King, a prominent voice on AI search, relevance engineering and AI Overviews.",
+      "ru": "Агентство технического SEO под руководством Майка Кинга — одного из главных экспертов по ИИ-поиску и AI Overviews."
+    },
+    "score": 88,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "go-fish-digital",
+    "name": "Go Fish Digital",
+    "website": "https://gofishdigital.com",
+    "type": "agency",
+    "categories": [
+      "geo"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "Raleigh, USA",
+      "ru": "Роли, США"
+    },
+    "minProjectBudget": {
+      "en": "$7,500+/mo",
+      "ru": "от 700 000 ₽/мес"
+    },
+    "avgRoiTime": {
+      "en": "4-9 Months",
+      "ru": "4-9 месяцев"
+    },
+    "deployedAgents": {
+      "en": [
+        "GEO Audits",
+        "Entity & Schema Optimization",
+        "Reputation for AI Answers"
+      ],
+      "ru": [
+        "GEO-аудиты",
+        "Оптимизация сущностей и микроразметки",
+        "Репутация в ответах ИИ"
+      ]
+    },
+    "techStack": [
+      "GEO",
+      "JSON-LD",
+      "SEO",
+      "Digital PR"
+    ],
+    "description": {
+      "en": "SEO, digital PR and reputation agency offering generative engine optimization services for brands in AI answers.",
+      "ru": "Агентство SEO, digital PR и репутации с услугами GEO-продвижения брендов в ответах нейросетей."
+    },
+    "score": 84,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "profound",
+    "name": "Profound",
+    "website": "https://www.tryprofound.com",
+    "type": "platform",
+    "categories": [
+      "geo"
+    ],
+    "markets": [
+      "global"
+    ],
+    "hq": {
+      "en": "New York, USA",
+      "ru": "Нью-Йорк, США"
+    },
+    "minProjectBudget": {
+      "en": "$500+/mo",
+      "ru": "от 45 000 ₽/мес"
+    },
+    "avgRoiTime": {
+      "en": "1-3 Months",
+      "ru": "1-3 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "AI Visibility Monitoring",
+        "Answer Engine Insights",
+        "AI Crawler Analytics"
+      ],
+      "ru": [
+        "Мониторинг видимости в ИИ",
+        "Аналитика ответов нейросетей",
+        "Аналитика ИИ-краулеров"
+      ]
+    },
+    "techStack": [
+      "ChatGPT",
+      "Perplexity",
+      "Gemini",
+      "Claude",
+      "Analytics"
+    ],
+    "description": {
+      "en": "AI-visibility platform that tracks how brands appear in ChatGPT, Perplexity, Gemini and other answer engines.",
+      "ru": "Платформа мониторинга того, как бренды появляются в ChatGPT, Perplexity, Gemini и других ИИ-ассистентах."
+    },
+    "score": 90,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "ashmanov",
+    "name": "Ашманов и партнёры (Ashmanov & Partners)",
+    "website": "https://www.ashmanov.com",
+    "type": "agency",
+    "categories": [
+      "geo",
+      "enterprise"
+    ],
+    "markets": [
+      "ru-cis"
+    ],
+    "hq": {
+      "en": "Moscow, Russia",
+      "ru": "Москва, Россия"
+    },
+    "minProjectBudget": {
+      "en": "$2,000+/mo",
+      "ru": "от 150 000 ₽/мес"
+    },
+    "avgRoiTime": {
+      "en": "3-6 Months",
+      "ru": "3-6 месяцев"
+    },
+    "deployedAgents": {
+      "en": [
+        "SEO & AI Search Promotion",
+        "Reputation Monitoring",
+        "NLP / Chatbot Solutions"
+      ],
+      "ru": [
+        "SEO и продвижение в ИИ-поиске",
+        "Мониторинг репутации",
+        "NLP и чат-боты"
+      ]
+    },
+    "techStack": [
+      "GEO",
+      "Yandex",
+      "SEO",
+      "NLP"
+    ],
+    "description": {
+      "en": "One of Russia's oldest search marketing agencies with its own AI/NLP lab, reputation management and AI-search promotion.",
+      "ru": "Одно из старейших агентств поискового маркетинга в России с собственной ИИ/NLP-лабораторией, ORM и продвижением в ИИ-поиске."
+    },
+    "score": 87,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "rush-agency",
+    "name": "Rush Agency",
+    "website": "https://rush-agency.ru",
+    "type": "agency",
+    "categories": [
+      "geo"
+    ],
+    "markets": [
+      "ru-cis"
+    ],
+    "hq": {
+      "en": "Moscow, Russia",
+      "ru": "Москва, Россия"
+    },
+    "minProjectBudget": {
+      "en": "$1,500+/mo",
+      "ru": "от 120 000 ₽/мес"
+    },
+    "avgRoiTime": {
+      "en": "3-6 Months",
+      "ru": "3-6 месяцев"
+    },
+    "deployedAgents": {
+      "en": [
+        "SEO & GEO Promotion",
+        "Content Marketing",
+        "Yandex Neuro Visibility"
+      ],
+      "ru": [
+        "SEO и GEO-продвижение",
+        "Контент-маркетинг",
+        "Видимость в Яндекс Нейро"
+      ]
+    },
+    "techStack": [
+      "GEO",
+      "Yandex",
+      "Google",
+      "Content"
+    ],
+    "description": {
+      "en": "Russian SEO and content agency known for its search-industry research and promotion in Yandex and AI-search surfaces.",
+      "ru": "Российское SEO- и контент-агентство, известное исследованиями рынка поиска и продвижением в Яндексе и ИИ-поиске."
+    },
+    "score": 84,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  },
+  {
+    "id": "ingate",
+    "name": "Ingate",
+    "website": "https://ingate.ru",
+    "type": "agency",
+    "categories": [
+      "geo"
+    ],
+    "markets": [
+      "ru-cis"
+    ],
+    "hq": {
+      "en": "Moscow, Russia",
+      "ru": "Москва, Россия"
+    },
+    "minProjectBudget": {
+      "en": "$1,500+/mo",
+      "ru": "от 120 000 ₽/мес"
+    },
+    "avgRoiTime": {
+      "en": "3-6 Months",
+      "ru": "3-6 месяцев"
+    },
+    "deployedAgents": {
+      "en": [
+        "Performance SEO",
+        "AI-search Content Optimization",
+        "Programmatic Landing Pages"
+      ],
+      "ru": [
+        "Performance SEO",
+        "Оптимизация контента под ИИ-поиск",
+        "Программатик-лендинги"
+      ]
+    },
+    "techStack": [
+      "GEO",
+      "SEO",
+      "Yandex",
+      "Analytics"
+    ],
+    "description": {
+      "en": "Large Russian digital agency providing SEO, performance marketing and content optimization for AI-powered search.",
+      "ru": "Крупное российское digital-агентство: SEO, performance-маркетинг и оптимизация контента под ИИ-поиск."
+    },
+    "score": 82,
+    "verifiedDate": "2026-11-04",
+    "status": "verified"
+  }
 ]

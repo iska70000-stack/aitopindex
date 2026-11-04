@@ -36,12 +36,42 @@ export const agencies: Agency[] = (agenciesJson as Agency[])
   .filter((a) => a.status === 'verified')
   .sort((a, b) => b.score - a.score || a.name.localeCompare(b.name));
 
+/** Sort agencies prioritizing regional relevance: RU/CIS/UAE on /ru/, Global/US/EU on /en/ */
+export const agenciesByLang = (lang: Lang): Agency[] => {
+  return [...agencies].sort((a, b) => {
+    if (lang === 'ru') {
+      const aRu = a.markets.includes('ru-cis') || a.markets.includes('uae');
+      const bRu = b.markets.includes('ru-cis') || b.markets.includes('uae');
+      if (aRu && !bRu) return -1;
+      if (!aRu && bRu) return 1;
+    } else {
+      const aGlobal =
+        a.markets.includes('global') ||
+        a.markets.includes('us') ||
+        a.markets.includes('eu') ||
+        a.markets.includes('uk');
+      const bGlobal =
+        b.markets.includes('global') ||
+        b.markets.includes('us') ||
+        b.markets.includes('eu') ||
+        b.markets.includes('uk');
+      if (aGlobal && !bGlobal) return -1;
+      if (!aGlobal && bGlobal) return 1;
+    }
+    return b.score - a.score || a.name.localeCompare(b.name);
+  });
+};
+
 export const agencyById = (id: string) => agencies.find((a) => a.id === id);
 
-export const agenciesFor = (cat: CategoryId) => agencies.filter((a) => a.categories.includes(cat));
+export const agenciesFor = (cat: CategoryId, lang?: Lang) => {
+  const pool = lang ? agenciesByLang(lang) : agencies;
+  return pool.filter((a) => a.categories.includes(cat));
+};
 
 /** Ranked position of an agency inside a category (1-based). */
-export const rankIn = (cat: CategoryId, id: string) => agenciesFor(cat).findIndex((a) => a.id === id) + 1;
+export const rankIn = (cat: CategoryId, id: string, lang?: Lang) =>
+  agenciesFor(cat, lang).findIndex((a) => a.id === id) + 1;
 
 /* ------------------------------------------------------------------ */
 /* Stack filter pills                                                  */

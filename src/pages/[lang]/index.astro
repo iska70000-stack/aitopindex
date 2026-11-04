@@ -6,11 +6,11 @@ import FilterBar from '../../components/FilterBar.astro';
 import RoiCalculator from '../../components/RoiCalculator.astro';
 import {
   agencies,
+  agenciesByLang,
   categories,
   formatMonthYear,
   latestVerified,
   pluralRu,
-  roundedCount,
   type Lang,
   LANGS,
   SITE,
@@ -24,13 +24,13 @@ const { lang } = Astro.params as { lang: Lang };
 
 const verifiedStamp = formatMonthYear(latestVerified(), lang);
 const totalAgencies = agencies.length;
-const roundedTotal = roundedCount(totalAgencies);
+const listAgencies = agenciesByLang(lang);
 
 // Grammatically correct pluralization for Hero counter:
-// In Russian: e.g. "85+ проверенных компаний" / "80+ проверенных компаний"
+// In Russian: e.g. "86 проверенных компаний"
 const agencyCounterNoun =
   lang === 'ru'
-    ? pluralRu(roundedTotal, ['проверенная компания', 'проверенные компании', 'проверенных компаний'])
+    ? pluralRu(totalAgencies, ['проверенная компания', 'проверенные компании', 'проверенных компаний'])
     : 'Verified Agencies';
 
 // SEO Metas
@@ -76,7 +76,7 @@ const categoryItemListJsonLd = {
         <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-glow"></span>
       </span>
       <span class="font-mono text-xs text-slate-300">
-        <strong class="text-white font-semibold">{roundedTotal}+</strong> {agencyCounterNoun}
+        <strong class="text-white font-semibold">{totalAgencies}</strong> {agencyCounterNoun}
         <span class="text-slate-500 mx-1">•</span>
         <span class="text-cyan-glow">{lang === 'ru' ? 'Реестр актуален:' : 'Verified:'} {verifiedStamp}</span>
       </span>
@@ -113,8 +113,7 @@ const categoryItemListJsonLd = {
     <!-- Quick CTAs -->
     <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
       <a href="#categories" class="btn-primary">
-        <span>{lang === 'ru' ? 'Выбрать категорию (3×3)' : 'Browse Categories (3×3)'}</span>
-        <span>&darr;</span>
+        <span>{lang === 'ru' ? 'Выбрать направление ↓' : 'Explore AI Categories ↓'}</span>
       </a>
       <a href="#calculator" class="btn-ghost">
         <span>{lang === 'ru' ? 'Рассчитать стоимость и ROI' : 'Calculate Implementation Cost'}</span>
@@ -137,7 +136,7 @@ const categoryItemListJsonLd = {
       </div>
       <div>
         <span class="block text-2xl font-bold text-violet-300 sm:text-3xl">100%</span>
-        <span class="text-xs text-slate-400 uppercase tracking-wider">{lang === 'ru' ? 'Без галлюцинаций' : 'Verified Web'}</span>
+        <span class="text-xs text-slate-400 uppercase tracking-wider">{lang === 'ru' ? 'Проверенные кейсы' : 'Verified Agencies'}</span>
       </div>
     </div>
   </section>
@@ -154,7 +153,9 @@ const categoryItemListJsonLd = {
         </h2>
       </div>
       <p class="text-xs text-slate-400 font-mono">
-        {lang === 'ru' ? 'Сетка 3×3 на десктопе • Адаптивный мобильный вид' : '3×3 Desktop Grid • Full Mobile Support'}
+        {lang === 'ru'
+          ? 'Независимый B2B-рейтинг • Еженедельный аудит профилей'
+          : 'Independent B2B Index • Weekly Profile Verification'}
       </p>
     </div>
 
@@ -192,7 +193,7 @@ const categoryItemListJsonLd = {
 
     <!-- Agencies Grid -->
     <div id="agencies-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-      {agencies.map((agency, index) => (
+      {listAgencies.map((agency, index) => (
         <AgencyCard agency={agency} lang={lang} rank={index + 1} />
       ))}
     </div>

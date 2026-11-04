@@ -50,7 +50,7 @@ const alternatePaths = {
       <form id="submit-agency-form" class="space-y-6">
         <!-- 1. Agency Name -->
         <div>
-          <label class="block font-mono text-xs uppercase tracking-wider text-slate-300 mb-2" for="agency-name">
+          <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-300 mb-2" for="agency-name">
             {lang === 'ru' ? '1. Название компании / студии *' : '1. Official Agency / Studio Name *'}
           </label>
           <input
@@ -65,7 +65,7 @@ const alternatePaths = {
 
         <!-- 2. Website URL -->
         <div>
-          <label class="block font-mono text-xs uppercase tracking-wider text-slate-300 mb-2" for="agency-website">
+          <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-300 mb-2" for="agency-website">
             {lang === 'ru' ? '2. Официальный веб-сайт (с HTTPS) *' : '2. Official Website (HTTPS required) *'}
           </label>
           <input
@@ -76,17 +76,17 @@ const alternatePaths = {
             placeholder="https://youragency.com"
             class="field"
           />
-          <p class="mt-1 text-[11px] text-slate-400 font-mono">
-            {lang === 'ru' ? 'Сайт автоматически проверяется нашим Freshness Engine' : 'Domain is continuously checked by our autonomous engine'}
+          <p class="mt-1.5 text-[11px] text-slate-400 font-mono">
+            {lang === 'ru' ? 'Домен и SSL-сертификат проверяются автоматически при модерации' : 'Domain and SSL certificate are verified automatically during moderation'}
           </p>
         </div>
 
         <!-- 3. Primary Category -->
         <div>
-          <label class="block font-mono text-xs uppercase tracking-wider text-slate-300 mb-2" for="agency-category">
+          <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-300 mb-2" for="agency-category">
             {lang === 'ru' ? '3. Основная категория внедрения *' : '3. Primary AI Category *'}
           </label>
-          <select id="agency-category" name="category" required class="field cursor-pointer">
+          <select id="agency-category" name="category" required class="field cursor-pointer font-sans">
             {categories.map((c) => (
               <option value={c.id}>{c.title[lang]}</option>
             ))}
@@ -95,7 +95,7 @@ const alternatePaths = {
 
         <!-- 4. Core Tech Stack -->
         <div>
-          <label class="block font-mono text-xs uppercase tracking-wider text-slate-300 mb-2" for="agency-stack">
+          <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-300 mb-2" for="agency-stack">
             {lang === 'ru' ? '4. Ключевой технологический стек *' : '4. Core Tech Stack & Tools *'}
           </label>
           <input
@@ -110,7 +110,7 @@ const alternatePaths = {
 
         <!-- 5. Case Study or Portfolio Link -->
         <div>
-          <label class="block font-mono text-xs uppercase tracking-wider text-slate-300 mb-2" for="agency-case">
+          <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-300 mb-2" for="agency-case">
             {lang === 'ru' ? '5. Ссылка на публичный кейс / портфолио *' : '5. Published Case Study or Portfolio Link *'}
           </label>
           <input
@@ -125,7 +125,7 @@ const alternatePaths = {
 
         <!-- 6. Contact Email or Telegram -->
         <div>
-          <label class="block font-mono text-xs uppercase tracking-wider text-slate-300 mb-2" for="agency-contact">
+          <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-300 mb-2" for="agency-contact">
             {lang === 'ru' ? '6. Контакт для связи (Telegram / Email) *' : '6. Direct Contact (Telegram @handle or Email) *'}
           </label>
           <input
@@ -142,8 +142,8 @@ const alternatePaths = {
         <div class="rounded-xl border border-white/10 bg-white/[0.02] p-4 text-xs text-slate-400">
           <p>
             {lang === 'ru'
-              ? '🔒 Строгая политика против галлюцинаций: мы не публикуем непроверенные телефонные номера. Карточка компании получает бейдж «Verified» после проверки доступности домена и соответствия стека.'
-              : '🔒 Strict anti-hallucination policy: no synthetic phone contacts are stored. Verified badges are awarded only after domain verification and stack confirmation.'}
+              ? 'Стандарт верификации AITopIndex: мы проверяем рабочие домены, реальные B2B-кейсы и соответствие заявленному технологическому стеку перед выдачей статуса «Проверено».'
+              : 'AITopIndex Verification Standard: We audit live domains, real enterprise B2B case studies, and declared tech stack compliance before awarding Verified status.'}
           </p>
         </div>
 
@@ -168,8 +168,18 @@ const alternatePaths = {
             ? 'Редакторы AITopIndex проверят ваш сайт и стек в течение 48 часов. При успешной верификации профиль появится в рейтинге и файле /llms.txt.'
             : 'AITopIndex editors will verify your domain and case studies within 48 hours. Upon approval, your agency will be listed in the index and /llms.txt.'}
         </p>
-        <div class="pt-4">
-          <a href={`/${lang}/`} class="btn-ghost text-xs">
+        <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <a
+            id="telegram-fast-track"
+            href="https://t.me/aitopindex"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-primary text-xs py-2.5 px-5"
+          >
+            <span>{lang === 'ru' ? 'Отправить напрямую в Telegram редакции' : 'Fast-Track via Telegram'}</span>
+            <span>↗</span>
+          </a>
+          <a href={`/${lang}/`} class="btn-ghost text-xs py-2.5 px-5">
             &larr; {lang === 'ru' ? 'Вернуться в каталог' : 'Back to Directory'}
           </a>
         </div>
@@ -181,11 +191,24 @@ const alternatePaths = {
     function setupForm() {
       const form = document.getElementById('submit-agency-form') as HTMLFormElement | null;
       const success = document.getElementById('form-success');
+      const tgLink = document.getElementById('telegram-fast-track') as HTMLAnchorElement | null;
       if (!form || !success) return;
 
       form.addEventListener('submit', (e) => {
         e.preventDefault();
-        // Client-side confirmation
+        const data = new FormData(form);
+        const name = data.get('name') || '';
+        const website = data.get('website') || '';
+        const stack = data.get('stack') || '';
+        const contact = data.get('contact') || '';
+
+        if (tgLink) {
+          const text = encodeURIComponent(
+            `🚀 Заявка в AITopIndex:\nКомпания: ${name}\nСайт: ${website}\nСтек: ${stack}\nКонтакт: ${contact}`
+          );
+          tgLink.href = `https://t.me/aitopindex?text=${text}`;
+        }
+
         form.classList.add('hidden');
         success.classList.remove('hidden');
       });

@@ -13,7 +13,7 @@ const filterKeys = filterKeysFor(agency);
 ---
 
 <article
-  class="tilt-wrap agency-item transition-all duration-300"
+  class="tilt-wrap agency-item transition-all duration-300 h-full"
   data-agency-card
   data-filters={filterKeys.join(' ')}
 >
@@ -22,11 +22,11 @@ const filterKeys = filterKeysFor(agency);
     data-tilt
   >
     <!-- Top Row: Name, Rank, HQ, Verified Badge -->
-    <div>
+    <div class="flex-1 flex flex-col">
       <div class="flex items-start justify-between gap-3">
-        <div class="flex items-center gap-3">
+        <div class="flex items-start gap-3">
           {typeof rank === 'number' && (
-            <span class="z-pop flex h-7 w-7 items-center justify-center rounded-lg border border-cyan-glow/40 bg-cyan-glow/10 font-mono text-xs font-bold text-cyan-glow">
+            <span class="z-pop flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-cyan-glow/40 bg-cyan-glow/10 font-mono text-xs font-bold text-cyan-glow mt-0.5">
               #{rank}
             </span>
           )}
@@ -35,7 +35,7 @@ const filterKeys = filterKeysFor(agency);
               <a href={`/${lang}/agency/${agency.id}/`}>{agency.name}</a>
             </h4>
             <div class="z-pop-sm flex items-center gap-2 mt-0.5 text-xs text-slate-400">
-              <svg class="h-3.5 w-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg class="h-3.5 w-3.5 text-slate-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
@@ -45,7 +45,7 @@ const filterKeys = filterKeysFor(agency);
         </div>
 
         <!-- Verification Badge with Check -->
-        <div class="z-pop-sm flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 font-mono text-[11px] text-emerald-400">
+        <div class="z-pop-sm flex shrink-0 items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 font-mono text-[11px] text-emerald-400 mt-0.5">
           <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
           </svg>
@@ -60,7 +60,7 @@ const filterKeys = filterKeysFor(agency);
 
       <!-- Deployed AI Agents -->
       <div class="z-pop-sm mt-4">
-        <span class="font-mono text-[10px] uppercase tracking-wider text-slate-400">
+        <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 block">
           {lang === 'ru' ? 'Внедряемые ИИ-агенты' : 'Deployed AI Agents'}:
         </span>
         <div class="mt-1.5 flex flex-wrap gap-1.5">
@@ -74,7 +74,7 @@ const filterKeys = filterKeysFor(agency);
 
       <!-- Tech Stack -->
       <div class="z-pop-sm mt-3">
-        <span class="font-mono text-[10px] uppercase tracking-wider text-slate-400">
+        <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 block">
           {lang === 'ru' ? 'Технологический стек' : 'Tech Stack'}:
         </span>
         <div class="mt-1.5 flex flex-wrap gap-1.5">
@@ -91,16 +91,16 @@ const filterKeys = filterKeysFor(agency);
     <div class="z-pop-sm mt-6 border-t border-white/5 pt-4">
       <div class="grid grid-cols-2 gap-3 font-mono text-xs sm:grid-cols-3">
         <div>
-          <span class="text-[10px] uppercase text-slate-400 block">{lang === 'ru' ? 'Бюджет проекта' : 'Min Budget'}</span>
-          <span class="font-semibold text-white">{agency.minProjectBudget[lang]}</span>
+          <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 block">{lang === 'ru' ? 'Бюджет проекта' : 'Min Budget'}</span>
+          <span class="font-semibold text-white text-xs sm:text-sm">{agency.minProjectBudget[lang]}</span>
         </div>
         <div>
-          <span class="text-[10px] uppercase text-slate-400 block">{lang === 'ru' ? 'Срок окупаемости' : 'Avg ROI'}</span>
-          <span class="font-semibold text-emerald-400">{agency.avgRoiTime[lang]}</span>
+          <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 block">{lang === 'ru' ? 'Срок окупаемости' : 'Avg ROI'}</span>
+          <span class="font-semibold text-emerald-400 text-xs sm:text-sm">{agency.avgRoiTime[lang]}</span>
         </div>
         <div class="col-span-2 sm:col-span-1">
-          <span class="text-[10px] uppercase text-slate-400 block">{lang === 'ru' ? 'Верификация' : 'Verified'}</span>
-          <span class="text-slate-300 text-[11px]">{formatDate(agency.verifiedDate, lang)}</span>
+          <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 block">{lang === 'ru' ? 'Верификация' : 'Verified'}</span>
+          <span class="text-slate-300 text-[11px] sm:text-xs">{formatDate(agency.verifiedDate, lang)}</span>
         </div>
       </div>
 

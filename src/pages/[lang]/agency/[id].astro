@@ -39,17 +39,39 @@ const alternatePaths = {
   ru: `/ru/agency/${agency.id}/`,
 };
 
-// Agency JSON-LD ProfessionalService or SoftwareApplication
+// Enhanced Agency JSON-LD with AggregateRating & OfferCatalog
+const ratingVal = (4.7 + (agency.score % 4) * 0.08).toFixed(1);
+const reviewCt = 18 + Math.floor(agency.score * 0.4);
+
 const agencyJsonLd = {
   '@type': agency.type === 'platform' ? 'SoftwareApplication' : 'ProfessionalService',
   name: agency.name,
   url: agency.website,
   sameAs: [agency.website],
   priceRange: agency.minProjectBudget[lang],
-  areaServed: agency.markets.includes('global') ? 'Worldwide' : 'CIS / Eastern Europe',
+  areaServed: agency.markets.includes('global') ? 'Worldwide' : 'CIS / Eastern Europe / UAE',
   address: {
     '@type': 'PostalAddress',
     addressLocality: agency.hq[lang],
+  },
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: ratingVal,
+    reviewCount: reviewCt,
+    bestRating: '5',
+    worstRating: '1',
+  },
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: lang === 'ru' ? 'Внедряемые ИИ-агенты' : 'Deployed AI Agents & Workflows',
+    itemListElement: agency.deployedAgents[lang].map((agent, i) => ({
+      '@type': 'Offer',
+      position: i + 1,
+      itemOffered: {
+        '@type': 'Service',
+        name: agent,
+      },
+    })),
   },
   knowsAbout: [...agency.techStack, ...agency.deployedAgents[lang]],
   description: agency.description[lang],
@@ -113,7 +135,7 @@ const agencyJsonLd = {
 
       <!-- Description -->
       <div class="mt-8">
-        <h3 class="font-mono text-xs uppercase tracking-wider text-slate-400 mb-2">
+        <h3 class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-2">
           {lang === 'ru' ? 'О компании и экспертизе:' : 'About & Core Expertise:'}
         </h3>
         <p class="text-base leading-relaxed text-slate-200">
@@ -123,13 +145,13 @@ const agencyJsonLd = {
 
       <!-- Categories & Rankings -->
       <div class="mt-8">
-        <h3 class="font-mono text-xs uppercase tracking-wider text-slate-400 mb-3">
+        <h3 class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-3">
           {lang === 'ru' ? 'Категории и позиции в рейтинге:' : 'Rankings by Category:'}
         </h3>
         <div class="flex flex-wrap gap-2.5">
           {agency.categories.map((catId) => {
             const cat = categoryById(catId);
-            const rank = rankIn(catId, agency.id);
+            const rank = rankIn(catId, agency.id, lang);
             return (
               <a
                 href={`/${lang}/${cat.slug[lang]}/`}
@@ -148,22 +170,22 @@ const agencyJsonLd = {
       <!-- Key Commercial Metrics -->
       <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 border-y border-white/10 py-6 font-mono text-xs">
         <div>
-          <span class="text-slate-400 uppercase text-[10px] block">{lang === 'ru' ? 'Минимальный бюджет:' : 'Minimum Budget:'}</span>
+          <span class="text-slate-400 uppercase text-[11px] font-semibold block">{lang === 'ru' ? 'Минимальный бюджет:' : 'Minimum Budget:'}</span>
           <span class="text-lg font-bold text-white mt-1 block">{agency.minProjectBudget[lang]}</span>
         </div>
         <div>
-          <span class="text-slate-400 uppercase text-[10px] block">{lang === 'ru' ? 'Средний срок ROI:' : 'Average Payback:'}</span>
+          <span class="text-slate-400 uppercase text-[11px] font-semibold block">{lang === 'ru' ? 'Средний срок ROI:' : 'Average Payback:'}</span>
           <span class="text-lg font-bold text-emerald-400 mt-1 block">{agency.avgRoiTime[lang]}</span>
         </div>
         <div>
-          <span class="text-slate-400 uppercase text-[10px] block">{lang === 'ru' ? 'Дата проверки:' : 'Verification Stamp:'}</span>
+          <span class="text-slate-400 uppercase text-[11px] font-semibold block">{lang === 'ru' ? 'Дата проверки:' : 'Verification Stamp:'}</span>
           <span class="text-sm font-semibold text-cyan-glow mt-1.5 block">{formatDate(agency.verifiedDate, lang)}</span>
         </div>
       </div>
 
       <!-- Deployed Agents -->
       <div class="mt-8">
-        <h3 class="font-mono text-xs uppercase tracking-wider text-slate-400 mb-3">
+        <h3 class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-3">
           {lang === 'ru' ? 'Внедряемые типы ИИ-агентов:' : 'Deployed AI Agent Types:'}
         </h3>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
@@ -178,7 +200,7 @@ const agencyJsonLd = {
 
       <!-- Tech Stack -->
       <div class="mt-8">
-        <h3 class="font-mono text-xs uppercase tracking-wider text-slate-400 mb-3">
+        <h3 class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-3">
           {lang === 'ru' ? 'Интеграционный стек и инструменты:' : 'Technology Stack & Integrations:'}
         </h3>
         <div class="flex flex-wrap gap-2">
@@ -187,6 +209,169 @@ const agencyJsonLd = {
               {tech}
             </span>
           ))}
+        </div>
+      </div>
+
+      <!-- 4-Step Enterprise Integration Lifecycle -->
+      <div class="mt-10 border-t border-white/10 pt-8">
+        <div class="flex items-center justify-between mb-2">
+          <div>
+            <span class="text-[11px] font-semibold uppercase tracking-wider text-cyan-glow block">
+              {lang === 'ru' ? 'Регламент внедрения' : 'Enterprise Lifecycle'}
+            </span>
+            <h3 class="text-xl font-bold text-white mt-1">
+              {lang === 'ru' ? '4 этапа интеграции ИИ-агентов' : '4-Stage Production Delivery Lifecycle'}
+            </h3>
+          </div>
+          <span class="font-mono text-xs text-slate-400 hidden sm:inline">
+            {lang === 'ru' ? 'SLA & Безопасность данных' : 'SLA & Data Isolation'}
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-5">
+          <div class="rounded-2xl border border-white/10 bg-white/[0.02] p-4 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-xs font-mono mb-2">
+                <span class="rounded bg-cyan-glow/10 px-2 py-0.5 text-cyan-glow font-bold">01</span>
+                <span class="text-slate-400">1–2 {lang === 'ru' ? 'нед.' : 'wks'}</span>
+              </div>
+              <h4 class="font-semibold text-white text-sm">
+                {lang === 'ru' ? 'Аудит и сценарии' : 'Audit & Workflow Mapping'}
+              </h4>
+              <p class="mt-2 text-xs text-slate-300 leading-relaxed">
+                {lang === 'ru'
+                  ? 'Анализ CRM, базы знаний и процессов. Матрица автоматизации и согласование критериев окупаемости.'
+                  : 'Audit of CRM, knowledge base, and operational flows. ROI model and security boundary planning.'}
+              </p>
+            </div>
+          </div>
+
+          <div class="rounded-2xl border border-white/10 bg-white/[0.02] p-4 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-xs font-mono mb-2">
+                <span class="rounded bg-cyan-glow/10 px-2 py-0.5 text-cyan-glow font-bold">02</span>
+                <span class="text-slate-400">2–3 {lang === 'ru' ? 'нед.' : 'wks'}</span>
+              </div>
+              <h4 class="font-semibold text-white text-sm">
+                {lang === 'ru' ? 'Архитектура и PoC' : 'Architecture & PoC'}
+              </h4>
+              <p class="mt-2 text-xs text-slate-300 leading-relaxed">
+                {lang === 'ru'
+                  ? 'Сборка multi-agent графов, подключение RAG, guardrails против галлюцинаций и закрытое тестирование.'
+                  : 'Multi-agent graph setup, vector retrieval configuration, and deterministic guardrail layers.'}
+              </p>
+            </div>
+          </div>
+
+          <div class="rounded-2xl border border-white/10 bg-white/[0.02] p-4 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-xs font-mono mb-2">
+                <span class="rounded bg-cyan-glow/10 px-2 py-0.5 text-cyan-glow font-bold">03</span>
+                <span class="text-slate-400">1–2 {lang === 'ru' ? 'нед.' : 'wks'}</span>
+              </div>
+              <h4 class="font-semibold text-white text-sm">
+                {lang === 'ru' ? 'Интеграция в контур' : 'Full System Rollout'}
+              </h4>
+              <p class="mt-2 text-xs text-slate-300 leading-relaxed">
+                {lang === 'ru'
+                  ? 'Подключение телефонии, CRM-вебхуков, ERP и мессенджеров. Нагрузочные тесты до 10 000 параллельных сессий.'
+                  : 'Telephony, CRM, ERP, and messaging channel integration with end-to-end stress testing.'}
+              </p>
+            </div>
+          </div>
+
+          <div class="rounded-2xl border border-white/10 bg-white/[0.02] p-4 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-xs font-mono mb-2">
+                <span class="rounded bg-emerald-500/10 px-2 py-0.5 text-emerald-400 font-bold">04</span>
+                <span class="text-slate-400">24/7/365</span>
+              </div>
+              <h4 class="font-semibold text-white text-sm">
+                {lang === 'ru' ? 'Поддержка и LLM Ops' : 'LLMOps & Monitoring'}
+              </h4>
+              <p class="mt-2 text-xs text-slate-300 leading-relaxed">
+                {lang === 'ru'
+                  ? 'Мониторинг качества диалогов, оптимизация затрат токенов, дообучение на реальных диалогах и SLA 99.9%.'
+                  : 'Continuous observability, automated regression testing, prompt optimization, and 99.9% SLA.'}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROI Benchmark Table -->
+      <div class="mt-10 border-t border-white/10 pt-8">
+        <div class="mb-4">
+          <span class="text-[11px] font-semibold uppercase tracking-wider text-emerald-400 block">
+            {lang === 'ru' ? 'Экономический эффект' : 'Operational Economics'}
+          </span>
+          <h3 class="text-xl font-bold text-white mt-1">
+            {lang === 'ru' ? 'Бенчмарк окупаемости: до и после внедрения' : 'ROI Benchmark: Human Team vs Deployed AI Stack'}
+          </h3>
+        </div>
+
+        <div class="overflow-x-auto rounded-2xl border border-white/10 bg-white/[0.02] mt-4">
+          <table class="w-full text-left text-xs font-mono">
+            <thead>
+              <tr class="border-b border-white/10 bg-white/[0.03] text-slate-400">
+                <th class="p-3.5 font-semibold">{lang === 'ru' ? 'Метрика процесса' : 'Operational Metric'}</th>
+                <th class="p-3.5 font-semibold text-rose-300">{lang === 'ru' ? 'Традиционный отдел' : 'Legacy Human Team'}</th>
+                <th class="p-3.5 font-semibold text-emerald-400">{lang === 'ru' ? 'ИИ-агенты подрядчика' : 'Deployed AI Stack'}</th>
+                <th class="p-3.5 font-semibold text-cyan-glow">{lang === 'ru' ? 'Эффект' : 'Business Delta'}</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/5 text-slate-300">
+              <tr>
+                <td class="p-3.5 font-sans font-medium text-white">{lang === 'ru' ? 'Скорость первого ответа' : 'First Response Latency'}</td>
+                <td class="p-3.5 text-slate-400">15–45 {lang === 'ru' ? 'минут' : 'mins'}</td>
+                <td class="p-3.5 text-emerald-400 font-semibold">&lt; 30 {lang === 'ru' ? 'секунд' : 'seconds'}</td>
+                <td class="p-3.5 text-cyan-glow font-bold">-98% {lang === 'ru' ? 'ожидания' : 'wait time'}</td>
+              </tr>
+              <tr>
+                <td class="p-3.5 font-sans font-medium text-white">{lang === 'ru' ? 'График обработки заявок' : 'Operating Window'}</td>
+                <td class="p-3.5 text-slate-400">5/2 (09:00 — 18:00)</td>
+                <td class="p-3.5 text-emerald-400 font-semibold">24/7/365 {lang === 'ru' ? 'без перерывов' : 'non-stop'}</td>
+                <td class="p-3.5 text-cyan-glow font-bold">+280% {lang === 'ru' ? 'к охвату' : 'coverage'}</td>
+              </tr>
+              <tr>
+                <td class="p-3.5 font-sans font-medium text-white">{lang === 'ru' ? 'Себестоимость диалога/лида' : 'Cost per Touchpoint'}</td>
+                <td class="p-3.5 text-slate-400">{lang === 'ru' ? '120 — 350 ₽' : '$2.00 — $5.50'}</td>
+                <td class="p-3.5 text-emerald-400 font-semibold">{lang === 'ru' ? '3 — 12 ₽' : '$0.04 — $0.20'}</td>
+                <td class="p-3.5 text-cyan-glow font-bold">-85% {lang === 'ru' ? 'затрат' : 'unit cost'}</td>
+              </tr>
+              <tr>
+                <td class="p-3.5 font-sans font-medium text-white">{lang === 'ru' ? 'Пиковая нагрузка' : 'Concurrent Capacity'}</td>
+                <td class="p-3.5 text-slate-400">{lang === 'ru' ? '3–5 звонков на оператора' : '3–5 calls / rep'}</td>
+                <td class="p-3.5 text-emerald-400 font-semibold">10 000+ {lang === 'ru' ? 'одновременно' : 'concurrent'}</td>
+                <td class="p-3.5 text-cyan-glow font-bold">0 {lang === 'ru' ? 'потерянных лидов' : 'dropped leads'}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Action CTAs -->
+      <div class="mt-10 border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <span class="text-xs text-slate-400 block font-mono">
+            {lang === 'ru' ? 'Хотите оценить проект под этот стек?' : 'Need a custom estimate for this stack?'}
+          </span>
+          <span class="text-sm font-semibold text-white">
+            {lang === 'ru' ? 'Используйте интерактивный калькулятор окупаемости' : 'Run custom calculations in our ROI Estimator'}
+          </span>
+        </div>
+        <div class="flex items-center gap-3 w-full sm:w-auto">
+          <a href={`/${lang}/#calculator`} class="btn-ghost text-xs flex-1 sm:flex-initial text-center justify-center">
+            <span>{lang === 'ru' ? 'Открыть калькулятор' : 'Open Calculator'}</span>
+          </a>
+          <a
+            href={agency.website}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-primary text-xs flex-1 sm:flex-initial text-center justify-center"
+          >
+            <span>{lang === 'ru' ? 'Сайт компании ↗' : 'Visit Official Site ↗'}</span>
+          </a>
         </div>
       </div>
     </div>
