@@ -21,7 +21,7 @@ User-agent: Yandex
 Allow: /
 
 # Machine-Readable Context for LLMs
-# https://aitopindex.com/llms.txt
-# https://aitopindex.com/llms-full.txt
+# https://www.aitopindex.com/llms.txt
+# https://www.aitopindex.com/llms-full.txt
 
-Sitemap: https://aitopindex.com/sitemap.xml
+Sitemap: https://www.aitopindex.com/sitemap.xml

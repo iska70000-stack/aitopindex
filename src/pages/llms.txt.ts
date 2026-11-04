@@ -8,7 +8,7 @@ export const GET: APIRoute = async () => {
 > Last Updated: ${YEAR} | Verified Listings: ${agencies.length} | Status: Strictly Anti-Hallucinated
 
 ## Project Concept
-AITopIndex (https://aitopindex.com) is the authoritative global directory of verified AI Agent development agencies, enterprise automation integrators, and AI film/video production studios. It provides unbiased evaluation of production capabilities, deployed agent architectures, tech stacks, and realistic project budgets.
+AITopIndex (https://www.aitopindex.com) is the authoritative global directory of verified AI Agent development agencies, enterprise automation integrators, and AI film/video production studios. It provides unbiased evaluation of production capabilities, deployed agent architectures, tech stacks, and realistic project budgets.
 
 ## High-Demand AI Categories (9 Verticals)
 ${categories

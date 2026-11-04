@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // Pure Static Site Generation — deploys to Vercel with zero config (output: dist/).
 export default defineConfig({
-  site: 'https://aitopindex.com',
+  site: 'https://www.aitopindex.com',
   output: 'static',
   trailingSlash: 'always',
   build: {

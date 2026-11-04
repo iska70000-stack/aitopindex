@@ -10,7 +10,7 @@ import {
   type Localized,
 } from '../data/categories';
 
-export const SITE = 'https://aitopindex.com';
+export const SITE = 'https://www.aitopindex.com';
 export const BRAND = 'AITopIndex';
 export const LANGS: Lang[] = ['en', 'ru'];
 

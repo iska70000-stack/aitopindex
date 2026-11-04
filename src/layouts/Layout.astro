@@ -62,6 +62,9 @@ const baseJsonLd = {
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    {import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION && (
+      <meta name="google-site-verification" content={import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION} />
+    )}
 
     <!-- Canonical & Alternates (GEO & Multilingual) -->
     <link rel="canonical" href={canonicalUrl} />
