@@ -1,0 +1,28 @@
+---
+// Root page: Detect browser language or fallback to /en/
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content="0;url=/en/" />
+    <title>Redirecting to AITopIndex...</title>
+    <link rel="canonical" href="https://aitopindex.com/en/" />
+    <script is:inline>
+      try {
+        const lang = (navigator.language || '').toLowerCase();
+        if (lang.startsWith('ru') || lang.startsWith('be') || lang.startsWith('kk')) {
+          window.location.replace('/ru/');
+        } else {
+          window.location.replace('/en/');
+        }
+      } catch (e) {
+        window.location.replace('/en/');
+      }
+    </script>
+  </head>
+  <body class="bg-[#05070B] text-slate-400 font-mono text-xs flex min-h-screen items-center justify-center">
+    <p>Redirecting to <a href="/en/" class="text-cyan-400 underline">AITopIndex (English)</a> / <a href="/ru/" class="text-cyan-400 underline">AITopIndex (Русский)</a>...</p>
+  </body>
+</html>

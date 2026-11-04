@@ -1,0 +1,197 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { categories, type Lang, LANGS, BRAND } from '../../lib/data';
+
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+
+const title = lang === 'ru'
+  ? `Подать заявку в рейтинг ИИ-агентств | ${BRAND}`
+  : `Submit Your AI Agency for Verification | ${BRAND}`;
+
+const description = lang === 'ru'
+  ? 'Самостоятельная подача заявки для агентств по разработке ИИ-агентов, интеграторов автоматизации и видеостудий на включение в независимый рейтинг AITopIndex.'
+  : 'Free application form for AI agent development agencies, automation integrators, and generative video studios to be verified and listed on AITopIndex.';
+
+const alternatePaths = {
+  en: '/en/submit/',
+  ru: '/ru/submit/',
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  lang={lang}
+  canonicalPath={`/${lang}/submit/`}
+  alternatePaths={alternatePaths}
+>
+  <div class="py-12 max-w-3xl mx-auto">
+    <!-- Header -->
+    <div class="text-center mb-10">
+      <div class="inline-flex items-center gap-2 rounded-full border border-cyan-glow/40 bg-white/[0.04] px-4 py-1.5 font-mono text-xs text-cyan-glow mb-4">
+        <span>{lang === 'ru' ? 'Открытый приём заявок' : 'Open Verification Call'}</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+        {lang === 'ru' ? 'Добавьте ваше агентство в индекс' : 'Apply for Verified Listing on AITopIndex'}
+      </h1>
+      <p class="mt-3 text-sm sm:text-base text-slate-300">
+        {lang === 'ru'
+          ? 'Мы проверяем реальные кейсы, технологический стек и прозрачность. Размещение в рейтинге бесплатное по результатам редакторского фактчекинга.'
+          : 'We independently audit production case studies, toolchains, and client deliverables. Listings are editorial and non-paid.'}
+      </p>
+    </div>
+
+    <!-- Application Form Card -->
+    <div class="glass glow-border relative overflow-hidden rounded-3xl p-6 sm:p-10">
+      <form id="submit-agency-form" class="space-y-6">
+        <!-- 1. Agency Name -->
+        <div>
+          <label class="block font-mono text-xs uppercase tracking-wider text-slate-300 mb-2" for="agency-name">
+            {lang === 'ru' ? '1. Название компании / студии *' : '1. Official Agency / Studio Name *'}
+          </label>
+          <input
+            id="agency-name"
+            name="name"
+            type="text"
+            required
+            placeholder={lang === 'ru' ? 'например: AI Flow Studio' : 'e.g. NextGen Automation Labs'}
+            class="field"
+          />
+        </div>
+
+        <!-- 2. Website URL -->
+        <div>
+          <label class="block font-mono text-xs uppercase tracking-wider text-slate-300 mb-2" for="agency-website">
+            {lang === 'ru' ? '2. Официальный веб-сайт (с HTTPS) *' : '2. Official Website (HTTPS required) *'}
+          </label>
+          <input
+            id="agency-website"
+            name="website"
+            type="url"
+            required
+            placeholder="https://youragency.com"
+            class="field"
+          />
+          <p class="mt-1 text-[11px] text-slate-400 font-mono">
+            {lang === 'ru' ? 'Сайт автоматически проверяется нашим Freshness Engine' : 'Domain is continuously checked by our autonomous engine'}
+          </p>
+        </div>
+
+        <!-- 3. Primary Category -->
+        <div>
+          <label class="block font-mono text-xs uppercase tracking-wider text-slate-300 mb-2" for="agency-category">
+            {lang === 'ru' ? '3. Основная категория внедрения *' : '3. Primary AI Category *'}
+          </label>
+          <select id="agency-category" name="category" required class="field cursor-pointer">
+            {categories.map((c) => (
+              <option value={c.id}>{c.title[lang]}</option>
+            ))}
+          </select>
+        </div>
+
+        <!-- 4. Core Tech Stack -->
+        <div>
+          <label class="block font-mono text-xs uppercase tracking-wider text-slate-300 mb-2" for="agency-stack">
+            {lang === 'ru' ? '4. Ключевой технологический стек *' : '4. Core Tech Stack & Tools *'}
+          </label>
+          <input
+            id="agency-stack"
+            name="stack"
+            type="text"
+            required
+            placeholder={lang === 'ru' ? 'например: n8n, OpenAI API, Vapi, AmoCRM, LangGraph' : 'e.g. LangChain, CrewAI, Make, HubSpot, Anthropic'}
+            class="field"
+          />
+        </div>
+
+        <!-- 5. Case Study or Portfolio Link -->
+        <div>
+          <label class="block font-mono text-xs uppercase tracking-wider text-slate-300 mb-2" for="agency-case">
+            {lang === 'ru' ? '5. Ссылка на публичный кейс / портфолио *' : '5. Published Case Study or Portfolio Link *'}
+          </label>
+          <input
+            id="agency-case"
+            name="caseStudy"
+            type="url"
+            required
+            placeholder="https://youragency.com/case-studies"
+            class="field"
+          />
+        </div>
+
+        <!-- 6. Contact Email or Telegram -->
+        <div>
+          <label class="block font-mono text-xs uppercase tracking-wider text-slate-300 mb-2" for="agency-contact">
+            {lang === 'ru' ? '6. Контакт для связи (Telegram / Email) *' : '6. Direct Contact (Telegram @handle or Email) *'}
+          </label>
+          <input
+            id="agency-contact"
+            name="contact"
+            type="text"
+            required
+            placeholder={lang === 'ru' ? '@username или founders@agency.ru' : '@founder or partners@agency.com'}
+            class="field"
+          />
+        </div>
+
+        <!-- Notice -->
+        <div class="rounded-xl border border-white/10 bg-white/[0.02] p-4 text-xs text-slate-400">
+          <p>
+            {lang === 'ru'
+              ? '🔒 Строгая политика против галлюцинаций: мы не публикуем непроверенные телефонные номера. Карточка компании получает бейдж «Verified» после проверки доступности домена и соответствия стека.'
+              : '🔒 Strict anti-hallucination policy: no synthetic phone contacts are stored. Verified badges are awarded only after domain verification and stack confirmation.'}
+          </p>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="w-full btn-primary py-3.5 text-base cursor-pointer">
+          <span>{lang === 'ru' ? 'Отправить заявку на модерацию' : 'Submit Application for Editorial Review'}</span>
+        </button>
+      </form>
+
+      <!-- Success State (Hidden by default) -->
+      <div id="form-success" class="hidden text-center py-10 space-y-4">
+        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-emerald-500 bg-emerald-500/10 text-emerald-400">
+          <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <h3 class="text-2xl font-bold text-white">
+          {lang === 'ru' ? 'Заявка успешно принята!' : 'Application Successfully Received!'}
+        </h3>
+        <p class="text-sm text-slate-300 max-w-md mx-auto">
+          {lang === 'ru'
+            ? 'Редакторы AITopIndex проверят ваш сайт и стек в течение 48 часов. При успешной верификации профиль появится в рейтинге и файле /llms.txt.'
+            : 'AITopIndex editors will verify your domain and case studies within 48 hours. Upon approval, your agency will be listed in the index and /llms.txt.'}
+        </p>
+        <div class="pt-4">
+          <a href={`/${lang}/`} class="btn-ghost text-xs">
+            &larr; {lang === 'ru' ? 'Вернуться в каталог' : 'Back to Directory'}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function setupForm() {
+      const form = document.getElementById('submit-agency-form') as HTMLFormElement | null;
+      const success = document.getElementById('form-success');
+      if (!form || !success) return;
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        // Client-side confirmation
+        form.classList.add('hidden');
+        success.classList.remove('hidden');
+      });
+    }
+
+    setupForm();
+    document.addEventListener('astro:page-load', setupForm);
+  </script>
+</Layout>

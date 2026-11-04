@@ -1,0 +1,27 @@
+User-agent: *
+Allow: /
+
+# Explicit AI Crawlers & Answer Engines
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Yandex
+Allow: /
+
+# Machine-Readable Context for LLMs
+# https://aitopindex.com/llms.txt
+# https://aitopindex.com/llms-full.txt
+
+Sitemap: https://aitopindex.com/sitemap.xml

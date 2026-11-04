@@ -1,0 +1,112 @@
+---
+import { FILTERS, type Lang } from '../lib/data';
+
+interface Props {
+  lang: Lang;
+  targetContainerId?: string;
+}
+
+const { lang, targetContainerId = 'agencies-grid' } = Astro.props;
+---
+
+<div class="w-full my-6" data-filter-bar data-target={targetContainerId}>
+  <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <div class="flex items-center gap-2">
+      <span class="font-mono text-xs uppercase tracking-wider text-slate-400">
+        {lang === 'ru' ? 'Быстрый фильтр по стеку:' : 'Filter by Stack:'}
+      </span>
+      <span class="font-mono text-xs text-cyan-glow" data-filter-count></span>
+    </div>
+    <button
+      type="button"
+      class="hidden font-mono text-xs text-slate-400 hover:text-white underline self-start sm:self-auto cursor-pointer"
+      data-filter-reset
+    >
+      {lang === 'ru' ? 'Сбросить фильтр' : 'Reset filters'}
+    </button>
+  </div>
+
+  <!-- Pills List -->
+  <div class="mt-3 flex flex-wrap gap-2">
+    <button
+      type="button"
+      class="pill cursor-pointer"
+      data-filter-key="all"
+      aria-pressed="true"
+    >
+      <span>{lang === 'ru' ? 'Все технологии' : 'All Technologies'}</span>
+    </button>
+    {FILTERS.map((f) => (
+      <button
+        type="button"
+        class="pill cursor-pointer"
+        data-filter-key={f.key}
+        aria-pressed="false"
+      >
+        <span>{f.label}</span>
+      </button>
+    ))}
+  </div>
+</div>
+
+<script>
+  function setupFilters() {
+    const bars = document.querySelectorAll<HTMLElement>('[data-filter-bar]');
+    bars.forEach((bar) => {
+      const targetId = bar.dataset.target || 'agencies-grid';
+      const container = document.getElementById(targetId);
+      if (!container) return;
+
+      const cards = container.querySelectorAll<HTMLElement>('[data-agency-card]');
+      const pills = bar.querySelectorAll<HTMLButtonElement>('[data-filter-key]');
+      const countEl = bar.querySelector<HTMLElement>('[data-filter-count]');
+      const resetBtn = bar.querySelector<HTMLButtonElement>('[data-filter-reset]');
+
+      function applyFilter(key: string) {
+        let visible = 0;
+
+        pills.forEach((p) => {
+          const isPressed = p.dataset.filterKey === key;
+          p.setAttribute('aria-pressed', isPressed ? 'true' : 'false');
+        });
+
+        cards.forEach((card) => {
+          const f = card.dataset.filters?.split(' ') || [];
+          if (key === 'all' || f.includes(key)) {
+            card.style.display = '';
+            visible++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        if (countEl) {
+          countEl.textContent = `(${visible}/${cards.length})`;
+        }
+        if (resetBtn) {
+          resetBtn.classList.toggle('hidden', key === 'all');
+        }
+      }
+
+      pills.forEach((p) => {
+        p.addEventListener('click', () => {
+          const k = p.dataset.filterKey || 'all';
+          applyFilter(k);
+        });
+      });
+
+      resetBtn?.addEventListener('click', () => {
+        applyFilter('all');
+      });
+
+      // Initial count
+      if (countEl) {
+        countEl.textContent = `(${cards.length}/${cards.length})`;
+      }
+    });
+  }
+
+  // Run on first load and client navigation
+  setupFilters();
+  document.addEventListener('astro:page-load', setupFilters);
+</script>

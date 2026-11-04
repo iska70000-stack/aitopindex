@@ -1,0 +1,280 @@
+---
+import { categories, type CategoryId, type Lang } from '../lib/data';
+import { agenciesFor } from '../lib/data';
+
+interface Props {
+  lang: Lang;
+  initialCategoryId?: CategoryId;
+}
+
+const { lang, initialCategoryId = 'sales' } = Astro.props;
+
+// Precompute top 3 agencies for each category to inject as JSON for instant client-side matching
+const agencyData = Object.fromEntries(
+  categories.map((c) => {
+    const top = agenciesFor(c.id).slice(0, 3).map((a) => ({
+      id: a.id,
+      name: a.name,
+      website: a.website,
+      budget: a.minProjectBudget[lang],
+      roi: a.avgRoiTime[lang],
+      stack: a.techStack.slice(0, 4),
+    }));
+    return [c.id, {
+      costUsd: c.cost.usd,
+      costRub: c.cost.rub,
+      hoursPerSeat: c.hoursPerSeat,
+      topAgencies: top,
+    }];
+  })
+);
+---
+
+<section id="calculator" class="w-full my-16 scroll-mt-24">
+  <div class="tilt-wrap">
+    <div
+      class="glass glow-border relative overflow-hidden rounded-3xl p-6 sm:p-10"
+      data-roi-calculator
+      data-category={initialCategoryId}
+      data-lang={lang}
+    >
+      <!-- Background subtle glow -->
+      <div class="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-cyan-glow/10 blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-violet-glow/10 blur-3xl pointer-events-none"></div>
+
+      <!-- Header -->
+      <div class="relative z-10 max-w-3xl">
+        <div class="inline-flex items-center gap-2 rounded-full border border-cyan-glow/30 bg-cyan-glow/5 px-3 py-1 font-mono text-xs text-cyan-glow">
+          <span class="h-1.5 w-1.5 rounded-full bg-cyan-glow animate-pulse"></span>
+          <span>{lang === 'ru' ? 'Интерактивный расчёт' : 'Interactive Estimator'}</span>
+        </div>
+        <h2 class="mt-3 text-2xl font-bold tracking-tight text-white sm:text-3xl">
+          {lang === 'ru' ? 'Калькулятор стоимости и окупаемости внедрения ИИ' : 'AI Implementation Cost & ROI Calculator'}
+        </h2>
+        <p class="mt-2 text-sm leading-relaxed text-slate-300">
+          {lang === 'ru'
+            ? 'Выберите специализацию, масштаб команды и стек — алгоритм рассчитает диапазон затрат, экономию часов и подберёт 3 лучших проверенных подрядчика.'
+            : 'Select your target category, team size, and CRM stack — calculate setup costs, monthly hours saved, and get matched with top 3 verified partners.'}
+        </p>
+      </div>
+
+      <!-- Controls + Results Grid -->
+      <div class="relative z-10 mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12">
+        <!-- Left: Form Controls (7 cols) -->
+        <div class="space-y-5 lg:col-span-7">
+          <!-- 1. Industry / Category -->
+          <div>
+            <label class="block font-mono text-xs uppercase tracking-wider text-slate-300 mb-2">
+              1. {lang === 'ru' ? 'Сфера внедрения ИИ:' : 'Target AI Field / Category:'}
+            </label>
+            <select class="field cursor-pointer font-sans" data-calc-category>
+              {categories.map((c) => (
+                <option value={c.id} selected={c.id === initialCategoryId}>
+                  {c.title[lang]}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <!-- 2. Team Size -->
+          <div>
+            <label class="block font-mono text-xs uppercase tracking-wider text-slate-300 mb-2">
+              2. {lang === 'ru' ? 'Размер команды (пользователи процессов):' : 'Team Size (Affected Seats):'}
+            </label>
+            <div class="grid grid-cols-2 gap-2 sm:grid-cols-4 font-mono text-xs">
+              {[
+                { id: 'small', label: '1–10', multiplier: 0.7, seats: 6 },
+                { id: 'medium', label: '11–50', multiplier: 1.0, seats: 25 },
+                { id: 'growth', label: '51–200', multiplier: 1.8, seats: 100 },
+                { id: 'enterprise', label: '200+', multiplier: 3.2, seats: 350 },
+              ].map((size, idx) => (
+                <button
+                  type="button"
+                  class="pill w-full justify-center py-2.5 cursor-pointer text-center"
+                  data-team-size={size.id}
+                  data-multiplier={size.multiplier}
+                  data-seats={size.seats}
+                  aria-pressed={idx === 1 ? 'true' : 'false'}
+                >
+                  {size.label} {lang === 'ru' ? 'чел.' : 'seats'}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <!-- 3. Target CRM / Integration Stack -->
+          <div>
+            <label class="block font-mono text-xs uppercase tracking-wider text-slate-300 mb-2">
+              3. {lang === 'ru' ? 'Интеграционный стек / CRM:' : 'Primary CRM / Integration Stack:'}
+            </label>
+            <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 font-mono text-xs">
+              {[
+                { id: 'amocrm', label: 'AmoCRM / Albato' },
+                { id: 'bitrix', label: 'Bitrix24' },
+                { id: 'hubspot', label: 'HubSpot' },
+                { id: 'salesforce', label: 'Salesforce' },
+                { id: 'n8n', label: 'n8n / Make' },
+                { id: 'custom', label: 'Custom API / DB' },
+              ].map((stack, idx) => (
+                <button
+                  type="button"
+                  class="pill w-full justify-center py-2 cursor-pointer text-center text-[11px]"
+                  data-crm-stack={stack.id}
+                  aria-pressed={idx === 0 ? 'true' : 'false'}
+                >
+                  {stack.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Results Card (5 cols) -->
+        <div class="lg:col-span-5 flex flex-col justify-between rounded-2xl border border-cyan-glow/30 bg-black/40 p-6 backdrop-blur-xl">
+          <div>
+            <span class="font-mono text-xs uppercase tracking-wider text-cyan-glow">
+              {lang === 'ru' ? 'Ориентировочный расчёт' : 'Estimated Business Value'}
+            </span>
+
+            <!-- Cost Range -->
+            <div class="mt-4">
+              <span class="text-xs text-slate-400 block">{lang === 'ru' ? 'Бюджет внедрения под ключ:' : 'Setup Cost Range:'}</span>
+              <div class="font-mono text-2xl font-bold text-white sm:text-3xl text-gradient" data-result-cost>
+                {lang === 'ru' ? '250 000 — 1 500 000 ₽' : '$4,000 — $25,000'}
+              </div>
+            </div>
+
+            <!-- Hours Saved -->
+            <div class="mt-5 grid grid-cols-2 gap-4 border-y border-white/10 py-4 font-mono">
+              <div>
+                <span class="text-[10px] uppercase text-slate-400 block">{lang === 'ru' ? 'Экономия часов:' : 'Hours Saved:'}</span>
+                <span class="text-xl font-bold text-emerald-400" data-result-hours>550 ч/мес</span>
+              </div>
+              <div>
+                <span class="text-[10px] uppercase text-slate-400 block">{lang === 'ru' ? 'Срок окупаемости:' : 'Est. Payback:'}</span>
+                <span class="text-xl font-bold text-cyan-glow">1–3 {lang === 'ru' ? 'мес.' : 'mos'}</span>
+              </div>
+            </div>
+
+            <!-- Top 3 Matching Agencies -->
+            <div class="mt-5">
+              <span class="font-mono text-[10px] uppercase tracking-wider text-slate-300 block mb-2.5">
+                {lang === 'ru' ? 'Топ-3 агентства по вашим критериям:' : 'Top 3 Matching Verified Agencies:'}
+              </span>
+              <div class="space-y-2" data-result-agencies>
+                <!-- Populated via JS -->
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-3">
+            <a
+              href={`/${lang}/submit/`}
+              class="w-full btn-ghost text-xs text-center justify-center"
+            >
+              <span>{lang === 'ru' ? 'Запросить аудит проекта' : 'Request Implementation Audit'} &rarr;</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Raw Config Data for client JS -->
+  <script type="application/json" id="calculator-data" set:html={JSON.stringify(agencyData)} />
+</section>
+
+<script>
+  function setupCalculator() {
+    const calcEl = document.querySelector<HTMLElement>('[data-roi-calculator]');
+    const dataEl = document.getElementById('calculator-data');
+    if (!calcEl || !dataEl) return;
+
+    let config: Record<string, any> = {};
+    try {
+      config = JSON.parse(dataEl.textContent || '{}');
+    } catch {
+      return;
+    }
+
+    const lang = calcEl.dataset.lang || 'en';
+    const catSelect = calcEl.querySelector<HTMLSelectElement>('[data-calc-category]');
+    const teamBtns = calcEl.querySelectorAll<HTMLButtonElement>('[data-team-size]');
+    const crmBtns = calcEl.querySelectorAll<HTMLButtonElement>('[data-crm-stack]');
+
+    const costEl = calcEl.querySelector<HTMLElement>('[data-result-cost]');
+    const hoursEl = calcEl.querySelector<HTMLElement>('[data-result-hours]');
+    const agenciesContainer = calcEl.querySelector<HTMLElement>('[data-result-agencies]');
+
+    let currentCat = catSelect?.value || 'sales';
+    let currentMultiplier = 1.0;
+    let currentSeats = 25;
+
+    function render() {
+      const catData = config[currentCat];
+      if (!catData) return;
+
+      // Calculate cost
+      if (lang === 'ru') {
+        const minRub = Math.round((catData.costRub[0] * currentMultiplier) / 10000) * 10000;
+        const maxRub = Math.round((catData.costRub[1] * currentMultiplier) / 50000) * 50000;
+        if (costEl) costEl.textContent = `${minRub.toLocaleString('ru-RU')} — ${maxRub.toLocaleString('ru-RU')} ₽`;
+      } else {
+        const minUsd = Math.round((catData.costUsd[0] * currentMultiplier) / 500) * 500;
+        const maxUsd = Math.round((catData.costUsd[1] * currentMultiplier) / 1000) * 1000;
+        if (costEl) costEl.textContent = `$${minUsd.toLocaleString('en-US')} — $${maxUsd.toLocaleString('en-US')}`;
+      }
+
+      // Calculate hours saved
+      const totalHours = Math.round(currentSeats * catData.hoursPerSeat);
+      if (hoursEl) {
+        hoursEl.textContent = lang === 'ru' ? `${totalHours.toLocaleString('ru-RU')} ч/мес` : `${totalHours.toLocaleString('en-US')} hrs/mo`;
+      }
+
+      // Render Top 3 agencies
+      if (agenciesContainer && Array.isArray(catData.topAgencies)) {
+        agenciesContainer.innerHTML = catData.topAgencies
+          .map((a: any, i: number) => `
+            <div class="flex items-center justify-between rounded-lg border border-white/5 bg-white/[0.02] p-2.5 text-xs hover:border-cyan-glow/40 transition">
+              <div class="flex items-center gap-2">
+                <span class="flex h-5 w-5 items-center justify-center rounded bg-cyan-glow/10 font-mono text-[10px] font-bold text-cyan-glow">#${i + 1}</span>
+                <a href="/${lang}/agency/${a.id}/" class="font-semibold text-white hover:text-cyan-glow transition">${a.name}</a>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="font-mono text-[11px] text-slate-400">${a.budget}</span>
+                <a href="${a.website}" target="_blank" rel="noopener noreferrer" class="text-cyan-glow hover:underline text-[11px]">Link &rarr;</a>
+              </div>
+            </div>
+          `)
+          .join('');
+      }
+    }
+
+    catSelect?.addEventListener('change', () => {
+      currentCat = catSelect.value;
+      render();
+    });
+
+    teamBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        teamBtns.forEach((b) => b.setAttribute('aria-pressed', 'false'));
+        btn.setAttribute('aria-pressed', 'true');
+        currentMultiplier = parseFloat(btn.dataset.multiplier || '1.0');
+        currentSeats = parseInt(btn.dataset.seats || '25', 10);
+        render();
+      });
+    });
+
+    crmBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        crmBtns.forEach((b) => b.setAttribute('aria-pressed', 'false'));
+        btn.setAttribute('aria-pressed', 'true');
+      });
+    });
+
+    render();
+  }
+
+  setupCalculator();
+  document.addEventListener('astro:page-load', setupCalculator);
+</script>

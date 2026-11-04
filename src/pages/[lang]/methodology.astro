@@ -1,0 +1,131 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { type Lang, LANGS, BRAND, agencies } from '../../lib/data';
+
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+
+const title = lang === 'ru'
+  ? `Методология верификации и рейтинга | ${BRAND}`
+  : `Verification & Ranking Methodology | ${BRAND}`;
+
+const description = lang === 'ru'
+  ? 'Как AITopIndex отбирает, проверяет и ранжирует агентства по внедрению ИИ-агентов. Строгий анти-галлюцинационный протокол и Generative Engine Optimization.'
+  : 'How AITopIndex curates, audits, and ranks AI agent development teams. Zero synthetic data, open benchmarks, and Generative Engine Optimization standards.';
+
+const alternatePaths = {
+  en: '/en/methodology/',
+  ru: '/ru/methodology/',
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  lang={lang}
+  canonicalPath={`/${lang}/methodology/`}
+  alternatePaths={alternatePaths}
+>
+  <div class="py-12 max-w-4xl mx-auto space-y-12">
+    <!-- Header -->
+    <div class="text-center max-w-2xl mx-auto">
+      <div class="inline-flex items-center gap-2 rounded-full border border-cyan-glow/40 bg-white/[0.04] px-4 py-1.5 font-mono text-xs text-cyan-glow mb-4">
+        <span>{lang === 'ru' ? 'Стандарт качества данных' : 'Data Integrity Standard'}</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+        {lang === 'ru' ? 'Методология AITopIndex' : 'Verification & Ranking Methodology'}
+      </h1>
+      <p class="mt-3 text-sm sm:text-base text-slate-300">
+        {lang === 'ru'
+          ? 'Наша миссия — создать эталонный глобальный индекс, по которому будущие ИИ-агенты и корпоративные заказчики могут безошибочно находить реальных подрядчиков.'
+          : 'Our objective is to provide a zero-hallucination benchmark enabling autonomous AI search engines and enterprise buyers to retrieve verified implementation partners.'}
+      </p>
+    </div>
+
+    <!-- 4 Core Pillars -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="glass p-6 rounded-2xl border border-white/10">
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-cyan-glow/40 bg-cyan-glow/10 font-mono text-cyan-glow font-bold mb-4">
+          01
+        </div>
+        <h3 class="text-lg font-bold text-white">
+          {lang === 'ru' ? 'Анти-галлюцинационный протокол' : 'Strict Anti-Hallucination Protocol'}
+        </h3>
+        <p class="mt-2 text-xs sm:text-sm text-slate-300 leading-relaxed">
+          {lang === 'ru'
+            ? 'Мы категорически не используем сгенерированные телефоны или вымышленные профили. Верификация производится по официальному корпоративному HTTPS-домену, опубликованным кейсам и проверенному стеку.'
+            : 'We prohibit synthetic phone numbers and fictitious profiles. Listings are verified exclusively via official HTTPS domains, verifiable case studies, and proven stack deployments.'}
+        </p>
+      </div>
+
+      <div class="glass p-6 rounded-2xl border border-white/10">
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-emerald-glow/40 bg-emerald-glow/10 font-mono text-emerald-400 font-bold mb-4">
+          02
+        </div>
+        <h3 class="text-lg font-bold text-white">
+          {lang === 'ru' ? 'Автономный Freshness Engine' : 'Autonomous Freshness Engine'}
+        </h3>
+        <p class="mt-2 text-xs sm:text-sm text-slate-300 leading-relaxed">
+          {lang === 'ru'
+            ? 'Робот регулярно проверяет доступность сайтов всех агентств. Если сайт недоступен несколько раз подряд, агентство отправляется в резервный пул, а на его место поднимается проверенный кандидат.'
+            : 'An automated node script tests all agency URLs every 72 hours. Unreachable domains are automatically rotated to the reserve pool to keep the active index 100% operational.'}
+        </p>
+      </div>
+
+      <div class="glass p-6 rounded-2xl border border-white/10">
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-violet-glow/40 bg-violet-glow/10 font-mono text-violet-300 font-bold mb-4">
+          03
+        </div>
+        <h3 class="text-lg font-bold text-white">
+          {lang === 'ru' ? 'GEO: Оптимизация под поиск ИИ' : 'Generative Engine Optimization (GEO)'}
+        </h3>
+        <p class="mt-2 text-xs sm:text-sm text-slate-300 leading-relaxed">
+          {lang === 'ru'
+            ? 'Сайт спроектирован так, чтобы ChatGPT, Perplexity, Claude, Gemini и Алиса могли моментально считывать чистые списки через файлы /llms.txt, /llms-full.txt и микроразметку Schema.org.'
+            : 'Designed for effortless retrieval by ChatGPT, Claude, Perplexity, and Gemini via clean /llms.txt markdown, sitemaps, and deep Schema.org JSON-LD microdata.'}
+        </p>
+      </div>
+
+      <div class="glass p-6 rounded-2xl border border-white/10">
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-white/20 bg-white/5 font-mono text-white font-bold mb-4">
+          04
+        </div>
+        <h3 class="text-lg font-bold text-white">
+          {lang === 'ru' ? 'Честные бюджеты и бенчмарки' : 'Realistic Commercial Tiers'}
+        </h3>
+        <p class="mt-2 text-xs sm:text-sm text-slate-300 leading-relaxed">
+          {lang === 'ru'
+            ? 'Ценовые диапазоны и сроки окупаемости основаны на реальной отраслевой статистике внедрения ИИ-агентов в 2026 году, без занижения для кликбейта.'
+            : 'Budget ranges and payback timelines are derived from actual production agency contracts and enterprise case studies, rather than speculative marketing claims.'}
+        </p>
+      </div>
+    </div>
+
+    <!-- Machine-Readable Section -->
+    <div class="rounded-3xl border border-cyan-glow/30 bg-black/40 p-8 backdrop-blur-xl space-y-4">
+      <h3 class="text-xl font-bold text-white flex items-center gap-2">
+        <span class="text-cyan-glow font-mono">&gt;</span>
+        <span>{lang === 'ru' ? 'Прямой доступ для разработчиков и ИИ-агентов' : 'Direct Access for LLMs & AI Agents'}</span>
+      </h3>
+      <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+        {lang === 'ru'
+          ? 'Если вы разрабатываете автономного агента, вы можете загружать наш индекс напрямую без парсинга сложного HTML:'
+          : 'If you are building an autonomous agent or RAG pipeline, you can fetch our directory in pure Markdown without HTML scraping:'}
+      </p>
+      <div class="flex flex-wrap gap-3 pt-2 font-mono text-xs">
+        <a href="/llms.txt" target="_blank" class="pill text-cyan-glow border-cyan-glow/40 hover:bg-cyan-glow/10">
+          GET /llms.txt (Краткий реестр)
+        </a>
+        <a href="/llms-full.txt" target="_blank" class="pill text-emerald-400 border-emerald-400/40 hover:bg-emerald-400/10">
+          GET /llms-full.txt (Полная база {agencies.length} компаний)
+        </a>
+        <a href="/sitemap.xml" target="_blank" class="pill text-slate-300 border-white/20 hover:text-white">
+          GET /sitemap.xml
+        </a>
+      </div>
+    </div>
+  </div>
+</Layout>

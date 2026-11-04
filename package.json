@@ -1,0 +1,30 @@
+{
+  "name": "aitopindex",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AITopIndex — global B2B directory & ranking of verified AI agent development agencies, automation integrators and AI video studios.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "build:fast": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "verify:links": "node scripts/auto-update.mjs --dry-run --no-ping",
+    "auto-update": "node scripts/auto-update.mjs"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "dependencies": {
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "@tailwindcss/vite": "^4.3.4",
+    "astro": "^7.4.5",
+    "tailwindcss": "^4.3.4"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "typescript": "^6.0.3"
+  }
+}

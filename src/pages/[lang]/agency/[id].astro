@@ -1,0 +1,194 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import {
+  agencies,
+  categoryById,
+  formatDate,
+  rankIn,
+  type Agency,
+  type Lang,
+  LANGS,
+} from '../../../lib/data';
+
+export function getStaticPaths() {
+  const paths: { params: { lang: Lang; id: string }; props: { agency: Agency } }[] = [];
+
+  for (const lang of LANGS) {
+    for (const agency of agencies) {
+      paths.push({
+        params: { lang, id: agency.id },
+        props: { agency },
+      });
+    }
+  }
+
+  return paths;
+}
+
+const { lang } = Astro.params as { lang: Lang; id: string };
+const { agency } = Astro.props as { agency: Agency };
+
+const title = lang === 'ru'
+  ? `${agency.name} — Профиль и стек внедрения ИИ | AITopIndex`
+  : `${agency.name} — Verified AI Agency Profile & Stack | AITopIndex`;
+
+const description = agency.description[lang];
+
+const alternatePaths = {
+  en: `/en/agency/${agency.id}/`,
+  ru: `/ru/agency/${agency.id}/`,
+};
+
+// Agency JSON-LD ProfessionalService or SoftwareApplication
+const agencyJsonLd = {
+  '@type': agency.type === 'platform' ? 'SoftwareApplication' : 'ProfessionalService',
+  name: agency.name,
+  url: agency.website,
+  sameAs: [agency.website],
+  priceRange: agency.minProjectBudget[lang],
+  areaServed: agency.markets.includes('global') ? 'Worldwide' : 'CIS / Eastern Europe',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: agency.hq[lang],
+  },
+  knowsAbout: [...agency.techStack, ...agency.deployedAgents[lang]],
+  description: agency.description[lang],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  lang={lang}
+  canonicalPath={`/${lang}/agency/${agency.id}/`}
+  alternatePaths={alternatePaths}
+  jsonLd={agencyJsonLd}
+>
+  <div class="py-10 max-w-4xl mx-auto">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 font-mono text-xs text-slate-400 mb-6">
+      <a href={`/${lang}/`} class="hover:text-cyan-glow transition">{lang === 'ru' ? 'Главная' : 'Home'}</a>
+      <span>/</span>
+      <a href={`/${lang}/#agencies`} class="hover:text-cyan-glow transition">{lang === 'ru' ? 'Компании' : 'Agencies'}</a>
+      <span>/</span>
+      <span class="text-white font-medium">{agency.name}</span>
+    </nav>
+
+    <!-- Main Profile Card -->
+    <div class="glass glow-border relative overflow-hidden rounded-3xl p-6 sm:p-10">
+      <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6 border-b border-white/10 pb-8">
+        <div>
+          <div class="flex items-center gap-3">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+              {agency.name}
+            </h1>
+            <span class="rounded-full border border-emerald-500/40 bg-emerald-500/10 px-3 py-1 font-mono text-xs text-emerald-400">
+              ✓ {lang === 'ru' ? 'Верифицировано' : 'Verified'}
+            </span>
+          </div>
+          <p class="mt-2 text-sm text-slate-400 flex items-center gap-1.5">
+            <svg class="h-4 w-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span>{agency.hq[lang]}</span>
+            <span class="text-slate-600">•</span>
+            <span class="capitalize">{agency.type}</span>
+          </p>
+        </div>
+
+        <!-- Official external link -->
+        <a
+          href={agency.website}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-primary text-xs sm:text-sm"
+        >
+          <span>{lang === 'ru' ? 'Перейти на сайт' : 'Visit Official Website'}</span>
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </a>
+      </div>
+
+      <!-- Description -->
+      <div class="mt-8">
+        <h3 class="font-mono text-xs uppercase tracking-wider text-slate-400 mb-2">
+          {lang === 'ru' ? 'О компании и экспертизе:' : 'About & Core Expertise:'}
+        </h3>
+        <p class="text-base leading-relaxed text-slate-200">
+          {agency.description[lang]}
+        </p>
+      </div>
+
+      <!-- Categories & Rankings -->
+      <div class="mt-8">
+        <h3 class="font-mono text-xs uppercase tracking-wider text-slate-400 mb-3">
+          {lang === 'ru' ? 'Категории и позиции в рейтинге:' : 'Rankings by Category:'}
+        </h3>
+        <div class="flex flex-wrap gap-2.5">
+          {agency.categories.map((catId) => {
+            const cat = categoryById(catId);
+            const rank = rankIn(catId, agency.id);
+            return (
+              <a
+                href={`/${lang}/${cat.slug[lang]}/`}
+                class="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3.5 py-2 text-xs font-mono text-white hover:border-cyan-glow/50 transition"
+              >
+                <span class="rounded bg-cyan-glow/10 px-1.5 py-0.5 text-[10px] font-bold text-cyan-glow">
+                  #{rank}
+                </span>
+                <span>{cat.title[lang]}</span>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+
+      <!-- Key Commercial Metrics -->
+      <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 border-y border-white/10 py-6 font-mono text-xs">
+        <div>
+          <span class="text-slate-400 uppercase text-[10px] block">{lang === 'ru' ? 'Минимальный бюджет:' : 'Minimum Budget:'}</span>
+          <span class="text-lg font-bold text-white mt-1 block">{agency.minProjectBudget[lang]}</span>
+        </div>
+        <div>
+          <span class="text-slate-400 uppercase text-[10px] block">{lang === 'ru' ? 'Средний срок ROI:' : 'Average Payback:'}</span>
+          <span class="text-lg font-bold text-emerald-400 mt-1 block">{agency.avgRoiTime[lang]}</span>
+        </div>
+        <div>
+          <span class="text-slate-400 uppercase text-[10px] block">{lang === 'ru' ? 'Дата проверки:' : 'Verification Stamp:'}</span>
+          <span class="text-sm font-semibold text-cyan-glow mt-1.5 block">{formatDate(agency.verifiedDate, lang)}</span>
+        </div>
+      </div>
+
+      <!-- Deployed Agents -->
+      <div class="mt-8">
+        <h3 class="font-mono text-xs uppercase tracking-wider text-slate-400 mb-3">
+          {lang === 'ru' ? 'Внедряемые типы ИИ-агентов:' : 'Deployed AI Agent Types:'}
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          {agency.deployedAgents[lang].map((item) => (
+            <div class="rounded-xl border border-cyan-glow/20 bg-cyan-glow/[0.04] p-3 text-xs text-cyan-100 flex items-center gap-2 font-mono">
+              <span class="h-1.5 w-1.5 rounded-full bg-cyan-glow"></span>
+              <span>{item}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Tech Stack -->
+      <div class="mt-8">
+        <h3 class="font-mono text-xs uppercase tracking-wider text-slate-400 mb-3">
+          {lang === 'ru' ? 'Интеграционный стек и инструменты:' : 'Technology Stack & Integrations:'}
+        </h3>
+        <div class="flex flex-wrap gap-2">
+          {agency.techStack.map((tech) => (
+            <span class="tag text-xs px-3 py-1">
+              {tech}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

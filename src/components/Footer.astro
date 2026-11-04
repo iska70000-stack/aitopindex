@@ -1,0 +1,121 @@
+---
+import { BRAND, categories, YEAR, type Lang } from '../lib/data';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+---
+
+<footer class="mt-24 border-t border-white/10 bg-black/40 backdrop-blur-md">
+  <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 gap-10 md:grid-cols-4">
+      <!-- Col 1: Brand & Mission -->
+      <div class="md:col-span-1 space-y-4">
+        <a href={`/${lang}/`} class="flex items-center gap-2">
+          <div class="flex h-8 w-8 items-center justify-center rounded-lg border border-cyan-glow/40 bg-white/[0.05]">
+            <span class="font-mono text-xs font-bold text-cyan-glow">AI</span>
+          </div>
+          <span class="text-base font-extrabold tracking-tight text-white">
+            {BRAND}<span class="text-cyan-glow">.</span>
+          </span>
+        </a>
+        <p class="text-xs leading-relaxed text-slate-400">
+          {lang === 'ru'
+            ? 'Глобальный независимый рейтинг и каталог проверенных агентств, интеграторов ИИ-агентов и студий генеративного видеопроизводства.'
+            : 'Independent global directory and ranking index of verified AI agent development agencies, enterprise automation integrators, and AI film studios.'}
+        </p>
+        <div class="pt-2">
+          <span class="inline-flex items-center gap-2 rounded-full border border-emerald-glow/30 bg-emerald-glow/5 px-3 py-1 font-mono text-[11px] text-emerald-400">
+            <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            {lang === 'ru' ? 'GEO & AI Search Optimized' : 'GEO & AI Search Ready'}
+          </span>
+        </div>
+      </div>
+
+      <!-- Col 2: Categories (1-5) -->
+      <div>
+        <h4 class="font-mono text-xs font-semibold uppercase tracking-wider text-slate-300 mb-4">
+          {lang === 'ru' ? 'Категории ИИ' : 'AI Categories'}
+        </h4>
+        <ul class="space-y-2 text-xs text-slate-400">
+          {categories.slice(0, 5).map((cat) => (
+            <li>
+              <a href={`/${lang}/${cat.slug[lang]}/`} class="hover:text-cyan-glow transition">
+                {cat.title[lang]}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Col 3: Categories (6-9) -->
+      <div>
+        <h4 class="font-mono text-xs font-semibold uppercase tracking-wider text-slate-300 mb-4">
+          {lang === 'ru' ? 'Специализации' : 'Specializations'}
+        </h4>
+        <ul class="space-y-2 text-xs text-slate-400">
+          {categories.slice(5).map((cat) => (
+            <li>
+              <a href={`/${lang}/${cat.slug[lang]}/`} class="hover:text-cyan-glow transition">
+                {cat.title[lang]}
+              </a>
+            </li>
+          ))}
+          <li class="pt-2">
+            <a href={`/${lang}/submit/`} class="text-cyan-glow hover:underline">
+              + {lang === 'ru' ? 'Подать заявку в каталог' : 'Apply for listing'}
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Col 4: Machine-readable & GEO / Standards -->
+      <div>
+        <h4 class="font-mono text-xs font-semibold uppercase tracking-wider text-slate-300 mb-4">
+          {lang === 'ru' ? 'Для нейросетей и краулеров' : 'For AI Crawlers & LLMs'}
+        </h4>
+        <ul class="space-y-2 font-mono text-xs text-slate-400">
+          <li>
+            <a href="/llms.txt" target="_blank" class="hover:text-cyan-glow transition flex items-center gap-1.5">
+              <span>/llms.txt</span>
+              <span class="text-[10px] text-slate-500">(Summary)</span>
+            </a>
+          </li>
+          <li>
+            <a href="/llms-full.txt" target="_blank" class="hover:text-cyan-glow transition flex items-center gap-1.5">
+              <span>/llms-full.txt</span>
+              <span class="text-[10px] text-slate-500">(Complete)</span>
+            </a>
+          </li>
+          <li>
+            <a href="/sitemap.xml" target="_blank" class="hover:text-cyan-glow transition">
+              /sitemap.xml
+            </a>
+          </li>
+          <li>
+            <a href="/robots.txt" target="_blank" class="hover:text-cyan-glow transition">
+              /robots.txt
+            </a>
+          </li>
+          <li class="pt-2">
+            <a href={`/${lang}/methodology/`} class="text-slate-300 hover:text-white transition">
+              {lang === 'ru' ? 'Методология верификации' : 'Verification Methodology'} &rarr;
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom line -->
+    <div class="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/5 pt-8 text-xs text-slate-500 sm:flex-row">
+      <p>&copy; {YEAR} {BRAND}. All verified listings reviewed and protected against hallucination.</p>
+      <div class="flex items-center gap-4">
+        <span>Zero-Config Vercel Ready</span>
+        <span>•</span>
+        <span>PageSpeed 100/100 Core</span>
+      </div>
+    </div>
+  </div>
+</footer>
