@@ -14,11 +14,16 @@ export const SITE = 'https://www.aitopindex.com';
 export const BRAND = 'AITopIndex';
 export const LANGS: Lang[] = ['en', 'ru'];
 
+export type EntityType = 'integrator' | 'platform';
+export type Region = 'usa-eu' | 'cis-mena' | 'global';
+
 export interface Agency {
   id: string;
   name: string;
   website: string;
   type: 'agency' | 'platform' | 'studio' | 'lab';
+  entityType: EntityType;
+  region: Region;
   categories: CategoryId[];
   markets: string[];
   hq: Localized;
@@ -35,6 +40,32 @@ export interface Agency {
 export const agencies: Agency[] = (agenciesJson as Agency[])
   .filter((a) => a.status === 'verified')
   .sort((a, b) => b.score - a.score || a.name.localeCompare(b.name));
+
+/** Returns top 2 flagship agencies per category for the homepage preview (18 total). */
+export const featuredAgencies = (lang: Lang): Agency[] => {
+  const seen = new Set<string>();
+  const list: Agency[] = [];
+  for (const cat of categories) {
+    const topForCat = agenciesFor(cat.id, lang).slice(0, 2);
+    for (const a of topForCat) {
+      if (!seen.has(a.id)) {
+        seen.add(a.id);
+        list.push(a);
+      }
+    }
+  }
+  if (list.length < 18) {
+    const pool = agenciesByLang(lang);
+    for (const a of pool) {
+      if (!seen.has(a.id)) {
+        seen.add(a.id);
+        list.push(a);
+        if (list.length >= 18) break;
+      }
+    }
+  }
+  return list.slice(0, 18);
+};
 
 /** Sort agencies prioritizing regional relevance: RU/CIS/UAE on /ru/, Global/US/EU on /en/ */
 export const agenciesByLang = (lang: Lang): Agency[] => {

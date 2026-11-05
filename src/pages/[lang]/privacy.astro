@@ -1,0 +1,102 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { type Lang, LANGS, BRAND, YEAR } from '../../lib/data';
+
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+
+const title = lang === 'ru'
+  ? `Политика конфиденциальности | ${BRAND}`
+  : `Privacy Policy | ${BRAND}`;
+
+const description = lang === 'ru'
+  ? `Политика конфиденциальности AITopIndex: сбор данных, использование аналитики, защита персональной информации и соблюдение GDPR.`
+  : `AITopIndex Privacy Policy: data protection practices, analytics disclosure, compliance with GDPR and international data standards.`;
+
+const alternatePaths = {
+  en: '/en/privacy/',
+  ru: '/ru/privacy/',
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  lang={lang}
+  canonicalPath={`/${lang}/privacy/`}
+  alternatePaths={alternatePaths}
+>
+  <div class="py-12 max-w-3xl mx-auto space-y-8">
+    <div class="border-b border-white/10 pb-6">
+      <span class="font-mono text-xs uppercase tracking-wider text-cyan-glow">
+        {lang === 'ru' ? 'Правовая информация' : 'Legal Compliance'}
+      </span>
+      <h1 class="text-3xl font-extrabold text-white tracking-tight mt-2">
+        {lang === 'ru' ? 'Политика конфиденциальности' : 'Privacy Policy'}
+      </h1>
+      <p class="mt-2 text-xs text-slate-400 font-mono">
+        {lang === 'ru' ? `Дата последнего обновления: 1 ноября ${YEAR}` : `Last updated: November 1, ${YEAR}`}
+      </p>
+    </div>
+
+    <div class="space-y-6 text-xs sm:text-sm text-slate-300 leading-relaxed">
+      <section class="space-y-2">
+        <h2 class="text-base font-bold text-white">
+          {lang === 'ru' ? '1. Общие положения' : '1. Overview & Data Controller'}
+        </h2>
+        <p>
+          {lang === 'ru'
+            ? `Сервис AITopIndex («мы», «наш сайт») уважает вашу конфиденциальность и стремится защищать любые персональные данные, собираемые при использовании нашего портала.`
+            : `AITopIndex ("we", "our platform") is dedicated to protecting user privacy and ensuring full transparency regarding data collection practices.`}
+        </p>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-base font-bold text-white">
+          {lang === 'ru' ? '2. Какие данные мы собираем' : '2. Information We Collect'}
+        </h2>
+        <p>
+          {lang === 'ru'
+            ? 'Мы собираем минимальный объем информации, необходимый для работы платформы: технические данные браузера (User-Agent, IP-адрес для защиты от спама), а также контактные данные, добровольно предоставляемые при подаче заявки агентства или верификации профиля.'
+            : 'We collect minimal necessary operational data: standard server logs (IP address, browser type for security monitoring) and contact information voluntarily submitted through agency listing or verification forms.'}
+        </p>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-base font-bold text-white">
+          {lang === 'ru' ? '3. Использование файлов Cookie и аналитики' : '3. Cookies & Analytics'}
+        </h2>
+        <p>
+          {lang === 'ru'
+            ? 'Мы используем легковесные анонимизированные счетчики посещаемости, не нарушающие приватность пользователей. Мы не продаем и не передаем персональные данные сторонним рекламным сетям.'
+            : 'We utilize privacy-preserving, lightweight telemetry to monitor uptime and aggregate visitor volume. We never sell or license personal data to third-party advertising brokers.'}
+        </p>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-base font-bold text-white">
+          {lang === 'ru' ? '4. Защита данных и ваши права' : '4. Data Rights & GDPR'}
+        </h2>
+        <p>
+          {lang === 'ru'
+            ? 'В соответствии с законодательством о защите данных, вы имеете право запросить уточнение, исправление или полное удаление сведений о вашей компании или персональных данных, направив запрос в нашу службу модерации.'
+            : 'Under GDPR and applicable data regulations, users retain the right to inspect, correct, or demand deletion of their submitted organizational and personal records by contacting our editorial team.'}
+        </p>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-base font-bold text-white">
+          {lang === 'ru' ? '5. Контакты' : '5. Contact Us'}
+        </h2>
+        <p>
+          {lang === 'ru'
+            ? 'По любым вопросам обработки персональных данных или актуализации информации вы можете связаться с нами по адресу: support@aitopindex.com.'
+            : 'For privacy inquiries or data update requests, please contact our privacy compliance officer at support@aitopindex.com.'}
+        </p>
+      </section>
+    </div>
+  </div>
+</Layout>

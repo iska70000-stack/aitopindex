@@ -39,27 +39,22 @@ const alternatePaths = {
   ru: `/ru/agency/${agency.id}/`,
 };
 
-// Enhanced Agency JSON-LD with AggregateRating & OfferCatalog
-const ratingVal = (4.7 + (agency.score % 4) * 0.08).toFixed(1);
-const reviewCt = 18 + Math.floor(agency.score * 0.4);
+import { CATEGORY_METRICS } from '../../../lib/agencyMetrics';
 
+const primaryCategory = agency.categories[0] || 'sales';
+const catMetrics = CATEGORY_METRICS[primaryCategory] || CATEGORY_METRICS.sales;
+
+// Clean Agency JSON-LD matching 100% visible page data (Zero fake ratings)
 const agencyJsonLd = {
-  '@type': agency.type === 'platform' ? 'SoftwareApplication' : 'ProfessionalService',
+  '@type': agency.entityType === 'platform' ? 'SoftwareApplication' : 'ProfessionalService',
   name: agency.name,
   url: agency.website,
   sameAs: [agency.website],
   priceRange: agency.minProjectBudget[lang],
-  areaServed: agency.markets.includes('global') ? 'Worldwide' : 'CIS / Eastern Europe / UAE',
+  areaServed: agency.region === 'global' ? 'Worldwide' : agency.region === 'cis-mena' ? 'CIS / Eastern Europe / UAE' : 'North America & Europe',
   address: {
     '@type': 'PostalAddress',
     addressLocality: agency.hq[lang],
-  },
-  aggregateRating: {
-    '@type': 'AggregateRating',
-    ratingValue: ratingVal,
-    reviewCount: reviewCt,
-    bestRating: '5',
-    worstRating: '1',
   },
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
@@ -100,37 +95,55 @@ const agencyJsonLd = {
     <div class="glass glow-border relative overflow-hidden rounded-3xl p-6 sm:p-10">
       <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6 border-b border-white/10 pb-8">
         <div>
-          <div class="flex items-center gap-3">
+          <div class="flex flex-wrap items-center gap-2.5">
             <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
               {agency.name}
             </h1>
             <span class="rounded-full border border-emerald-500/40 bg-emerald-500/10 px-3 py-1 font-mono text-xs text-emerald-400">
               ✓ {lang === 'ru' ? 'Верифицировано' : 'Verified'}
             </span>
+            <span class="rounded-full border border-cyan-glow/40 bg-cyan-glow/10 px-3 py-1 font-mono text-xs text-cyan-200">
+              {agency.entityType === 'platform'
+                ? lang === 'ru' ? 'ИИ-Платформа / Вендор' : 'Enterprise AI Platform'
+                : lang === 'ru' ? 'Интегратор / Студия' : 'B2B Agency / Integrator'}
+            </span>
           </div>
-          <p class="mt-2 text-sm text-slate-400 flex items-center gap-1.5">
-            <svg class="h-4 w-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-            <span>{agency.hq[lang]}</span>
+          <p class="mt-2.5 text-sm text-slate-400 flex flex-wrap items-center gap-2">
+            <span class="flex items-center gap-1.5">
+              <svg class="h-4 w-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span>{agency.hq[lang]}</span>
+            </span>
             <span class="text-slate-600">•</span>
-            <span class="capitalize">{agency.type}</span>
+            <span class="text-slate-300 font-mono text-xs">
+              {agency.region === 'global' ? 'Global Enterprise' : agency.region === 'cis-mena' ? (lang === 'ru' ? 'СНГ / Россия / ОАЭ' : 'CIS / Russia / MENA') : (lang === 'ru' ? 'США и Европа' : 'USA & Europe')}
+            </span>
           </p>
         </div>
 
-        <!-- Official external link -->
-        <a
-          href={agency.website}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn-primary text-xs sm:text-sm"
-        >
-          <span>{lang === 'ru' ? 'Перейти на сайт' : 'Visit Official Website'}</span>
-          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-          </svg>
-        </a>
+        <div class="flex items-center gap-3">
+          <button
+            type="button"
+            id="open-claim-modal-btn"
+            class="btn-ghost text-xs cursor-pointer py-2.5 px-3.5"
+          >
+            <span>{lang === 'ru' ? 'Подтвердить профиль' : 'Claim Profile'}</span>
+          </button>
+          <!-- Official external link -->
+          <a
+            href={agency.website}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-primary text-xs sm:text-sm py-2.5 px-4"
+          >
+            <span>{lang === 'ru' ? 'Перейти на сайт' : 'Visit Official Website'}</span>
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+          </a>
+        </div>
       </div>
 
       <!-- Description -->
@@ -212,101 +225,50 @@ const agencyJsonLd = {
         </div>
       </div>
 
-      <!-- 4-Step Enterprise Integration Lifecycle -->
+      <!-- Dynamic Category-Specific 4-Step Lifecycle -->
       <div class="mt-10 border-t border-white/10 pt-8">
         <div class="flex items-center justify-between mb-2">
           <div>
             <span class="text-[11px] font-semibold uppercase tracking-wider text-cyan-glow block">
-              {lang === 'ru' ? 'Регламент внедрения' : 'Enterprise Lifecycle'}
+              {catMetrics.lifecycleSubtitle[lang]}
             </span>
             <h3 class="text-xl font-bold text-white mt-1">
-              {lang === 'ru' ? '4 этапа интеграции ИИ-агентов' : '4-Stage Production Delivery Lifecycle'}
+              {catMetrics.lifecycleTitle[lang]}
             </h3>
           </div>
           <span class="font-mono text-xs text-slate-400 hidden sm:inline">
-            {lang === 'ru' ? 'SLA & Безопасность данных' : 'SLA & Data Isolation'}
+            {lang === 'ru' ? 'SLA & Аудит качества' : 'Production SLA Standard'}
           </span>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-5">
-          <div class="rounded-2xl border border-white/10 bg-white/[0.02] p-4 flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between text-xs font-mono mb-2">
-                <span class="rounded bg-cyan-glow/10 px-2 py-0.5 text-cyan-glow font-bold">01</span>
-                <span class="text-slate-400">1–2 {lang === 'ru' ? 'нед.' : 'wks'}</span>
+          {catMetrics.steps.map((st) => (
+            <div class="rounded-2xl border border-white/10 bg-white/[0.02] p-4 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between text-xs font-mono mb-2">
+                  <span class="rounded bg-cyan-glow/10 px-2 py-0.5 text-cyan-glow font-bold">{st.step}</span>
+                  <span class="text-slate-400">{st.duration[lang]}</span>
+                </div>
+                <h4 class="font-semibold text-white text-sm">
+                  {st.title[lang]}
+                </h4>
+                <p class="mt-2 text-xs text-slate-300 leading-relaxed">
+                  {st.desc[lang]}
+                </p>
               </div>
-              <h4 class="font-semibold text-white text-sm">
-                {lang === 'ru' ? 'Аудит и сценарии' : 'Audit & Workflow Mapping'}
-              </h4>
-              <p class="mt-2 text-xs text-slate-300 leading-relaxed">
-                {lang === 'ru'
-                  ? 'Анализ CRM, базы знаний и процессов. Матрица автоматизации и согласование критериев окупаемости.'
-                  : 'Audit of CRM, knowledge base, and operational flows. ROI model and security boundary planning.'}
-              </p>
             </div>
-          </div>
-
-          <div class="rounded-2xl border border-white/10 bg-white/[0.02] p-4 flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between text-xs font-mono mb-2">
-                <span class="rounded bg-cyan-glow/10 px-2 py-0.5 text-cyan-glow font-bold">02</span>
-                <span class="text-slate-400">2–3 {lang === 'ru' ? 'нед.' : 'wks'}</span>
-              </div>
-              <h4 class="font-semibold text-white text-sm">
-                {lang === 'ru' ? 'Архитектура и PoC' : 'Architecture & PoC'}
-              </h4>
-              <p class="mt-2 text-xs text-slate-300 leading-relaxed">
-                {lang === 'ru'
-                  ? 'Сборка multi-agent графов, подключение RAG, guardrails против галлюцинаций и закрытое тестирование.'
-                  : 'Multi-agent graph setup, vector retrieval configuration, and deterministic guardrail layers.'}
-              </p>
-            </div>
-          </div>
-
-          <div class="rounded-2xl border border-white/10 bg-white/[0.02] p-4 flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between text-xs font-mono mb-2">
-                <span class="rounded bg-cyan-glow/10 px-2 py-0.5 text-cyan-glow font-bold">03</span>
-                <span class="text-slate-400">1–2 {lang === 'ru' ? 'нед.' : 'wks'}</span>
-              </div>
-              <h4 class="font-semibold text-white text-sm">
-                {lang === 'ru' ? 'Интеграция в контур' : 'Full System Rollout'}
-              </h4>
-              <p class="mt-2 text-xs text-slate-300 leading-relaxed">
-                {lang === 'ru'
-                  ? 'Подключение телефонии, CRM-вебхуков, ERP и мессенджеров. Нагрузочные тесты до 10 000 параллельных сессий.'
-                  : 'Telephony, CRM, ERP, and messaging channel integration with end-to-end stress testing.'}
-              </p>
-            </div>
-          </div>
-
-          <div class="rounded-2xl border border-white/10 bg-white/[0.02] p-4 flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between text-xs font-mono mb-2">
-                <span class="rounded bg-emerald-500/10 px-2 py-0.5 text-emerald-400 font-bold">04</span>
-                <span class="text-slate-400">24/7/365</span>
-              </div>
-              <h4 class="font-semibold text-white text-sm">
-                {lang === 'ru' ? 'Поддержка и LLM Ops' : 'LLMOps & Monitoring'}
-              </h4>
-              <p class="mt-2 text-xs text-slate-300 leading-relaxed">
-                {lang === 'ru'
-                  ? 'Мониторинг качества диалогов, оптимизация затрат токенов, дообучение на реальных диалогах и SLA 99.9%.'
-                  : 'Continuous observability, automated regression testing, prompt optimization, and 99.9% SLA.'}
-              </p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
 
-      <!-- ROI Benchmark Table -->
+      <!-- Dynamic Category-Specific ROI Benchmark Table -->
       <div class="mt-10 border-t border-white/10 pt-8">
         <div class="mb-4">
           <span class="text-[11px] font-semibold uppercase tracking-wider text-emerald-400 block">
-            {lang === 'ru' ? 'Экономический эффект' : 'Operational Economics'}
+            {catMetrics.roiSubtitle[lang]}
           </span>
           <h3 class="text-xl font-bold text-white mt-1">
-            {lang === 'ru' ? 'Бенчмарк окупаемости: до и после внедрения' : 'ROI Benchmark: Human Team vs Deployed AI Stack'}
+            {catMetrics.roiTitle[lang]}
           </h3>
         </div>
 
@@ -315,36 +277,20 @@ const agencyJsonLd = {
             <thead>
               <tr class="border-b border-white/10 bg-white/[0.03] text-slate-400">
                 <th class="p-3.5 font-semibold">{lang === 'ru' ? 'Метрика процесса' : 'Operational Metric'}</th>
-                <th class="p-3.5 font-semibold text-rose-300">{lang === 'ru' ? 'Традиционный отдел' : 'Legacy Human Team'}</th>
-                <th class="p-3.5 font-semibold text-emerald-400">{lang === 'ru' ? 'ИИ-агенты подрядчика' : 'Deployed AI Stack'}</th>
-                <th class="p-3.5 font-semibold text-cyan-glow">{lang === 'ru' ? 'Эффект' : 'Business Delta'}</th>
+                <th class="p-3.5 font-semibold text-rose-300">{lang === 'ru' ? 'Традиционный подход' : 'Legacy Human Team'}</th>
+                <th class="p-3.5 font-semibold text-emerald-400">{lang === 'ru' ? 'ИИ-пайплайн подрядчика' : 'Deployed AI Stack'}</th>
+                <th class="p-3.5 font-semibold text-cyan-glow">{lang === 'ru' ? 'Бизнес-эффект' : 'Business Delta'}</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-white/5 text-slate-300">
-              <tr>
-                <td class="p-3.5 font-sans font-medium text-white">{lang === 'ru' ? 'Скорость первого ответа' : 'First Response Latency'}</td>
-                <td class="p-3.5 text-slate-400">15–45 {lang === 'ru' ? 'минут' : 'mins'}</td>
-                <td class="p-3.5 text-emerald-400 font-semibold">&lt; 30 {lang === 'ru' ? 'секунд' : 'seconds'}</td>
-                <td class="p-3.5 text-cyan-glow font-bold">-98% {lang === 'ru' ? 'ожидания' : 'wait time'}</td>
-              </tr>
-              <tr>
-                <td class="p-3.5 font-sans font-medium text-white">{lang === 'ru' ? 'График обработки заявок' : 'Operating Window'}</td>
-                <td class="p-3.5 text-slate-400">5/2 (09:00 — 18:00)</td>
-                <td class="p-3.5 text-emerald-400 font-semibold">24/7/365 {lang === 'ru' ? 'без перерывов' : 'non-stop'}</td>
-                <td class="p-3.5 text-cyan-glow font-bold">+280% {lang === 'ru' ? 'к охвату' : 'coverage'}</td>
-              </tr>
-              <tr>
-                <td class="p-3.5 font-sans font-medium text-white">{lang === 'ru' ? 'Себестоимость диалога/лида' : 'Cost per Touchpoint'}</td>
-                <td class="p-3.5 text-slate-400">{lang === 'ru' ? '120 — 350 ₽' : '$2.00 — $5.50'}</td>
-                <td class="p-3.5 text-emerald-400 font-semibold">{lang === 'ru' ? '3 — 12 ₽' : '$0.04 — $0.20'}</td>
-                <td class="p-3.5 text-cyan-glow font-bold">-85% {lang === 'ru' ? 'затрат' : 'unit cost'}</td>
-              </tr>
-              <tr>
-                <td class="p-3.5 font-sans font-medium text-white">{lang === 'ru' ? 'Пиковая нагрузка' : 'Concurrent Capacity'}</td>
-                <td class="p-3.5 text-slate-400">{lang === 'ru' ? '3–5 звонков на оператора' : '3–5 calls / rep'}</td>
-                <td class="p-3.5 text-emerald-400 font-semibold">10 000+ {lang === 'ru' ? 'одновременно' : 'concurrent'}</td>
-                <td class="p-3.5 text-cyan-glow font-bold">0 {lang === 'ru' ? 'потерянных лидов' : 'dropped leads'}</td>
-              </tr>
+              {catMetrics.metrics.map((row) => (
+                <tr>
+                  <td class="p-3.5 font-sans font-medium text-white">{row.metric[lang]}</td>
+                  <td class="p-3.5 text-slate-400">{row.legacy[lang]}</td>
+                  <td class="p-3.5 text-emerald-400 font-semibold">{row.aiStack[lang]}</td>
+                  <td class="p-3.5 text-cyan-glow font-bold">{row.delta[lang]}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -375,5 +321,125 @@ const agencyJsonLd = {
         </div>
       </div>
     </div>
+
+    <!-- Claim Profile Modal -->
+    <div id="claim-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+      <div class="relative w-full max-w-lg glass glow-border rounded-3xl p-6 sm:p-8 space-y-5 bg-[#070A11] border border-cyan-glow/40 shadow-2xl">
+        <div class="flex items-center justify-between border-b border-white/10 pb-4">
+          <div>
+            <span class="font-mono text-xs uppercase tracking-wider text-cyan-glow">
+              {lang === 'ru' ? 'Верификация владения' : 'Official Verification'}
+            </span>
+            <h3 class="text-xl font-bold text-white mt-0.5">
+              {lang === 'ru' ? `Подтвердить профиль ${agency.name}` : `Claim ${agency.name} Profile`}
+            </h3>
+          </div>
+          <button type="button" id="close-claim-modal-btn" class="text-slate-400 hover:text-white text-xl p-1 cursor-pointer">
+            ✕
+          </button>
+        </div>
+
+        <form id="claim-profile-form" class="space-y-4">
+          <div>
+            <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-300 mb-1.5">
+              {lang === 'ru' ? 'Ваше имя и должность *' : 'Your Name & Title *'}
+            </label>
+            <input type="text" name="repName" required placeholder={lang === 'ru' ? 'Иван Смирнов, CEO' : 'Alex Miller, Founder / Lead'} class="field" />
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-300 mb-1.5">
+              {lang === 'ru' ? `Корпоративный Email (@${new URL(agency.website).hostname.replace(/^www\./, '')}) *` : `Corporate Email (@${new URL(agency.website).hostname.replace(/^www\./, '')}) *`}
+            </label>
+            <input type="email" name="corporateEmail" required placeholder={`lead@${new URL(agency.website).hostname.replace(/^www\./, '')}`} class="field" />
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-300 mb-1.5">
+              {lang === 'ru' ? 'Telegram / WhatsApp для верификации *' : 'Telegram / WhatsApp for fast review *'}
+            </label>
+            <input type="text" name="contactHandle" required placeholder="@founder_handle" class="field" />
+          </div>
+
+          <div class="rounded-xl border border-white/10 bg-white/[0.02] p-3 text-xs text-slate-400">
+            {lang === 'ru'
+              ? 'Редакция свяжется с вами для подтверждения доступа к редактированию стека, цен и кейсов.'
+              : 'Our editorial team will confirm domain ownership and grant profile editing credentials.'}
+          </div>
+
+          <div class="flex items-center gap-3 pt-2">
+            <button type="submit" class="btn-primary flex-1 text-center justify-center py-2.5 text-xs cursor-pointer">
+              <span>{lang === 'ru' ? 'Отправить запрос' : 'Submit Claim Request'}</span>
+            </button>
+            <a
+              id="claim-telegram-fallback"
+              href={`https://t.me/aitopindex?text=${encodeURIComponent(`🚀 Запрос на подтверждение профиля: ${agency.name} (${agency.website})`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-ghost text-xs py-2.5 px-4"
+            >
+              <span>Telegram ↗</span>
+            </a>
+          </div>
+        </form>
+
+        <div id="claim-success" class="hidden text-center py-6 space-y-3">
+          <div class="h-12 w-12 rounded-full border border-emerald-500 bg-emerald-500/10 text-emerald-400 flex items-center justify-center mx-auto text-xl">
+            ✓
+          </div>
+          <h4 class="text-lg font-bold text-white">
+            {lang === 'ru' ? 'Запрос успешно отправлен!' : 'Claim Request Received!'}
+          </h4>
+          <p class="text-xs text-slate-300">
+            {lang === 'ru'
+              ? 'Мы отправили подтверждение на ваш корпоративный email и свяжемся в Telegram в течение 24 часов.'
+              : 'We have logged your request and will contact your corporate address within 24 hours.'}
+          </p>
+          <button type="button" id="close-claim-success-btn" class="btn-ghost text-xs py-1.5 px-4 mt-2 cursor-pointer">
+            {lang === 'ru' ? 'Закрыть' : 'Close'}
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <script>
+    function setupClaimModal() {
+      const modal = document.getElementById('claim-modal');
+      const openBtn = document.getElementById('open-claim-modal-btn');
+      const closeBtn = document.getElementById('close-claim-modal-btn');
+      const closeSuccessBtn = document.getElementById('close-claim-success-btn');
+      const form = document.getElementById('claim-profile-form') as HTMLFormElement | null;
+      const success = document.getElementById('claim-success');
+
+      if (!modal || !openBtn) return;
+
+      const openModal = () => {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      };
+
+      const closeModal = () => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      };
+
+      openBtn.addEventListener('click', openModal);
+      closeBtn?.addEventListener('click', closeModal);
+      closeSuccessBtn?.addEventListener('click', closeModal);
+
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+      });
+
+      form?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        form.classList.add('hidden');
+        success?.classList.remove('hidden');
+      });
+    }
+
+    setupClaimModal();
+    document.addEventListener('astro:page-load', setupClaimModal);
+  </script>
 </Layout>

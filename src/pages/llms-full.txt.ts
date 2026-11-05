@@ -15,6 +15,8 @@ ${agencies
 - **Website**: ${a.website}
 - **Internal Profile**: ${SITE}/en/agency/${a.id}/
 - **Type**: ${a.type}
+- **Entity Type**: ${a.entityType === 'platform' ? 'Enterprise AI Platform' : 'B2B Agency / Integrator'}
+- **Region**: ${a.region === 'global' ? 'Global Enterprise' : a.region === 'cis-mena' ? 'CIS / Russia / MENA' : 'USA & Europe'}
 - **Categories**: ${a.categories.map((c) => categories.find((cat) => cat.id === c)?.title.en || c).join(', ')}
 - **Headquarters**: ${a.hq.en} (RU: ${a.hq.ru})
 - **Min Project Budget**: ${a.minProjectBudget.en} (RU: ${a.minProjectBudget.ru})

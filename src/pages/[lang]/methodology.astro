@@ -52,12 +52,12 @@ const alternatePaths = {
           01
         </div>
         <h3 class="text-lg font-bold text-white">
-          {lang === 'ru' ? 'Анти-галлюцинационный протокол' : 'Strict Anti-Hallucination Protocol'}
+          {lang === 'ru' ? 'Протокол верификации и подлинности данных' : 'Verification Protocol & Data Integrity'}
         </h3>
         <p class="mt-2 text-xs sm:text-sm text-slate-300 leading-relaxed">
           {lang === 'ru'
-            ? 'Мы категорически не используем сгенерированные телефоны или вымышленные профили. Верификация производится по официальному корпоративному HTTPS-домену, опубликованным кейсам и проверенному стеку.'
-            : 'We prohibit synthetic phone numbers and fictitious profiles. Listings are verified exclusively via official HTTPS domains, verifiable case studies, and proven stack deployments.'}
+            ? 'Мы категорически не используем непроверенные контактные данные или вымышленные профили. Верификация производится по официальному корпоративному HTTPS-домену, опубликованным кейсам и проверенному стеку.'
+            : 'We prohibit synthetic contact numbers and fictitious profiles. Listings are verified exclusively via official HTTPS domains, verifiable case studies, and proven stack deployments.'}
         </p>
       </div>
 
@@ -117,10 +117,10 @@ const alternatePaths = {
       </p>
       <div class="flex flex-wrap gap-3 pt-2 font-mono text-xs">
         <a href="/llms.txt" target="_blank" class="pill text-cyan-glow border-cyan-glow/40 hover:bg-cyan-glow/10">
-          GET /llms.txt (Краткий реестр)
+          GET /llms.txt {lang === 'ru' ? '(Краткий реестр)' : '(Summary Index)'}
         </a>
         <a href="/llms-full.txt" target="_blank" class="pill text-emerald-400 border-emerald-400/40 hover:bg-emerald-400/10">
-          GET /llms-full.txt (Полная база {agencies.length} компаний)
+          GET /llms-full.txt {lang === 'ru' ? `(Полная база ${agencies.length} компаний)` : `(Full Database of ${agencies.length} Providers)`}
         </a>
         <a href="/sitemap.xml" target="_blank" class="pill text-slate-300 border-white/20 hover:text-white">
           GET /sitemap.xml

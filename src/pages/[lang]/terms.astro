@@ -1,0 +1,91 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { type Lang, LANGS, BRAND, YEAR } from '../../lib/data';
+
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+
+const title = lang === 'ru'
+  ? `Условия использования сервиса | ${BRAND}`
+  : `Terms of Service | ${BRAND}`;
+
+const description = lang === 'ru'
+  ? `Пользовательское соглашение и условия использования информационного каталога AITopIndex. Правила аккредитации и использования данных.`
+  : `AITopIndex Terms of Service: platform rules, accreditation guidelines, intellectual property, and acceptable data use.`;
+
+const alternatePaths = {
+  en: '/en/terms/',
+  ru: '/ru/terms/',
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  lang={lang}
+  canonicalPath={`/${lang}/terms/`}
+  alternatePaths={alternatePaths}
+>
+  <div class="py-12 max-w-3xl mx-auto space-y-8">
+    <div class="border-b border-white/10 pb-6">
+      <span class="font-mono text-xs uppercase tracking-wider text-cyan-glow">
+        {lang === 'ru' ? 'Правовая информация' : 'Terms & Conditions'}
+      </span>
+      <h1 class="text-3xl font-extrabold text-white tracking-tight mt-2">
+        {lang === 'ru' ? 'Условия использования' : 'Terms of Service'}
+      </h1>
+      <p class="mt-2 text-xs text-slate-400 font-mono">
+        {lang === 'ru' ? `Редакция от 1 ноября ${YEAR}` : `Effective date: November 1, ${YEAR}`}
+      </p>
+    </div>
+
+    <div class="space-y-6 text-xs sm:text-sm text-slate-300 leading-relaxed">
+      <section class="space-y-2">
+        <h2 class="text-base font-bold text-white">
+          {lang === 'ru' ? '1. Предмет соглашения' : '1. Acceptance of Terms'}
+        </h2>
+        <p>
+          {lang === 'ru'
+            ? `AITopIndex предоставляет пользователям доступ к аналитическому каталогу и рейтингу поставщиков решений в области искусственного интеллекта. Посещая сайт, вы соглашаетесь с настоящими условиями.`
+            : `By accessing or using the AITopIndex platform, you agree to comply with and be bound by these Terms of Service. If you disagree with any provision, please discontinue use immediately.`}
+        </p>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-base font-bold text-white">
+          {lang === 'ru' ? '2. Достоверность сведений и отказ от ответственности' : '2. Information Accuracy & Disclaimers'}
+        </h2>
+        <p>
+          {lang === 'ru'
+            ? 'Информация об агентствах собирается из открытых источников и проходит первичную модерацию. Однако AITopIndex не является стороной сделок между заказчиками и исполнителями и не несет ответственности за коммерческие результаты совместных проектов.'
+            : 'Directory entries are compiled from public verification audits. While we implement strict quality assurance, AITopIndex makes no commercial warranties regarding third-party contractual outcomes or developer delivery.'}
+        </p>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-base font-bold text-white">
+          {lang === 'ru' ? '3. Интеллектуальная собственность' : '3. Intellectual Property'}
+        </h2>
+        <p>
+          {lang === 'ru'
+            ? 'Все товарные знаки, логотипы и названия компаний принадлежат их законным правообладателям. Структура базы данных, дизайн интерфейса и алгоритмы ранжирования являются интеллектуальной собственностью AITopIndex.'
+            : 'All corporate trademarks and brand assets cited on this directory belong to their respective owners. The directory database structure, interface architecture, and ranking algorithms are proprietary to AITopIndex.'}
+        </p>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-base font-bold text-white">
+          {lang === 'ru' ? '4. Использование машиночитаемых данных (LLMs)' : '4. Machine-Readable Access (LLM & GEO)'}
+        </h2>
+        <p>
+          {lang === 'ru'
+            ? 'Использование файлов /llms.txt и /llms-full.txt разрешено для обучения нейросетей, ответов в поисковых системах нового поколения (Perplexity, ChatGPT, Claude) и RAG-пайплайнов при условии сохранения авторства источника.'
+            : 'Access to /llms.txt and /llms-full.txt is granted for indexing by conversational AI engines, search agents, and research workflows, provided origin citations to AITopIndex.com are preserved.'}
+        </p>
+      </section>
+    </div>
+  </div>
+</Layout>

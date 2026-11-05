@@ -47,8 +47,10 @@
       "ru": "No-code платформа для создания команд ИИ-агентов; популярна для запуска ИИ-BDR и исследовательских агентов с интеграцией HubSpot и Salesforce."
     },
     "score": 95,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-26",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "usa-eu"
   },
   {
     "id": "11x",
@@ -97,8 +99,10 @@
       "ru": "Разрабатывает автономных «цифровых сотрудников» для отделов продаж, включая ИИ-SDR, который ищет клиентов и назначает встречи 24/7."
     },
     "score": 92,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-30",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "usa-eu"
   },
   {
     "id": "artisan",
@@ -147,8 +151,10 @@
       "ru": "Платформа ИИ-сотрудников, известная ИИ-BDR Ava, который автоматизирует поиск клиентов, персонализацию писем и дожимы."
     },
     "score": 89,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-11-03",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "usa-eu"
   },
   {
     "id": "qualified",
@@ -196,8 +202,10 @@
       "ru": "Агентная маркетинговая платформа для B2B; ИИ-SDR Piper общается с посетителями сайта и записывает встречи прямо в Salesforce."
     },
     "score": 88,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-19",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "usa-eu"
   },
   {
     "id": "master-of-code",
@@ -248,8 +256,10 @@
       "ru": "Опытное агентство диалогового ИИ, создающее кастомных чат- и голосовых агентов на генеративном ИИ для крупных брендов."
     },
     "score": 90,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-28",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "global"
   },
   {
     "id": "roistat",
@@ -297,8 +307,10 @@
       "ru": "Сквозная аналитика с ИИ-речевой аналитикой: оценивает каждый звонок менеджера по скрипту и передаёт результаты в AmoCRM и Bitrix24."
     },
     "score": 91,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-15",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "cis-mena"
   },
   {
     "id": "salebot",
@@ -317,7 +329,7 @@
       "ru": "Россия"
     },
     "minProjectBudget": {
-      "en": ",000+ (Turnkey Funnel)",
+      "en": "$2,000+ (Turnkey Funnel)",
       "ru": "от 120 000 ₽"
     },
     "avgRoiTime": {
@@ -348,8 +360,10 @@
       "ru": "Конструктор чат-ботов и автоворонок для мессенджеров с GPT-блоками; большая сеть интеграторов строит на нём ботов для продаж."
     },
     "score": 84,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-15",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "cis-mena"
   },
   {
     "id": "first-bit",
@@ -398,8 +412,10 @@
       "ru": "Один из крупнейших интеграторов 1С и Bitrix24 с офисами по всей России; внедряет автоматизацию CRM, включая ИИ-помощника CoPilot."
     },
     "score": 83,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-21",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "cis-mena"
   },
   {
     "id": "intervolga",
@@ -448,8 +464,10 @@
       "ru": "Опытный интегратор Bitrix24 и 1С-Битрикс: CRM, корпоративные порталы и автоматизация e-commerce для среднего и крупного бизнеса."
     },
     "score": 80,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-25",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "cis-mena"
   },
   {
     "id": "shy-kids",
@@ -497,8 +515,10 @@
       "ru": "Мультимедийный коллектив из Торонто, автор «Air Head» — одного из первых известных фильмов, созданных с помощью OpenAI Sora."
     },
     "score": 90,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-21",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "usa-eu"
   },
   {
     "id": "cuebric",
@@ -546,8 +566,10 @@
       "ru": "Генеративный ИИ-инструмент и студия Seyhan Lee для создания многослойных окружений для виртуального продакшна на LED-экранах."
     },
     "score": 85,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-23",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "usa-eu"
   },
   {
     "id": "asteria",
@@ -595,8 +617,10 @@
       "ru": "ИИ-киностудия в партнёрстве с Moonvalley, использующая «чистые» генеративные модели на лицензированных данных для кино и сериалов."
     },
     "score": 88,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-11-02",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "usa-eu"
   },
   {
     "id": "synthesia",
@@ -644,8 +668,10 @@
       "ru": "Корпоративная платформа ИИ-видео с аватарами для обучения, коммуникаций и локализации, используется крупнейшими компаниями мира."
     },
     "score": 94,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-25",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "global"
   },
   {
     "id": "d-id",
@@ -693,8 +719,10 @@
       "ru": "Компания креативного ИИ: фотореалистичные говорящие аватары и диалоговые видеоагенты в реальном времени через API и студию."
     },
     "score": 87,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-25",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "usa-eu"
   },
   {
     "id": "petrick",
@@ -713,7 +741,7 @@
       "ru": "Москва, Россия и Global"
     },
     "minProjectBudget": {
-      "en": ",000+",
+      "en": "$7,500+",
       "ru": "от 600 000 ₽"
     },
     "avgRoiTime": {
@@ -744,8 +772,10 @@
       "ru": "Известная креативная и анимационная студия: коммерческие рекламные ролики с ИИ, генеративная анимация и визуальные эффекты для брендов."
     },
     "score": 93,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-17",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "cis-mena"
   },
   {
     "id": "metaphysic",
@@ -792,8 +822,10 @@
       "ru": "Компания генеративного VFX: гиперреалистичная замена лиц и омоложение актёров в фильмах, например «Здесь» Роберта Земекиса."
     },
     "score": 89,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-20",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "usa-eu"
   },
   {
     "id": "secret-level",
@@ -841,8 +873,10 @@
       "ru": "Креативная студия из Лос-Анджелеса, производящая рекламу с ИИ для мировых брендов, включая обсуждаемый новогодний ролик Coca-Cola."
     },
     "score": 86,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-24",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "usa-eu"
   },
   {
     "id": "curious-refuge",
@@ -891,8 +925,10 @@
       "ru": "Школа и студия ИИ-кино, чьи вирусные ИИ-трейлеры популяризировали жанр; обучает авторов и студии генеративным процессам."
     },
     "score": 84,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-29",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "usa-eu"
   },
   {
     "id": "main-road-post",
@@ -940,8 +976,10 @@
       "ru": "Одна из крупнейших VFX- и постпродакшн-студий России: визуальные эффекты для крупных фильмов и применение ML-инструментов."
     },
     "score": 82,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-11-03",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "cis-mena"
   },
   {
     "id": "bland-ai",
@@ -960,7 +998,7 @@
       "ru": "Сан-Франциско, США"
     },
     "minProjectBudget": {
-      "en": ",000+ (Enterprise Setup)",
+      "en": "$5,000+ (Enterprise Setup)",
       "ru": "от 300 000 ₽"
     },
     "avgRoiTime": {
@@ -991,8 +1029,10 @@
       "ru": "Корпоративная платформа голосового ИИ для телефонных агентов, обрабатывающих миллионы звонков на собственной инфраструктуре."
     },
     "score": 91,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-29",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "usa-eu"
   },
   {
     "id": "vapi",
@@ -1011,7 +1051,7 @@
       "ru": "Сан-Франциско, США"
     },
     "minProjectBudget": {
-      "en": ",000+ (Partner Setup)",
+      "en": "$3,000+ (Partner Setup)",
       "ru": "от 250 000 ₽"
     },
     "avgRoiTime": {
@@ -1043,8 +1083,10 @@
       "ru": "Платформа для разработчиков голосовых ИИ-агентов с задержкой менее секунды; базовый стек тысяч агентств автоматизации."
     },
     "score": 94,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-18",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "usa-eu"
   },
   {
     "id": "retell-ai",
@@ -1062,7 +1104,7 @@
       "ru": "Район залива Сан-Франциско, США"
     },
     "minProjectBudget": {
-      "en": ",000+ (Custom Implementation)",
+      "en": "$3,000+ (Custom Implementation)",
       "ru": "от 250 000 ₽"
     },
     "avgRoiTime": {
@@ -1094,8 +1136,10 @@
       "ru": "Платформа голосовых агентов с естественным диалогом и низкой задержкой; популярна у агентств для записи клиентов и автоматизации колл-центров."
     },
     "score": 90,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-21",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "usa-eu"
   },
   {
     "id": "synthflow",
@@ -1144,8 +1188,10 @@
       "ru": "No-code платформа голосового ИИ с white-label программой, через которую агентства запускают телефонных агентов для МСБ."
     },
     "score": 86,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-24",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "usa-eu"
   },
   {
     "id": "polyai",
@@ -1193,8 +1239,10 @@
       "ru": "Корпоративный голосовой ИИ: реалистичные агенты клиентского сервиса для гостиничного бизнеса, банков и коммунальных компаний."
     },
     "score": 92,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-16",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "usa-eu"
   },
   {
     "id": "elevenlabs",
@@ -1213,7 +1261,7 @@
       "ru": "Лондон, Великобритания и Нью-Йорк, США"
     },
     "minProjectBudget": {
-      "en": ",000+ (Enterprise Voice)",
+      "en": "$3,000+ (Enterprise Voice)",
       "ru": "от 250 000 ₽"
     },
     "avgRoiTime": {
@@ -1243,8 +1291,10 @@
       "ru": "Лидер ИИ-аудио: синтез речи, дубляж и голосовые агенты для студий и корпоративных контакт-центров."
     },
     "score": 95,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-26",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "global"
   },
   {
     "id": "just-ai",
@@ -1294,8 +1344,10 @@
       "ru": "Российский разработчик диалогового ИИ: корпоративная платформа JAICP для голосовых и чат-ботов и LLM-ассистенты для бизнеса."
     },
     "score": 90,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-28",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "cis-mena"
   },
   {
     "id": "twin24",
@@ -1345,8 +1397,10 @@
       "ru": "Российская платформа голосовых ИИ-роботов и чат-ботов для автоматизации входящих и исходящих звонков в продажах, сервисе и HR."
     },
     "score": 85,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-30",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "cis-mena"
   },
   {
     "id": "naumen",
@@ -1395,8 +1449,10 @@
       "ru": "Крупный российский вендор ПО для контакт-центров и управления сервисом с ИИ-ботами и речевой аналитикой."
     },
     "score": 87,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-18",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "cis-mena"
   },
   {
     "id": "zvonobot",
@@ -1414,7 +1470,7 @@
       "ru": "Россия"
     },
     "minProjectBudget": {
-      "en": ",500+ (Turnkey Bot)",
+      "en": "$1,500+ (Turnkey Bot)",
       "ru": "от 80 000 ₽"
     },
     "avgRoiTime": {
@@ -1444,8 +1500,10 @@
       "ru": "Российский сервис голосовых обзвонов и интерактивных роботов для оповещений, опросов и реактивации клиентской базы."
     },
     "score": 79,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-17",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "cis-mena"
   },
   {
     "id": "sipuni",
@@ -1463,7 +1521,7 @@
       "ru": "Россия"
     },
     "minProjectBudget": {
-      "en": ",500+ (CRM Telephony)",
+      "en": "$1,500+ (CRM Telephony)",
       "ru": "от 80 000 ₽"
     },
     "avgRoiTime": {
@@ -1493,8 +1551,10 @@
       "ru": "Облачная телефония для бизнеса с глубокой интеграцией AmoCRM и Bitrix24, расшифровкой звонков и голосовыми роботами."
     },
     "score": 80,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-25",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "cis-mena"
   },
   {
     "id": "eliseai",
@@ -1513,7 +1573,7 @@
       "ru": "Нью-Йорк, США"
     },
     "minProjectBudget": {
-      "en": ",000+ (Portfolio Tier)",
+      "en": "$10,000+ (Portfolio Tier)",
       "ru": "от 600 000 ₽"
     },
     "avgRoiTime": {
@@ -1543,8 +1603,10 @@
       "ru": "Диалоговый ИИ для управления недвижимостью и медицины: автоматизирует аренду, показы, продления и коммуникации с жильцами."
     },
     "score": 94,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-25",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "usa-eu"
   },
   {
     "id": "structurely",
@@ -1592,8 +1654,10 @@
       "ru": "ИИ-ассистент продаж для риелторов и ипотечных брокеров: квалифицирует и прогревает лиды по SMS и email месяцами."
     },
     "score": 86,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-24",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "usa-eu"
   },
   {
     "id": "ylopo",
@@ -1641,8 +1705,10 @@
       "ru": "Маркетинговая ИИ-платформа для команд риелторов: генерация лидов из рекламы плюс ИИ-ассистенты в SMS и голосе."
     },
     "score": 85,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-30",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "usa-eu"
   },
   {
     "id": "lofty",
@@ -1691,7 +1757,9 @@
     },
     "score": 83,
     "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "status": "verified",
+    "entityType": "platform",
+    "region": "usa-eu"
   },
   {
     "id": "rechat",
@@ -1709,7 +1777,7 @@
       "ru": "Даллас, США"
     },
     "minProjectBudget": {
-      "en": ",000+ (Brokerage Rollout)",
+      "en": "$5,000+ (Brokerage Rollout)",
       "ru": "от 350 000 ₽"
     },
     "avgRoiTime": {
@@ -1739,8 +1807,10 @@
       "ru": "Суперприложение для агентств недвижимости с ИИ-копилотом для маркетинга, CRM и сопровождения сделок."
     },
     "score": 80,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-18",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "usa-eu"
   },
   {
     "id": "virtual-staging-ai",
@@ -1758,7 +1828,7 @@
       "ru": "США"
     },
     "minProjectBudget": {
-      "en": ",500+ (Agency Integration)",
+      "en": "$1,500+ (Agency Integration)",
       "ru": "от 100 000 ₽"
     },
     "avgRoiTime": {
@@ -1787,8 +1857,10 @@
       "ru": "ИИ-сервис, который за секунды виртуально меблирует пустые комнаты для объявлений — в разы дешевле реального стейджинга."
     },
     "score": 81,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-26",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "usa-eu"
   },
   {
     "id": "profitbase",
@@ -1836,8 +1908,10 @@
       "ru": "Российская платформа автоматизации продаж для застройщиков: шахматка, виджет выбора квартир и интеграции с CRM."
     },
     "score": 84,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-15",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "cis-mena"
   },
   {
     "id": "macrocrm",
@@ -1885,8 +1959,10 @@
       "ru": "CRM- и ERP-система, созданная специально для девелоперов и агентств недвижимости в России и СНГ."
     },
     "score": 80,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-18",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "cis-mena"
   },
   {
     "id": "hippocratic-ai",
@@ -1933,8 +2009,10 @@
       "ru": "Разрабатывает безопасных генеративных ИИ-агентов для недиагностических задач коммуникации с пациентами в клиниках."
     },
     "score": 91,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-15",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "usa-eu"
   },
   {
     "id": "hyro",
@@ -1983,8 +2061,10 @@
       "ru": "ИИ-агенты для колл-центров и сайтов медучреждений: запись, ответы на вопросы и продление рецептов."
     },
     "score": 87,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-18",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "usa-eu"
   },
   {
     "id": "notable",
@@ -2033,8 +2113,10 @@
       "ru": "Платформа интеллектуальной автоматизации для клиник: регистрация, направления, предавторизация и работа с пациентами."
     },
     "score": 86,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-24",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "usa-eu"
   },
   {
     "id": "weave",
@@ -2082,8 +2164,10 @@
       "ru": "Платформа коммуникаций с пациентами для стоматологий и клиник: телефония, SMS, напоминания и ИИ-функции."
     },
     "score": 84,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-29",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "usa-eu"
   },
   {
     "id": "abridge",
@@ -2130,8 +2214,10 @@
       "ru": "Генеративный ИИ для медицинской документации: превращает разговор врача с пациентом в структурированную запись в ЭМК."
     },
     "score": 92,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-23",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "usa-eu"
   },
   {
     "id": "infermedica",
@@ -2178,8 +2264,10 @@
       "ru": "ИИ-платформа проверки симптомов и триажа для страховых компаний и медицинских сетей."
     },
     "score": 85,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-23",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "usa-eu"
   },
   {
     "id": "medesk",
@@ -2227,8 +2315,10 @@
       "ru": "Облачная МИС для частных клиник: онлайн-запись, CRM, телефония и автоматические напоминания пациентам."
     },
     "score": 81,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-26",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "cis-mena"
   },
   {
     "id": "third-opinion",
@@ -2275,8 +2365,10 @@
       "ru": "Российская компания компьютерного зрения: анализ медицинских изображений (КТ, рентген, маммография) в помощь рентгенологам."
     },
     "score": 82,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-11-03",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "cis-mena"
   },
   {
     "id": "webiomed",
@@ -2323,8 +2415,10 @@
       "ru": "Платформа предиктивной аналитики и поддержки врачебных решений, анализирующая электронные медкарты для выявления рисков."
     },
     "score": 79,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-17",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "cis-mena"
   },
   {
     "id": "xray-tech",
@@ -2373,8 +2467,10 @@
       "ru": "Агентство автоматизации на Make, Zapier и Airtable с ИИ-улучшениями для операционных команд."
     },
     "score": 84,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-29",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "usa-eu"
   },
   {
     "id": "leewayhertz",
@@ -2424,8 +2520,10 @@
       "ru": "Компания разработки ИИ: генеративные решения, автономные агенты и корпоративные платформы, включая ZBrain."
     },
     "score": 86,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-17",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "global"
   },
   {
     "id": "markovate",
@@ -2475,8 +2573,10 @@
       "ru": "Инженерная ИИ-компания: генеративные агенты, RAG-системы и разработка ИИ-продуктов для стартапов и корпораций."
     },
     "score": 83,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-21",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "usa-eu"
   },
   {
     "id": "crewai",
@@ -2494,7 +2594,7 @@
       "ru": "США"
     },
     "minProjectBudget": {
-      "en": ",000+ (Enterprise Multi-Agent)",
+      "en": "$10,000+ (Enterprise Multi-Agent)",
       "ru": "от 600 000 ₽"
     },
     "avgRoiTime": {
@@ -2526,7 +2626,9 @@
     },
     "score": 90,
     "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "usa-eu"
   },
   {
     "id": "croc",
@@ -2546,7 +2648,7 @@
       "ru": "Москва, Россия"
     },
     "minProjectBudget": {
-      "en": ",000+",
+      "en": "$15,000+",
       "ru": "от 1 200 000 ₽"
     },
     "avgRoiTime": {
@@ -2578,8 +2680,10 @@
       "ru": "Крупный системный интегратор: внедрение мультиагентных систем на базе LangGraph, защищённых RAG-архитектур и автоматизация корпоративных процессов."
     },
     "score": 93,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-24",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "cis-mena"
   },
   {
     "id": "albato",
@@ -2598,7 +2702,7 @@
       "ru": "Россия"
     },
     "minProjectBudget": {
-      "en": ",000+ (Agency Setup)",
+      "en": "$2,000+ (Agency Setup)",
       "ru": "от 120 000 ₽"
     },
     "avgRoiTime": {
@@ -2630,8 +2734,10 @@
       "ru": "No-code платформа интеграций с сотнями готовых коннекторов: AmoCRM, Bitrix24, маркетплейсы, GPT и другие сервисы."
     },
     "score": 85,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-23",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "cis-mena"
   },
   {
     "id": "hatchworks",
@@ -2680,8 +2786,10 @@
       "ru": "Американская ИИ- и софтверная компания: генеративные агенты, платформы данных и команды разработки с ИИ."
     },
     "score": 82,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-27",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "usa-eu"
   },
   {
     "id": "kt-team",
@@ -2731,8 +2839,10 @@
       "ru": "Российская компания интеграций и e-commerce: интеграционные шины, PIM-системы и автоматизация для ритейла."
     },
     "score": 80,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-11-01",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "cis-mena"
   },
   {
     "id": "workato",
@@ -2781,8 +2891,10 @@
       "ru": "Корпоративная платформа интеграции и автоматизации с ИИ-агентами, оркестрирующими процессы в сотнях бизнес-приложений."
     },
     "score": 88,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-26",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "global"
   },
   {
     "id": "gorgias",
@@ -2830,8 +2942,10 @@
       "ru": "Платформа клиентского сервиса для e-commerce с ИИ-агентом, который закрывает обращения и помогает продавать в Shopify."
     },
     "score": 91,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-15",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "usa-eu"
   },
   {
     "id": "rep-ai",
@@ -2878,8 +2992,10 @@
       "ru": "ИИ-консультант продаж и поддержки для Shopify-брендов, который распознаёт сомневающихся покупателей и доводит до покупки."
     },
     "score": 82,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-11-03",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "usa-eu"
   },
   {
     "id": "octane-ai",
@@ -2926,8 +3042,10 @@
       "ru": "ИИ-квизы подбора товаров и персонализация для Shopify-брендов, собирающие данные о покупателях и повышающие конверсию."
     },
     "score": 80,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-18",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "usa-eu"
   },
   {
     "id": "klevu",
@@ -2975,8 +3093,10 @@
       "ru": "ИИ-платформа поиска и подбора товаров для интернет-магазинов среднего и крупного бизнеса."
     },
     "score": 81,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-26",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "usa-eu"
   },
   {
     "id": "bloomreach",
@@ -3024,8 +3144,10 @@
       "ru": "Облако коммерческого опыта: ИИ-поиск, персонализация и агентный диалоговый шопинг-ассистент."
     },
     "score": 87,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-18",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "global"
   },
   {
     "id": "mpstats",
@@ -3043,7 +3165,7 @@
       "ru": "Москва, Россия"
     },
     "minProjectBudget": {
-      "en": ",000+ (Enterprise API)",
+      "en": "$2,000+ (Enterprise API)",
       "ru": "от 120 000 ₽"
     },
     "avgRoiTime": {
@@ -3073,8 +3195,10 @@
       "ru": "Ведущий сервис аналитики для селлеров Wildberries и Ozon с ИИ-инструментами для SEO карточек и автоответов на отзывы."
     },
     "score": 86,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-24",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "cis-mena"
   },
   {
     "id": "rubbles",
@@ -3123,8 +3247,10 @@
       "ru": "Российская ИИ-компания: ML-решения для ценообразования, промо и прогнозирования спроса для крупного ритейла."
     },
     "score": 84,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-29",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "cis-mena"
   },
   {
     "id": "napoleon-it",
@@ -3173,8 +3299,10 @@
       "ru": "Российская компания ИИ и цифровых продуктов: компьютерное зрение, LLM и мобильные решения для ритейла и корпораций."
     },
     "score": 81,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-11-02",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "cis-mena"
   },
   {
     "id": "selsup",
@@ -3192,7 +3320,7 @@
       "ru": "Россия"
     },
     "minProjectBudget": {
-      "en": ",500+ (Integration Setup)",
+      "en": "$1,500+ (Integration Setup)",
       "ru": "от 100 000 ₽"
     },
     "avgRoiTime": {
@@ -3222,8 +3350,10 @@
       "ru": "Сервис управления продажами на маркетплейсах: остатки, цены, карточки и заказы для WB, Ozon и Яндекс Маркета."
     },
     "score": 78,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-16",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "cis-mena"
   },
   {
     "id": "harvey",
@@ -3271,8 +3401,10 @@
       "ru": "Генеративная ИИ-платформа для ведущих юрфирм и корпоративных юристов: исследования, составление, проверка и due diligence."
     },
     "score": 96,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-20",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "global"
   },
   {
     "id": "cohere",
@@ -3321,8 +3453,10 @@
       "ru": "Корпоративные LLM: модели Command, эмбеддинги и rerank для защищённых приватных и on-premise RAG-систем."
     },
     "score": 93,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-24",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "global"
   },
   {
     "id": "glean",
@@ -3371,8 +3505,10 @@
       "ru": "Платформа Work AI: объединяет корпоративные приложения в граф знаний с учётом прав доступа для поиска и агентов."
     },
     "score": 94,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-11-01",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "global"
   },
   {
     "id": "hebbia",
@@ -3420,8 +3556,10 @@
       "ru": "ИИ-платформа для финансистов и юристов: мультиагентный анализ тысяч документов одновременно."
     },
     "score": 89,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-11-03",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "usa-eu"
   },
   {
     "id": "writer",
@@ -3469,8 +3607,10 @@
       "ru": "Полностековая корпоративная GenAI-платформа с собственными моделями Palmyra, графовым RAG и no-code конструктором агентов."
     },
     "score": 89,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-20",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "usa-eu"
   },
   {
     "id": "luminance",
@@ -3518,8 +3658,10 @@
       "ru": "Кембриджская компания юридического ИИ: проверка договоров, автономные переговоры и автоматизация юридических процессов."
     },
     "score": 88,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-26",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "usa-eu"
   },
   {
     "id": "spellbook",
@@ -3537,7 +3679,7 @@
       "ru": "Торонто, Канада"
     },
     "minProjectBudget": {
-      "en": ",000+ (Firm Rollout)",
+      "en": "$5,000+ (Firm Rollout)",
       "ru": "от 350 000 ₽"
     },
     "avgRoiTime": {
@@ -3566,8 +3708,10 @@
       "ru": "ИИ-копилот для составления и проверки договоров прямо в Microsoft Word для юристов по сделкам."
     },
     "score": 85,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-30",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "usa-eu"
   },
   {
     "id": "red-mad-robot",
@@ -3617,8 +3761,10 @@
       "ru": "Крупная российская студия цифровых продуктов с GenAI-направлением: корпоративные LLM-ассистенты и RAG-платформы."
     },
     "score": 88,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-19",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "cis-mena"
   },
   {
     "id": "directum",
@@ -3666,8 +3812,10 @@
       "ru": "Российский вендор СЭД/ECM с ИИ-модулем Ario для распознавания, классификации документов и извлечения данных."
     },
     "score": 83,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-21",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "cis-mena"
   },
   {
     "id": "doczilla",
@@ -3685,7 +3833,7 @@
       "ru": "Россия"
     },
     "minProjectBudget": {
-      "en": ",000+ (Corporate Integration)",
+      "en": "$3,000+ (Corporate Integration)",
       "ru": "от 250 000 ₽"
     },
     "avgRoiTime": {
@@ -3714,8 +3862,10 @@
       "ru": "Российская legal-tech платформа для автоматизации шаблонов договоров и сборки документов для юристов компаний."
     },
     "score": 77,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-22",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "cis-mena"
   },
   {
     "id": "mts-ai",
@@ -3764,8 +3914,10 @@
       "ru": "ИИ-центр группы МТС: корпоративная LLM Cotype, речевые технологии и on-premise ИИ для бизнеса."
     },
     "score": 86,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-17",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "cis-mena"
   },
   {
     "id": "indata-labs",
@@ -3815,8 +3967,10 @@
       "ru": "Компания data science и разработки ИИ: генеративный ИИ, NLP и компьютерное зрение для международных клиентов."
     },
     "score": 83,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-21",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "usa-eu"
   },
   {
     "id": "first-page-sage",
@@ -3864,8 +4018,10 @@
       "ru": "B2B-агентство SEO на экспертном контенте, публикующее исследования по GEO и ведущее программы продвижения в ИИ."
     },
     "score": 89,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-11-03",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "usa-eu"
   },
   {
     "id": "np-digital",
@@ -3913,8 +4069,10 @@
       "ru": "Глобальное performance-агентство, сооснованное Нилом Пателом, с отдельным направлением продвижения в ИИ-поиске."
     },
     "score": 88,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-19",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "usa-eu"
   },
   {
     "id": "siege-media",
@@ -3962,8 +4120,10 @@
       "ru": "Агентство контент-маркетинга и SEO, известное контентом на данных и digital PR, которые приносят цитирования в поиске и ИИ."
     },
     "score": 86,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-24",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "usa-eu"
   },
   {
     "id": "ipullrank",
@@ -4011,8 +4171,10 @@
       "ru": "Агентство технического SEO под руководством Майка Кинга — одного из главных экспертов по ИИ-поиску и AI Overviews."
     },
     "score": 88,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-11-02",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "usa-eu"
   },
   {
     "id": "go-fish-digital",
@@ -4060,8 +4222,10 @@
       "ru": "Агентство SEO, digital PR и репутации с услугами GEO-продвижения брендов в ответах нейросетей."
     },
     "score": 84,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-15",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "usa-eu"
   },
   {
     "id": "profound",
@@ -4110,8 +4274,10 @@
       "ru": "Платформа мониторинга того, как бренды появляются в ChatGPT, Perplexity, Gemini и других ИИ-ассистентах."
     },
     "score": 90,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-28",
+    "status": "verified",
+    "entityType": "platform",
+    "region": "usa-eu"
   },
   {
     "id": "ashmanov",
@@ -4160,8 +4326,10 @@
       "ru": "Одно из старейших агентств поискового маркетинга в России с собственной ИИ/NLP-лабораторией, ORM и продвижением в ИИ-поиске."
     },
     "score": 87,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-11-01",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "cis-mena"
   },
   {
     "id": "rush-agency",
@@ -4209,8 +4377,10 @@
       "ru": "Российское SEO- и контент-агентство, известное исследованиями рынка поиска и продвижением в Яндексе и ИИ-поиске."
     },
     "score": 84,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-15",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "cis-mena"
   },
   {
     "id": "ingate",
@@ -4258,7 +4428,9 @@
       "ru": "Крупное российское digital-агентство: SEO, performance-маркетинг и оптимизация контента под ИИ-поиск."
     },
     "score": 82,
-    "verifiedDate": "2026-11-04",
-    "status": "verified"
+    "verifiedDate": "2026-10-20",
+    "status": "verified",
+    "entityType": "integrator",
+    "region": "cis-mena"
   }
 ]

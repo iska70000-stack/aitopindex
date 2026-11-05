@@ -6,8 +6,8 @@ import FilterBar from '../../components/FilterBar.astro';
 import RoiCalculator from '../../components/RoiCalculator.astro';
 import {
   agencies,
-  agenciesByLang,
   categories,
+  featuredAgencies,
   formatMonthYear,
   latestVerified,
   pluralRu,
@@ -24,7 +24,7 @@ const { lang } = Astro.params as { lang: Lang };
 
 const verifiedStamp = formatMonthYear(latestVerified(), lang);
 const totalAgencies = agencies.length;
-const listAgencies = agenciesByLang(lang);
+const featuredList = featuredAgencies(lang);
 
 // Grammatically correct pluralization for Hero counter:
 // In Russian: e.g. "86 проверенных компаний"
@@ -175,27 +175,51 @@ const categoryItemListJsonLd = {
     <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-2">
       <div>
         <span class="font-mono text-xs uppercase tracking-wider text-emerald-400">
-          {lang === 'ru' ? 'Глобальный реестр' : 'Master B2B Directory'}
+          {lang === 'ru' ? 'Флагманский реестр' : 'Flagship B2B Index'}
         </span>
         <h2 class="text-2xl font-bold tracking-tight text-white sm:text-3xl mt-1">
-          {lang === 'ru' ? 'Все проверенные компании и студии' : 'All Verified Agencies & Studios'}
+          {lang === 'ru' ? 'Топ-18 аккредитованных провайдеров' : 'Top 18 Flagship Providers'}
         </h2>
       </div>
       <p class="text-xs text-slate-400 font-mono">
         {lang === 'ru'
-          ? 'Сортировка по индексу надежности и технологическому стеку'
-          : 'Ranked by verified stack depth & enterprise case studies'}
+          ? 'Топ-2 лидера по каждому из 9 направлений автоматизации'
+          : 'Top 2 market leaders across each of the 9 implementation verticals'}
       </p>
     </div>
 
     <!-- Filter Bar -->
     <FilterBar lang={lang} targetContainerId="agencies-grid" />
 
-    <!-- Agencies Grid -->
+    <!-- Agencies Grid (18 Flagship Providers) -->
     <div id="agencies-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-      {listAgencies.map((agency, index) => (
+      {featuredList.map((agency, index) => (
         <AgencyCard agency={agency} lang={lang} rank={index + 1} />
       ))}
+    </div>
+
+    <!-- View All 86 Agencies in Dedicated Verticals CTA -->
+    <div class="mt-12 p-8 rounded-2xl glass glow-border text-center">
+      <h3 class="text-xl font-bold text-white">
+        {lang === 'ru'
+          ? `Изучите все ${totalAgencies} проверенных компаний по направлениям`
+          : `Explore All ${totalAgencies} Verified Agencies by Vertical`}
+      </h3>
+      <p class="mt-2 text-sm text-slate-300 max-w-2xl mx-auto">
+        {lang === 'ru'
+          ? 'Полные списки компаний, технические спецификации, реальные бюджеты и калькуляторы окупаемости доступны на страницах направлений.'
+          : 'Full agency rankings, technical specifications, verified budgets, and ROI benchmarks are available on vertical landing pages.'}
+      </p>
+      <div class="mt-6 flex flex-wrap justify-center gap-3">
+        {categories.map((c) => (
+          <a
+            href={`/${lang}/${c.slug[lang]}/`}
+            class="pill hover:border-cyan-glow hover:text-cyan-glow transition text-xs"
+          >
+            <span>{c.title[lang]} &rarr;</span>
+          </a>
+        ))}
+      </div>
     </div>
   </section>
 </Layout>

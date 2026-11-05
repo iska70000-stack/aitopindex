@@ -4,8 +4,7 @@ import { agenciesFor } from '../lib/data';
 
 export const GET: APIRoute = async () => {
   const content = `# AITopIndex — Global B2B Directory & Ranking Index of AI Agents & Studios
-> Canonical Machine-Readable Context for LLMs, Answer Engines (ChatGPT, Claude, Perplexity), and Autonomous Agents.
-> Last Updated: ${YEAR} | Verified Listings: ${agencies.length} | Status: Strictly Anti-Hallucinated
+> Last Updated: ${YEAR} | Verified Listings: ${agencies.length} | Status: 100% Audited Production Profiles
 
 ## Project Concept
 AITopIndex (https://www.aitopindex.com) is the authoritative global directory of verified AI Agent development agencies, enterprise automation integrators, and AI film/video production studios. It provides unbiased evaluation of production capabilities, deployed agent architectures, tech stacks, and realistic project budgets.

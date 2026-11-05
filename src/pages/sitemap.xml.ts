@@ -69,6 +69,58 @@ export const GET: APIRoute = async () => {
     lastmod: today,
   });
 
+  // 4. About pages
+  entries.push({
+    loc: `${SITE}/en/about/`,
+    en: `${SITE}/en/about/`,
+    ru: `${SITE}/ru/about/`,
+    priority: '0.7',
+    changefreq: 'monthly',
+    lastmod: today,
+  });
+  entries.push({
+    loc: `${SITE}/ru/about/`,
+    en: `${SITE}/en/about/`,
+    ru: `${SITE}/ru/about/`,
+    priority: '0.7',
+    changefreq: 'monthly',
+    lastmod: today,
+  });
+
+  // 5. Privacy & Terms pages
+  entries.push({
+    loc: `${SITE}/en/privacy/`,
+    en: `${SITE}/en/privacy/`,
+    ru: `${SITE}/ru/privacy/`,
+    priority: '0.5',
+    changefreq: 'monthly',
+    lastmod: today,
+  });
+  entries.push({
+    loc: `${SITE}/ru/privacy/`,
+    en: `${SITE}/en/privacy/`,
+    ru: `${SITE}/ru/privacy/`,
+    priority: '0.5',
+    changefreq: 'monthly',
+    lastmod: today,
+  });
+  entries.push({
+    loc: `${SITE}/en/terms/`,
+    en: `${SITE}/en/terms/`,
+    ru: `${SITE}/ru/terms/`,
+    priority: '0.5',
+    changefreq: 'monthly',
+    lastmod: today,
+  });
+  entries.push({
+    loc: `${SITE}/ru/terms/`,
+    en: `${SITE}/en/terms/`,
+    ru: `${SITE}/ru/terms/`,
+    priority: '0.5',
+    changefreq: 'monthly',
+    lastmod: today,
+  });
+
   // 4. Categories (9 categories x 2 langs)
   for (const cat of categories) {
     const enUrl = `${SITE}/en/${cat.slug.en}/`;

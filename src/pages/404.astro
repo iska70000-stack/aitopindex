@@ -1,0 +1,58 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { categories } from '../lib/data';
+
+const title = '404 — Page Not Found | AITopIndex';
+const description = 'The requested page could not be found. Explore verified AI agent developers, integrators, and film studios on AITopIndex.';
+---
+
+<Layout
+  title={title}
+  description={description}
+  lang="en"
+  canonicalPath="/404.html"
+>
+  <div class="py-20 max-w-3xl mx-auto text-center space-y-8">
+    <div class="inline-flex items-center justify-center h-20 w-20 rounded-3xl border border-cyan-glow/40 bg-cyan-glow/10 shadow-[0_0_30px_-5px_rgba(0,240,255,0.4)]">
+      <span class="font-mono text-3xl font-extrabold text-cyan-glow">404</span>
+    </div>
+
+    <div class="space-y-3">
+      <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+        Page Not Found / Страница не найдена
+      </h1>
+      <p class="text-sm sm:text-base text-slate-300 max-w-xl mx-auto">
+        The page you are looking for has been moved or does not exist. Browse our verified directories below:
+      </p>
+    </div>
+
+    <!-- Quick Navigation Links -->
+    <div class="glass p-6 sm:p-8 rounded-3xl border border-white/10 text-left space-y-4">
+      <h2 class="text-sm font-mono uppercase tracking-wider text-cyan-glow">
+        Verified AI Verticals:
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {categories.map((c) => (
+          <a
+            href={`/en/${c.slug.en}/`}
+            class="flex items-center justify-between p-3 rounded-xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.06] hover:border-cyan-glow/40 transition group"
+          >
+            <span class="text-xs text-white group-hover:text-cyan-glow font-medium">
+              {c.title.en}
+            </span>
+            <span class="text-xs text-slate-500 group-hover:text-cyan-glow">&rarr;</span>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <div class="pt-4 flex flex-wrap justify-center gap-4 font-mono text-xs">
+      <a href="/en/" class="btn-primary">
+        <span>&larr; Return to Global Home</span>
+      </a>
+      <a href="/ru/" class="btn-ghost">
+        <span>Перейти на Главную (RU) &rarr;</span>
+      </a>
+    </div>
+  </div>
+</Layout>

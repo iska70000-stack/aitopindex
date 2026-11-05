@@ -110,11 +110,17 @@ const { lang } = Astro.props;
 
     <!-- Bottom line -->
     <div class="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/5 pt-8 text-xs text-slate-500 sm:flex-row">
-      <p>&copy; {YEAR} {BRAND}. All verified listings reviewed and protected against hallucination.</p>
-      <div class="flex items-center gap-4">
-        <span>Zero-Config Vercel Ready</span>
+      <p>&copy; {YEAR} {BRAND}. {lang === 'ru' ? 'Независимый B2B-индекс аккредитованных разработчиков ИИ.' : 'Independent B2B index of accredited enterprise AI developers.'}</p>
+      <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs">
+        <a href={`/${lang}/about/`} class="hover:text-cyan-glow transition">{lang === 'ru' ? 'О проекте' : 'About'}</a>
         <span>•</span>
-        <span>PageSpeed 100/100 Core</span>
+        <a href={`/${lang}/methodology/`} class="hover:text-cyan-glow transition">{lang === 'ru' ? 'Методология' : 'Methodology'}</a>
+        <span>•</span>
+        <a href={`/${lang}/privacy/`} class="hover:text-cyan-glow transition">{lang === 'ru' ? 'Конфиденциальность' : 'Privacy'}</a>
+        <span>•</span>
+        <a href={`/${lang}/terms/`} class="hover:text-cyan-glow transition">{lang === 'ru' ? 'Условия' : 'Terms'}</a>
+        <span>•</span>
+        <a href={`/${lang}/submit/`} class="hover:text-cyan-glow transition">{lang === 'ru' ? 'Подать заявку' : 'Submit'}</a>
       </div>
     </div>
   </div>

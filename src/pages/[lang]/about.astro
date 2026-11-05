@@ -1,0 +1,119 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { type Lang, LANGS, agencies } from '../../lib/data';
+
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+
+const title = lang === 'ru'
+  ? `О проекте AITopIndex | Миссия, стандарты и независимость`
+  : `About AITopIndex | Mission, Standards & Independence`;
+
+const description = lang === 'ru'
+  ? `Узнайте о миссии AITopIndex — ведущего независимого B2B-индекса интеграторов ИИ, принципах отбора, редакционной независимости и стандартах верификации.`
+  : `Learn about AITopIndex — the premier independent B2B directory and ranking index of verified AI agent developers, integrators, and film studios.`;
+
+const alternatePaths = {
+  en: '/en/about/',
+  ru: '/ru/about/',
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  lang={lang}
+  canonicalPath={`/${lang}/about/`}
+  alternatePaths={alternatePaths}
+>
+  <div class="py-12 max-w-4xl mx-auto space-y-12">
+    <!-- Header -->
+    <div class="text-center max-w-2xl mx-auto">
+      <div class="inline-flex items-center gap-2 rounded-full border border-cyan-glow/40 bg-white/[0.04] px-4 py-1.5 font-mono text-xs text-cyan-glow mb-4">
+        <span>{lang === 'ru' ? 'Редакционная политика' : 'Editorial Standards'}</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+        {lang === 'ru' ? 'О проекте AITopIndex' : 'About AITopIndex'}
+      </h1>
+      <p class="mt-3 text-sm sm:text-base text-slate-300">
+        {lang === 'ru'
+          ? 'Независимый глобальный B2B-индекс аккредитованных разработчиков автономных ИИ-агентов, системных интеграторов и студий генеративного контента.'
+          : 'The independent global B2B index of accredited autonomous AI agent developers, workflow integrators, and generative content studios.'}
+      </p>
+    </div>
+
+    <!-- Mission & Core Values -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="glass p-6 rounded-2xl border border-white/10 space-y-3">
+        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+          <span class="text-cyan-glow">01.</span>
+          <span>{lang === 'ru' ? 'Наша миссия' : 'Our Mission'}</span>
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+          {lang === 'ru'
+            ? 'Рынок искусственного интеллекта переполнен маркетинговым шумом и фейковыми кейсами. Наша задача — предоставить бизнесу и корпоративным заказчикам прозрачный, технически верифицированный реестр реальных команд, способных решать производственные задачи.'
+            : 'The AI integration landscape is saturated with hyperbole and speculative claims. Our mission is to provide enterprise buyers and technical leaders with an audited, zero-compromise directory of proven developers capable of executing production workflows.'}
+        </p>
+      </div>
+
+      <div class="glass p-6 rounded-2xl border border-white/10 space-y-3">
+        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+          <span class="text-emerald-400">02.</span>
+          <span>{lang === 'ru' ? 'Редакционная независимость' : 'Editorial Independence'}</span>
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+          {lang === 'ru'
+            ? 'Позиции в рейтинге рассчитываются алгоритмически на основе глубины стека, проверенных кейсов, срока окупаемости и регулярности аудитов. Рейтинговые места нельзя купить — аккредитация требует реального подтверждения компетенций.'
+            : 'Directory rankings are determined algorithmically based on verifiable stack depth, enterprise deployments, validated payback timelines, and operational status. Placement cannot be bought; inclusion requires verifiable technical capability.'}
+        </p>
+      </div>
+
+      <div class="glass p-6 rounded-2xl border border-white/10 space-y-3">
+        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+          <span class="text-violet-300">03.</span>
+          <span>{lang === 'ru' ? 'Стандарты аккредитации' : 'Verification Standard'}</span>
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+          {lang === 'ru'
+            ? `Каждый из ${agencies.length} профилей в каталоге проходит многоступенчатую проверку: валидация домена, подтверждение юридического лица, верификация открытых кейсов и оценка соответствия заявленным инструментам.`
+            : `Every one of the ${agencies.length} verified listings is vetted across four dimensions: active HTTPS corporate domain, verified corporate identity, public commercial case studies, and stack alignment.`}
+        </p>
+      </div>
+
+      <div class="glass p-6 rounded-2xl border border-white/10 space-y-3">
+        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+          <span class="text-cyan-glow">04.</span>
+          <span>{lang === 'ru' ? 'Модель монетизации' : 'Transparency & Monetization'}</span>
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+          {lang === 'ru'
+            ? 'AITopIndex финансируется за счет спонсорских программ технологических партнеров и расширенных аналитических отчетов для enterprise-клиентов. Редакционный отбор кандидатов остается строго изолированным.'
+            : 'AITopIndex sustains operations through commercial sponsor programs and customized market intelligence reports for enterprise procurement teams. Editorial evaluations remain completely independent.'}
+        </p>
+      </div>
+    </div>
+
+    <!-- Verification Stats Block -->
+    <div class="rounded-3xl border border-white/10 bg-white/[0.02] p-8 text-center space-y-4">
+      <h3 class="text-xl font-bold text-white">
+        {lang === 'ru' ? 'Вы представитель агентства или платформы?' : 'Are you an AI Agency or Platform Leader?'}
+      </h3>
+      <p class="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto">
+        {lang === 'ru'
+          ? 'Подайте заявку на включение в каталог или подтвердите владение уже существующим профилем для актуализации данных.'
+          : 'Submit your organization for formal accreditation or claim an existing profile to update your verified technology stack.'}
+      </p>
+      <div class="flex flex-wrap justify-center gap-4 pt-2">
+        <a href={`/${lang}/submit/`} class="btn-primary text-xs">
+          <span>{lang === 'ru' ? 'Подать заявку на аудит' : 'Submit for Verification'}</span>
+        </a>
+        <a href={`/${lang}/methodology/`} class="btn-ghost text-xs">
+          <span>{lang === 'ru' ? 'Читать методологию' : 'Read Methodology'}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</Layout>
