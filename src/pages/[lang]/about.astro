@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import IndexEvolution from '../../components/IndexEvolution.astro';
 import { type Lang, LANGS, agencies } from '../../lib/data';
 
 export function getStaticPaths() {
@@ -95,6 +96,9 @@ const alternatePaths = {
         </p>
       </div>
     </div>
+
+    <!-- Index Evolution Timeline (2024–2026) & Historical Benchmarks -->
+    <IndexEvolution lang={lang} />
 
     <!-- Verification Stats Block -->
     <div class="rounded-3xl border border-white/10 bg-white/[0.02] p-8 text-center space-y-4">

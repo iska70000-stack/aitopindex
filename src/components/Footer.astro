@@ -1,5 +1,5 @@
 ---
-import { BRAND, categories, YEAR, type Lang } from '../lib/data';
+import { BRAND, categories, type Lang } from '../lib/data';
 
 interface Props {
   lang: Lang;
@@ -110,7 +110,7 @@ const { lang } = Astro.props;
 
     <!-- Bottom line -->
     <div class="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/5 pt-8 text-xs text-slate-500 sm:flex-row">
-      <p>&copy; {YEAR} {BRAND}. {lang === 'ru' ? 'Независимый B2B-индекс аккредитованных разработчиков ИИ.' : 'Independent B2B index of accredited enterprise AI developers.'}</p>
+      <p>&copy; 2024–2026 AITopIndex Research. {lang === 'ru' ? 'Все права защищены.' : 'All rights reserved.'}</p>
       <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs">
         <a href={`/${lang}/about/`} class="hover:text-cyan-glow transition">{lang === 'ru' ? 'О проекте' : 'About'}</a>
         <span>•</span>
