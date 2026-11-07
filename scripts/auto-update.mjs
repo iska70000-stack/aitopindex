@@ -39,7 +39,7 @@ const PING_ONLY = args.has('--ping-only');
 const promoteArg = [...args].find((a) => a.startsWith('--promote='));
 const MAX_PROMOTE = promoteArg ? Number(promoteArg.split('=')[1]) : 3;
 
-const SITE = (process.env.SITE_URL || 'https://aitopindex.com').replace(/\/$/, '');
+const SITE = (process.env.SITE_URL || 'https://www.aitopindex.com').replace(/\/$/, '');
 const FAIL_THRESHOLD = 3;
 const MIN_PER_CATEGORY = 8;
 const CONCURRENCY = 8;
@@ -184,11 +184,18 @@ async function pingIndexNow(agencies) {
   const cats = await parseCategorySlugs();
   const urls = [`${SITE}/`];
   for (const lang of ['en', 'ru']) {
-    urls.push(`${SITE}/${lang}/`, `${SITE}/${lang}/submit/`, `${SITE}/${lang}/methodology/`);
+    urls.push(
+      `${SITE}/${lang}/`,
+      `${SITE}/${lang}/submit/`,
+      `${SITE}/${lang}/methodology/`,
+      `${SITE}/${lang}/about/`,
+      `${SITE}/${lang}/privacy/`,
+      `${SITE}/${lang}/terms/`
+    );
     for (const c of cats) urls.push(`${SITE}/${lang}/${c[lang]}/`);
     for (const a of agencies) urls.push(`${SITE}/${lang}/agency/${a.id}/`);
   }
-  urls.push(`${SITE}/llms.txt`, `${SITE}/llms-full.txt`);
+  urls.push(`${SITE}/llms.txt`, `${SITE}/llms-full.txt`, `${SITE}/sitemap.xml`);
 
   const body = JSON.stringify({ host: new URL(SITE).host, key, keyLocation: `${SITE}/${key}.txt`, urlList: urls });
   if (DRY) return log(`(dry-run) would ping IndexNow with ${urls.length} URLs`);
