@@ -1,26 +1,21 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import CategoryCard from '../components/CategoryCard.astro';
-import AgencyCard from '../components/AgencyCard.astro';
-import FilterBar from '../components/FilterBar.astro';
+import DirectoryApp from '../components/DirectoryApp.astro';
 import RoiCalculator from '../components/RoiCalculator.astro';
 import {
   agencies,
+  agenciesByLang,
   categories,
-  formatMonthYear,
-  latestVerified,
-  featuredAgencies,
   SITE,
 } from '../lib/data';
 
 const lang = 'en';
-const verifiedStamp = formatMonthYear(latestVerified(), lang);
 const totalAgencies = agencies.length;
-const featuredList = featuredAgencies(lang);
+const listAgencies = agenciesByLang(lang);
 
 const meta = {
-  title: 'AITopIndex — Global B2B Directory & Ranking of Verified AI Agents & Studios',
-  description: `Independent index of ${totalAgencies}+ verified AI agent development agencies, n8n/Make automation integrators, and AI video production studios. Compare tech stacks, real budgets and ROI.`,
+  title: 'AI Top Index — Directory of AI Companies & Integrators 2026',
+  description: `Discover ${totalAgencies}+ verified AI agent development agencies, enterprise automation integrators, and AI video production studios. Compare real budgets, tech stacks, and ROI.`,
 };
 
 // JSON-LD ItemList for Categories
@@ -45,7 +40,7 @@ const categoryItemListJsonLd = {
   alternatePaths={{ en: '/en/', ru: '/ru/' }}
   jsonLd={categoryItemListJsonLd}
 >
-  <!-- Optional Client-Side RU detection for root / visitors -->
+  <!-- Client-Side RU detection for root / visitors -->
   <script is:inline>
     try {
       const isBot = /bot|googlebot|crawler|spider|robot|crawling/i.test(navigator.userAgent);
@@ -61,134 +56,18 @@ const categoryItemListJsonLd = {
     } catch (e) {}
   </script>
 
-  <!-- Hero Section -->
-  <section class="pt-12 sm:pt-20 pb-12 text-center max-w-4xl mx-auto">
-    <!-- Single Clean Verification Date Badge -->
-    <div class="inline-flex items-center gap-2.5 rounded-full border border-cyan-glow/40 bg-white/[0.04] px-4 py-1.5 backdrop-blur-md shadow-[0_0_20px_-5px_rgba(0,240,255,0.3)] mb-6">
-      <span class="relative flex h-2 w-2">
-        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-glow opacity-75"></span>
-        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-glow"></span>
-      </span>
-      <span class="font-mono text-xs text-slate-300">
-        <strong class="text-white font-semibold">{totalAgencies}</strong> Verified Agencies
-        <span class="text-slate-500 mx-1">•</span>
-        <span class="text-cyan-glow">Verified: {verifiedStamp}</span>
-      </span>
-    </div>
+  <div class="py-2">
+    <!-- Interactive Dark Tech Directory App -->
+    <DirectoryApp
+      agencies={listAgencies}
+      categories={categories}
+      lang={lang}
+      initialCategory="all"
+    />
 
-    <!-- Main Title -->
-    <h1 class="text-3xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl text-balance">
-      Global Index of <span class="text-gradient">Verified AI Agent</span> Developers & Studios
-    </h1>
-
-    <!-- Subtitle -->
-    <p class="mt-6 text-base sm:text-lg leading-relaxed text-slate-300 max-w-3xl mx-auto">
-      The definitive enterprise directory of production-proven AI SDRs, voice call bots, n8n/Make
-      orchestration specialists, and generative film studios. Real companies, audited tech stacks, and zero hallucinations.
-    </p>
-
-    <!-- Quick CTAs -->
-    <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
-      <a href="#categories" class="btn-primary">
-        <span>Explore AI Categories &darr;</span>
-      </a>
-      <a href="#calculator" class="btn-ghost">
-        <span>Calculate Implementation Cost</span>
-      </a>
-    </div>
-
-    <!-- Market Trust Stats -->
-    <div class="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-4 border-t border-b border-white/5 py-6 font-mono text-center">
-      <div>
-        <span class="block text-2xl font-bold text-white sm:text-3xl">9</span>
-        <span class="text-xs text-slate-400 uppercase tracking-wider">AI Verticals</span>
-      </div>
-      <div>
-        <span class="block text-2xl font-bold text-cyan-glow sm:text-3xl">{totalAgencies}+</span>
-        <span class="text-xs text-slate-400 uppercase tracking-wider">Audited Teams</span>
-      </div>
-      <div>
-        <span class="block text-2xl font-bold text-emerald-400 sm:text-3xl">1–3 mo</span>
-        <span class="text-xs text-slate-400 uppercase tracking-wider">Avg Payback</span>
-      </div>
-      <div>
-        <span class="block text-2xl font-bold text-violet-300 sm:text-3xl">100%</span>
-        <span class="text-xs text-slate-400 uppercase tracking-wider">Verified Agencies</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- 9 High-Demand Categories (3x3 Desktop Grid & 1 Col Mobile) -->
-  <section id="categories" class="pt-8 pb-16 scroll-mt-20">
-    <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between mb-8 gap-4">
-      <div>
-        <span class="font-mono text-xs uppercase tracking-wider text-cyan-glow">
-          Directory Architecture
-        </span>
-        <h2 class="text-2xl font-bold tracking-tight text-white sm:text-3xl mt-1">
-          9 High-Demand AI Implementation Sectors
-        </h2>
-      </div>
-      <p class="text-xs text-slate-400 font-mono">
-        Independent B2B Index &bull; Weekly Profile Verification
-      </p>
-    </div>
-
-    <!-- 3x3 Desktop Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {categories.map((category) => (
-        <CategoryCard category={category} lang={lang} />
-      ))}
-    </div>
-  </section>
-
-  <!-- AI Implementation Cost & ROI Calculator Section -->
-  <RoiCalculator lang={lang} />
-
-  <!-- Directory of Verified Agencies with Real-time Filter -->
-  <section id="agencies" class="pt-8 pb-20 scroll-mt-20">
-    <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-2">
-      <div>
-        <span class="font-mono text-xs uppercase tracking-wider text-emerald-400">
-          Flagship B2B Index
-        </span>
-        <h2 class="text-2xl font-bold tracking-tight text-white sm:text-3xl mt-1">
-          Top 18 Flagship Providers
-        </h2>
-      </div>
-      <p class="text-xs text-slate-400 font-mono">
-        Top 2 market leaders across each of the 9 implementation verticals
-      </p>
-    </div>
-
-    <!-- Filter Bar -->
-    <FilterBar lang={lang} targetContainerId="agencies-grid" />
-
-    <!-- Agencies Grid (18 Flagship Providers) -->
-    <div id="agencies-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-      {featuredList.map((agency, index) => (
-        <AgencyCard agency={agency} lang={lang} rank={index + 1} />
-      ))}
-    </div>
-
-    <!-- View All 86 Agencies in Dedicated Verticals CTA -->
-    <div class="mt-12 p-8 rounded-2xl glass glow-border text-center">
-      <h3 class="text-xl font-bold text-white">
-        Explore All {totalAgencies} Verified Agencies by Vertical
-      </h3>
-      <p class="mt-2 text-sm text-slate-300 max-w-2xl mx-auto">
-        Full agency rankings, technical specifications, verified budgets, and ROI benchmarks are available on vertical landing pages.
-      </p>
-      <div class="mt-6 flex flex-wrap justify-center gap-3">
-        {categories.map((c) => (
-          <a
-            href={`/${lang}/${c.slug[lang]}/`}
-            class="pill hover:border-cyan-glow hover:text-cyan-glow transition text-xs"
-          >
-            <span>{c.title[lang]} &rarr;</span>
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
+    <!-- Implementation Cost & ROI Payback Calculator Section -->
+    <section class="mt-8 pt-8 border-t border-[#1E2631]">
+      <RoiCalculator lang={lang} />
+    </section>
+  </div>
 </Layout>

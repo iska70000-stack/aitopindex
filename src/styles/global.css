@@ -4,26 +4,72 @@
 @import '@fontsource-variable/inter';
 @import '@fontsource-variable/jetbrains-mono';
 
+@theme {
+  --color-obsidian-bg: #090c10;
+  --color-obsidian-surface: #11161d;
+  --color-obsidian-elevated: #171e27;
+  --color-obsidian-border: #1e2631;
+  --color-obsidian-cyan: #2dd4bf;
+  --color-obsidian-indigo: #6366f1;
+  --color-obsidian-text: #f3f6fa;
+  --color-obsidian-muted: #8b96a5;
+  --color-obsidian-tag: #141b24;
+  --color-cyan-glow: #2dd4bf;
+  --color-violet-glow: #6366f1;
+  --color-emerald-glow: #10b981;
+}
+
 :root {
   color-scheme: dark;
-  --obsidian: #05070b;
-  --cyan: #00f0ff;
-  --violet: #7000ff;
+  --obsidian: #090c10;
+  --cyan: #2dd4bf;
+  --violet: #6366f1;
   --emerald: #10b981;
 }
 
 html {
-  background: var(--obsidian);
+  background: #090c10;
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
 body {
-  @apply bg-obsidian font-sans text-slate-200 antialiased;
-  text-rendering: optimizeLegibility;
+  background-color: #090c10;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #f3f6fa;
+  -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
-::selection { background: rgba(0, 240, 255, 0.3); color: #fff; }
+::selection { background: rgba(45, 212, 191, 0.25); color: #2dd4bf; }
 :focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; border-radius: 6px; }
+
+/* Скрытие полосы прокрутки для горизонтального ряда капсул */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Неоново-бирюзовое и индиго свечение командной строки поиска */
+.command-glow {
+  background: linear-gradient(#11161d, #11161d) padding-box,
+              linear-gradient(90deg, rgba(45, 212, 191, 0.72), rgba(99, 102, 241, 0.65), rgba(45, 212, 191, 0.55)) border-box;
+  border: 1.25px solid transparent;
+  box-shadow: 0 0 22px -4px rgba(45, 212, 191, 0.22), 0 0 16px -6px rgba(99, 102, 241, 0.25);
+}
+.command-glow:focus-within {
+  box-shadow: 0 0 28px -2px rgba(45, 212, 191, 0.36), 0 0 22px -4px rgba(99, 102, 241, 0.35);
+}
+
+/* Плавная анимация нижней модальной шторки */
+@keyframes sheetSlideUp {
+  from { transform: translateY(100%); opacity: 0.6; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.animate-sheet {
+  animation: sheetSlideUp 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
 
 /* ---------------------------------------------------------------- */
 /* Spatial backdrop: aurora glows + perspective cyber-grid floor     */

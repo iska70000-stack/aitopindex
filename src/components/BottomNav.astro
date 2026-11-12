@@ -1,0 +1,94 @@
+---
+import type { Lang } from '../lib/data';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+---
+
+<!-- Fixed Bottom Navigation Bar with backdrop-blur -->
+<nav
+  aria-label="Mobile Bottom Navigation"
+  class="fixed bottom-0 left-0 right-0 z-40 bg-[#11161D]/85 backdrop-blur-xl border-t border-[#1E2631] py-1.5 px-2"
+>
+  <div class="mx-auto w-full max-w-[430px] grid grid-cols-4 gap-1">
+    <button
+      type="button"
+      id="nav-directory"
+      onclick="switchTab('directory')"
+      class="flex flex-col items-center justify-center gap-1 text-[#F3F6FA] font-medium transition-colors cursor-pointer"
+    >
+      <span class="px-3 py-0.5 rounded-lg bg-[#171E27]/90 border border-[#1E2631]/80">
+        <svg class="w-[18px] h-[18px] text-[#2DD4BF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+          <rect x="4" y="3" width="16" height="18" rx="2.5"></rect>
+          <line x1="8" y1="8" x2="16" y2="8" stroke-linecap="round"></line>
+          <line x1="8" y1="12" x2="16" y2="12" stroke-linecap="round"></line>
+          <line x1="8" y1="16" x2="12" y2="16" stroke-linecap="round"></line>
+        </svg>
+      </span>
+      <span id="navTextDirectory" class="text-[10.5px] leading-none">
+        {lang === 'ru' ? 'Каталог' : 'Directory'}
+      </span>
+    </button>
+
+    <button
+      type="button"
+      id="nav-categories"
+      onclick="switchTab('categories')"
+      class="flex flex-col items-center justify-center gap-1 text-[#8B96A5] hover:text-[#F3F6FA] transition-colors cursor-pointer"
+    >
+      <span class="px-3 py-0.5 rounded-lg">
+        <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+          <rect x="3.5" y="3.5" width="7" height="7" rx="1.5"></rect>
+          <rect x="13.5" y="3.5" width="7" height="7" rx="1.5"></rect>
+          <rect x="3.5" y="13.5" width="7" height="7" rx="1.5"></rect>
+          <rect x="13.5" y="13.5" width="7" height="7" rx="1.5"></rect>
+        </svg>
+      </span>
+      <span id="navTextCategories" class="text-[10.5px] leading-none">
+        {lang === 'ru' ? 'Категории' : 'Categories'}
+      </span>
+    </button>
+
+    <button
+      type="button"
+      id="nav-submit"
+      onclick="openSubmitAiModal()"
+      class="flex flex-col items-center justify-center gap-1 text-[#8B96A5] hover:text-[#F3F6FA] transition-colors cursor-pointer"
+    >
+      <span class="px-3 py-0.5 rounded-lg">
+        <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="5" x2="12" y2="19" stroke-linecap="round"></line>
+          <line x1="5" y1="12" x2="19" y2="12" stroke-linecap="round"></line>
+        </svg>
+      </span>
+      <span id="navTextSubmit" class="text-[10.5px] leading-none">
+        {lang === 'ru' ? 'Добавить ИИ' : '+ Submit AI'}
+      </span>
+    </button>
+
+    <button
+      type="button"
+      id="nav-saved"
+      onclick="switchTab('saved')"
+      class="relative flex flex-col items-center justify-center gap-1 text-[#8B96A5] hover:text-[#F3F6FA] transition-colors cursor-pointer"
+    >
+      <span
+        id="savedCountBadge"
+        class="hidden absolute top-0 right-[calc(50%-20px)] min-w-[16px] h-[16px] px-1 rounded-full bg-[#2DD4BF] text-[#090C10] text-[9.5px] font-bold items-center justify-center"
+      >
+        0
+      </span>
+      <span class="px-3 py-0.5 rounded-lg">
+        <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+          <path d="M12 20.5s-7.5-4.8-9.2-9.2C1.5 7.9 3.9 4.5 7.5 4.5c2.1 0 3.7 1.1 4.5 2.4.8-1.3 2.4-2.4 4.5-2.4 3.6 0 6 3.4 4.7 6.8-1.7 4.4-9.2 9.2-9.2 9.2z" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span id="navTextSaved" class="text-[10.5px] leading-none">
+        {lang === 'ru' ? 'Избранное' : 'Saved'}
+      </span>
+    </button>
+  </div>
+</nav>

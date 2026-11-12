@@ -1,5 +1,5 @@
 ---
-import { BRAND, type Lang } from '../lib/data';
+import type { Lang } from '../lib/data';
 
 interface Props {
   lang: Lang;
@@ -8,71 +8,88 @@ interface Props {
 
 const { lang, currentPath = `/${lang}/` } = Astro.props;
 
-// Determine switch link
-let targetPath = '/en/';
-if (lang === 'en') {
-  targetPath = currentPath.startsWith('/en/')
-    ? currentPath.replace(/^\/en\//, '/ru/')
-    : currentPath === '/en' ? '/ru/' : '/ru/';
-} else {
-  targetPath = currentPath.startsWith('/ru/')
-    ? currentPath.replace(/^\/ru\//, '/en/')
-    : currentPath === '/ru' ? '/en/' : '/en/';
-}
+// Determine switch links
+const enPath = currentPath.startsWith('/ru/')
+  ? currentPath.replace(/^\/ru\//, '/en/')
+  : currentPath === '/ru' ? '/en/' : currentPath;
 
-const navLinks = [
-  { href: `/${lang}/#categories`, label: lang === 'ru' ? 'Категории' : 'Categories' },
-  { href: `/${lang}/#calculator`, label: lang === 'ru' ? 'Калькулятор ROI' : 'ROI Calculator' },
-  { href: `/${lang}/methodology/`, label: lang === 'ru' ? 'Методология' : 'Methodology' },
-];
+const ruPath = currentPath.startsWith('/en/')
+  ? currentPath.replace(/^\/en\//, '/ru/')
+  : currentPath === '/en' ? '/ru/' : currentPath;
 ---
 
-<header class="sticky top-0 z-50 w-full border-b border-white/10 bg-obsidian/80 backdrop-blur-xl transition-all">
-  <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+<header class="sticky top-0 z-30 w-full bg-[#090C10]/90 backdrop-blur-md border-b border-[#1E2631]/80 px-4 py-3 flex items-center justify-between">
+  <div class="mx-auto w-full max-w-7xl flex items-center justify-between">
     <!-- Brand Logo -->
-    <a href={`/${lang}/`} class="group flex items-center gap-2.5 transition">
-      <div class="relative flex h-9 w-9 items-center justify-center rounded-xl border border-cyan-glow/40 bg-white/[0.05] shadow-[0_0_15px_-3px_rgba(0,240,255,0.4)] transition-all group-hover:scale-105 group-hover:border-cyan-glow group-hover:shadow-[0_0_25px_-2px_rgba(0,240,255,0.7)]">
-        <span class="font-mono text-base font-bold text-cyan-glow">AI</span>
-      </div>
-      <div class="flex flex-col">
-        <span class="text-base font-extrabold tracking-tight text-white group-hover:text-cyan-glow transition">
-          {BRAND}<span class="text-cyan-glow">.</span>
+    <a
+      href={`/${lang}/`}
+      class="flex items-center gap-2.5 focus:outline-none group transition-transform active:scale-95"
+    >
+      <!-- Шестиугольная неоновая иконка "AI" -->
+      <span class="w-7 h-7 rounded-lg bg-gradient-to-br from-[#2DD4BF]/20 to-[#6366F1]/25 border border-[#2DD4BF]/40 flex items-center justify-center shadow-[0_0_12px_rgba(45,212,191,0.25)] group-hover:border-[#2DD4BF] transition-colors">
+        <svg class="w-4 h-4 text-[#2DD4BF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <polygon points="12 2 21 7 21 17 12 22 3 17 3 7 12 2"></polygon>
+          <text x="12" y="15" text-anchor="middle" fill="currentColor" stroke="none" font-size="8.5" font-weight="700" font-family="Inter, sans-serif">AI</text>
+        </svg>
+      </span>
+      <div class="flex items-center gap-2">
+        <span class="text-[16px] font-semibold tracking-[-0.02em] text-[#F3F6FA] group-hover:text-white transition-colors">
+          AI Top Index
         </span>
-        <span class="font-mono text-[9px] uppercase tracking-widest text-slate-400">
-          Global B2B Index
+        <span class="hidden sm:inline-block font-mono text-[10px] uppercase tracking-wider text-[#2DD4BF] bg-[#2DD4BF]/10 border border-[#2DD4BF]/30 px-1.5 py-0.5 rounded">
+          B2B 2026
         </span>
       </div>
     </a>
 
-    <!-- Nav Items -->
-    <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
-      {navLinks.map((link) => (
-        <a href={link.href} class="hover:text-white transition">
-          {link.label}
-        </a>
-      ))}
+    <!-- Desktop Navigation Links -->
+    <nav class="hidden md:flex items-center gap-6 text-[13px] font-medium text-[#8B96A5]">
+      <a href={`/${lang}/`} class="hover:text-[#F3F6FA] transition-colors">
+        {lang === 'ru' ? 'Каталог' : 'Directory'}
+      </a>
+      <a href={`/${lang}/#categories-section`} class="hover:text-[#F3F6FA] transition-colors">
+        {lang === 'ru' ? 'Сферы внедрения' : 'Categories'}
+      </a>
+      <a href={`/${lang}/about/`} class="hover:text-[#F3F6FA] transition-colors">
+        {lang === 'ru' ? 'О проекте' : 'About'}
+      </a>
+      <a href={`/${lang}/methodology/`} class="hover:text-[#F3F6FA] transition-colors">
+        {lang === 'ru' ? 'Методология' : 'Methodology'}
+      </a>
+      <a href="/llms.txt" target="_blank" class="font-mono text-xs text-[#2DD4BF] hover:underline">
+        /llms.txt
+      </a>
     </nav>
 
-    <!-- Right Controls: Submit CTA + Lang Switcher -->
+    <!-- Right Controls: Submit CTA (Desktop) + Language Switcher -->
     <div class="flex items-center gap-3">
-      <!-- Language Switcher Pill -->
-      <a
-        href={targetPath}
-        class="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.04] px-2.5 py-1.5 font-mono text-xs text-slate-300 hover:border-cyan-glow/50 hover:text-white transition"
-        title={lang === 'ru' ? 'Switch to English' : 'Переключить на русский'}
+      <button
+        type="button"
+        onclick="if(typeof window.openSubmitAiModal==='function'){window.openSubmitAiModal();}else{window.location.href=`/${lang}/submit/`;}"
+        class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#171E27] hover:bg-[#2DD4BF]/15 border border-[#1E2631] hover:border-[#2DD4BF]/50 text-[12px] font-medium text-[#2DD4BF] transition-colors cursor-pointer"
       >
-        <span class={lang === 'en' ? 'text-cyan-glow font-bold' : 'text-slate-400'}>EN</span>
-        <span class="text-slate-600">/</span>
-        <span class={lang === 'ru' ? 'text-cyan-glow font-bold' : 'text-slate-400'}>RU</span>
-      </a>
+        <span>+</span>
+        <span>{lang === 'ru' ? 'Добавить ИИ' : 'Submit AI'}</span>
+      </button>
 
-      <!-- Submit Agency CTA Button -->
-      <a
-        href={`/${lang}/submit/`}
-        class="btn-primary text-xs py-2 px-3.5 sm:text-sm sm:py-2 sm:px-4"
-      >
-        <span>+ {lang === 'ru' ? 'Добавить агентство' : 'Submit Agency'}</span>
-      </a>
+      <!-- Language Switcher EN | RU -->
+      <div class="flex items-center text-[13px] tracking-tight bg-[#11161D] border border-[#1E2631] rounded-lg px-2 py-0.5">
+        <a
+          href={enPath}
+          class={`px-1.5 py-0.5 transition-colors ${lang === 'en' ? 'font-bold text-[#F3F6FA] text-[#2DD4BF]' : 'font-medium text-[#8B96A5] hover:text-[#F3F6FA]'}`}
+          aria-label="Switch to English"
+        >
+          EN
+        </a>
+        <span class="text-[#1E2631] select-none">|</span>
+        <a
+          href={ruPath}
+          class={`px-1.5 py-0.5 transition-colors ${lang === 'ru' ? 'font-bold text-[#F3F6FA] text-[#2DD4BF]' : 'font-medium text-[#8B96A5] hover:text-[#F3F6FA]'}`}
+          aria-label="Переключить на русский"
+        >
+          RU
+        </a>
+      </div>
     </div>
   </div>
 </header>

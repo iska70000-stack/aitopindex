@@ -2,6 +2,8 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import BottomNav from '../components/BottomNav.astro';
+import Modals from '../components/Modals.astro';
 import { BRAND, SITE, type Lang } from '../lib/data';
 
 interface Props {
@@ -101,25 +103,23 @@ const baseJsonLd = {
     <!-- JSON-LD Microdata -->
     <script type="application/ld+json" set:html={JSON.stringify(baseJsonLd)} />
   </head>
-  <body class="relative min-h-screen">
-    <!-- Spatial 3D Pure-CSS Background (0KB JS) -->
-    <div class="space-bg" aria-hidden="true">
-      <div class="aurora aurora-cyan"></div>
-      <div class="aurora aurora-violet"></div>
-      <div class="aurora aurora-emerald"></div>
-      <div class="grid-floor"></div>
-    </div>
-
+  <body class="relative min-h-screen bg-[#090C10] text-[#F3F6FA] pb-24 sm:pb-20">
     <!-- Header Navigation -->
     <Header lang={lang} currentPath={canonicalPath} />
 
     <!-- Main Content Slot -->
-    <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <main class="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">
       <slot />
     </main>
 
     <!-- Footer -->
     <Footer lang={lang} />
+
+    <!-- Modals & Bottom Sheets (Contact, Cases, Submit AI, Toasts) -->
+    <Modals lang={lang} />
+
+    <!-- Fixed Bottom Navigation Bar -->
+    <BottomNav lang={lang} />
 
     <!-- Lightweight Hardware-Accelerated 3D Card Tilt Script (Vanilla JS, 0 external deps) -->
     <script>
