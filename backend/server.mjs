@@ -359,12 +359,14 @@ export const server = http.createServer(async (req, res) => {
       }
 
       const exp = Date.now() + 24 * 60 * 60 * 1000;
-      const token = signSessionToken({ uid: user.id, username: user.username, role: user.role, exp }, SESSION_SECRET);
+      const jti = crypto.randomUUID();
+      const csrfToken = crypto.randomBytes(24).toString('hex');
+      const token = signSessionToken({ uid: user.id, username: user.username, role: user.role, jti, csrf: csrfToken, exp }, SESSION_SECRET);
       const isProd = process.env.NODE_ENV === 'production';
       const cookie = `aitop_admin_session=${encodeURIComponent(token)}; HttpOnly; Path=/; SameSite=Lax; Max-Age=86400${isProd ? '; Secure' : ''}`;
 
-      logAudit(db, { actor: user.username, action: 'admin.login', entityType: 'admin_user', entityId: user.id, details: { ip } });
-      return sendJson(res, 200, { ok: true, username: user.username, role: user.role }, { 'Set-Cookie': cookie });
+      logAudit(db, { actor: user.username, action: 'admin.login', entityType: 'admin_user', entityId: user.id, details: { ip, jti } });
+      return sendJson(res, 200, { ok: true, username: user.username, role: user.role, csrfToken }, { 'Set-Cookie': cookie });
     }
 
     if (method === 'POST' && pathname === '/api/admin/logout') {
@@ -374,7 +376,7 @@ export const server = http.createServer(async (req, res) => {
     if (method === 'GET' && pathname === '/api/admin/me') {
       const admin = getAuthenticatedAdmin(req);
       if (!admin) return sendJson(res, 401, { error: 'Unauthorized' });
-      return sendJson(res, 200, { ok: true, admin });
+      return sendJson(res, 200, { ok: true, admin: { username: admin.username, role: admin.role }, csrfToken: admin.csrf });
     }
 
     // 5. Protected Admin API Routes
@@ -382,6 +384,14 @@ export const server = http.createServer(async (req, res) => {
       const admin = getAuthenticatedAdmin(req);
       if (!admin) {
         return sendJson(res, 401, { error: 'Authentication required' });
+      }
+
+      // CSRF Verification on all state-changing admin requests
+      if (method === 'POST' || method === 'PATCH' || method === 'DELETE') {
+        const reqCsrf = req.headers['x-csrf-token'];
+        if (!reqCsrf || reqCsrf !== admin.csrf) {
+          return sendJson(res, 403, { error: 'Invalid or missing CSRF token' });
+        }
       }
 
       if (method === 'GET' && pathname === '/api/admin/dashboard') {
@@ -540,6 +550,18 @@ export const server = http.createServer(async (req, res) => {
       if (method === 'GET' && pathname === '/api/admin/audit-logs') {
         const rows = db.prepare('SELECT * FROM audit_logs ORDER BY id DESC LIMIT 100').all();
         return sendJson(res, 200, { logs: rows });
+      }
+
+      if (method === 'GET' && pathname === '/api/admin/notifications') {
+        const emails = db.prepare('SELECT id, recipient, subject, status, attempts, last_error, created_at, sent_at FROM email_queue ORDER BY id DESC LIMIT 50').all();
+        const hermes = db.prepare('SELECT id, event_id, event_type, status, attempts, last_error, created_at, delivered_at FROM hermes_events ORDER BY id DESC LIMIT 50').all();
+        return sendJson(res, 200, { emails, hermes });
+      }
+
+      if (method === 'GET' && pathname === '/api/admin/duplicates') {
+        const dupSubs = db.prepare("SELECT * FROM submissions WHERE status = 'duplicate' ORDER BY id DESC").all();
+        const dupNames = db.prepare("SELECT name, COUNT(*) AS cnt FROM companies GROUP BY LOWER(name) HAVING cnt > 1").all();
+        return sendJson(res, 200, { duplicateSubmissions: dupSubs, duplicateNames: dupNames });
       }
 
       return sendJson(res, 404, { error: 'Admin API endpoint not found' });

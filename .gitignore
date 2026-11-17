@@ -2,10 +2,14 @@ node_modules/
 dist/
 .astro/
 .vercel/
+.vercel
 .env
 .env.*
 !.env.example
 *.log
 .DS_Store
-
-.vercel
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+backend/backups/
+*.bak

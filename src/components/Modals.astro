@@ -333,80 +333,227 @@ const categoriesModalData = categories.map((c) => ({
     `);
   };
 
-  window.handleSubmitAiForm = function(e) {
+  window.handleSubmitAiForm = async function(e) {
     e.preventDefault();
     const form = e.target;
     const isRu = window.__LANG === 'ru';
     const errBox = document.getElementById('submit-form-error');
     const readyBox = document.getElementById('modal-submit-ready');
+    const submitBtn = document.getElementById('modal-submit-btn');
 
     const fd = new FormData(form);
-    if (fd.get('website_hp')) return; // Honeypot triggered
+    if (fd.get('website_hp')) return; // Honeypot
 
-    const name = String(fd.get('orgName') || '').trim();
-    const category = String(fd.get('orgCategory') || '').trim();
-    const rawDomain = String(fd.get('orgDomain') || '').trim();
-    const desc = String(fd.get('orgDesc') || '').trim();
-    const stack = String(fd.get('orgStack') || '').trim() || 'Not specified';
-    const email = String(fd.get('orgEmail') || '').trim();
-
-    const normDomain = rawDomain.toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').split('/')[0];
-    if (!normDomain || !normDomain.includes('.')) {
-      if (errBox) {
-        errBox.textContent = isRu ? 'Укажите корректный домен сайта (например, company.com).' : 'Please enter a valid website domain (e.g., company.com).';
-        errBox.classList.remove('hidden');
-      }
-      return;
-    }
-
-    // Duplicate domain check against catalog
-    const duplicate = window.__AGENCIES.find((a) => {
-      const d = a.website.toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').split('/')[0];
-      return d === normDomain;
-    });
-
-    if (duplicate) {
-      if (errBox) {
-        errBox.innerHTML = isRu
-          ? `Компания с доменом <strong>${normDomain}</strong> уже есть в каталоге (<a href="${duplicate.profileUrl}" class="underline font-bold">${duplicate.name}</a>). Используйте кнопку «Подтвердить профиль» на её странице.`
-          : `An organization with domain <strong>${normDomain}</strong> is already listed (<a href="${duplicate.profileUrl}" class="underline font-bold">${duplicate.name}</a>). Use "Claim Profile" on its page.`;
-        errBox.classList.remove('hidden');
-      }
-      return;
-    }
+    const payload = {
+      organization_name: String(fd.get('orgName') || '').trim(),
+      category_id: String(fd.get('orgCategory') || '').trim(),
+      website_url: String(fd.get('orgDomain') || '').trim(),
+      description: String(fd.get('orgDesc') || '').trim(),
+      tech_stack: String(fd.get('orgStack') || '').trim(),
+      work_email: String(fd.get('orgEmail') || '').trim(),
+      lang: window.__LANG || 'en',
+      source: 'web_get_listed_modal',
+      website_hp: '',
+    };
 
     if (errBox) errBox.classList.add('hidden');
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = isRu ? 'Отправка...' : 'Submitting...';
+    }
 
-    const mailSubject = encodeURIComponent(`AITopIndex Submission [Pending]: ${name} (${normDomain})`);
-    const mailBody = encodeURIComponent(
-      `Organization: ${name}\nDomain: https://${normDomain}\nCategory: ${category}\nTech Stack: ${stack}\nWork Email: ${email}\n\nDescription:\n${desc}`
-    );
-    const tgText = encodeURIComponent(
-      `🚀 Заявка в AITopIndex [Pending]:\nКомпания: ${name}\nДомен: https://${normDomain}\nКатегория: ${category}\nСтек: ${stack}\nEmail: ${email}\nОписание: ${desc}`
-    );
+    try {
+      const resp = await fetch('/api/submissions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await resp.json().catch(() => ({}));
 
-    form.classList.add('hidden');
-    if (readyBox) {
-      readyBox.innerHTML = `
-        <div class="w-10 h-10 rounded-full bg-[#f0edff] text-[#6336ed] flex items-center justify-center mx-auto text-lg font-bold">✓</div>
-        <h4 class="text-sm font-bold text-[#17172c]">
-          ${isRu ? 'Данные проверены и готовы к отправке редакции' : 'Application Validated & Ready for Editorial Review'}
-        </h4>
-        <p class="text-xs text-[#59617e] leading-relaxed">
-          ${isRu
-            ? 'Поскольку сайт работает на статическом хостинге без прямой БД, отправьте сформированную заявку редактору по email или в Telegram для ручной проверки и присвоения статуса.'
-            : 'Our static directory routes submissions directly to our editorial verification queue. Send your validated application via email or Telegram:'}
-        </p>
-        <div class="flex flex-col sm:flex-row gap-2 pt-2">
-          <a href="mailto:submit@aitopindex.com?subject=${mailSubject}&body=${mailBody}" class="cta flex-1 text-xs py-2.5 justify-center">
-            ${isRu ? 'Отправить на Email ↗' : 'Send via Email ↗'}
-          </a>
-          <a href="https://t.me/aitopindex?text=${tgText}" target="_blank" rel="noopener noreferrer" class="cta secondary flex-1 text-xs py-2.5 justify-center">
-            ${isRu ? 'Отправить в Telegram ↗' : 'Send via Telegram ↗'}
-          </a>
+      if (!resp.ok || !data.ok) {
+        if (errBox) {
+          errBox.textContent = data.error || (isRu ? 'Не удалось сохранить заявку. Проверьте поля и повторите попытку.' : 'Could not save submission. Please check fields and retry.');
+          errBox.classList.remove('hidden');
+        }
+        return;
+      }
+
+      form.classList.add('hidden');
+      if (readyBox) {
+        readyBox.innerHTML = `
+          <div class="w-10 h-10 rounded-full bg-[#e6f7ef] text-[#009e54] flex items-center justify-center mx-auto text-lg font-bold">✓</div>
+          <h4 class="text-sm font-bold text-[#17172c]">${data.message}</h4>
+          <p class="text-xs text-[#59617e]">ID: <strong>${data.submission_id}</strong> · Status: <strong>Pending</strong></p>
+          <button type="button" onclick="closeModal()" class="cta text-xs py-2 px-5 mt-2">${isRu ? 'Закрыть' : 'Close'}</button>
+        `;
+        readyBox.classList.remove('hidden');
+      }
+    } catch (netErr) {
+      if (errBox) {
+        errBox.textContent = isRu
+          ? 'Сервер временно недоступен. Ваши данные сохранены в форме — нажмите кнопку ещё раз.'
+          : 'Network error reaching API. Your form inputs are preserved — please try again.';
+        errBox.classList.remove('hidden');
+      }
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = `${t.submitBtn} →`;
+      }
+    }
+  };
+
+  // Open Find an AI Partner Modal (Client B2B Leads -> POST /api/leads)
+  window.openFindPartnerModal = function() {
+    const isRu = window.__LANG === 'ru';
+    const cats = window.__CATEGORIES || [];
+    openModal(`
+      <div class="flex items-center justify-between mb-4 border-b border-[#e5e7f3] pb-3">
+        <div>
+          <h3 class="text-[16px] font-bold text-[#17172c]">${isRu ? 'Подобрать ИИ-подрядчика' : 'Find an AI Partner'}</h3>
+          <p class="text-[12px] text-[#59617e] mt-0.5">${isRu ? 'Опишите задачу — мы вручную подберём проверенных исполнителей' : 'Describe your project — our team manually matches verified partners'}</p>
         </div>
-      `;
-      readyBox.classList.remove('hidden');
+        <button type="button" onclick="closeModal()" aria-label="Close" class="w-8 h-8 rounded-full bg-[#f5f6fa] border border-[#e5e7f3] text-[#59617e] hover:text-[#17172c] flex items-center justify-center text-sm cursor-pointer">✕</button>
+      </div>
+
+      <form id="modal-lead-form" onsubmit="window.handleLeadForm(event)" class="space-y-3">
+        <input type="text" name="website_hp" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0" />
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div>
+            <label class="block text-[11.5px] font-semibold text-[#17172c] mb-1">${isRu ? 'Ваша компания' : 'Company Name'} *</label>
+            <input type="text" name="company_name" required placeholder="Acme Corp" class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3 py-2 text-xs text-[#17172c] focus:outline-none focus:border-[#6336ed]" />
+          </div>
+          <div>
+            <label class="block text-[11.5px] font-semibold text-[#17172c] mb-1">${isRu ? 'Контактное лицо' : 'Contact Name'} *</label>
+            <input type="text" name="contact_name" required placeholder="Alex Smith" class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3 py-2 text-xs text-[#17172c] focus:outline-none focus:border-[#6336ed]" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div>
+            <label class="block text-[11.5px] font-semibold text-[#17172c] mb-1">${isRu ? 'Рабочий Email' : 'Work Email'} *</label>
+            <input type="email" name="work_email" required placeholder="alex@company.com" class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3 py-2 text-xs text-[#17172c] focus:outline-none focus:border-[#6336ed]" />
+          </div>
+          <div>
+            <label class="block text-[11.5px] font-semibold text-[#17172c] mb-1">${isRu ? 'Страна' : 'Country'} *</label>
+            <input type="text" name="country" required placeholder="United States" class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3 py-2 text-xs text-[#17172c] focus:outline-none focus:border-[#6336ed]" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div>
+            <label class="block text-[11.5px] font-semibold text-[#17172c] mb-1">${isRu ? 'Отрасль' : 'Industry'} *</label>
+            <input type="text" name="industry" required placeholder="FinTech / Healthcare / Retail" class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3 py-2 text-xs text-[#17172c] focus:outline-none focus:border-[#6336ed]" />
+          </div>
+          <div>
+            <label class="block text-[11.5px] font-semibold text-[#17172c] mb-1">${isRu ? 'Требуемое решение ИИ' : 'Required AI Solution'} *</label>
+            <select name="required_solution" required class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3 py-2 text-xs text-[#17172c] focus:outline-none focus:border-[#6336ed]">
+              ${cats.map((c) => `<option value="${c.title}">${c.title}</option>`).join('')}
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[11.5px] font-semibold text-[#17172c] mb-1">${isRu ? 'Описание задачи' : 'Project Description'} *</label>
+          <textarea name="project_description" required rows="2" placeholder="${isRu ? 'Опишите процесс, который нужно автоматизировать...' : 'Describe the workflow or AI solution you need...'}" class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3 py-2 text-xs text-[#17172c] focus:outline-none focus:border-[#6336ed]"></textarea>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div>
+            <label class="block text-[11.5px] font-semibold text-[#17172c] mb-1">${isRu ? 'Ориентировочный бюджет' : 'Estimated Budget'} <span class="font-normal text-[#59617e]">(${isRu ? 'опц.' : 'optional'})</span></label>
+            <input type="text" name="estimated_budget" placeholder="$10,000 - $25,000" class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3 py-2 text-xs text-[#17172c] focus:outline-none focus:border-[#6336ed]" />
+          </div>
+          <div>
+            <label class="block text-[11.5px] font-semibold text-[#17172c] mb-1">${isRu ? 'Желаемый старт' : 'Desired Start Date'} <span class="font-normal text-[#59617e]">(${isRu ? 'опц.' : 'optional'})</span></label>
+            <input type="text" name="desired_start_date" placeholder="Q1 2027 / ASAP" class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3 py-2 text-xs text-[#17172c] focus:outline-none focus:border-[#6336ed]" />
+          </div>
+        </div>
+
+        <label class="flex items-start gap-2 text-[11px] text-[#59617e] cursor-pointer">
+          <input type="checkbox" name="consent_gdpr" required class="mt-0.5" />
+          <span>${isRu ? 'Я согласен на обработку контактных данных для подбора ИИ-партнёров (контакты не передаются агентствам автоматически).' : 'I consent to data processing for partner matching (contacts are never shared automatically with agencies).'}</span>
+        </label>
+
+        <div id="lead-form-error" class="hidden rounded-lg bg-[#fef2f2] border border-[#fecaca] p-2.5 text-[11.5px] text-[#b91c1c]"></div>
+
+        <button type="submit" id="modal-lead-btn" class="w-full cta py-2.5 text-sm font-bold justify-center">
+          ${isRu ? 'Отправить запрос на подбор →' : 'Request AI Solution →'}
+        </button>
+      </form>
+      <div id="modal-lead-ready" class="hidden space-y-3 text-center py-2"></div>
+    `);
+  };
+
+  window.handleLeadForm = async function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const isRu = window.__LANG === 'ru';
+    const errBox = document.getElementById('lead-form-error');
+    const readyBox = document.getElementById('modal-lead-ready');
+    const btn = document.getElementById('modal-lead-btn');
+
+    const fd = new FormData(form);
+    if (fd.get('website_hp')) return;
+
+    const payload = {
+      company_name: String(fd.get('company_name') || '').trim(),
+      contact_name: String(fd.get('contact_name') || '').trim(),
+      work_email: String(fd.get('work_email') || '').trim(),
+      country: String(fd.get('country') || '').trim(),
+      industry: String(fd.get('industry') || '').trim(),
+      required_solution: String(fd.get('required_solution') || '').trim(),
+      project_description: String(fd.get('project_description') || '').trim(),
+      estimated_budget: String(fd.get('estimated_budget') || '').trim(),
+      desired_start_date: String(fd.get('desired_start_date') || '').trim(),
+      consent_gdpr: fd.get('consent_gdpr') === 'on',
+      lang: window.__LANG || 'en',
+      website_hp: '',
+    };
+
+    if (errBox) errBox.classList.add('hidden');
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = isRu ? 'Отправка...' : 'Submitting...';
+    }
+
+    try {
+      const resp = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await resp.json().catch(() => ({}));
+      if (!resp.ok || !data.ok) {
+        if (errBox) {
+          errBox.textContent = data.error || (isRu ? 'Ошибка отправки. Проверьте поля.' : 'Submission failed. Please check fields.');
+          errBox.classList.remove('hidden');
+        }
+        return;
+      }
+
+      form.classList.add('hidden');
+      if (readyBox) {
+        readyBox.innerHTML = `
+          <div class="w-10 h-10 rounded-full bg-[#e6f7ef] text-[#009e54] flex items-center justify-center mx-auto text-lg font-bold">✓</div>
+          <h4 class="text-sm font-bold text-[#17172c]">${data.message}</h4>
+          <p class="text-xs text-[#59617e]">Lead ID: <strong>${data.lead_id}</strong></p>
+          <button type="button" onclick="closeModal()" class="cta text-xs py-2 px-5 mt-2">${isRu ? 'Закрыть' : 'Close'}</button>
+        `;
+        readyBox.classList.remove('hidden');
+      }
+    } catch {
+      if (errBox) {
+        errBox.textContent = isRu
+          ? 'Ошибка сети. Введенные данные сохранены — попробуйте снова.'
+          : 'Network error reaching API. Your inputs are preserved — please retry.';
+        errBox.classList.remove('hidden');
+      }
+    } finally {
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = isRu ? 'Отправить запрос на подбор →' : 'Request AI Solution →';
+      }
     }
   };
 </script>

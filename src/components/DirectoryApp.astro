@@ -84,15 +84,27 @@ const platformPct = 100 - integratorPct;
               ? 'Структурированный реестр ИИ-интеграторов, студий разработки агентов и корпоративных AI-платформ — с проверкой доменов, стека технологий и открытой методологией.'
               : 'A structured directory of AI implementation agencies, agent developers, and enterprise AI platforms — with verified domains, tech stacks, and transparent classification.'}
           </p>
-          <div class="hero-ctas">
+          <div class="hero-ctas flex-wrap">
             <a class="cta" href="#rankings">
               <svg class="icon"><use href="#i-building"/></svg>
-              <span>{lang === 'ru' ? 'Открыть каталог →' : 'Explore Directory →'}</span>
+              <span>{lang === 'ru' ? 'Найти AI-компании →' : 'Find AI Companies →'}</span>
             </a>
-            <a class="cta secondary" href={`/${lang}/methodology/`}>
-              <span>◎</span>
-              <span>{lang === 'ru' ? 'Методология проверки' : 'Verification Standard'}</span>
-            </a>
+            <button
+              type="button"
+              class="cta secondary cursor-pointer"
+              onclick="if(typeof window.openFindPartnerModal==='function'){window.openFindPartnerModal();}"
+            >
+              <span>✦</span>
+              <span>{lang === 'ru' ? 'Подобрать подрядчика' : 'Request AI Partner'}</span>
+            </button>
+            <button
+              type="button"
+              class="cta secondary cursor-pointer"
+              onclick="if(typeof window.openSubmitAiModal==='function'){window.openSubmitAiModal();}else{window.location.href=`/${lang}/submit/`;}"
+            >
+              <span>+</span>
+              <span>{lang === 'ru' ? 'Добавить компанию' : 'Get Listed'}</span>
+            </button>
           </div>
         </div>
 

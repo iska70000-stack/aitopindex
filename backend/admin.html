@@ -70,6 +70,8 @@
         <button class="tab active" onclick="switchTab('submissions', this)">Listing Submissions</button>
         <button class="tab" onclick="switchTab('leads', this)">Client Leads (Find Partner)</button>
         <button class="tab" onclick="switchTab('companies', this)">Companies &amp; Drafts</button>
+        <button class="tab" onclick="switchTab('duplicates', this)">Duplicates</button>
+        <button class="tab" onclick="switchTab('notifications', this)">Notifications</button>
         <button class="tab" onclick="switchTab('logs', this)">Activity Log</button>
       </div>
 
@@ -79,6 +81,7 @@
 
   <script>
     let activeTab = 'submissions';
+    let csrfToken = '';
 
     function esc(s) {
       return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -88,6 +91,7 @@
       const r = await fetch('/api/admin/me');
       if (r.ok) {
         const d = await r.json();
+        csrfToken = d.csrfToken || '';
         document.getElementById('login-view').classList.add('hidden');
         document.getElementById('admin-view').classList.remove('hidden');
         document.getElementById('user-controls').classList.remove('hidden');
@@ -115,11 +119,13 @@
         err.classList.remove('hidden');
         return;
       }
+      const loginData = await r.json();
+      csrfToken = loginData.csrfToken || '';
       checkAuth();
     }
 
     async function logout() {
-      await fetch('/api/admin/logout', { method: 'POST' });
+      await fetch('/api/admin/logout', { method: 'POST', headers: { 'X-CSRF-Token': csrfToken } });
       location.reload();
     }
 
@@ -191,7 +197,7 @@
         el.innerHTML = `<p style="margin-top:0">Total records in DB: <strong>${d.companies.length}</strong></p>
         <table>
           <thead><tr><th>Name</th><th>Domain</th><th>Type</th><th>Verification</th><th>Publication</th></tr></thead>
-          <tbody>${d.companies.slice(0, 100).map(c => `
+          <tbody>${d.companies.slice(0, 150).map(c => `
             <tr>
               <td><strong>${esc(c.name)}</strong></td>
               <td>${esc(c.normalized_domain)}</td>
@@ -201,6 +207,18 @@
             </tr>
           `).join('')}</tbody>
         </table>`;
+      } else if (activeTab === 'duplicates') {
+        const d = await (await fetch('/api/admin/duplicates')).json();
+        el.innerHTML = `<h3 style="margin-top:0">Duplicate Submissions (${d.duplicateSubmissions.length})</h3>
+        <p>Duplicate Company Names: ${d.duplicateNames.length}</p>`;
+      } else if (activeTab === 'notifications') {
+        const d = await (await fetch('/api/admin/notifications')).json();
+        el.innerHTML = `<h3 style="margin-top:0">Email Queue (${d.emails.length})</h3>
+        <table><thead><tr><th>Subject</th><th>Status</th><th>Attempts</th><th>Error</th></tr></thead>
+        <tbody>${d.emails.map(e => `<tr><td>${esc(e.subject)}</td><td><span class="badge ${esc(e.status)}">${esc(e.status)}</span></td><td>${e.attempts}</td><td><small>${esc(e.last_error)}</small></td></tr>`).join('')}</tbody></table>
+        <h3>Hermes Agent Outbox (${d.hermes.length})</h3>
+        <table><thead><tr><th>Event</th><th>Status</th><th>Attempts</th><th>Error</th></tr></thead>
+        <tbody>${d.hermes.map(h => `<tr><td>${esc(h.event_type)} (${esc(h.event_id)})</td><td><span class="badge ${esc(h.status)}">${esc(h.status)}</span></td><td>${h.attempts}</td><td><small>${esc(h.last_error)}</small></td></tr>`).join('')}</tbody></table>`;
       } else if (activeTab === 'logs') {
         const d = await (await fetch('/api/admin/audit-logs')).json();
         el.innerHTML = `<table>
@@ -221,7 +239,7 @@
     async function moderateSub(id, status) {
       await fetch(`/api/admin/submissions/${id}`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
         body: JSON.stringify({ status }),
       });
       loadDashboard();
@@ -231,14 +249,14 @@
     async function updateLead(id, status) {
       await fetch(`/api/admin/leads/${id}`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
         body: JSON.stringify({ status }),
       });
       loadDashboard();
     }
 
     async function syncJson() {
-      const r = await fetch('/api/admin/sync-json', { method: 'POST' });
+      const r = await fetch('/api/admin/sync-json', { method: 'POST', headers: { 'X-CSRF-Token': csrfToken } });
       const d = await r.json();
       alert(d.ok ? `Synced ${d.exportedCount} published companies to src/data/agencies.json` : 'Sync failed');
     }
