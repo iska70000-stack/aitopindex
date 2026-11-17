@@ -9,11 +9,37 @@ const PROJECT_ROOT = path.resolve(__dirname, '../..');
 const AGENCIES_PATH = path.join(PROJECT_ROOT, 'src/data/agencies.json');
 const BACKUP_PATH = path.join(PROJECT_ROOT, 'src/data/agencies.json.bak');
 
+export function getCurrentVercelProdUrl(vercelToken) {
+  try {
+    const out = execSync(`npx vercel ls --prod --token "${vercelToken}"`, {
+      cwd: PROJECT_ROOT,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'pipe'],
+    });
+    const match = out.match(/https:\/\/[a-z0-9-]+\.vercel\.app/i);
+    return match ? match[0] : null;
+  } catch {
+    return null;
+  }
+}
+
+export function rollbackVercelProduction(targetDeploymentUrl, vercelToken) {
+  if (!targetDeploymentUrl) {
+    throw new Error('No previous Vercel deployment URL provided for rollback.');
+  }
+  execSync(`npx vercel rollback "${targetDeploymentUrl}" --token "${vercelToken}" --yes`, {
+    cwd: PROJECT_ROOT,
+    stdio: 'pipe',
+  });
+  return { ok: true, rolledBackTo: targetDeploymentUrl };
+}
+
 export function syncCatalogSafely({
   force = false,
   actor = 'sync_script',
   verifyBuild = true,
   deploy = false,
+  simulateBuildFailure = false,
 } = {}) {
   // 1. Protect uncommitted manual editorial changes
   if (!force) {
@@ -24,8 +50,9 @@ export function syncCatalogSafely({
   }
 
   // 2. Snapshot current agencies.json for instant rollback
-  if (fs.existsSync(AGENCIES_PATH)) {
-    fs.copyFileSync(AGENCIES_PATH, BACKUP_PATH);
+  const originalContent = fs.existsSync(AGENCIES_PATH) ? fs.readFileSync(AGENCIES_PATH, 'utf8') : null;
+  if (originalContent !== null) {
+    fs.writeFileSync(BACKUP_PATH, originalContent, 'utf8');
   }
 
   const db = getDb();
@@ -47,21 +74,28 @@ export function syncCatalogSafely({
   // 3. Verify Astro build; rollback automatically on failure
   if (verifyBuild) {
     try {
+      if (simulateBuildFailure) {
+        throw new Error('Simulated build failure for rollback test');
+      }
       execSync('npm run build', { cwd: PROJECT_ROOT, stdio: 'pipe' });
     } catch (buildErr) {
       if (fs.existsSync(BACKUP_PATH)) {
         fs.copyFileSync(BACKUP_PATH, AGENCIES_PATH);
+        fs.unlinkSync(BACKUP_PATH);
       }
       throw new Error(`Build verification failed; rolled back agencies.json. Details: ${buildErr.message}`);
     }
   }
 
-  // 4. Optional production Git push & Vercel deployment (only when explicitly invoked with --deploy)
+  // 4. Optional production Git push & Vercel deployment with automatic Vercel rollback on failure
   if (deploy) {
     const vercelToken = process.env.VERCEL_TOKEN;
     if (!vercelToken) {
       throw new Error('VERCEL_TOKEN environment variable is required for --deploy');
     }
+
+    const previousProdUrl = getCurrentVercelProdUrl(vercelToken);
+
     try {
       execSync('git add src/data/agencies.json', { cwd: PROJECT_ROOT, stdio: 'pipe' });
       const staged = execSync('git diff --cached --name-only', { cwd: PROJECT_ROOT, encoding: 'utf8' }).trim();
@@ -70,11 +104,25 @@ export function syncCatalogSafely({
         execSync('git push origin main', { cwd: PROJECT_ROOT, stdio: 'pipe' });
       }
       execSync(`npx vercel --prod --token "${vercelToken}" --yes`, { cwd: PROJECT_ROOT, stdio: 'pipe' });
+
+      // Post-deploy smoke verification
+      const smokeOut = execSync('curl -s -o /dev/null -w "%{http_code}" https://www.aitopindex.com/', { encoding: 'utf8' }).trim();
+      if (smokeOut !== '200') {
+        throw new Error(`Post-deploy smoke check returned HTTP ${smokeOut}`);
+      }
     } catch (deployErr) {
       if (fs.existsSync(BACKUP_PATH)) {
         fs.copyFileSync(BACKUP_PATH, AGENCIES_PATH);
+        fs.unlinkSync(BACKUP_PATH);
       }
-      throw new Error(`Deployment failed; rolled back local agencies.json. Details: ${deployErr.message}`);
+      if (previousProdUrl) {
+        try {
+          rollbackVercelProduction(previousProdUrl, vercelToken);
+        } catch (rbErr) {
+          throw new Error(`Deploy failed (${deployErr.message}) AND Vercel rollback failed (${rbErr.message})`);
+        }
+      }
+      throw new Error(`Deployment failed; rolled back agencies.json and Vercel production to ${previousProdUrl || 'previous'}. Details: ${deployErr.message}`);
     }
   }
 
