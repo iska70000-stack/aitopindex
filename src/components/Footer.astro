@@ -8,119 +8,80 @@ interface Props {
 const { lang } = Astro.props;
 ---
 
-<footer class="mt-24 border-t border-white/10 bg-black/40 backdrop-blur-md">
-  <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 gap-10 md:grid-cols-4">
-      <!-- Col 1: Brand & Mission -->
-      <div class="md:col-span-1 space-y-4">
-        <a href={`/${lang}/`} class="flex items-center gap-2">
-          <div class="flex h-8 w-8 items-center justify-center rounded-lg border border-cyan-glow/40 bg-white/[0.05]">
-            <span class="font-mono text-xs font-bold text-cyan-glow">AI</span>
-          </div>
-          <span class="text-base font-extrabold tracking-tight text-white">
-            {BRAND}<span class="text-cyan-glow">.</span>
-          </span>
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <!-- Col 1: Brand & Description -->
+      <div>
+        <a class="logo" href={`/${lang}/`} aria-label="Top Index home">
+          <span class="logo-symbol"></span>
+          <span>Top Index<sup style="font-size:7px;align-self:flex-start;margin-top:3px">™</sup></span>
         </a>
-        <p class="text-xs leading-relaxed text-slate-400">
+        <p class="footer-desc">
           {lang === 'ru'
-            ? 'Глобальный независимый рейтинг и каталог проверенных агентств, интеграторов ИИ-агентов и студий генеративного видеопроизводства.'
-            : 'Independent global directory and ranking index of verified AI agent development agencies, enterprise automation integrators, and AI film studios.'}
+            ? 'Глобальный независимый рейтинг и каталог ведущих ИИ-компаний, интеграторов и архитекторов решений.'
+            : 'The independent global ranking directory and benchmark of verified AI companies, integrators, and specialists.'}
         </p>
-        <div class="pt-2">
-          <span class="inline-flex items-center gap-2 rounded-full border border-emerald-glow/30 bg-emerald-glow/5 px-3 py-1 font-mono text-[11px] text-emerald-400">
-            <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-            {lang === 'ru' ? 'GEO & AI Search Optimized' : 'GEO & AI Search Ready'}
-          </span>
-        </div>
       </div>
 
-      <!-- Col 2: Categories (1-5) -->
+      <!-- Col 2: Explore -->
       <div>
-        <h4 class="font-mono text-xs font-semibold uppercase tracking-wider text-slate-300 mb-4">
-          {lang === 'ru' ? 'Категории ИИ' : 'AI Categories'}
-        </h4>
-        <ul class="space-y-2 text-xs text-slate-400">
-          {categories.slice(0, 5).map((cat) => (
-            <li>
-              <a href={`/${lang}/${cat.slug[lang]}/`} class="hover:text-cyan-glow transition">
-                {cat.title[lang]}
-              </a>
-            </li>
-          ))}
-        </ul>
+        <h4>{lang === 'ru' ? 'Навигация' : 'Explore'}</h4>
+        <a href={`/${lang}/#rankings`}>{lang === 'ru' ? 'Рейтинг компаний' : 'Rankings'}</a>
+        <a href={`/${lang}/#specialists`}>{lang === 'ru' ? 'ИИ-Специалисты' : 'Specialists'}</a>
+        <a href={`/${lang}/#categories-section`}>{lang === 'ru' ? 'Сферы внедрения' : 'Categories'}</a>
+        <a href={`/${lang}/methodology/`}>{lang === 'ru' ? 'Методология аудита' : 'Methodology'}</a>
       </div>
 
-      <!-- Col 3: Categories (6-9) -->
+      <!-- Col 3: Categories -->
       <div>
-        <h4 class="font-mono text-xs font-semibold uppercase tracking-wider text-slate-300 mb-4">
-          {lang === 'ru' ? 'Специализации' : 'Specializations'}
-        </h4>
-        <ul class="space-y-2 text-xs text-slate-400">
-          {categories.slice(5).map((cat) => (
-            <li>
-              <a href={`/${lang}/${cat.slug[lang]}/`} class="hover:text-cyan-glow transition">
-                {cat.title[lang]}
-              </a>
-            </li>
-          ))}
-          <li class="pt-2">
-            <a href={`/${lang}/submit/`} class="text-cyan-glow hover:underline">
-              + {lang === 'ru' ? 'Подать заявку в каталог' : 'Apply for listing'}
-            </a>
-          </li>
-        </ul>
+        <h4>{lang === 'ru' ? 'Категории ИИ' : 'Categories'}</h4>
+        {categories.slice(0, 5).map((cat) => (
+          <a href={`/${lang}/${cat.slug[lang]}/`}>
+            {cat.title[lang]}
+          </a>
+        ))}
       </div>
 
-      <!-- Col 4: Machine-readable & GEO / Standards -->
+      <!-- Col 4: Resources & AI Crawlers -->
       <div>
-        <h4 class="font-mono text-xs font-semibold uppercase tracking-wider text-slate-300 mb-4">
-          {lang === 'ru' ? 'Для нейросетей и краулеров' : 'For AI Crawlers & LLMs'}
-        </h4>
-        <ul class="space-y-2 font-mono text-xs text-slate-400">
-          <li>
-            <a href="/llms.txt" target="_blank" class="hover:text-cyan-glow transition flex items-center gap-1.5">
-              <span>/llms.txt</span>
-              <span class="text-[10px] text-slate-500">(Summary)</span>
-            </a>
-          </li>
-          <li>
-            <a href="/llms-full.txt" target="_blank" class="hover:text-cyan-glow transition flex items-center gap-1.5">
-              <span>/llms-full.txt</span>
-              <span class="text-[10px] text-slate-500">(Complete)</span>
-            </a>
-          </li>
-          <li>
-            <a href="/sitemap.xml" target="_blank" class="hover:text-cyan-glow transition">
-              /sitemap.xml
-            </a>
-          </li>
-          <li>
-            <a href="/robots.txt" target="_blank" class="hover:text-cyan-glow transition">
-              /robots.txt
-            </a>
-          </li>
-          <li class="pt-2">
-            <a href={`/${lang}/methodology/`} class="text-slate-300 hover:text-white transition">
-              {lang === 'ru' ? 'Методология верификации' : 'Verification Methodology'} &rarr;
-            </a>
-          </li>
-        </ul>
+        <h4>{lang === 'ru' ? 'Ресурсы и AI' : 'Resources & AI'}</h4>
+        <a href={`/${lang}/#insights`}>{lang === 'ru' ? 'Аналитика и тренды' : 'Insights & Trends'}</a>
+        <a href={`/${lang}/about/`}>{lang === 'ru' ? 'О платформе' : 'About Platform'}</a>
+        <a href="/llms.txt" target="_blank">/llms.txt (LLM Summary)</a>
+        <a href="/llms-full.txt" target="_blank">/llms-full.txt (Full)</a>
+        <a href="/sitemap.xml" target="_blank">/sitemap.xml</a>
+      </div>
+
+      <!-- Col 5: Newsletter / Subscription -->
+      <div>
+        <h4>{lang === 'ru' ? 'Будьте в курсе' : 'Stay in the Loop'}</h4>
+        <p class="footer-desc" style="margin-top:0">
+          {lang === 'ru'
+            ? 'Еженедельный дайджест трендов и новых проверенных подрядчиков.'
+            : 'Updates and verified benchmark reports from the global AI ecosystem.'}
+        </p>
+        <form id="subscribe-form" onsubmit="event.preventDefault(); alert(window.__LANG === 'ru' ? 'Спасибо за подписку!' : 'Thank you for subscribing!');">
+          <input
+            type="email"
+            placeholder={lang === 'ru' ? 'Ваш рабочий email' : 'Email address'}
+            required
+            aria-label="Email address"
+          />
+          <button type="submit" class="cta">
+            {lang === 'ru' ? 'ОК' : 'Join'}
+          </button>
+        </form>
       </div>
     </div>
 
-    <!-- Bottom line -->
-    <div class="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/5 pt-8 text-xs text-slate-500 sm:flex-row">
-      <p>&copy; 2024–2026 AITopIndex Research. {lang === 'ru' ? 'Все права защищены.' : 'All rights reserved.'}</p>
-      <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs">
-        <a href={`/${lang}/about/`} class="hover:text-cyan-glow transition">{lang === 'ru' ? 'О проекте' : 'About'}</a>
-        <span>•</span>
-        <a href={`/${lang}/methodology/`} class="hover:text-cyan-glow transition">{lang === 'ru' ? 'Методология' : 'Methodology'}</a>
-        <span>•</span>
-        <a href={`/${lang}/privacy/`} class="hover:text-cyan-glow transition">{lang === 'ru' ? 'Конфиденциальность' : 'Privacy'}</a>
-        <span>•</span>
-        <a href={`/${lang}/terms/`} class="hover:text-cyan-glow transition">{lang === 'ru' ? 'Условия' : 'Terms'}</a>
-        <span>•</span>
-        <a href={`/${lang}/submit/`} class="hover:text-cyan-glow transition">{lang === 'ru' ? 'Подать заявку' : 'Submit'}</a>
+    <!-- Bottom Legal Bar -->
+    <div class="bottom">
+      <span>© 2024–2026 Top Index Research. Global AI Ranking Platform. All rights reserved.</span>
+      <div class="flex items-center gap-4">
+        <a href={`/${lang}/privacy/`} class="hover:underline">{lang === 'ru' ? 'Конфиденциальность' : 'Privacy'}</a>
+        <a href={`/${lang}/terms/`} class="hover:underline">{lang === 'ru' ? 'Условия' : 'Terms'}</a>
+        <span class="text-[#8186a0]">v3.2</span>
       </div>
     </div>
   </div>

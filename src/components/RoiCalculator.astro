@@ -30,28 +30,24 @@ const agencyData = Object.fromEntries(
 );
 ---
 
-<section id="calculator" class="w-full my-16 scroll-mt-24">
-  <div class="tilt-wrap">
+<section id="calculator" class="w-full my-12 scroll-mt-24">
+  <div class="wrap">
     <div
-      class="glass glow-border relative overflow-hidden rounded-3xl p-6 sm:p-10"
+      class="card p-6 sm:p-8 bg-white border border-[#e9ebf4] rounded-2xl shadow-[0_5px_18px_rgba(41,50,99,0.045)]"
       data-roi-calculator
       data-category={initialCategoryId}
       data-lang={lang}
     >
-      <!-- Background subtle glow -->
-      <div class="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-cyan-glow/10 blur-3xl pointer-events-none"></div>
-      <div class="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-violet-glow/10 blur-3xl pointer-events-none"></div>
-
       <!-- Header -->
-      <div class="relative z-10 max-w-3xl">
-        <div class="inline-flex items-center gap-2 rounded-full border border-cyan-glow/30 bg-cyan-glow/5 px-3 py-1 font-mono text-xs text-cyan-glow">
-          <span class="h-1.5 w-1.5 rounded-full bg-cyan-glow animate-pulse"></span>
+      <div class="max-w-3xl">
+        <div class="inline-flex items-center gap-2 rounded-full border border-[#ded6ff] bg-[#f0edff] px-3 py-1 font-mono text-xs font-semibold text-[#6336ed]">
+          <span class="h-1.5 w-1.5 rounded-full bg-[#6336ed] animate-pulse"></span>
           <span>{lang === 'ru' ? 'Интерактивный расчёт' : 'Interactive Estimator'}</span>
         </div>
-        <h2 class="mt-3 text-2xl font-bold tracking-tight text-white sm:text-3xl">
+        <h2 class="mt-3 text-2xl font-bold tracking-tight text-[#17172c] sm:text-3xl">
           {lang === 'ru' ? 'Калькулятор стоимости и окупаемости внедрения ИИ' : 'AI Implementation Cost & ROI Calculator'}
         </h2>
-        <p class="mt-2 text-sm leading-relaxed text-slate-300">
+        <p class="mt-2 text-sm leading-relaxed text-[#59617e]">
           {lang === 'ru'
             ? 'Выберите специализацию, масштаб команды и стек — алгоритм рассчитает диапазон затрат, экономию часов и подберёт 3 лучших проверенных подрядчика.'
             : 'Select your target category, team size, and CRM stack — calculate setup costs, monthly hours saved, and get matched with top 3 verified partners.'}
@@ -59,15 +55,15 @@ const agencyData = Object.fromEntries(
       </div>
 
       <!-- Controls + Results Grid -->
-      <div class="relative z-10 mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12">
+      <div class="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12">
         <!-- Left: Form Controls (7 cols) -->
         <div class="space-y-5 lg:col-span-7">
           <!-- 1. Industry / Category -->
           <div>
-            <label class="block font-mono text-xs uppercase tracking-wider text-slate-300 mb-2">
+            <label class="block font-semibold text-xs text-[#17172c] uppercase tracking-wider mb-2">
               1. {lang === 'ru' ? 'Сфера внедрения ИИ:' : 'Target AI Field / Category:'}
             </label>
-            <select class="field cursor-pointer font-sans" data-calc-category>
+            <select class="w-full bg-white border border-[#dfe1ee] text-[#17172c] text-sm rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#6336ed] cursor-pointer" data-calc-category>
               {categories.map((c) => (
                 <option value={c.id} selected={c.id === initialCategoryId}>
                   {c.title[lang]}
@@ -78,7 +74,7 @@ const agencyData = Object.fromEntries(
 
           <!-- 2. Team Size -->
           <div>
-            <label class="block font-mono text-xs uppercase tracking-wider text-slate-300 mb-2">
+            <label class="block font-semibold text-xs text-[#17172c] uppercase tracking-wider mb-2">
               2. {lang === 'ru' ? 'Размер команды (пользователи процессов):' : 'Team Size (Affected Seats):'}
             </label>
             <div class="grid grid-cols-2 gap-2 sm:grid-cols-4 font-mono text-xs">
@@ -90,7 +86,11 @@ const agencyData = Object.fromEntries(
               ].map((size, idx) => (
                 <button
                   type="button"
-                  class="pill w-full justify-center py-2.5 cursor-pointer text-center"
+                  class={`w-full justify-center py-2.5 rounded-xl border text-center font-semibold transition cursor-pointer ${
+                    idx === 1
+                      ? 'bg-[#f0edff] border-[#6336ed] text-[#6336ed]'
+                      : 'bg-[#f8f9fc] border-[#dfe1ee] text-[#49506c] hover:border-[#8d67ff]'
+                  }`}
                   data-team-size={size.id}
                   data-multiplier={size.multiplier}
                   data-seats={size.seats}
@@ -104,7 +104,7 @@ const agencyData = Object.fromEntries(
 
           <!-- 3. Target CRM / Integration Stack -->
           <div>
-            <label class="block font-mono text-xs uppercase tracking-wider text-slate-300 mb-2">
+            <label class="block font-semibold text-xs text-[#17172c] uppercase tracking-wider mb-2">
               3. {lang === 'ru' ? 'Интеграционный стек / CRM:' : 'Primary CRM / Integration Stack:'}
             </label>
             <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 font-mono text-xs">
@@ -118,7 +118,11 @@ const agencyData = Object.fromEntries(
               ].map((stack, idx) => (
                 <button
                   type="button"
-                  class="pill w-full justify-center py-2 cursor-pointer text-center text-[11px]"
+                  class={`w-full justify-center py-2 rounded-xl border text-center font-semibold text-[11px] transition cursor-pointer ${
+                    idx === 0
+                      ? 'bg-[#f0edff] border-[#6336ed] text-[#6336ed]'
+                      : 'bg-[#f8f9fc] border-[#dfe1ee] text-[#49506c] hover:border-[#8d67ff]'
+                  }`}
                   data-crm-stack={stack.id}
                   aria-pressed={idx === 0 ? 'true' : 'false'}
                 >
@@ -130,36 +134,36 @@ const agencyData = Object.fromEntries(
         </div>
 
         <!-- Right: Results Card (5 cols) -->
-        <div class="lg:col-span-5 flex flex-col justify-between rounded-2xl border border-cyan-glow/30 bg-black/40 p-6 backdrop-blur-xl">
+        <div class="lg:col-span-5 flex flex-col justify-between rounded-2xl border border-[#ded6ff] bg-gradient-to-br from-[#fbfcff] to-[#f0edff] p-6 shadow-sm">
           <div>
-            <span class="font-mono text-xs uppercase tracking-wider text-cyan-glow">
+            <span class="font-mono text-xs uppercase tracking-wider text-[#6336ed] font-bold">
               {lang === 'ru' ? 'Ориентировочный расчёт' : 'Estimated Business Value'}
             </span>
 
             <!-- Cost Range -->
             <div class="mt-4">
-              <span class="text-xs text-slate-400 block">{lang === 'ru' ? 'Бюджет внедрения под ключ:' : 'Setup Cost Range:'}</span>
-              <div class="font-mono text-2xl font-bold text-white sm:text-3xl text-gradient" data-result-cost>
+              <span class="text-xs text-[#59617e] block">{lang === 'ru' ? 'Бюджет внедрения под ключ:' : 'Setup Cost Range:'}</span>
+              <div class="font-mono text-2xl font-extrabold text-[#6336ed] sm:text-3xl mt-1" data-result-cost>
                 {lang === 'ru' ? '250 000 — 1 500 000 ₽' : '$4,000 — $25,000'}
               </div>
             </div>
 
             <!-- Hours Saved -->
-            <div class="mt-5 grid grid-cols-2 gap-4 border-y border-white/10 py-4 font-mono">
+            <div class="mt-5 grid grid-cols-2 gap-4 border-y border-[#e2ddfc] py-4 font-mono">
               <div>
-                <span class="text-[10px] uppercase text-slate-400 block">{lang === 'ru' ? 'Экономия часов:' : 'Hours Saved:'}</span>
-                <span class="text-xl font-bold text-emerald-400" data-result-hours>550 ч/мес</span>
+                <span class="text-[10px] uppercase text-[#59617e] block font-sans">{lang === 'ru' ? 'Экономия часов:' : 'Hours Saved:'}</span>
+                <span class="text-xl font-bold text-[#009e54]" data-result-hours>550 ч/мес</span>
               </div>
               <div>
-                <span class="text-[10px] uppercase text-slate-400 block">{lang === 'ru' ? 'Срок окупаемости:' : 'Est. Payback:'}</span>
-                <span class="text-xl font-bold text-cyan-glow">1–3 {lang === 'ru' ? 'мес.' : 'mos'}</span>
+                <span class="text-[10px] uppercase text-[#59617e] block font-sans">{lang === 'ru' ? 'Срок окупаемости:' : 'Est. Payback:'}</span>
+                <span class="text-xl font-bold text-[#6336ed]">1–3 {lang === 'ru' ? 'мес.' : 'mos'}</span>
               </div>
             </div>
 
             <!-- Top 3 Matching Agencies -->
             <div class="mt-5">
-              <span class="font-mono text-[10px] uppercase tracking-wider text-slate-300 block mb-2.5">
-                {lang === 'ru' ? 'Топ-3 агентства по вашим критериям:' : 'Top 3 Matching Verified Agencies:'}
+              <span class="font-mono text-[10px] uppercase tracking-wider text-[#59617e] block mb-2.5 font-bold">
+                {lang === 'ru' ? 'Топ-3 подрядчика по вашим критериям:' : 'Top 3 Matching Verified Agencies:'}
               </span>
               <div class="space-y-2" data-result-agencies>
                 <!-- Populated via JS -->
@@ -168,20 +172,19 @@ const agencyData = Object.fromEntries(
           </div>
 
           <div class="mt-6 pt-3 flex flex-col sm:flex-row gap-3">
-            <a
-              href="https://t.me/aitopindex"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="flex-1 btn-primary text-xs text-center justify-center py-2.5"
+            <button
+              type="button"
+              onclick="if(typeof window.openSubmitAiModal==='function'){window.openSubmitAiModal();}else{window.location.href=`/${lang}/submit/`;}"
+              class="flex-1 cta text-xs text-center justify-center py-2.5"
             >
-              <span>{lang === 'ru' ? 'Получить расчёт в Telegram' : 'Fast-Track via Telegram'}</span>
-              <span>↗</span>
-            </a>
+              <span>{lang === 'ru' ? 'Подать заявку на внедрение' : 'Submit Integration Request'}</span>
+              <span>→</span>
+            </button>
             <a
-              href={`/${lang}/submit/`}
-              class="flex-1 btn-ghost text-xs text-center justify-center py-2.5"
+              href={`/${lang}/methodology/`}
+              class="flex-1 cta secondary text-xs text-center justify-center py-2.5"
             >
-              <span>{lang === 'ru' ? 'Запросить аудит проекта' : 'Request Full Audit'} &rarr;</span>
+              <span>{lang === 'ru' ? 'Методология расчёта' : 'Audit Methodology'} &rarr;</span>
             </a>
           </div>
         </div>
@@ -235,24 +238,25 @@ const agencyData = Object.fromEntries(
       }
 
       // Calculate hours saved
-      const totalHours = Math.round(currentSeats * catData.hoursPerSeat);
-      if (hoursEl) {
-        hoursEl.textContent = lang === 'ru' ? `${totalHours.toLocaleString('ru-RU')} ч/мес` : `${totalHours.toLocaleString('en-US')} hrs/mo`;
-      }
+      const hoursSaved = Math.round(currentSeats * catData.hoursPerSeat * 0.85);
+      if (hoursEl) hoursEl.textContent = `${hoursSaved} ${lang === 'ru' ? 'ч/мес' : 'hrs/mo'}`;
 
-      // Render Top 3 agencies
-      if (agenciesContainer && Array.isArray(catData.topAgencies)) {
+      // Render top agencies
+      if (agenciesContainer && catData.topAgencies) {
         agenciesContainer.innerHTML = catData.topAgencies
-          .map((a: any, i: number) => `
-            <div class="flex items-center justify-between rounded-lg border border-white/5 bg-white/[0.02] p-2.5 text-xs hover:border-cyan-glow/40 transition">
-              <div class="flex items-center gap-2">
-                <span class="flex h-5 w-5 items-center justify-center rounded bg-cyan-glow/10 font-mono text-[10px] font-bold text-cyan-glow">#${i + 1}</span>
-                <a href="/${lang}/agency/${a.id}/" class="font-semibold text-white hover:text-cyan-glow transition">${a.name}</a>
+          .map((a: any) => `
+            <div class="flex items-center justify-between rounded-lg bg-white border border-[#e2ddfc] p-2.5 text-xs">
+              <div class="min-w-0 pr-2">
+                <a href="/${lang}/agency/${a.id}/" class="font-bold text-[#17172c] hover:text-[#6336ed] truncate block">
+                  ${a.name}
+                </a>
+                <span class="text-[10px] text-[#59617e] block">
+                  ${lang === 'ru' ? 'Бюджет:' : 'From:'} ${a.budget} · ${lang === 'ru' ? 'Окупаемость:' : 'ROI:'} ${a.roi}
+                </span>
               </div>
-              <div class="flex items-center gap-2">
-                <span class="font-mono text-[11px] text-slate-400">${a.budget}</span>
-                <a href="${a.website}" target="_blank" rel="noopener noreferrer" class="text-cyan-glow hover:underline text-[11px]">Link &rarr;</a>
-              </div>
+              <a href="/${lang}/agency/${a.id}/" class="text-[11px] font-bold text-[#6336ed] hover:underline shrink-0">
+                ${lang === 'ru' ? 'Кейсы' : 'View'} &rarr;
+              </a>
             </div>
           `)
           .join('');
@@ -266,8 +270,12 @@ const agencyData = Object.fromEntries(
 
     teamBtns.forEach((btn) => {
       btn.addEventListener('click', () => {
-        teamBtns.forEach((b) => b.setAttribute('aria-pressed', 'false'));
+        teamBtns.forEach((b) => {
+          b.setAttribute('aria-pressed', 'false');
+          b.className = 'w-full justify-center py-2.5 rounded-xl border text-center font-semibold transition cursor-pointer bg-[#f8f9fc] border-[#dfe1ee] text-[#49506c] hover:border-[#8d67ff]';
+        });
         btn.setAttribute('aria-pressed', 'true');
+        btn.className = 'w-full justify-center py-2.5 rounded-xl border text-center font-semibold transition cursor-pointer bg-[#f0edff] border-[#6336ed] text-[#6336ed]';
         currentMultiplier = parseFloat(btn.dataset.multiplier || '1.0');
         currentSeats = parseInt(btn.dataset.seats || '25', 10);
         render();
@@ -276,8 +284,13 @@ const agencyData = Object.fromEntries(
 
     crmBtns.forEach((btn) => {
       btn.addEventListener('click', () => {
-        crmBtns.forEach((b) => b.setAttribute('aria-pressed', 'false'));
+        crmBtns.forEach((b) => {
+          b.setAttribute('aria-pressed', 'false');
+          b.className = 'w-full justify-center py-2 rounded-xl border text-center font-semibold text-[11px] transition cursor-pointer bg-[#f8f9fc] border-[#dfe1ee] text-[#49506c] hover:border-[#8d67ff]';
+        });
         btn.setAttribute('aria-pressed', 'true');
+        btn.className = 'w-full justify-center py-2 rounded-xl border text-center font-semibold text-[11px] transition cursor-pointer bg-[#f0edff] border-[#6336ed] text-[#6336ed]';
+        render();
       });
     });
 

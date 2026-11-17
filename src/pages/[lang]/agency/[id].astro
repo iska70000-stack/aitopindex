@@ -9,6 +9,7 @@ import {
   type Lang,
   LANGS,
 } from '../../../lib/data';
+import { CATEGORY_METRICS } from '../../../lib/agencyMetrics';
 
 export function getStaticPaths() {
   const paths: { params: { lang: Lang; id: string }; props: { agency: Agency } }[] = [];
@@ -29,8 +30,8 @@ const { lang } = Astro.params as { lang: Lang; id: string };
 const { agency } = Astro.props as { agency: Agency };
 
 const title = lang === 'ru'
-  ? `${agency.name} — Профиль и стек внедрения ИИ | AITopIndex`
-  : `${agency.name} — Verified AI Agency Profile & Stack | AITopIndex`;
+  ? `${agency.name} — Профиль и стек внедрения ИИ | Top Index`
+  : `${agency.name} — Verified AI Agency Profile & Stack | Top Index`;
 
 const description = agency.description[lang];
 
@@ -39,12 +40,10 @@ const alternatePaths = {
   ru: `/ru/agency/${agency.id}/`,
 };
 
-import { CATEGORY_METRICS } from '../../../lib/agencyMetrics';
-
 const primaryCategory = agency.categories[0] || 'sales';
 const catMetrics = CATEGORY_METRICS[primaryCategory] || CATEGORY_METRICS.sales;
 
-// Clean Agency JSON-LD matching 100% visible page data (Zero fake ratings)
+// Clean Agency JSON-LD matching 100% visible page data
 const agencyJsonLd = {
   '@type': agency.entityType === 'platform' ? 'SoftwareApplication' : 'ProfessionalService',
   name: agency.name,
@@ -81,43 +80,40 @@ const agencyJsonLd = {
   alternatePaths={alternatePaths}
   jsonLd={agencyJsonLd}
 >
-  <div class="py-10 max-w-4xl mx-auto">
+  <div class="wrap py-10 max-w-4xl">
     <!-- Breadcrumb -->
-    <nav class="flex items-center gap-2 font-mono text-xs text-slate-400 mb-6">
-      <a href={`/${lang}/`} class="hover:text-cyan-glow transition">{lang === 'ru' ? 'Главная' : 'Home'}</a>
+    <nav class="flex items-center gap-2 font-mono text-xs text-[#59617e] mb-6">
+      <a href={`/${lang}/`} class="hover:text-[#6336ed] transition">{lang === 'ru' ? 'Главная' : 'Home'}</a>
       <span>/</span>
-      <a href={`/${lang}/#agencies`} class="hover:text-cyan-glow transition">{lang === 'ru' ? 'Компании' : 'Agencies'}</a>
+      <a href={`/${lang}/#rankings`} class="hover:text-[#6336ed] transition">{lang === 'ru' ? 'Рейтинг' : 'Rankings'}</a>
       <span>/</span>
-      <span class="text-white font-medium">{agency.name}</span>
+      <span class="text-[#17172c] font-bold">{agency.name}</span>
     </nav>
 
     <!-- Main Profile Card -->
-    <div class="glass glow-border relative overflow-hidden rounded-3xl p-6 sm:p-10">
-      <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6 border-b border-white/10 pb-8">
+    <div class="card p-6 sm:p-10 bg-white border border-[#e9ebf4] shadow-[var(--shadow)] rounded-2xl">
+      <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6 border-b border-[#f0f2fa] pb-8">
         <div>
           <div class="flex flex-wrap items-center gap-2.5">
-            <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-[#17172c] tracking-tight">
               {agency.name}
             </h1>
-            <span class="rounded-full border border-emerald-500/40 bg-emerald-500/10 px-3 py-1 font-mono text-xs text-emerald-400">
+            <span class="rounded-full border border-[#a7e8c6] bg-[#e6f7ef] px-3 py-1 font-mono text-xs text-[#009e54] font-bold">
               ✓ {lang === 'ru' ? 'Верифицировано' : 'Verified'}
             </span>
-            <span class="rounded-full border border-cyan-glow/40 bg-cyan-glow/10 px-3 py-1 font-mono text-xs text-cyan-200">
+            <span class="rounded-full border border-[#ded6ff] bg-[#f0edff] px-3 py-1 font-mono text-xs text-[#6336ed] font-semibold">
               {agency.entityType === 'platform'
                 ? lang === 'ru' ? 'ИИ-Платформа / Вендор' : 'Enterprise AI Platform'
                 : lang === 'ru' ? 'Интегратор / Студия' : 'B2B Agency / Integrator'}
             </span>
           </div>
-          <p class="mt-2.5 text-sm text-slate-400 flex flex-wrap items-center gap-2">
+          <p class="mt-2.5 text-sm text-[#59617e] flex flex-wrap items-center gap-2">
             <span class="flex items-center gap-1.5">
-              <svg class="h-4 w-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
+              <span>📍</span>
               <span>{agency.hq[lang]}</span>
             </span>
-            <span class="text-slate-600">•</span>
-            <span class="text-slate-300 font-mono text-xs">
+            <span class="text-[#cbd1e2]">•</span>
+            <span class="text-[#17172c] font-semibold text-xs">
               {agency.region === 'global' ? 'Global Enterprise' : agency.region === 'cis-mena' ? (lang === 'ru' ? 'СНГ / Россия / ОАЭ' : 'CIS / Russia / MENA') : (lang === 'ru' ? 'США и Европа' : 'USA & Europe')}
             </span>
           </p>
@@ -127,7 +123,7 @@ const agencyJsonLd = {
           <button
             type="button"
             id="open-claim-modal-btn"
-            class="btn-ghost text-xs cursor-pointer py-2.5 px-3.5"
+            class="cta secondary text-xs py-2.5 px-3.5"
           >
             <span>{lang === 'ru' ? 'Подтвердить профиль' : 'Claim Profile'}</span>
           </button>
@@ -136,29 +132,26 @@ const agencyJsonLd = {
             href={agency.website}
             target="_blank"
             rel="noopener noreferrer"
-            class="btn-primary text-xs sm:text-sm py-2.5 px-4"
+            class="cta text-xs sm:text-sm py-2.5 px-4"
           >
-            <span>{lang === 'ru' ? 'Перейти на сайт' : 'Visit Official Website'}</span>
-            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-            </svg>
+            <span>{lang === 'ru' ? 'Перейти на сайт ↗' : 'Visit Official Website ↗'}</span>
           </a>
         </div>
       </div>
 
       <!-- Description -->
       <div class="mt-8">
-        <h3 class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-2">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-[#59617e] mb-2">
           {lang === 'ru' ? 'О компании и экспертизе:' : 'About & Core Expertise:'}
         </h3>
-        <p class="text-base leading-relaxed text-slate-200">
+        <p class="text-base leading-relaxed text-[#17172c]">
           {agency.description[lang]}
         </p>
       </div>
 
       <!-- Categories & Rankings -->
       <div class="mt-8">
-        <h3 class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-3">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-[#59617e] mb-3">
           {lang === 'ru' ? 'Категории и позиции в рейтинге:' : 'Rankings by Category:'}
         </h3>
         <div class="flex flex-wrap gap-2.5">
@@ -168,9 +161,9 @@ const agencyJsonLd = {
             return (
               <a
                 href={`/${lang}/${cat.slug[lang]}/`}
-                class="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3.5 py-2 text-xs font-mono text-white hover:border-cyan-glow/50 transition"
+                class="inline-flex items-center gap-2 rounded-xl border border-[#e5e7f3] bg-[#f8f9fe] px-3.5 py-2 text-xs font-semibold text-[#17172c] hover:border-[#6336ed] hover:text-[#6336ed] transition"
               >
-                <span class="rounded bg-cyan-glow/10 px-1.5 py-0.5 text-[10px] font-bold text-cyan-glow">
+                <span class="rounded bg-[#f0edff] px-1.5 py-0.5 text-[10px] font-bold text-[#6336ed]">
                   #{rank}
                 </span>
                 <span>{cat.title[lang]}</span>
@@ -181,30 +174,30 @@ const agencyJsonLd = {
       </div>
 
       <!-- Key Commercial Metrics -->
-      <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 border-y border-white/10 py-6 font-mono text-xs">
+      <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 border-y border-[#f0f2fa] py-6 text-xs">
         <div>
-          <span class="text-slate-400 uppercase text-[11px] font-semibold block">{lang === 'ru' ? 'Минимальный бюджет:' : 'Minimum Budget:'}</span>
-          <span class="text-lg font-bold text-white mt-1 block">{agency.minProjectBudget[lang]}</span>
+          <span class="text-[#59617e] uppercase text-[11px] font-bold block">{lang === 'ru' ? 'Минимальный бюджет:' : 'Minimum Budget:'}</span>
+          <span class="text-lg font-bold text-[#17172c] mt-1 block">{agency.minProjectBudget[lang]}</span>
         </div>
         <div>
-          <span class="text-slate-400 uppercase text-[11px] font-semibold block">{lang === 'ru' ? 'Средний срок ROI:' : 'Average Payback:'}</span>
-          <span class="text-lg font-bold text-emerald-400 mt-1 block">{agency.avgRoiTime[lang]}</span>
+          <span class="text-[#59617e] uppercase text-[11px] font-bold block">{lang === 'ru' ? 'Средний срок ROI:' : 'Average Payback:'}</span>
+          <span class="text-lg font-bold text-[#009e54] mt-1 block">{agency.avgRoiTime[lang]}</span>
         </div>
         <div>
-          <span class="text-slate-400 uppercase text-[11px] font-semibold block">{lang === 'ru' ? 'Дата проверки:' : 'Verification Stamp:'}</span>
-          <span class="text-sm font-semibold text-cyan-glow mt-1.5 block">{formatDate(agency.verifiedDate, lang)}</span>
+          <span class="text-[#59617e] uppercase text-[11px] font-bold block">{lang === 'ru' ? 'Дата проверки:' : 'Verification Stamp:'}</span>
+          <span class="text-sm font-semibold text-[#6336ed] mt-1.5 block">{formatDate(agency.verifiedDate, lang)}</span>
         </div>
       </div>
 
       <!-- Deployed Agents -->
       <div class="mt-8">
-        <h3 class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-3">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-[#59617e] mb-3">
           {lang === 'ru' ? 'Внедряемые типы ИИ-агентов:' : 'Deployed AI Agent Types:'}
         </h3>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
           {agency.deployedAgents[lang].map((item) => (
-            <div class="rounded-xl border border-cyan-glow/20 bg-cyan-glow/[0.04] p-3 text-xs text-cyan-100 flex items-center gap-2 font-mono">
-              <span class="h-1.5 w-1.5 rounded-full bg-cyan-glow"></span>
+            <div class="rounded-xl border border-[#ded6ff] bg-[#f0edff] p-3 text-xs text-[#6336ed] flex items-center gap-2 font-medium">
+              <span class="h-1.5 w-1.5 rounded-full bg-[#6336ed]"></span>
               <span>{item}</span>
             </div>
           ))}
@@ -213,46 +206,46 @@ const agencyJsonLd = {
 
       <!-- Tech Stack -->
       <div class="mt-8">
-        <h3 class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-3">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-[#59617e] mb-3">
           {lang === 'ru' ? 'Интеграционный стек и инструменты:' : 'Technology Stack & Integrations:'}
         </h3>
         <div class="flex flex-wrap gap-2">
           {agency.techStack.map((tech) => (
-            <span class="tag text-xs px-3 py-1">
-              {tech}
+            <span class="tag text-xs px-3 py-1 font-semibold">
+              #{tech}
             </span>
           ))}
         </div>
       </div>
 
       <!-- Dynamic Category-Specific 4-Step Lifecycle -->
-      <div class="mt-10 border-t border-white/10 pt-8">
+      <div class="mt-10 border-t border-[#f0f2fa] pt-8">
         <div class="flex items-center justify-between mb-2">
           <div>
-            <span class="text-[11px] font-semibold uppercase tracking-wider text-cyan-glow block">
+            <span class="text-xs font-bold uppercase tracking-wider text-[#6336ed] block">
               {catMetrics.lifecycleSubtitle[lang]}
             </span>
-            <h3 class="text-xl font-bold text-white mt-1">
+            <h3 class="text-xl font-bold text-[#17172c] mt-1">
               {catMetrics.lifecycleTitle[lang]}
             </h3>
           </div>
-          <span class="font-mono text-xs text-slate-400 hidden sm:inline">
+          <span class="text-xs text-[#59617e] font-semibold hidden sm:inline">
             {lang === 'ru' ? 'SLA & Аудит качества' : 'Production SLA Standard'}
           </span>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-5">
           {catMetrics.steps.map((st) => (
-            <div class="rounded-2xl border border-white/10 bg-white/[0.02] p-4 flex flex-col justify-between">
+            <div class="card p-4 bg-[#fbfcff] border border-[#e9ebf4] flex flex-col justify-between">
               <div>
-                <div class="flex items-center justify-between text-xs font-mono mb-2">
-                  <span class="rounded bg-cyan-glow/10 px-2 py-0.5 text-cyan-glow font-bold">{st.step}</span>
-                  <span class="text-slate-400">{st.duration[lang]}</span>
+                <div class="flex items-center justify-between text-xs mb-2">
+                  <span class="rounded bg-[#f0edff] px-2 py-0.5 text-[#6336ed] font-bold">{st.step}</span>
+                  <span class="text-[#59617e] font-semibold">{st.duration[lang]}</span>
                 </div>
-                <h4 class="font-semibold text-white text-sm">
+                <h4 class="font-bold text-[#17172c] text-sm">
                   {st.title[lang]}
                 </h4>
-                <p class="mt-2 text-xs text-slate-300 leading-relaxed">
+                <p class="mt-2 text-xs text-[#59617e] leading-relaxed">
                   {st.desc[lang]}
                 </p>
               </div>
@@ -262,33 +255,33 @@ const agencyJsonLd = {
       </div>
 
       <!-- Dynamic Category-Specific ROI Benchmark Table -->
-      <div class="mt-10 border-t border-white/10 pt-8">
+      <div class="mt-10 border-t border-[#f0f2fa] pt-8">
         <div class="mb-4">
-          <span class="text-[11px] font-semibold uppercase tracking-wider text-emerald-400 block">
+          <span class="text-xs font-bold uppercase tracking-wider text-[#009e54] block">
             {catMetrics.roiSubtitle[lang]}
           </span>
-          <h3 class="text-xl font-bold text-white mt-1">
+          <h3 class="text-xl font-bold text-[#17172c] mt-1">
             {catMetrics.roiTitle[lang]}
           </h3>
         </div>
 
-        <div class="overflow-x-auto rounded-2xl border border-white/10 bg-white/[0.02] mt-4">
-          <table class="w-full text-left text-xs font-mono">
+        <div class="overflow-x-auto rounded-2xl border border-[#e9ebf4] bg-white mt-4 shadow-sm">
+          <table class="w-full text-left text-xs">
             <thead>
-              <tr class="border-b border-white/10 bg-white/[0.03] text-slate-400">
-                <th class="p-3.5 font-semibold">{lang === 'ru' ? 'Метрика процесса' : 'Operational Metric'}</th>
-                <th class="p-3.5 font-semibold text-rose-300">{lang === 'ru' ? 'Традиционный подход' : 'Legacy Human Team'}</th>
-                <th class="p-3.5 font-semibold text-emerald-400">{lang === 'ru' ? 'ИИ-пайплайн подрядчика' : 'Deployed AI Stack'}</th>
-                <th class="p-3.5 font-semibold text-cyan-glow">{lang === 'ru' ? 'Бизнес-эффект' : 'Business Delta'}</th>
+              <tr class="border-b border-[#f0f2fa] bg-[#f8f9fe] text-[#59617e]">
+                <th class="p-3.5 font-bold">{lang === 'ru' ? 'Метрика процесса' : 'Operational Metric'}</th>
+                <th class="p-3.5 font-bold text-[#b91c1c]">{lang === 'ru' ? 'Традиционный подход' : 'Legacy Human Team'}</th>
+                <th class="p-3.5 font-bold text-[#009e54]">{lang === 'ru' ? 'ИИ-пайплайн подрядчика' : 'Deployed AI Stack'}</th>
+                <th class="p-3.5 font-bold text-[#6336ed]">{lang === 'ru' ? 'Бизнес-эффект' : 'Business Delta'}</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-white/5 text-slate-300">
+            <tbody class="divide-y divide-[#f0f2fa] text-[#59617e]">
               {catMetrics.metrics.map((row) => (
                 <tr>
-                  <td class="p-3.5 font-sans font-medium text-white">{row.metric[lang]}</td>
-                  <td class="p-3.5 text-slate-400">{row.legacy[lang]}</td>
-                  <td class="p-3.5 text-emerald-400 font-semibold">{row.aiStack[lang]}</td>
-                  <td class="p-3.5 text-cyan-glow font-bold">{row.delta[lang]}</td>
+                  <td class="p-3.5 font-semibold text-[#17172c]">{row.metric[lang]}</td>
+                  <td class="p-3.5 text-[#59617e]">{row.legacy[lang]}</td>
+                  <td class="p-3.5 text-[#009e54] font-bold">{row.aiStack[lang]}</td>
+                  <td class="p-3.5 text-[#6336ed] font-extrabold">{row.delta[lang]}</td>
                 </tr>
               ))}
             </tbody>
@@ -297,24 +290,24 @@ const agencyJsonLd = {
       </div>
 
       <!-- Action CTAs -->
-      <div class="mt-10 border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="mt-10 border-t border-[#f0f2fa] pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
-          <span class="text-xs text-slate-400 block font-mono">
+          <span class="text-xs text-[#59617e] block">
             {lang === 'ru' ? 'Хотите оценить проект под этот стек?' : 'Need a custom estimate for this stack?'}
           </span>
-          <span class="text-sm font-semibold text-white">
+          <span class="text-sm font-bold text-[#17172c]">
             {lang === 'ru' ? 'Используйте интерактивный калькулятор окупаемости' : 'Run custom calculations in our ROI Estimator'}
           </span>
         </div>
         <div class="flex items-center gap-3 w-full sm:w-auto">
-          <a href={`/${lang}/#calculator`} class="btn-ghost text-xs flex-1 sm:flex-initial text-center justify-center">
-            <span>{lang === 'ru' ? 'Открыть калькулятор' : 'Open Calculator'}</span>
+          <a href={`/${lang}/#calculator`} class="cta secondary text-xs flex-1 sm:flex-initial text-center justify-center">
+            <span>{lang === 'ru' ? 'Калькулятор окупаемости' : 'Open Calculator'}</span>
           </a>
           <a
             href={agency.website}
             target="_blank"
             rel="noopener noreferrer"
-            class="btn-primary text-xs flex-1 sm:flex-initial text-center justify-center"
+            class="cta text-xs flex-1 sm:flex-initial text-center justify-center"
           >
             <span>{lang === 'ru' ? 'Сайт компании ↗' : 'Visit Official Site ↗'}</span>
           </a>
@@ -323,52 +316,52 @@ const agencyJsonLd = {
     </div>
 
     <!-- Claim Profile Modal -->
-    <div id="claim-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-      <div class="relative w-full max-w-lg glass glow-border rounded-3xl p-6 sm:p-8 space-y-5 bg-[#070A11] border border-cyan-glow/40 shadow-2xl">
-        <div class="flex items-center justify-between border-b border-white/10 pb-4">
+    <div id="claim-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-[#17172c]/60 backdrop-blur-sm">
+      <div class="relative w-full max-w-lg card rounded-2xl p-6 sm:p-8 space-y-5 bg-white border border-[#e5e7f3] shadow-2xl">
+        <div class="flex items-center justify-between border-b border-[#f0f2fa] pb-4">
           <div>
-            <span class="font-mono text-xs uppercase tracking-wider text-cyan-glow">
+            <span class="text-xs uppercase font-bold tracking-wider text-[#6336ed]">
               {lang === 'ru' ? 'Верификация владения' : 'Official Verification'}
             </span>
-            <h3 class="text-xl font-bold text-white mt-0.5">
+            <h3 class="text-xl font-bold text-[#17172c] mt-0.5">
               {lang === 'ru' ? `Подтвердить профиль ${agency.name}` : `Claim ${agency.name} Profile`}
             </h3>
           </div>
-          <button type="button" id="close-claim-modal-btn" class="text-slate-400 hover:text-white text-xl p-1 cursor-pointer">
+          <button type="button" id="close-claim-modal-btn" class="w-8 h-8 rounded-full bg-[#f8f9fe] border border-[#e5e7f3] text-[#59617e] hover:text-[#17172c] flex items-center justify-center text-sm cursor-pointer">
             ✕
           </button>
         </div>
 
         <form id="claim-profile-form" class="space-y-4">
           <div>
-            <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-300 mb-1.5">
+            <label class="block text-xs font-semibold text-[#17172c] mb-1.5">
               {lang === 'ru' ? 'Ваше имя и должность *' : 'Your Name & Title *'}
             </label>
-            <input type="text" name="repName" required placeholder={lang === 'ru' ? 'Иван Смирнов, CEO' : 'Alex Miller, Founder / Lead'} class="field" />
+            <input type="text" name="repName" required placeholder={lang === 'ru' ? 'Иван Смирнов, CEO' : 'Alex Miller, Founder / Lead'} class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3.5 py-2 text-sm text-[#17172c] focus:outline-none focus:border-[#6336ed]" />
           </div>
 
           <div>
-            <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-300 mb-1.5">
+            <label class="block text-xs font-semibold text-[#17172c] mb-1.5">
               {lang === 'ru' ? `Корпоративный Email (@${new URL(agency.website).hostname.replace(/^www\./, '')}) *` : `Corporate Email (@${new URL(agency.website).hostname.replace(/^www\./, '')}) *`}
             </label>
-            <input type="email" name="corporateEmail" required placeholder={`lead@${new URL(agency.website).hostname.replace(/^www\./, '')}`} class="field" />
+            <input type="email" name="corporateEmail" required placeholder={`lead@${new URL(agency.website).hostname.replace(/^www\./, '')}`} class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3.5 py-2 text-sm text-[#17172c] focus:outline-none focus:border-[#6336ed]" />
           </div>
 
           <div>
-            <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-300 mb-1.5">
+            <label class="block text-xs font-semibold text-[#17172c] mb-1.5">
               {lang === 'ru' ? 'Telegram / WhatsApp для верификации *' : 'Telegram / WhatsApp for fast review *'}
             </label>
-            <input type="text" name="contactHandle" required placeholder="@founder_handle" class="field" />
+            <input type="text" name="contactHandle" required placeholder="@founder_handle" class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3.5 py-2 text-sm text-[#17172c] focus:outline-none focus:border-[#6336ed]" />
           </div>
 
-          <div class="rounded-xl border border-white/10 bg-white/[0.02] p-3 text-xs text-slate-400">
+          <div class="rounded-xl border border-[#e5e7f3] bg-[#f8f9fe] p-3 text-xs text-[#59617e]">
             {lang === 'ru'
               ? 'Редакция свяжется с вами для подтверждения доступа к редактированию стека, цен и кейсов.'
               : 'Our editorial team will confirm domain ownership and grant profile editing credentials.'}
           </div>
 
           <div class="flex items-center gap-3 pt-2">
-            <button type="submit" class="btn-primary flex-1 text-center justify-center py-2.5 text-xs cursor-pointer">
+            <button type="submit" class="cta flex-1 text-center justify-center py-2.5 text-xs cursor-pointer">
               <span>{lang === 'ru' ? 'Отправить запрос' : 'Submit Claim Request'}</span>
             </button>
             <a
@@ -376,70 +369,53 @@ const agencyJsonLd = {
               href={`https://t.me/aitopindex?text=${encodeURIComponent(`🚀 Запрос на подтверждение профиля: ${agency.name} (${agency.website})`)}`}
               target="_blank"
               rel="noopener noreferrer"
-              class="btn-ghost text-xs py-2.5 px-4"
+              class="cta secondary text-xs py-2.5 px-4"
             >
-              <span>Telegram ↗</span>
+              <span>Telegram</span>
+              <span>↗</span>
             </a>
           </div>
         </form>
-
-        <div id="claim-success" class="hidden text-center py-6 space-y-3">
-          <div class="h-12 w-12 rounded-full border border-emerald-500 bg-emerald-500/10 text-emerald-400 flex items-center justify-center mx-auto text-xl">
-            ✓
-          </div>
-          <h4 class="text-lg font-bold text-white">
-            {lang === 'ru' ? 'Запрос успешно отправлен!' : 'Claim Request Received!'}
-          </h4>
-          <p class="text-xs text-slate-300">
-            {lang === 'ru'
-              ? 'Мы отправили подтверждение на ваш корпоративный email и свяжемся в Telegram в течение 24 часов.'
-              : 'We have logged your request and will contact your corporate address within 24 hours.'}
-          </p>
-          <button type="button" id="close-claim-success-btn" class="btn-ghost text-xs py-1.5 px-4 mt-2 cursor-pointer">
-            {lang === 'ru' ? 'Закрыть' : 'Close'}
-          </button>
-        </div>
       </div>
     </div>
   </div>
-
-  <script>
-    function setupClaimModal() {
-      const modal = document.getElementById('claim-modal');
-      const openBtn = document.getElementById('open-claim-modal-btn');
-      const closeBtn = document.getElementById('close-claim-modal-btn');
-      const closeSuccessBtn = document.getElementById('close-claim-success-btn');
-      const form = document.getElementById('claim-profile-form') as HTMLFormElement | null;
-      const success = document.getElementById('claim-success');
-
-      if (!modal || !openBtn) return;
-
-      const openModal = () => {
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-      };
-
-      const closeModal = () => {
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-      };
-
-      openBtn.addEventListener('click', openModal);
-      closeBtn?.addEventListener('click', closeModal);
-      closeSuccessBtn?.addEventListener('click', closeModal);
-
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
-      });
-
-      form?.addEventListener('submit', (e) => {
-        e.preventDefault();
-        form.classList.add('hidden');
-        success?.classList.remove('hidden');
-      });
-    }
-
-    setupClaimModal();
-    document.addEventListener('astro:page-load', setupClaimModal);
-  </script>
 </Layout>
+
+<script is:inline>
+  const openClaimBtn = document.getElementById('open-claim-modal-btn');
+  const closeClaimBtn = document.getElementById('close-claim-modal-btn');
+  const claimModal = document.getElementById('claim-modal');
+  const claimForm = document.getElementById('claim-profile-form');
+
+  if (openClaimBtn && claimModal) {
+    openClaimBtn.addEventListener('click', () => {
+      claimModal.classList.remove('hidden');
+      claimModal.classList.add('flex');
+    });
+  }
+
+  if (closeClaimBtn && claimModal) {
+    closeClaimBtn.addEventListener('click', () => {
+      claimModal.classList.add('hidden');
+      claimModal.classList.remove('flex');
+    });
+  }
+
+  if (claimModal) {
+    claimModal.addEventListener('click', (e) => {
+      if (e.target === claimModal) {
+        claimModal.classList.add('hidden');
+        claimModal.classList.remove('flex');
+      }
+    });
+  }
+
+  if (claimForm) {
+    claimForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert(window.__LANG === 'ru' ? 'Запрос отправлен! Мы свяжемся с вами.' : 'Claim request submitted! We will contact you.');
+      claimModal?.classList.add('hidden');
+      claimModal?.classList.remove('flex');
+    });
+  }
+</script>

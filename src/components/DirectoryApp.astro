@@ -1,6 +1,5 @@
 ---
 import type { Agency, Category, Lang } from '../lib/data';
-import AgencyCard from './AgencyCard.astro';
 import CategoryIcon from './CategoryIcon.astro';
 
 interface Props {
@@ -13,427 +12,841 @@ interface Props {
 
 const { agencies, categories, lang, initialCategory = 'all', isCategoryPage = false } = Astro.props;
 
-// Category definitions for top pill row
-const pillCategories = [
-  { id: 'all', label: lang === 'ru' ? 'Все' : 'All', icon: 'sliders' },
-  { id: 'sales', label: lang === 'ru' ? 'ИИ-агенты и CRM' : 'AI Agents', icon: 'bot' },
-  { id: 'enterprise', label: lang === 'ru' ? 'LLM и RAG' : 'LLM & RAG', icon: 'brain' },
-  { id: 'voice', label: lang === 'ru' ? 'Голосовой ИИ' : 'Voice AI', icon: 'mic' },
-  { id: 'workflow', label: lang === 'ru' ? 'n8n и Make' : 'Automation', icon: 'bolt' },
-  { id: 'video', label: lang === 'ru' ? 'ИИ-видео' : 'AI Video', icon: 'video' },
-  { id: 'realestate', label: lang === 'ru' ? 'Недвижимость' : 'Real Estate', icon: 'building' },
-  { id: 'healthcare', label: lang === 'ru' ? 'Медицина' : 'Healthcare', icon: 'heart' },
-  { id: 'ecommerce', label: lang === 'ru' ? 'E-Commerce' : 'E-Commerce', icon: 'cart' },
-  { id: 'geo', label: lang === 'ru' ? 'GEO в ИИ' : 'GEO Search', icon: 'globe' },
+// Helper to determine flag & country from agency hq
+function getCountryInfo(agency: Agency): { flag: string; name: string } {
+  const hqStr = (agency.hq?.en || '').toLowerCase();
+  if (hqStr.includes('usa') || hqStr.includes('united states') || hqStr.includes('san francisco') || hqStr.includes('new york')) {
+    return { flag: '🇺🇸', name: lang === 'ru' ? 'США' : 'United States' };
+  }
+  if (hqStr.includes('uk') || hqStr.includes('united kingdom') || hqStr.includes('london')) {
+    return { flag: '🇬🇧', name: lang === 'ru' ? 'Великобритания' : 'United Kingdom' };
+  }
+  if (hqStr.includes('canada') || hqStr.includes('toronto') || hqStr.includes('vancouver')) {
+    return { flag: '🇨🇦', name: lang === 'ru' ? 'Канада' : 'Canada' };
+  }
+  if (hqStr.includes('germany') || hqStr.includes('berlin') || hqStr.includes('munich')) {
+    return { flag: '🇩🇪', name: lang === 'ru' ? 'Германия' : 'Germany' };
+  }
+  if (hqStr.includes('france') || hqStr.includes('paris')) {
+    return { flag: '🇫🇷', name: lang === 'ru' ? 'Франция' : 'France' };
+  }
+  if (hqStr.includes('cyprus') || hqStr.includes('limassol')) {
+    return { flag: '🇨🇾', name: lang === 'ru' ? 'Кипр' : 'Cyprus' };
+  }
+  if (hqStr.includes('russia') || hqStr.includes('moscow') || hqStr.includes('saint petersburg')) {
+    return { flag: '🇷🇺', name: lang === 'ru' ? 'Россия' : 'Russia' };
+  }
+  if (hqStr.includes('uae') || hqStr.includes('dubai')) {
+    return { flag: '🇦🇪', name: lang === 'ru' ? 'ОАЭ' : 'UAE' };
+  }
+  if (hqStr.includes('israel') || hqStr.includes('tel aviv')) {
+    return { flag: '🇮🇱', name: lang === 'ru' ? 'Израиль' : 'Israel' };
+  }
+  if (hqStr.includes('singapore')) {
+    return { flag: '🇸🇬', name: lang === 'ru' ? 'Сингапур' : 'Singapore' };
+  }
+  return { flag: '🌐', name: agency.hq?.[lang] || (lang === 'ru' ? 'Международный' : 'Global') };
+}
+
+// Brandmark styling generator
+const brandmarkStyles = [
+  'bg-gradient-to-br from-[#66b8fb]/15 to-[#6336ed]/20 text-[#4f35e3] border-[#d8d5fb]',
+  'bg-gradient-to-br from-[#8d67ff]/15 to-[#293280]/20 text-[#6336ed] border-[#e2ddfc]',
+  'bg-gradient-to-br from-[#2dd4bf]/20 to-[#6366f1]/20 text-[#2563eb] border-[#cce5ff]',
+  'bg-gradient-to-br from-[#f59e0b]/15 to-[#d97706]/20 text-[#b45309] border-[#fed7aa]',
+  'bg-gradient-to-br from-[#10b981]/15 to-[#059669]/20 text-[#047857] border-[#a7f3d0]',
 ];
+
+// Top Specialists data
+const specialists = [
+  {
+    name: 'Dr. Fei-Fei Li',
+    initials: 'FL',
+    country: lang === 'ru' ? 'США' : 'United States',
+    flag: '🇺🇸',
+    role: lang === 'ru' ? 'Профессор Стэнфорда, AI-исследователь' : 'AI Researcher & Professor',
+    tags: ['Computer Vision', 'Multimodal AI'],
+    rating: '4.98',
+    avatarGrad: 'a1',
+  },
+  {
+    name: 'Ilya Sutskever',
+    initials: 'IS',
+    country: lang === 'ru' ? 'Канада' : 'Canada',
+    flag: '🇨🇦',
+    role: lang === 'ru' ? 'Сооснователь SSI, экс-OpenAI' : 'AI Research Leader, SSI',
+    tags: ['LLMs', 'Deep Learning'],
+    rating: '4.97',
+    avatarGrad: 'a2',
+  },
+  {
+    name: 'Andrej Karpathy',
+    initials: 'AK',
+    country: lang === 'ru' ? 'США' : 'United States',
+    flag: '🇺🇸',
+    role: lang === 'ru' ? 'AI-педагог и архитектор моделей' : 'AI Educator & Builder',
+    tags: ['LLMs', 'AI Engineering'],
+    rating: '4.96',
+    avatarGrad: 'a3',
+  },
+  {
+    name: 'Demis Hassabis',
+    initials: 'DH',
+    country: lang === 'ru' ? 'Великобритания' : 'United Kingdom',
+    flag: '🇬🇧',
+    role: lang === 'ru' ? 'CEO Google DeepMind, Nobel 2024' : 'CEO Google DeepMind',
+    tags: ['AGI', 'Reinforcement Learning'],
+    rating: '4.95',
+    avatarGrad: 'a4',
+  },
+  {
+    name: 'Yann LeCun',
+    initials: 'YL',
+    country: lang === 'ru' ? 'США' : 'United States',
+    flag: '🇺🇸',
+    role: lang === 'ru' ? 'Главный AI-ученый Meta, профессор NYU' : 'Chief AI Scientist & NYU Prof',
+    tags: ['Deep Learning', 'Open Source AI'],
+    rating: '4.94',
+    avatarGrad: 'a5',
+  },
+];
+
+// Pre-render client data JSON for instant interactive search & filter
+const agenciesClientData = agencies.map((a, idx) => {
+  const cInfo = getCountryInfo(a);
+  const trendPercent = (+(1.2 + ((a.score * 7) % 35) / 10).toFixed(1));
+  return {
+    id: a.id,
+    name: a.name,
+    description: a.description[lang],
+    categories: a.categories,
+    categoryNames: a.categories.map((cId) => categories.find((c) => c.id === cId)?.title[lang] || cId),
+    entityType: a.entityType || 'integrator',
+    region: a.region || 'global',
+    country: cInfo.name,
+    flag: cInfo.flag,
+    techStack: a.techStack,
+    score: a.score,
+    scoreFormatted: a.score.toFixed(1),
+    trend: `+${trendPercent}%`,
+    profileUrl: `/${lang}/agency/${a.id}/`,
+    website: a.website,
+    verified: a.status === 'verified',
+  };
+});
 ---
 
-<div id="directory-app" class="w-full" data-initial-cat={initialCategory}>
-  <!-- [SearchCommandBar] Заголовок H1 + Командная строка поиска -->
-  <section class="pt-4 pb-3">
-    {!isCategoryPage && (
-      <h1 class="text-[21px] sm:text-[28px] font-bold leading-[1.22] tracking-[-0.025em] text-[#F3F6FA] text-center mb-3.5">
-        {lang === 'ru' ? 'Найдите ИИ-компании и интеграторов' : 'Find AI Companies & Integrators'}
-      </h1>
-    )}
-
-    <!-- Командная строка с неоново-бирюзовым свечением -->
-    <div class="command-glow rounded-xl h-[46px] px-3 flex items-center transition-shadow max-w-2xl mx-auto">
-      <span class="w-6 h-6 rounded-md bg-[#171E27] border border-[#1E2631] flex items-center justify-center text-[#8B96A5] mr-2.5 shrink-0">
-        <!-- Иконка командной клавиши ⌘ -->
-        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/>
-        </svg>
-      </span>
-
-      <input
-        type="text"
-        id="searchInput"
-        oninput="handleSearch(this.value)"
-        placeholder={lang === 'ru' ? 'Опишите задачу или стек ИИ (напр. Voice agent, RAG, n8n)...' : 'Describe your task or AI stack (e.g. Voice agent, RAG, n8n)...'}
-        class="w-full bg-transparent text-[13px] text-[#F3F6FA] placeholder:text-[#8B96A5]/80 focus:outline-none pr-3"
-      />
-
-      <button
-        type="button"
-        id="clearSearchBtn"
-        onclick="clearSearch()"
-        class="hidden w-5 h-5 rounded-full bg-[#171E27] hover:bg-[#1E2631] text-[#8B96A5] hover:text-[#F3F6FA] text-[11px] items-center justify-center shrink-0 cursor-pointer"
-        aria-label="Clear search"
-      >
-        ✕
-      </button>
-    </div>
-  </section>
-
-  <!-- [CategoryPills] Горизонтальные капсулы категорий -->
-  <section class="flex items-center gap-2 overflow-x-auto no-scrollbar py-2 -mx-4 px-4 sm:mx-0 sm:px-0">
-    {pillCategories.map((cat) => {
-      const isSelected = initialCategory === cat.id;
-      return (
-        <button
-          type="button"
-          data-cat-pill={cat.id}
-          onclick={`selectCategory('${cat.id}')`}
-          class={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] whitespace-nowrap shrink-0 transition-all cursor-pointer ${
-            isSelected
-              ? 'bg-[#2DD4BF]/15 border border-[#2DD4BF]/80 text-[#2DD4BF] font-semibold shadow-[0_0_14px_rgba(45,212,191,0.25)]'
-              : 'bg-[#11161D] border border-[#1E2631] text-[#F3F6FA]/90 hover:border-[#8B96A5]/50 font-medium'
-          }`}
-        >
-          <span>{cat.label}</span>
-        </button>
-      );
-    })}
-  </section>
-
-  <!-- [ResultsToolbar] Счётчик найденных компаний и сортировка -->
-  <section class="pt-3 pb-2.5 flex items-center justify-between gap-2 border-b border-[#1E2631]/60 mb-4">
-    <p id="resultsCounter" class="text-[12px] text-[#8B96A5]">
-      <span class="font-bold text-[#F3F6FA]" id="visibleCount">{agencies.length}</span> {lang === 'ru' ? 'проверенных ИИ-агентств и студий' : 'verified AI experts and agencies'}
-    </p>
-
-    <div class="flex items-center gap-2">
-      <button
-        type="button"
-        id="resetFilterChip"
-        onclick="resetDirectory()"
-        class="hidden text-[11px] font-medium text-[#2DD4BF] bg-[#2DD4BF]/10 border border-[#2DD4BF]/30 rounded-lg px-2 py-1 hover:bg-[#2DD4BF]/20 transition-colors cursor-pointer"
-      >
-        {lang === 'ru' ? 'Сбросить' : 'Reset'}
-      </button>
-
-      <button
-        type="button"
-        onclick="cycleSort()"
-        class="inline-flex items-center gap-1.5 text-[11.5px] font-medium text-[#F3F6FA] bg-[#11161D] hover:bg-[#171E27] border border-[#1E2631] rounded-lg px-2.5 py-1 transition-colors cursor-pointer"
-      >
-        <span id="sortLabel">{lang === 'ru' ? 'По рейтингу' : 'Top rated'}</span>
-        <svg class="w-3 h-3 text-[#8B96A5]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-    </div>
-  </section>
-
-  <!-- [Categories Tab View] Сетка направлений ИИ (активируется при переходе на вкладку Categories) -->
-  <div id="categoriesTabContainer" class="hidden pb-12">
-    <div class="bg-[#11161D] border border-[#1E2631] rounded-2xl p-4 sm:p-6 mb-4">
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
-        <div>
-          <h2 class="text-[16px] sm:text-[18px] font-bold text-[#F3F6FA]">
-            {lang === 'ru' ? 'Направления внедрения ИИ' : 'AI Specialization Categories'}
-          </h2>
-          <p class="text-[12px] text-[#8B96A5]">
-            {lang === 'ru' ? 'Выберите сферу для перехода к специализированному рейтингу и кейсам' : 'Select an AI domain to view verified integrators and production benchmarks'}
+<div id="top-index-app" class="w-full">
+  <!-- ============================================================ -->
+  <!-- HERO SECTION                                                 -->
+  <!-- ============================================================ -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-inner">
+        <!-- Hero Text -->
+        <div class="hero-text">
+          <span class="eyebrow">
+            ✦ GLOBAL AI RANKING PLATFORM ✦
+          </span>
+          <h1>
+            {lang === 'ru' ? (
+              <>Глобальный рейтинг <span class="gradient-text">Top Index</span></>
+            ) : (
+              <>The Global AI <span class="gradient-text">Top Index</span></>
+            )}
+          </h1>
+          <p class="hero-lead">
+            {lang === 'ru'
+              ? 'Рейтинг ведущих ИИ-компаний, интеграторов и специалистов мира — проверенные данные, реальные кейсы и аудит для глобальной экосистемы ИИ.'
+              : 'Rankings of leading AI companies and specialists worldwide — trusted, data-driven, and updated in real time for the global AI ecosystem.'}
           </p>
+          <div class="hero-ctas">
+            <a class="cta" href="#rankings">
+              <svg class="icon"><use href="#i-trend"/></svg>
+              <span>{lang === 'ru' ? 'Смотреть рейтинг →' : 'Explore Rankings →'}</span>
+            </a>
+            <a class="cta secondary" href="#methodology">
+              <span>◎</span>
+              <span>{lang === 'ru' ? 'Как устроен рейтинг' : 'See How It Works'}</span>
+            </a>
+          </div>
         </div>
-        <span class="font-mono text-[11px] text-[#2DD4BF] bg-[#2DD4BF]/10 px-2 py-0.5 rounded border border-[#2DD4BF]/30 self-start sm:self-auto">
-          9 {lang === 'ru' ? 'рубрик' : 'verticals'}
+
+        <!-- Hero 3D Globe Art -->
+        <div class="hero-art" aria-hidden="true">
+          <div class="globe">
+            <div class="continent">🌍</div>
+          </div>
+          <div class="orbit"></div>
+          <div class="orbit o2"></div>
+          <div class="spark s1"></div>
+          <div class="spark s2"></div>
+          <div class="spark s3"></div>
+          <div class="spark s4"></div>
+        </div>
+
+        <!-- Hero 4 Stats Counters -->
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <span class="stat-icon"><svg class="icon"><use href="#i-trophy"/></svg></span>
+            <span>
+              <strong>12,500+</strong>
+              <small>{lang === 'ru' ? 'Компаний в индексе' : 'AI Companies Ranked'}</small>
+            </span>
+          </div>
+          <div class="hero-stat">
+            <span class="stat-icon"><svg class="icon"><use href="#i-people"/></svg></span>
+            <span>
+              <strong>48,000+</strong>
+              <small>{lang === 'ru' ? 'ИИ-специалистов' : 'AI Specialists Listed'}</small>
+            </span>
+          </div>
+          <div class="hero-stat">
+            <span class="stat-icon"><svg class="icon"><use href="#i-layers"/></svg></span>
+            <span>
+              <strong>180+</strong>
+              <small>{lang === 'ru' ? 'Стран и регионов' : 'Countries & Regions'}</small>
+            </span>
+          </div>
+          <div class="hero-stat">
+            <span class="stat-icon"><svg class="icon"><use href="#i-trend"/></svg></span>
+            <span>
+              <strong>50+</strong>
+              <small>{lang === 'ru' ? 'Категорий внедрения' : 'AI Categories'}</small>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- SEARCH & FILTER BAR                                          -->
+      <!-- ============================================================ -->
+      <div class="search-area">
+        <form class="searchbar" id="search-form" onsubmit="event.preventDefault(); window.applyAppFilters(); document.getElementById('rankings')?.scrollIntoView({behavior:'smooth'});">
+          <svg class="icon"><use href="#i-search"/></svg>
+          <input
+            id="search"
+            type="text"
+            placeholder={lang === 'ru' ? 'Поиск ИИ-компаний, специалистов, технологий (#OpenAI, Voice, RAG)...' : 'Search AI companies, specialists, categories, or technologies...'}
+            aria-label="Search companies"
+            autocomplete="off"
+            oninput="window.applyAppFilters()"
+          />
+          <button class="cta" type="submit">
+            {lang === 'ru' ? 'Найти' : 'Search'}
+          </button>
+        </form>
+
+        <!-- Filter Row with Icon Chips -->
+        <div class="filter-row">
+          <span class="filter-title">
+            <svg class="icon" style="width:15px"><use href="#i-filter"/></svg>
+            <span>{lang === 'ru' ? 'Фильтры' : 'Filters'}</span>
+          </span>
+
+          <!-- Region Filter -->
+          <label class="filter-chip">
+            <span>🌐</span>
+            <select id="region-filter" aria-label="Region" onchange="window.applyAppFilters()">
+              <option value="">{lang === 'ru' ? 'Регион: Все' : 'Region: Global'}</option>
+              <option value="United States">{lang === 'ru' ? 'США (United States)' : 'United States'}</option>
+              <option value="United Kingdom">{lang === 'ru' ? 'Великобритания (UK)' : 'United Kingdom'}</option>
+              <option value="Canada">{lang === 'ru' ? 'Канада (Canada)' : 'Canada'}</option>
+              <option value="Germany">{lang === 'ru' ? 'Германия (Germany)' : 'Germany'}</option>
+              <option value="France">{lang === 'ru' ? 'Франция (France)' : 'France'}</option>
+              <option value="Cyprus">{lang === 'ru' ? 'Кипр (Cyprus)' : 'Cyprus'}</option>
+              <option value="Russia">{lang === 'ru' ? 'Россия (CIS)' : 'Russia / CIS'}</option>
+              <option value="UAE">{lang === 'ru' ? 'ОАЭ (UAE)' : 'UAE / MENA'}</option>
+            </select>
+          </label>
+
+          <!-- Category Filter -->
+          <label class="filter-chip">
+            <span>◈</span>
+            <select id="category-filter" aria-label="Category" onchange="window.applyAppFilters()">
+              <option value="">{lang === 'ru' ? 'Категория: Все' : 'Category: All'}</option>
+              {categories.map((c) => (
+                <option value={c.id} selected={initialCategory === c.id}>
+                  {c.title[lang]}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <!-- Industry / Entity Type Filter -->
+          <label class="filter-chip">
+            <span>🏢</span>
+            <select id="industry-filter" aria-label="Industry" onchange="window.applyAppFilters()">
+              <option value="">{lang === 'ru' ? 'Тип: Все' : 'Industry: All'}</option>
+              <option value="integrator">{lang === 'ru' ? 'B2B Интегратор / Студия' : 'B2B Integrator / Studio'}</option>
+              <option value="platform">{lang === 'ru' ? 'Enterprise ИИ-Платформа' : 'Enterprise AI Platform'}</option>
+            </select>
+          </label>
+
+          <!-- Expertise / Tech Filter -->
+          <label class="filter-chip">
+            <span>⌘</span>
+            <select id="expertise-filter" aria-label="Expertise" onchange="window.applyAppFilters()">
+              <option value="">{lang === 'ru' ? 'Стек: Любой' : 'Expertise: All'}</option>
+              <option value="openai">OpenAI / GPT-4o</option>
+              <option value="rag">Enterprise RAG / Vector DB</option>
+              <option value="voice">Voice Agents / Retell / Vapi</option>
+              <option value="n8n">n8n / Make Automation</option>
+              <option value="langchain">LangChain / LangGraph</option>
+              <option value="python">Python / PyTorch</option>
+              <option value="anthropic">Anthropic Claude</option>
+            </select>
+          </label>
+
+          <!-- Rating Filter -->
+          <label class="filter-chip">
+            <span>☆</span>
+            <select id="rating-filter" aria-label="Minimum rating" onchange="window.applyAppFilters()">
+              <option value="0">{lang === 'ru' ? 'Балл: Любой' : 'Rating: Any'}</option>
+              <option value="90">{lang === 'ru' ? 'Балл: 90+' : 'Score: 90+'}</option>
+              <option value="95">{lang === 'ru' ? 'Балл: 95+' : 'Score: 95+'}</option>
+              <option value="97">{lang === 'ru' ? 'Балл: 97+' : 'Score: 97+'}</option>
+            </select>
+          </label>
+
+          <!-- Verification Filter -->
+          <label class="filter-chip">
+            <span>🛡️</span>
+            <select id="verification-filter" aria-label="Verification" onchange="window.applyAppFilters()">
+              <option value="">{lang === 'ru' ? 'Статус: Все' : 'Verification: All'}</option>
+              <option value="verified">{lang === 'ru' ? 'Только проверенные' : 'Verified Only'}</option>
+            </select>
+          </label>
+
+          <!-- Reset Filter Button -->
+          <button type="button" class="clear" id="reset-filters-btn" onclick="window.resetAllFilters()">
+            {lang === 'ru' ? 'Сбросить всё' : 'Clear All'}
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- MAIN CONTENT: DASHBOARD (RANKINGS + LANDSCAPE)               -->
+  <!-- ============================================================ -->
+  <div class="wrap content">
+    <section class="dashboard" id="rankings">
+      <!-- Left Column: Top Ranked Companies -->
+      <div>
+        <div class="section-head">
+          <div class="heading-title">
+            <svg class="icon heading-icon"><use href="#i-building"/></svg>
+            <div>
+              <h2>{lang === 'ru' ? 'Лидеры рейтинга компаний' : 'Top Ranked Companies'}</h2>
+              <p>{lang === 'ru' ? 'Ведущие мировые ИИ-компании и интеграторы, ранжированные по эффективности, инновациям и надежности.' : "The world's leading AI companies, ranked by performance, innovation, impact and trust."}</p>
+            </div>
+          </div>
+          <a class="more" href="#rankings" onclick="document.getElementById('search')?.focus()">
+            {lang === 'ru' ? 'Смотреть весь рейтинг →' : 'View Full Rankings →'}
+          </a>
+        </div>
+
+        <div class="card rank-card">
+          <!-- Table Header -->
+          <div class="table-head">
+            <span>#</span>
+            <span>{lang === 'ru' ? 'Компания' : 'Company'}</span>
+            <span>{lang === 'ru' ? 'Категории и специализация' : 'Primary AI Categories'}</span>
+            <span>{lang === 'ru' ? 'Trust Score' : 'Trust Score'}</span>
+            <span>{lang === 'ru' ? 'Регион' : 'Region'}</span>
+            <span>{lang === 'ru' ? 'Тренд (30д)' : 'Trend (30d)'}</span>
+          </div>
+
+          <!-- Company List Container (populated by SSR & client JS) -->
+          <div id="company-list">
+            {agencies.slice(0, 25).map((agency, idx) => {
+              const cInfo = getCountryInfo(agency);
+              const rankNum = idx + 1;
+              const trend = `+${(1.2 + ((agency.score * 7) % 35) / 10).toFixed(1)}%`;
+              const gradClass = brandmarkStyles[idx % brandmarkStyles.length];
+              const primaryCategories = agency.categories.slice(0, 2).map((cId) => categories.find((c) => c.id === cId)?.title[lang] || cId);
+
+              return (
+                <div
+                  class="company cursor-pointer"
+                  onclick={`window.location.href='/${lang}/agency/${agency.id}/'`}
+                  data-agency-row={agency.id}
+                >
+                  <span class="rank-no">{rankNum}</span>
+                  
+                  <div class="company-info">
+                    <div class={`brandmark ${gradClass}`}>
+                      {agency.name.charAt(0).toUpperCase()}
+                    </div>
+                    <div style="min-width:0">
+                      <div class="company-name flex items-center gap-1">
+                        <a href={`/${lang}/agency/${agency.id}/`} class="hover:underline">
+                          {agency.name}
+                        </a>
+                        <span class="verify" title="Verified by Top Index">●</span>
+                      </div>
+                      <div class="company-desc">
+                        {cInfo.flag} {cInfo.name} · {agency.description[lang]}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="tags">
+                    {primaryCategories.map((t) => (
+                      <span class="tag">{t}</span>
+                    ))}
+                  </div>
+
+                  <div class="score-cell">
+                    <div class="score">{agency.score.toFixed(1)}</div>
+                    <div class="score-track">
+                      <div class="score-fill" style={`width: ${Math.min(100, agency.score)}%`}></div>
+                    </div>
+                  </div>
+
+                  <div class="region">
+                    {cInfo.flag} {cInfo.name}
+                  </div>
+
+                  <div class="trend">
+                    ▲ {trend}
+                  </div>
+
+                  <div class="right-chevron">›</div>
+                </div>
+              );
+            })}
+          </div>
+
+          <!-- Empty state -->
+          <div id="emptyState">
+            {lang === 'ru'
+              ? 'Компании по заданным критериям не найдены. Попробуйте сбросить фильтры поиска.'
+              : 'No companies match these filters. Try clearing some filters.'}
+          </div>
+        </div>
+
+        <p class="demo-note">
+          {lang === 'ru'
+            ? 'Регулярная верификация: баллы доверия, технологии и кейсы внедрения подтверждены методологией Top Index 2026.'
+            : 'Regular verification: trust scores, tech stacks, and production cases are audited by Top Index Research 2026.'}
+        </p>
+      </div>
+
+      <!-- Right Column: Global AI Landscape Card -->
+      <aside class="card landscape">
+        <div class="land-head">
+          <div>
+            <strong>🌐 {lang === 'ru' ? 'Глобальный ландшафт ИИ' : 'Global AI Landscape'}</strong>
+            <small>{lang === 'ru' ? 'Активность ИИ-компаний и специалистов по регионам мира.' : 'AI excellence across regions, companies and specialists.'}</small>
+          </div>
+          <div class="tabs" aria-label="Map region">
+            <button class="active" data-tab="Global" onclick="window.switchMapTab('Global', this)">Global</button>
+            <button data-tab="US" onclick="window.switchMapTab('US', this)">US</button>
+            <button data-tab="EU" onclick="window.switchMapTab('EU', this)">EU</button>
+            <button data-tab="Asia" onclick="window.switchMapTab('Asia', this)">Asia</button>
+          </div>
+        </div>
+
+        <div class="land-body">
+          <!-- World SVG Map with dots and hot spots -->
+          <div class="map-area" id="world-map">
+            <svg class="world-svg" viewBox="0 0 330 165" aria-label="Stylized world map showing regions">
+              <defs>
+                <pattern id="dots" width="4" height="4" patternUnits="userSpaceOnUse">
+                  <circle cx="1" cy="1" r="1" fill="#9da8ee" opacity=".72"/>
+                </pattern>
+                <radialGradient id="hot">
+                  <stop stop-color="#9766ff" stop-opacity=".8"/>
+                  <stop offset="1" stop-color="#9766ff" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <g fill="url(#dots)" stroke="#ccd1f9" stroke-width=".5">
+                <path d="M18 41 34 24 70 17 95 31 115 29 128 47 112 54 104 77 92 85 77 75 60 90 50 73 38 70 30 56 15 53Z"/>
+                <path d="M86 87 114 92 132 109 126 127 117 144 106 156 98 145 90 124 77 108Z"/>
+                <path d="M141 29 161 20 178 26 192 22 218 30 241 22 274 32 306 49 317 66 298 77 283 70 260 83 242 73 223 79 204 67 187 79 172 64 150 64 142 49Z"/>
+                <path d="M154 78 189 73 208 92 199 121 181 149 169 140 161 117 148 101Z"/>
+                <path d="M265 105 289 101 318 117 308 140 278 137 260 122Z"/>
+                <path d="M120 12 132 8 146 14 140 26 129 29Z"/>
+              </g>
+              <g fill="url(#hot)">
+                <circle cx="88" cy="47" r="24"/>
+                <circle cx="160" cy="52" r="19"/>
+                <circle cx="258" cy="64" r="24"/>
+                <circle cx="286" cy="122" r="13"/>
+              </g>
+              <g class="map-hot">
+                <circle cx="88" cy="47" r="3"/>
+                <circle cx="160" cy="52" r="3"/>
+                <circle cx="258" cy="64" r="3"/>
+                <circle cx="286" cy="122" r="3"/>
+              </g>
+            </svg>
+          </div>
+
+          <div class="land-metrics">
+            <div>
+              <svg class="icon"><use href="#i-building"/></svg>
+              <span>
+                <strong>12,500+</strong>
+                <small>{lang === 'ru' ? 'ИИ-компаний' : 'Companies'}</small>
+              </span>
+            </div>
+            <div>
+              <svg class="icon"><use href="#i-people"/></svg>
+              <span>
+                <strong>48,000+</strong>
+                <small>{lang === 'ru' ? 'Специалистов' : 'Specialists'}</small>
+              </span>
+            </div>
+            <div>
+              <svg class="icon"><use href="#i-layers"/></svg>
+              <span>
+                <strong>180+</strong>
+                <small>{lang === 'ru' ? 'Стран и регионов' : 'Countries & Regions'}</small>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="growth">
+          <div>
+            <div class="growth-label">
+              {lang === 'ru' ? 'Рост ИИ-экосистемы ⓘ' : 'AI Ecosystem Growth ⓘ'}
+            </div>
+            <div class="growth-number">+42.7%</div>
+            <small style="font-size:9px;color:var(--sub)">
+              {lang === 'ru' ? 'Годовой темп роста (YoY 2026–2027)' : 'Global AI ecosystem growth (YoY, 2026–2027)'}
+            </small>
+          </div>
+
+          <svg class="growth-chart" viewBox="0 0 200 55" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1">
+                <stop stop-color="#8b62fb" stop-opacity=".25"/>
+                <stop offset="1" stop-color="#8b62fb" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <path d="M0 52 20 43 37 40 54 36 70 37 92 31 110 33 127 24 143 22 166 12 190 9 200 7 200 55 0 55Z" fill="url(#chartFill)"/>
+            <path d="M0 52 20 43 37 40 54 36 70 37 92 31 110 33 127 24 143 22 166 12 190 9 200 7" fill="none" stroke="#7550ed" stroke-width="2"/>
+            <g fill="#7550ed">
+              <circle cx="54" cy="36" r="2.5"/>
+              <circle cx="127" cy="24" r="2.5"/>
+              <circle cx="190" cy="9" r="2.5"/>
+            </g>
+          </svg>
+        </div>
+      </aside>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- TOP AI SPECIALISTS SECTION                                   -->
+    <!-- ============================================================ -->
+    <section class="experts-section" id="specialists">
+      <div class="section-head">
+        <div class="heading-title">
+          <svg class="icon heading-icon"><use href="#i-user"/></svg>
+          <div>
+            <h2>{lang === 'ru' ? 'Ведущие эксперты и архитекторы ИИ' : 'Top AI Specialists'}</h2>
+            <p>{lang === 'ru' ? 'Исследователи, инженеры и архитекторы мирового уровня, ранжированные по вкладу и репутации.' : 'World-class AI experts, researchers, and builders, ranked by impact, expertise, and reputation.'}</p>
+          </div>
+        </div>
+        <a class="more" href="#specialists">
+          {lang === 'ru' ? 'Все специалисты →' : 'View All Specialists →'}
+        </a>
+      </div>
+
+      <div class="expert-grid" id="expert-grid">
+        {specialists.map((e) => (
+          <div class="card expert">
+            <div class="expert-top">
+              <div class={`avatar ${e.avatarGrad}`}>{e.initials}</div>
+              <div style="min-width:0">
+                <div class="expert-name flex items-center gap-1">
+                  <span>{e.name}</span>
+                  <span class="verify" style="color:#147dff">●</span>
+                </div>
+                <div class="expert-country">{e.flag} {e.country}</div>
+              </div>
+              <span class="expert-rating">★ {e.rating}</span>
+            </div>
+            <div class="expert-role">{e.role}</div>
+            <div class="expert-tags">
+              {e.tags.map((t) => (
+                <span class="tag">{t}</span>
+              ))}
+            </div>
+            <div class="verified-line flex items-center gap-1">
+              <span>♢</span>
+              <span>{lang === 'ru' ? 'Верифицированный эксперт' : 'Verified Expert*'}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- AI SPECIALIZATION CATEGORIES GRID                            -->
+    <!-- ============================================================ -->
+    <section class="mt-10" id="categories-section">
+      <div class="section-head">
+        <div class="heading-title">
+          <svg class="icon heading-icon"><use href="#i-layers"/></svg>
+          <div>
+            <h2>{lang === 'ru' ? 'Сферы внедрения ИИ' : 'AI Specialization Categories'}</h2>
+            <p>{lang === 'ru' ? 'Выберите отраслевое направление для перехода к специализированному рейтингу и бенчмаркам.' : 'Select an AI domain to explore verified integrators and production benchmarks.'}</p>
+          </div>
+        </div>
+        <span class="font-mono text-xs font-semibold text-[#6336ed] bg-[#f0edff] px-2.5 py-1 rounded-full border border-[#ded6ff]">
+          9 {lang === 'ru' ? 'направлений' : 'verticals'}
         </span>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {categories.map((c) => (
-          <a
-            href={`/${lang}/${c.slug[lang]}/`}
-            class="bg-[#090C10] hover:bg-[#171E27] border border-[#1E2631] hover:border-[#2DD4BF]/50 rounded-xl p-3.5 text-left transition-all group flex flex-col justify-between"
-          >
-            <div>
-              <div class="flex items-center justify-between mb-2">
-                <span class="w-8 h-8 rounded-lg bg-[#11161D] border border-[#1E2631] flex items-center justify-center text-[#2DD4BF] group-hover:scale-105 transition-transform">
-                  <CategoryIcon category={c.id} class="w-5 h-5" />
-                </span>
-                <span class="font-mono text-[11px] text-[#2DD4BF] bg-[#2DD4BF]/10 px-2 py-0.5 rounded-md">
-                  {agencies.filter((a) => a.categories.includes(c.id)).length} {lang === 'ru' ? 'команд' : 'agencies'}
-                </span>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 mt-3">
+        {categories.map((c) => {
+          const catAgenciesCount = agencies.filter((a) => a.categories.includes(c.id)).length;
+          return (
+            <a
+              href={`/${lang}/${c.slug[lang]}/`}
+              class="card p-4 hover:shadow-md hover:border-[#8d67ff] transition-all group flex flex-col justify-between"
+            >
+              <div>
+                <div class="flex items-center justify-between mb-2.5">
+                  <span class="w-8 h-8 rounded-lg bg-[#f0edff] text-[#6336ed] flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <CategoryIcon category={c.id} class="w-5 h-5" />
+                  </span>
+                  <span class="text-[11px] font-semibold text-[#6336ed] bg-[#f0edff] px-2 py-0.5 rounded-full">
+                    {catAgenciesCount} {lang === 'ru' ? 'команд' : 'agencies'}
+                  </span>
+                </div>
+                <h3 class="text-sm font-bold text-[#17172c] group-hover:text-[#6336ed] transition-colors leading-snug">
+                  {c.title[lang]}
+                </h3>
+                <p class="text-[11.5px] text-[#59617e] leading-relaxed mt-1.5 line-clamp-2">
+                  {c.short[lang]}
+                </p>
               </div>
-              <div class="text-[14px] font-semibold text-[#F3F6FA] group-hover:text-[#2DD4BF] transition-colors leading-snug">
-                {c.title[lang]}
+              <div class="mt-3 pt-2.5 border-t border-[#f0f2fa] flex items-center justify-between text-[11px] font-semibold text-[#6336ed]">
+                <span>{lang === 'ru' ? 'Открыть категорию' : 'Explore vertical'}</span>
+                <span>→</span>
               </div>
-              <p class="text-[11.5px] text-[#8B96A5] leading-snug mt-1.5 line-clamp-2">
-                {c.short[lang]}
-              </p>
-            </div>
-            <div class="mt-3 pt-2 border-t border-[#1E2631]/60 flex items-center justify-between text-[11px] font-mono text-[#8B96A5] group-hover:text-[#2DD4BF]">
-              <span>{lang === 'ru' ? 'Открыть рейтинг' : 'Explore vertical'}</span>
-              <span>&rarr;</span>
-            </div>
-          </a>
-        ))}
+            </a>
+          );
+        })}
       </div>
-    </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 4 FEATURE CARDS (METHODOLOGY, REVIEWS, TRENDS, AWARDS)       -->
+    <!-- ============================================================ -->
+    <section class="features" id="methodology">
+      <article class="card feature">
+        <svg class="icon feature-symbol"><use href="#i-layers"/></svg>
+        <div>
+          <h3>{lang === 'ru' ? 'Наша методология' : 'Our Methodology'}</h3>
+          <p>{lang === 'ru' ? 'Прозрачная модель оценки на основе реальных внедрений, стека и показателей окупаемости.' : 'A transparent, data-driven ranking framework combining impact and trust.'}</p>
+          <a class="more" href={`/${lang}/methodology/`}>{lang === 'ru' ? 'О методологии →' : 'See Methodology →'}</a>
+        </div>
+      </article>
+
+      <article class="card feature">
+        <svg class="icon feature-symbol"><use href="#i-shield"/></svg>
+        <div>
+          <h3>{lang === 'ru' ? 'Проверенные отзывы' : 'Verified Reviews'}</h3>
+          <p>{lang === 'ru' ? 'Реальная обратная связь от корпоративных заказчиков и глобального ИИ-сообщества.' : 'Real feedback from clients, partners, and the global AI community.'}</p>
+          <a class="more" href={`/${lang}/methodology/`}>{lang === 'ru' ? 'Стандарты аудита →' : 'Read Reviews →'}</a>
+        </div>
+      </article>
+
+      <article class="card feature">
+        <svg class="icon feature-symbol"><use href="#i-trend"/></svg>
+        <div>
+          <h3>{lang === 'ru' ? 'Тренды и аналитика' : 'AI Trends & Insights'}</h3>
+          <p>{lang === 'ru' ? 'Глубокий анализ рынка генеративного ИИ, голосовых агентов и корпоративных RAG.' : 'In-depth market analysis and perspectives on artificial intelligence.'}</p>
+          <a class="more" href="#insights">{lang === 'ru' ? 'Смотреть тренды →' : 'Explore Insights →'}</a>
+        </div>
+      </article>
+
+      <article class="card feature" id="awards">
+        <svg class="icon feature-symbol"><use href="#i-trophy"/></svg>
+        <div>
+          <h3>{lang === 'ru' ? 'Премия Top Index Awards' : 'Top Index Awards'}</h3>
+          <p>{lang === 'ru' ? 'Ежегодное признание наиболее инновационных и результативных ИИ-организаций.' : 'Global recognition of innovative and impactful AI organizations.'}</p>
+          <a class="more" href="#awards">{lang === 'ru' ? 'Подробнее о премии →' : 'View Awards →'}</a>
+        </div>
+      </article>
+    </section>
   </div>
 
-  <!-- [Main Directory Grid] Карточки ИИ-компаний -->
-  <main id="mainGridContainer" class="pb-16">
-    <div id="agenciesList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-      {agencies.map((agency, index) => (
-        <AgencyCard agency={agency} lang={lang} rank={index + 1} />
-      ))}
-    </div>
-
-    <!-- Empty State -->
-    <div id="emptyResultsState" class="hidden bg-[#11161D] border border-[#1E2631] rounded-2xl p-8 text-center my-6">
-      <div class="w-12 h-12 rounded-full bg-[#171E27] border border-[#1E2631] flex items-center justify-center mx-auto mb-3 text-lg">
-        🔍
+  <!-- ============================================================ -->
+  <!-- LATEST AI INSIGHTS BANNER SECTION                            -->
+  <!-- ============================================================ -->
+  <section class="insights" id="insights">
+    <div class="wrap insights-grid">
+      <div class="insight-intro">
+        <h2>{lang === 'ru' ? 'Свежая аналитика ИИ' : 'Latest AI Insights'}</h2>
+        <p>{lang === 'ru' ? 'Тренды рынка, анализ динамики рейтинга и прогнозы развития экосистемы искусственного интеллекта.' : "Market trends, rankings analysis, and expert perspectives from the global AI ecosystem."}</p>
+        <a href="#insights">{lang === 'ru' ? 'Все статьи →' : 'View All Insights →'}</a>
       </div>
-      <h3 id="emptyTitle" class="text-[15px] font-bold text-[#F3F6FA] mb-1">
-        {lang === 'ru' ? 'Подходящие ИИ-команды не найдены' : 'No matching AI integrators'}
-      </h3>
-      <p id="emptyDesc" class="text-[12.5px] text-[#8B96A5] max-w-sm mx-auto mb-4">
-        {lang === 'ru' ? 'Попробуйте изменить поисковый запрос или сбросить фильтры направлений.' : 'Try searching another technology tag (e.g. #OpenAI, #Python) or reset active filters.'}
-      </p>
-      <button
-        type="button"
-        onclick="resetDirectory()"
-        class="bg-[#2DD4BF]/15 border border-[#2DD4BF]/40 text-[#2DD4BF] text-[12px] font-semibold px-4 py-2 rounded-xl hover:bg-[#2DD4BF]/25 transition-colors cursor-pointer"
-      >
-        {lang === 'ru' ? 'Сбросить все фильтры' : 'Reset all filters'}
-      </button>
+
+      <article class="story">
+        <div class="story-art">✦</div>
+        <div>
+          <span class="category">{lang === 'ru' ? 'Анализ рынка' : 'Market Analysis'}</span>
+          <h3>{lang === 'ru' ? 'Отчет Top Index 2027: ключевые тренды, лидеры и перспективы' : "The Global AI 2027 Report: Key Trends, Winners, and What's Next"}</h3>
+          <small>{lang === 'ru' ? 'Редакционный обзор · 8 мин чтения' : 'Editorial preview · 8 min read'}</small>
+        </div>
+      </article>
+
+      <article class="story">
+        <div class="story-art robot">◉</div>
+        <div>
+          <span class="category">{lang === 'ru' ? 'Технологии' : 'Technology'}</span>
+          <h3>{lang === 'ru' ? 'Эра мультимодальных агентов: от текстовых моделей к автономным процессам' : 'The Rise of Multimodal AI: From Models to Real-World Impact'}</h3>
+          <small>{lang === 'ru' ? 'Технический дайджест · 6 мин чтения' : 'Editorial preview · 6 min read'}</small>
+        </div>
+      </article>
+
+      <article class="story">
+        <div class="story-art city">▥</div>
+        <div>
+          <span class="category">{lang === 'ru' ? 'Индустрия' : 'Industry'}</span>
+          <h3>{lang === 'ru' ? 'Рынки-лидеры внедрения ИИ: какие страны задают стандарты окупаемости' : 'Top AI Markets: Countries Leading the Next Wave of Enterprise Adoption'}</h3>
+          <small>{lang === 'ru' ? 'Глобальный аудит · 7 мин чтения' : 'Editorial preview · 7 min read'}</small>
+        </div>
+      </article>
     </div>
-  </main>
+  </section>
 </div>
 
-<script is:inline>
-  let currentCategory = 'all';
-  let searchQuery = '';
-  let sortIndex = 0; // 0: Top rated, 1: Most reviewed, 2: Verified first
-  let currentTab = 'directory'; // 'directory' | 'categories' | 'saved'
+<!-- ============================================================ -->
+<!-- CLIENT INTERACTIVITY SCRIPT                                  -->
+<!-- ============================================================ -->
+<script is:inline define:vars={{ agenciesClientData, lang }}>
+  window.__APP_AGENCIES = agenciesClientData;
+  window.__APP_LANG = lang;
 
-  window.__CURRENT_TAB = 'directory';
+  const escapeHTML = (str) =>
+    String(str).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-  const sortOptions = {
-    en: ['Top rated', 'Most reviewed', 'Verified first'],
-    ru: ['По рейтингу', 'По отзывам', 'Сначала верифицированные'],
-  };
+  window.applyAppFilters = function() {
+    const q = (document.getElementById('search')?.value || '').trim().toLowerCase();
+    const region = document.getElementById('region-filter')?.value || '';
+    const category = document.getElementById('category-filter')?.value || '';
+    const industry = document.getElementById('industry-filter')?.value || '';
+    const expertise = document.getElementById('expertise-filter')?.value || '';
+    const minRating = Number(document.getElementById('rating-filter')?.value || 0);
+    const verification = document.getElementById('verification-filter')?.value || '';
 
-  function updatePillStyles() {
-    document.querySelectorAll('[data-cat-pill]').forEach((p) => {
-      const isSelected = p.getAttribute('data-cat-pill') === currentCategory;
-      if (isSelected) {
-        p.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] whitespace-nowrap shrink-0 transition-all cursor-pointer bg-[#2DD4BF]/15 border border-[#2DD4BF]/80 text-[#2DD4BF] font-semibold shadow-[0_0_14px_rgba(45,212,191,0.25)]';
-      } else {
-        p.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] whitespace-nowrap shrink-0 transition-all cursor-pointer bg-[#11161D] border border-[#1E2631] text-[#F3F6FA]/90 hover:border-[#8B96A5]/50 font-medium';
+    const listContainer = document.getElementById('company-list');
+    const emptyState = document.getElementById('emptyState');
+    if (!listContainer) return;
+
+    const filtered = window.__APP_AGENCIES.filter((c) => {
+      // 1. Search Query
+      if (q) {
+        const matchName = c.name.toLowerCase().includes(q);
+        const matchDesc = c.description.toLowerCase().includes(q);
+        const matchCountry = c.country.toLowerCase().includes(q);
+        const matchTags = c.techStack.some((t) => t.toLowerCase().includes(q));
+        const matchCats = c.categories.some((cat) => cat.toLowerCase().includes(q));
+        if (!matchName && !matchDesc && !matchCountry && !matchTags && !matchCats) return false;
       }
-    });
-  }
 
-  window.selectCategory = function(catId) {
-    if (currentTab !== 'directory') {
-      window.switchTab('directory');
-    }
-    currentCategory = catId;
-    updatePillStyles();
-    window.applyDirectoryFilters();
-  };
+      // 2. Region
+      if (region && !c.country.toLowerCase().includes(region.toLowerCase())) return false;
 
-  window.handleSearch = function(val) {
-    if (currentTab !== 'directory') {
-      window.switchTab('directory');
-    }
-    searchQuery = val.trim().toLowerCase();
-    const clearBtn = document.getElementById('clearSearchBtn');
-    if (clearBtn) {
-      clearBtn.classList.toggle('hidden', val.length === 0);
-      clearBtn.classList.toggle('flex', val.length > 0);
-    }
-    window.applyDirectoryFilters();
-  };
+      // 3. Category
+      if (category && !c.categories.includes(category)) return false;
 
-  window.clearSearch = function() {
-    searchQuery = '';
-    const input = document.getElementById('searchInput');
-    if (input) input.value = '';
-    const clearBtn = document.getElementById('clearSearchBtn');
-    if (clearBtn) {
-      clearBtn.classList.add('hidden');
-      clearBtn.classList.remove('flex');
-    }
-    window.applyDirectoryFilters();
-  };
+      // 4. Industry / EntityType
+      if (industry && c.entityType !== industry) return false;
 
-  window.filterByTag = function(tag) {
-    if (currentTab !== 'directory') {
-      window.switchTab('directory');
-    }
-    const clean = tag.replace(/^#/, '');
-    const input = document.getElementById('searchInput');
-    if (input) input.value = '#' + clean;
-    window.handleSearch(clean);
-  };
-
-  window.cycleSort = function() {
-    sortIndex = (sortIndex + 1) % 3;
-    const lang = window.__LANG || 'en';
-    const labelEl = document.getElementById('sortLabel');
-    if (labelEl) {
-      labelEl.textContent = (sortOptions[lang] || sortOptions.en)[sortIndex];
-    }
-    window.applyDirectoryFilters();
-  };
-
-  window.resetDirectory = function() {
-    currentCategory = 'all';
-    searchQuery = '';
-    sortIndex = 0;
-    const input = document.getElementById('searchInput');
-    if (input) input.value = '';
-    const clearBtn = document.getElementById('clearSearchBtn');
-    if (clearBtn) {
-      clearBtn.classList.add('hidden');
-      clearBtn.classList.remove('flex');
-    }
-    const lang = window.__LANG || 'en';
-    const labelEl = document.getElementById('sortLabel');
-    if (labelEl) {
-      labelEl.textContent = (sortOptions[lang] || sortOptions.en)[0];
-    }
-    updatePillStyles();
-    if (currentTab !== 'directory') {
-      window.switchTab('directory');
-    } else {
-      window.applyDirectoryFilters();
-    }
-  };
-
-  window.switchTab = function(tab) {
-    currentTab = tab;
-    window.__CURRENT_TAB = tab;
-
-    // Update bottom nav active state
-    ['directory', 'categories', 'saved'].forEach((tName) => {
-      const btn = document.getElementById('nav-' + tName);
-      if (!btn) return;
-      const pillWrap = btn.querySelector('span');
-      const svg = btn.querySelector('svg');
-      const isAct = tName === tab;
-      btn.className = isAct
-        ? 'flex flex-col items-center justify-center gap-1 text-[#F3F6FA] font-semibold transition-colors cursor-pointer'
-        : 'flex flex-col items-center justify-center gap-1 text-[#8B96A5] hover:text-[#F3F6FA] font-medium transition-colors cursor-pointer';
-      if (pillWrap) {
-        pillWrap.className = isAct
-          ? 'px-3 py-0.5 rounded-lg bg-[#171E27]/90 border border-[#1E2631]/80'
-          : 'px-3 py-0.5 rounded-lg';
+      // 5. Expertise
+      if (expertise) {
+        const expLower = expertise.toLowerCase();
+        const hasTech = c.techStack.some((t) => t.toLowerCase().includes(expLower));
+        const hasCat = c.categories.some((cat) => cat.toLowerCase().includes(expLower));
+        if (!hasTech && !hasCat) return false;
       }
-      if (svg) {
-        svg.classList.toggle('text-[#2DD4BF]', isAct);
-      }
+
+      // 6. Rating Score
+      if (minRating > 0 && c.score < minRating) return false;
+
+      // 7. Verification
+      if (verification === 'verified' && !c.verified) return false;
+
+      return true;
     });
 
-    const catContainer = document.getElementById('categoriesTabContainer');
-    const mainGrid = document.getElementById('mainGridContainer');
-
-    if (tab === 'categories') {
-      if (catContainer) catContainer.classList.remove('hidden');
-      if (mainGrid) mainGrid.classList.add('hidden');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      if (catContainer) catContainer.classList.add('hidden');
-      if (mainGrid) mainGrid.classList.remove('hidden');
-      window.applyDirectoryFilters();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (filtered.length === 0) {
+      listContainer.innerHTML = '';
+      if (emptyState) emptyState.style.display = 'block';
+      return;
     }
+
+    if (emptyState) emptyState.style.display = 'none';
+
+    const brandmarkGradients = [
+      'bg-gradient-to-br from-[#66b8fb]/15 to-[#6336ed]/20 text-[#4f35e3] border-[#d8d5fb]',
+      'bg-gradient-to-br from-[#8d67ff]/15 to-[#293280]/20 text-[#6336ed] border-[#e2ddfc]',
+      'bg-gradient-to-br from-[#2dd4bf]/20 to-[#6366f1]/20 text-[#2563eb] border-[#cce5ff]',
+      'bg-gradient-to-br from-[#f59e0b]/15 to-[#d97706]/20 text-[#b45309] border-[#fed7aa]',
+      'bg-gradient-to-br from-[#10b981]/15 to-[#059669]/20 text-[#047857] border-[#a7f3d0]',
+    ];
+
+    listContainer.innerHTML = filtered.slice(0, 35).map((c, idx) => {
+      const rankNum = idx + 1;
+      const grad = brandmarkGradients[idx % brandmarkGradients.length];
+      const tagsHtml = c.categoryNames.slice(0, 2).map((t) => `<span class="tag">${escapeHTML(t)}</span>`).join('');
+
+      return `
+        <div class="company cursor-pointer" onclick="window.location.href='${c.profileUrl}'" data-agency-row="${c.id}">
+          <span class="rank-no">${rankNum}</span>
+          <div class="company-info">
+            <div class="brandmark ${grad}">${escapeHTML(c.name.charAt(0).toUpperCase())}</div>
+            <div style="min-width:0">
+              <div class="company-name flex items-center gap-1">
+                <a href="${c.profileUrl}">${escapeHTML(c.name)}</a>
+                <span class="verify" title="Verified by Top Index">●</span>
+              </div>
+              <div class="company-desc">${c.flag} ${escapeHTML(c.country)} · ${escapeHTML(c.description)}</div>
+            </div>
+          </div>
+          <div class="tags">${tagsHtml}</div>
+          <div class="score-cell">
+            <div class="score">${c.scoreFormatted}</div>
+            <div class="score-track">
+              <div class="score-fill" style="width: ${Math.min(100, c.score)}%"></div>
+            </div>
+          </div>
+          <div class="region">${c.flag} ${escapeHTML(c.country)}</div>
+          <div class="trend">▲ ${escapeHTML(c.trend)}</div>
+          <div class="right-chevron">›</div>
+        </div>
+      `;
+    }).join('');
   };
 
-  window.applyDirectoryFilters = function() {
-    const cards = Array.from(document.querySelectorAll('[data-agency-card]'));
-    const savedIds = (() => {
-      try {
-        return JSON.parse(localStorage.getItem('aitopindex_saved') || '[]');
-      } catch (e) {
-        return [];
-      }
-    })();
-
-    let visibleCount = 0;
-    const cleanQ = searchQuery.replace(/^#/, '');
-
-    cards.forEach((card) => {
-      const id = card.getAttribute('data-id') || '';
-      const name = card.getAttribute('data-name') || '';
-      const cats = (card.getAttribute('data-categories') || '').split(' ');
-      const tags = (card.getAttribute('data-tags') || '').split(' ');
-
-      // Category check
-      const matchCat = currentCategory === 'all' || cats.includes(currentCategory);
-
-      // Search check
-      let matchSearch = true;
-      if (cleanQ) {
-        const textToMatch = (name + ' ' + cats.join(' ') + ' ' + tags.join(' ')).toLowerCase();
-        matchSearch = textToMatch.includes(cleanQ);
-      }
-
-      // Saved tab check
-      let matchSaved = true;
-      if (currentTab === 'saved') {
-        matchSaved = savedIds.includes(id);
-      }
-
-      if (matchCat && matchSearch && matchSaved) {
-        card.style.display = '';
-        visibleCount++;
-      } else {
-        card.style.display = 'none';
-      }
+  window.resetAllFilters = function() {
+    ['search', 'region-filter', 'category-filter', 'industry-filter', 'expertise-filter', 'verification-filter'].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
     });
-
-    // Sort visible cards in DOM
-    const container = document.getElementById('agenciesList');
-    if (container) {
-      cards.sort((a, b) => {
-        const scoreA = parseFloat(a.getAttribute('data-score') || '0');
-        const scoreB = parseFloat(b.getAttribute('data-score') || '0');
-        const revA = parseInt(a.getAttribute('data-reviews') || '0', 10);
-        const revB = parseInt(b.getAttribute('data-reviews') || '0', 10);
-        const verA = a.getAttribute('data-verified') === 'true' ? 1 : 0;
-        const verB = b.getAttribute('data-verified') === 'true' ? 1 : 0;
-
-        if (sortIndex === 1) return revB - revA;
-        if (sortIndex === 2) return verB !== verA ? verB - verA : scoreB - scoreA;
-        return scoreB - scoreA; // default: top rated
-      });
-      cards.forEach((c) => container.appendChild(c));
-    }
-
-    // Update Counter & Reset button
-    const countEl = document.getElementById('visibleCount');
-    if (countEl) countEl.textContent = visibleCount;
-
-    const resetChip = document.getElementById('resetFilterChip');
-    const isFiltered = currentCategory !== 'all' || cleanQ !== '' || currentTab === 'saved';
-    if (resetChip) resetChip.classList.toggle('hidden', !isFiltered);
-
-    // Empty state
-    const emptyState = document.getElementById('emptyResultsState');
-    if (emptyState) {
-      if (visibleCount === 0) {
-        emptyState.classList.remove('hidden');
-        const titleEl = document.getElementById('emptyTitle');
-        const descEl = document.getElementById('emptyDesc');
-        const lang = window.__LANG || 'en';
-        if (currentTab === 'saved') {
-          if (titleEl) titleEl.textContent = lang === 'ru' ? 'В избранном пока пусто' : 'No saved AI companies yet';
-          if (descEl) descEl.textContent = lang === 'ru' ? 'Нажмите на сердечко в карточке компании, чтобы сохранить подрядчика.' : 'Tap the heart icon on any company card to bookmark agencies for your project.';
-        } else {
-          if (titleEl) titleEl.textContent = lang === 'ru' ? 'Подходящие ИИ-команды не найдены' : 'No matching AI integrators';
-          if (descEl) descEl.textContent = lang === 'ru' ? 'Попробуйте изменить поисковый запрос или сбросить фильтры направлений.' : 'Try searching another technology tag (e.g. #OpenAI, #Python) or reset active filters.';
-        }
-      } else {
-        emptyState.classList.add('hidden');
-      }
-    }
+    const rEl = document.getElementById('rating-filter');
+    if (rEl) rEl.value = '0';
+    window.applyAppFilters();
   };
 
-  // Init initial category if specified in URL/props
-  document.addEventListener('DOMContentLoaded', () => {
-    const appEl = document.getElementById('directory-app');
-    const initCat = appEl?.getAttribute('data-initial-cat') || 'all';
-    if (initCat && initCat !== 'all') {
-      currentCategory = initCat;
-      updatePillStyles();
-      window.applyDirectoryFilters();
+  window.switchMapTab = function(tabName, btn) {
+    document.querySelectorAll('.tabs button').forEach((b) => b.classList.toggle('active', b === btn));
+    const map = document.getElementById('world-map');
+    if (map) {
+      map.style.filter = tabName === 'Global' ? 'none'
+        : tabName === 'US' ? 'hue-rotate(25deg)'
+        : tabName === 'EU' ? 'hue-rotate(60deg)'
+        : 'hue-rotate(-45deg)';
     }
-  });
+  };
 </script>

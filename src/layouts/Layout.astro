@@ -2,7 +2,6 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import BottomNav from '../components/BottomNav.astro';
 import Modals from '../components/Modals.astro';
 import { BRAND, SITE, type Lang } from '../lib/data';
 
@@ -38,7 +37,7 @@ const baseJsonLd = {
       '@id': `${SITE}/#website`,
       url: SITE,
       name: BRAND,
-      description: 'Global B2B Directory & Ranking Index of Verified AI Agent Development Agencies & Studios',
+      description: 'Global B2B Directory & Ranking Index of Verified AI Companies, Integrators & Specialists',
       inLanguage: ['en', 'ru'],
     },
     {
@@ -58,7 +57,7 @@ const baseJsonLd = {
 ---
 
 <!doctype html>
-<html lang={lang} class="dark">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -88,7 +87,7 @@ const baseJsonLd = {
     <meta property="og:image" content={`${SITE}/og-cover.png`} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="AITopIndex — Verified AI Agent Developers & Studios" />
+    <meta property="og:image:alt" content="Top Index — Global AI Ranking Platform" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -96,19 +95,37 @@ const baseJsonLd = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={`${SITE}/og-cover.png`} />
 
-    <!-- Favicon -->
+    <!-- Favicon & Fonts -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="theme-color" content="#05070B" />
+    <meta name="theme-color" content="#f7f8ff" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <!-- JSON-LD Microdata -->
     <script type="application/ld+json" set:html={JSON.stringify(baseJsonLd)} />
   </head>
-  <body class="relative min-h-screen bg-[#090C10] text-[#F3F6FA] pb-24 sm:pb-20">
+  <body class="relative min-h-screen bg-[#fbfcff] text-[#17172c]">
+    <!-- Global SVG Sprite for Icons -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+      <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+      <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M8 3h8v8a4 4 0 0 1-8 0V3ZM8 5H4v3a4 4 0 0 0 4 4M16 5h4v3a4 4 0 0 1-4 4M12 15v5m-5 0h10"/></symbol>
+      <symbol id="i-people" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2M17 5a3 3 0 0 1 0 6M19 14c2 1 3 2.5 3 5v1"/></symbol>
+      <symbol id="i-building" viewBox="0 0 24 24"><rect x="3" y="8" width="8" height="13" rx="1"/><rect x="11" y="3" width="10" height="18" rx="1"/><path d="M6 11v2m0 3v2m9-11v2m3-2v2m-3 3v2m3-2v2m-3 3v2m3-2v2"/></symbol>
+      <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c6 5 6 13 0 18M12 3c-6 5-6 13 0 18"/></symbol>
+      <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 2 9 5-9 5-9-5 9-5Zm-9 10 9 5 9-5M3 17l9 5 9-5"/></symbol>
+      <symbol id="i-trend" viewBox="0 0 24 24"><path d="m3 17 6-6 4 4 8-9m-6 0h6v6"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24"><path d="m12 2 9 4v6c0 5-3 8-9 10-6-2-9-5-9-10V6l9-4Zm-4 10 3 3 5-6"/></symbol>
+      <symbol id="i-filter" viewBox="0 0 24 24"><path d="M3 5h18M6 10h12M9 15h6m-4 5h2"/></symbol>
+      <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M4 22v-3a8 8 0 0 1 16 0v3"/></symbol>
+      <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 2 2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5L12 2Z"/></symbol>
+    </svg>
+
     <!-- Header Navigation -->
     <Header lang={lang} currentPath={canonicalPath} />
 
     <!-- Main Content Slot -->
-    <main class="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">
+    <main class="w-full">
       <slot />
     </main>
 
@@ -118,55 +135,19 @@ const baseJsonLd = {
     <!-- Modals & Bottom Sheets (Contact, Cases, Submit AI, Toasts) -->
     <Modals lang={lang} />
 
-    <!-- Fixed Bottom Navigation Bar -->
-    <BottomNav lang={lang} />
-
-    <!-- Lightweight Hardware-Accelerated 3D Card Tilt Script (Vanilla JS, 0 external deps) -->
-    <script>
-      function initTiltCards() {
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-        const cards = document.querySelectorAll<HTMLElement>('[data-tilt]');
-
-        cards.forEach((card) => {
-          let rect: DOMRect;
-          let isHovered = false;
-
-          function onMouseEnter() {
-            rect = card.getBoundingClientRect();
-            isHovered = true;
-          }
-
-          function onMouseMove(e: MouseEvent) {
-            if (!isHovered) return;
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-
-            // Subtle 3D tilt angles (max ~7 deg)
-            const rx = ((y - centerY) / centerY) * -7;
-            const ry = ((x - centerX) / centerX) * 7;
-
-            card.style.setProperty('--rx', `${rx.toFixed(2)}deg`);
-            card.style.setProperty('--ry', `${ry.toFixed(2)}deg`);
-            card.style.setProperty('--mx', `${x.toFixed(1)}px`);
-            card.style.setProperty('--my', `${y.toFixed(1)}px`);
-          }
-
-          function onMouseLeave() {
-            isHovered = false;
-            card.style.setProperty('--rx', '0deg');
-            card.style.setProperty('--ry', '0deg');
-          }
-
-          card.addEventListener('mouseenter', onMouseEnter, { passive: true });
-          card.addEventListener('mousemove', onMouseMove, { passive: true });
-          card.addEventListener('mouseleave', onMouseLeave, { passive: true });
-        });
-      }
-
-      initTiltCards();
-      document.addEventListener('astro:page-load', initTiltCards);
-    </script>
+    <!-- Mobile Sticky CTA Banner -->
+    <aside class="mobile-cta" aria-label="Mobile Call to Action">
+      <div>
+        <strong>{lang === 'ru' ? 'Вступить в экосистему ИИ' : 'Join the Global AI Ecosystem'}</strong>
+        <small>{lang === 'ru' ? 'Добавьте компанию, получите охват по всему миру.' : 'Get listed. Gain visibility worldwide.'}</small>
+      </div>
+      <button
+        type="button"
+        class="cta"
+        onclick="if(typeof window.openSubmitAiModal==='function'){window.openSubmitAiModal();}else{window.location.href=`/${lang}/submit/`;}"
+      >
+        {lang === 'ru' ? 'Подать заявку →' : 'Get Listed →'}
+      </button>
+    </aside>
   </body>
 </html>

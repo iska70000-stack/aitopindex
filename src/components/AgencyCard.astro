@@ -9,23 +9,23 @@ interface Props {
 
 const { agency, lang, rank } = Astro.props;
 
-// Calculate rating (e.g. 95 -> 4.9, 90 -> 4.8)
+// Calculate rating
 const rating = Math.min(5.0, +(4.0 + (agency.score - 70) * (1.0 / 30)).toFixed(1));
 const reviews = Math.round(agency.score * 1.35);
 
-// Monogram letter & gradient
+// Monogram letter & soft modern gradient
 const initial = agency.name.charAt(0).toUpperCase();
-const gradients = [
-  'from-[#131C28] to-[#0C1219] border-[#243244] text-[#38BDF8]',
-  'from-[#161B26] to-[#0E121A] border-[#273142] text-[#2DD4BF]',
-  'from-[#131C27] to-[#0C1118] border-[#223041] text-[#818CF8]',
-  'from-[#1A1828] to-[#100F1A] border-[#2D2844] text-[#C084FC]',
-  'from-[#181F26] to-[#0D151B] border-[#20323C] text-[#34D399]',
+const brandmarkStyles = [
+  'bg-gradient-to-br from-[#66b8fb]/15 to-[#6336ed]/20 text-[#4f35e3] border-[#d8d5fb]',
+  'bg-gradient-to-br from-[#8d67ff]/15 to-[#293280]/20 text-[#6336ed] border-[#e2ddfc]',
+  'bg-gradient-to-br from-[#2dd4bf]/20 to-[#6366f1]/20 text-[#2563eb] border-[#cce5ff]',
+  'bg-gradient-to-br from-[#f59e0b]/15 to-[#d97706]/20 text-[#b45309] border-[#fed7aa]',
+  'bg-gradient-to-br from-[#10b981]/15 to-[#059669]/20 text-[#047857] border-[#a7f3d0]',
 ];
-const gradIdx = agency.name.charCodeAt(0) % gradients.length;
-const selectedGrad = gradients[gradIdx];
+const gradIdx = agency.name.charCodeAt(0) % brandmarkStyles.length;
+const selectedGrad = brandmarkStyles[gradIdx];
 
-// Tags formatted with hashtags
+// Tags
 const tags = agency.techStack.slice(0, 5);
 
 // Clean website link
@@ -33,7 +33,7 @@ const cleanUrl = agency.website.startsWith('http') ? agency.website : `https://$
 ---
 
 <article
-  class="bg-[#11161D] border border-[#1E2631] hover:border-[#2A3544] rounded-2xl p-3.5 sm:p-4 transition-all duration-200 shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)] flex flex-col justify-between"
+  class="bg-white border border-[#e9ebf4] hover:border-[#8d67ff] rounded-2xl p-4 transition-all duration-200 shadow-[var(--shadow)] hover:shadow-md flex flex-col justify-between"
   data-agency-card
   data-id={agency.id}
   data-name={agency.name.toLowerCase()}
@@ -47,67 +47,48 @@ const cleanUrl = agency.website.startsWith('http') ? agency.website : `https://$
   <div>
     <div class="flex items-start gap-3">
       <!-- Квадратный градиентный логотип-монограмма слева -->
-      <div class={`w-12 h-12 rounded-xl bg-gradient-to-br ${selectedGrad} border flex items-center justify-center shrink-0 shadow-inner select-none font-bold text-lg font-mono`}>
+      <div class={`w-12 h-12 rounded-xl ${selectedGrad} border flex items-center justify-center shrink-0 select-none font-bold text-lg`}>
         {initial}
       </div>
 
       <!-- Основной контент карточки -->
       <div class="flex-1 min-w-0">
-        <!-- Верхняя строка: Название + Голубая галочка + Рейтинг со звездой + Сердечко (Saved) -->
+        <!-- Верхняя строка: Название + Синяя галочка + Рейтинг со звездой -->
         <div class="flex items-center justify-between gap-1.5">
           <div class="flex items-center gap-1.5 min-w-0">
             {typeof rank === 'number' && (
-              <span class="text-[10px] font-mono font-bold text-[#2DD4BF] bg-[#2DD4BF]/10 px-1.5 py-0.5 rounded border border-[#2DD4BF]/30 shrink-0">
+              <span class="text-[10px] font-mono font-bold text-[#6336ed] bg-[#f0edff] px-1.5 py-0.5 rounded border border-[#ded6ff] shrink-0">
                 #{rank}
               </span>
             )}
-            <h2 class="text-[15px] font-bold text-[#F3F6FA] tracking-[-0.01em] truncate hover:text-[#2DD4BF] transition-colors">
+            <h2 class="text-[15px] font-bold text-[#17172c] tracking-tight truncate hover:text-[#6336ed] transition-colors">
               <a href={`/${lang}/agency/${agency.id}/`}>{agency.name}</a>
             </h2>
             {agency.status === 'verified' && (
-              <svg class="w-4 h-4 text-[#38BDF8] shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-label="Verified">
-                <path d="M12 2l2.39 1.93 3.04-.35.93 2.92 2.67 1.48-.89 2.93 1.32 2.76-2.32 2-.29 3.05-3.01.55-1.84 2.45-2.85-1.13-2.85 1.13-1.84-2.45-3.01-.55-.29-3.05-2.32-2 1.32-2.76-.89-2.93 2.67-1.48.93-2.92 3.04.35L12 2zm-1.2 13.4l5.2-5.2-1.4-1.4-3.8 3.8-1.8-1.8-1.4 1.4 3.2 3.2z"/>
-              </svg>
+              <span class="text-[#147dff] text-xs shrink-0" title="Verified by Top Index">●</span>
             )}
           </div>
 
           <div class="flex items-center gap-1.5 shrink-0">
-            <div class="flex items-center gap-1 text-[12px] font-semibold text-[#F3F6FA]">
-              <span class="text-[#FBBF24] text-[13px] leading-none">★</span>
+            <div class="flex items-center gap-1 text-[12px] font-bold text-[#17172c]">
+              <span class="text-[#f59e0b] text-[13px] leading-none">★</span>
               <span>{rating.toFixed(1)}</span>
-              <span class="text-[#8B96A5] font-normal text-[11px]">({reviews})</span>
+              <span class="text-[#59617e] font-normal text-[11px]">({reviews})</span>
             </div>
-
-            <!-- Кнопка Избранного (Saved) -->
-            <button
-              type="button"
-              data-save-btn={agency.id}
-              onclick={`toggleSaveCompany('${agency.id}')`}
-              class="p-0.5 rounded-md transition-transform active:scale-90 text-[#8B96A5]/60 hover:text-[#F3F6FA] cursor-pointer"
-              aria-label={lang === 'ru' ? 'Сохранить в избранное' : 'Save to bookmarks'}
-            >
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 20.5s-7.5-4.8-9.2-9.2C1.5 7.9 3.9 4.5 7.5 4.5c2.1 0 3.7 1.1 4.5 2.4.8-1.3 2.4-2.4 4.5-2.4 3.6 0 6 3.4 4.7 6.8-1.7 4.4-9.2 9.2-9.2 9.2z"/>
-              </svg>
-            </button>
           </div>
         </div>
 
         <!-- Описание внедрения в 1-2 строки -->
-        <p class="text-[12.5px] text-[#8B96A5] leading-[1.42] mt-1 line-clamp-2">
+        <p class="text-[12.5px] text-[#59617e] leading-[1.42] mt-1 line-clamp-2">
           {agency.description[lang]}
         </p>
 
-        <!-- Кликабельные хэштеги стека технологий -->
+        <!-- Теги стека технологий -->
         <div class="flex flex-wrap items-center gap-1.5 mt-2.5">
           {tags.map((tag) => (
-            <button
-              type="button"
-              onclick={`filterByTag('${tag.replace(/^#/, '')}')`}
-              class="font-mono text-[10.5px] text-[#94A3B8] hover:text-[#2DD4BF] bg-[#141B24] border border-[#1E2631] hover:border-[#2DD4BF]/40 rounded-md px-2 py-0.5 transition-colors cursor-pointer"
-            >
+            <span class="tag">
               #{tag.replace(/\s+/g, '')}
-            </button>
+            </span>
           ))}
         </div>
       </div>
@@ -115,42 +96,41 @@ const cleanUrl = agency.website.startsWith('http') ? agency.website : `https://$
   </div>
 
   <!-- Три кнопки действий внизу в один ряд (Contact | Cases | Site) -->
-  <div class="grid grid-cols-3 gap-1.5 mt-3 pt-2.5 border-t border-[#1E2631]/60">
+  <div class="grid grid-cols-3 gap-1.5 mt-3 pt-2.5 border-t border-[#f0f2fa]">
     <button
       type="button"
       onclick={`openContactModal('${agency.id}')`}
-      class="h-[30px] rounded-lg bg-[#171E27] hover:bg-[#1E2733] border border-[#263140] flex items-center justify-center gap-1 text-[11px] font-medium text-[#F3F6FA] hover:text-[#2DD4BF] transition-colors cursor-pointer"
+      class="h-[32px] rounded-lg bg-[#f8f9fe] hover:bg-[#f0edff] border border-[#e2e7f3] hover:border-[#ded6ff] flex items-center justify-center gap-1 text-[11px] font-semibold text-[#17172c] hover:text-[#6336ed] transition-colors cursor-pointer"
     >
-      <svg class="w-3 h-3 text-[#8B96A5] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <svg class="w-3 h-3 text-[#59617e] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
       </svg>
       <span>{lang === 'ru' ? 'Контакт' : 'Contact'}</span>
     </button>
 
-    <button
-      type="button"
-      onclick={`openCasesModal('${agency.id}')`}
-      class="h-[30px] rounded-lg bg-[#171E27] hover:bg-[#1E2733] border border-[#263140] flex items-center justify-center gap-1 text-[11px] font-medium text-[#F3F6FA] hover:text-[#2DD4BF] transition-colors cursor-pointer"
+    <a
+      href={`/${lang}/agency/${agency.id}/`}
+      class="h-[32px] rounded-lg bg-[#f8f9fe] hover:bg-[#f0edff] border border-[#e2e7f3] hover:border-[#ded6ff] flex items-center justify-center gap-1 text-[11px] font-semibold text-[#17172c] hover:text-[#6336ed] transition-colors"
     >
-      <svg class="w-3 h-3 text-[#8B96A5] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <svg class="w-3 h-3 text-[#59617e] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <rect x="3" y="7" width="18" height="13" rx="2"></rect>
         <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
       </svg>
       <span>{lang === 'ru' ? 'Кейсы' : 'Cases'}</span>
-    </button>
+    </a>
 
     <a
       href={cleanUrl}
       target="_blank"
       rel="noopener noreferrer"
-      class="h-[30px] rounded-lg bg-[#171E27] hover:bg-[#1E2733] border border-[#263140] flex items-center justify-center gap-1 text-[11px] font-medium text-[#F3F6FA] hover:text-[#2DD4BF] transition-colors"
+      class="h-[32px] rounded-lg bg-[#f0edff] hover:bg-[#6336ed] border border-[#ded6ff] flex items-center justify-center gap-1 text-[11px] font-bold text-[#6336ed] hover:text-white transition-colors"
     >
-      <svg class="w-3 h-3 text-[#8B96A5] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <svg class="w-3 h-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <circle cx="12" cy="12" r="9"></circle>
         <line x1="3" y1="12" x2="21" y2="12"></line>
         <path d="M12 3a14.5 14.5 0 0 1 0 18 14.5 14.5 0 0 1 0-18z"></path>
       </svg>
-      <span>{lang === 'ru' ? 'Сайт' : 'Site'}</span>
+      <span>{lang === 'ru' ? 'Сайт ↗' : 'Site ↗'}</span>
     </a>
   </div>
 </article>

@@ -14,14 +14,14 @@ const totalAgencies = agencies.length;
 const listAgencies = agenciesByLang(lang);
 
 const meta = {
-  title: 'AI Top Index — Directory of AI Companies & Integrators 2026',
-  description: `Discover ${totalAgencies}+ verified AI agent development agencies, enterprise automation integrators, and AI video production studios. Compare real budgets, tech stacks, and ROI.`,
+  title: 'Top Index — Global AI Ranking Platform 2026',
+  description: `Discover ${totalAgencies}+ verified AI companies, agent development agencies, and specialists worldwide. Real benchmarks, tech stacks, and trust scores.`,
 };
 
 // JSON-LD ItemList for Categories
 const categoryItemListJsonLd = {
   '@type': 'ItemList',
-  name: 'AI Agent Implementation Categories',
+  name: 'AI Implementation Categories',
   itemListElement: categories.map((c, i) => ({
     '@type': 'ListItem',
     position: i + 1,
@@ -56,18 +56,12 @@ const categoryItemListJsonLd = {
     } catch (e) {}
   </script>
 
-  <div class="py-2">
-    <!-- Interactive Dark Tech Directory App -->
-    <DirectoryApp
-      agencies={listAgencies}
-      categories={categories}
-      lang={lang}
-      initialCategory="all"
-    />
+  <DirectoryApp
+    agencies={listAgencies}
+    categories={categories}
+    lang={lang}
+    initialCategory="all"
+  />
 
-    <!-- Implementation Cost & ROI Payback Calculator Section -->
-    <section class="mt-8 pt-8 border-t border-[#1E2631]">
-      <RoiCalculator lang={lang} />
-    </section>
-  </div>
+  <RoiCalculator lang={lang} />
 </Layout>

@@ -18,78 +18,112 @@ const ruPath = currentPath.startsWith('/en/')
   : currentPath === '/en' ? '/ru/' : currentPath;
 ---
 
-<header class="sticky top-0 z-30 w-full bg-[#090C10]/90 backdrop-blur-md border-b border-[#1E2631]/80 px-4 py-3 flex items-center justify-between">
-  <div class="mx-auto w-full max-w-7xl flex items-center justify-between">
+<header class="topbar">
+  <div class="wrap top-inner">
     <!-- Brand Logo -->
-    <a
-      href={`/${lang}/`}
-      class="flex items-center gap-2.5 focus:outline-none group transition-transform active:scale-95"
-    >
-      <!-- Шестиугольная неоновая иконка "AI" -->
-      <span class="w-7 h-7 rounded-lg bg-gradient-to-br from-[#2DD4BF]/20 to-[#6366F1]/25 border border-[#2DD4BF]/40 flex items-center justify-center shadow-[0_0_12px_rgba(45,212,191,0.25)] group-hover:border-[#2DD4BF] transition-colors">
-        <svg class="w-4 h-4 text-[#2DD4BF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <polygon points="12 2 21 7 21 17 12 22 3 17 3 7 12 2"></polygon>
-          <text x="12" y="15" text-anchor="middle" fill="currentColor" stroke="none" font-size="8.5" font-weight="700" font-family="Inter, sans-serif">AI</text>
-        </svg>
-      </span>
-      <div class="flex items-center gap-2">
-        <span class="text-[16px] font-semibold tracking-[-0.02em] text-[#F3F6FA] group-hover:text-white transition-colors">
-          AI Top Index
-        </span>
-        <span class="hidden sm:inline-block font-mono text-[10px] uppercase tracking-wider text-[#2DD4BF] bg-[#2DD4BF]/10 border border-[#2DD4BF]/30 px-1.5 py-0.5 rounded">
-          B2B 2026
-        </span>
-      </div>
+    <a class="logo" href={`/${lang}/`} aria-label="Top Index home">
+      <span class="logo-symbol"></span>
+      <span>Top Index<sup style="font-size:7px;align-self:flex-start;margin-top:3px">™</sup></span>
     </a>
 
-    <!-- Desktop Navigation Links -->
-    <nav class="hidden md:flex items-center gap-6 text-[13px] font-medium text-[#8B96A5]">
-      <a href={`/${lang}/`} class="hover:text-[#F3F6FA] transition-colors">
-        {lang === 'ru' ? 'Каталог' : 'Directory'}
+    <!-- Desktop & Mobile Navigation Links -->
+    <nav class="navigation" id="main-nav" aria-label="Main navigation">
+      <a href={`/${lang}/#rankings`}>
+        {lang === 'ru' ? 'Рейтинг' : 'Rankings'}
       </a>
-      <a href={`/${lang}/#categories-section`} class="hover:text-[#F3F6FA] transition-colors">
-        {lang === 'ru' ? 'Сферы внедрения' : 'Categories'}
+      <a href={`/${lang}/#rankings`}>
+        {lang === 'ru' ? 'Компании' : 'Companies'}
       </a>
-      <a href={`/${lang}/about/`} class="hover:text-[#F3F6FA] transition-colors">
-        {lang === 'ru' ? 'О проекте' : 'About'}
+      <a href={`/${lang}/#specialists`}>
+        {lang === 'ru' ? 'Специалисты' : 'Specialists'}
       </a>
-      <a href={`/${lang}/methodology/`} class="hover:text-[#F3F6FA] transition-colors">
+      <a href={`/${lang}/#categories-section`}>
+        {lang === 'ru' ? 'Категории' : 'Categories'}
+      </a>
+      <a href={`/${lang}/#insights`}>
+        {lang === 'ru' ? 'Аналитика' : 'Insights'}
+      </a>
+      <a href={`/${lang}/methodology/`}>
         {lang === 'ru' ? 'Методология' : 'Methodology'}
       </a>
-      <a href="/llms.txt" target="_blank" class="font-mono text-xs text-[#2DD4BF] hover:underline">
+      <a href={`/${lang}/about/`}>
+        {lang === 'ru' ? 'О проекте' : 'About'}
+      </a>
+      <a href="/llms.txt" target="_blank" class="font-mono text-xs text-[#6336ed] hover:underline">
         /llms.txt
       </a>
     </nav>
 
-    <!-- Right Controls: Submit CTA (Desktop) + Language Switcher -->
-    <div class="flex items-center gap-3">
+    <!-- Nav Actions -->
+    <div class="nav-actions">
+      <!-- Search focus button -->
       <button
         type="button"
-        onclick="if(typeof window.openSubmitAiModal==='function'){window.openSubmitAiModal();}else{window.location.href=`/${lang}/submit/`;}"
-        class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#171E27] hover:bg-[#2DD4BF]/15 border border-[#1E2631] hover:border-[#2DD4BF]/50 text-[12px] font-medium text-[#2DD4BF] transition-colors cursor-pointer"
+        class="plain-btn login"
+        aria-label="Focus search"
+        id="nav-search"
+        onclick="const s = document.getElementById('search'); if(s) { s.focus(); s.scrollIntoView({behavior: 'smooth', block: 'center'}); }"
       >
-        <span>+</span>
-        <span>{lang === 'ru' ? 'Добавить ИИ' : 'Submit AI'}</span>
+        <svg class="icon"><use href="#i-search"/></svg>
       </button>
 
       <!-- Language Switcher EN | RU -->
-      <div class="flex items-center text-[13px] tracking-tight bg-[#11161D] border border-[#1E2631] rounded-lg px-2 py-0.5">
+      <div class="language">
         <a
           href={enPath}
-          class={`px-1.5 py-0.5 transition-colors ${lang === 'en' ? 'font-bold text-[#F3F6FA] text-[#2DD4BF]' : 'font-medium text-[#8B96A5] hover:text-[#F3F6FA]'}`}
+          class={`px-1.5 py-0.5 rounded text-[11.5px] font-semibold transition-colors ${lang === 'en' ? 'text-[#6336ed] font-bold bg-[#f0edff]' : 'text-[#59617e] hover:text-[#17172c]'}`}
           aria-label="Switch to English"
         >
           EN
         </a>
-        <span class="text-[#1E2631] select-none">|</span>
+        <span class="text-[#cbd1e2] select-none text-[11px]">|</span>
         <a
           href={ruPath}
-          class={`px-1.5 py-0.5 transition-colors ${lang === 'ru' ? 'font-bold text-[#F3F6FA] text-[#2DD4BF]' : 'font-medium text-[#8B96A5] hover:text-[#F3F6FA]'}`}
+          class={`px-1.5 py-0.5 rounded text-[11.5px] font-semibold transition-colors ${lang === 'ru' ? 'text-[#6336ed] font-bold bg-[#f0edff]' : 'text-[#59617e] hover:text-[#17172c]'}`}
           aria-label="Переключить на русский"
         >
           RU
         </a>
       </div>
+
+      <!-- CTA Get Listed Button -->
+      <button
+        type="button"
+        class="cta"
+        id="get-listed"
+        onclick="if(typeof window.openSubmitAiModal==='function'){window.openSubmitAiModal();}else{window.location.href=`/${lang}/submit/`;}"
+      >
+        {lang === 'ru' ? 'Добавить ИИ →' : 'Get Listed →'}
+      </button>
+
+      <!-- Mobile Hamburger Button -->
+      <button
+        type="button"
+        class="plain-btn hamburger"
+        id="menu-toggle"
+        aria-controls="main-nav"
+        aria-expanded="false"
+        aria-label="Open menu"
+      >
+        ☰
+      </button>
     </div>
   </div>
 </header>
+
+<script is:inline>
+  const menuToggle = document.getElementById('menu-toggle');
+  const mainNav = document.getElementById('main-nav');
+  if (menuToggle && mainNav) {
+    menuToggle.addEventListener('click', () => {
+      const opened = mainNav.classList.toggle('open');
+      menuToggle.setAttribute('aria-expanded', String(opened));
+    });
+    mainNav.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        mainNav.classList.remove('open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+</script>

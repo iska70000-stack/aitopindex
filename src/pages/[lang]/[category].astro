@@ -51,17 +51,17 @@ const alternatePaths = {
 const agencyCountLabel = plural(
   lang,
   categoryAgencies.length,
-  ['Verified Agency', 'Verified Agencies'],
-  ['проверенная компания', 'проверенные компании', 'проверенных компаний']
+  ['Verified Organization', 'Verified Organizations'],
+  ['проверенная организация', 'проверенные организации', 'проверенных организаций']
 );
 
 // Meta details
 const title = lang === 'ru'
-  ? `${cat.title.ru} — Рейтинг агентств и интеграторов ${YEAR} | AITopIndex`
-  : `${cat.title.en} — Top Verified Agencies & Studios ${YEAR} | AITopIndex`;
+  ? `${cat.title.ru} — Рейтинг агентств и платформ ${YEAR} | Top Index`
+  : `${cat.title.en} — Top Verified Companies & Integrators ${YEAR} | Top Index`;
 
 const description = lang === 'ru'
-  ? `Рейтинг проверенных агентств по направлению «${cat.title.ru}». Сравнение стеков, цен, кейсов и сроков окупаемости. Независимая проверка AITopIndex.`
+  ? `Рейтинг проверенных агентств по направлению «${cat.title.ru}». Сравнение стеков, цен, кейсов и сроков окупаемости. Независимый аудит Top Index.`
   : `The definitive index of verified partners for ${cat.title.en}. Compare real pricing tiers, tech stacks, and case studies. Zero-hallucination verification.`;
 
 // JSON-LD Schemas: CollectionPage + ItemList + FAQPage
@@ -79,7 +79,7 @@ const collectionPageJsonLd = {
 
 const itemListJsonLd = {
   '@type': 'ItemList',
-  name: `Top ${cat.title[lang]} Agencies`,
+  name: `Top ${cat.title[lang]} Companies`,
   numberOfItems: categoryAgencies.length,
   itemListElement: categoryAgencies.map((a, i) => ({
     '@type': 'ListItem',
@@ -118,130 +118,136 @@ const faqPageJsonLd = {
   alternatePaths={alternatePaths}
   jsonLd={[collectionPageJsonLd, itemListJsonLd, faqPageJsonLd]}
 >
-  <!-- Category Header & Breadcrumbs -->
-  <section class="pt-8 pb-10">
-    <nav class="flex items-center gap-2 font-mono text-xs text-slate-400 mb-6">
-      <a href={`/${lang}/`} class="hover:text-cyan-glow transition">{lang === 'ru' ? 'Главная' : 'Home'}</a>
-      <span>/</span>
-      <a href={`/${lang}/#categories`} class="hover:text-cyan-glow transition">{lang === 'ru' ? 'Категории' : 'Categories'}</a>
-      <span>/</span>
-      <span class="text-white font-medium">{cat.title[lang]}</span>
-    </nav>
+  <div class="wrap pt-6 pb-12">
+    <!-- Category Header & Breadcrumbs -->
+    <section class="pb-8">
+      <nav class="flex items-center gap-2 font-mono text-xs text-[#59617e] mb-5">
+        <a href={`/${lang}/`} class="hover:text-[#6336ed] transition">{lang === 'ru' ? 'Главная' : 'Home'}</a>
+        <span>/</span>
+        <a href={`/${lang}/#categories-section`} class="hover:text-[#6336ed] transition">{lang === 'ru' ? 'Категории' : 'Categories'}</a>
+        <span>/</span>
+        <span class="text-[#17172c] font-bold">{cat.title[lang]}</span>
+      </nav>
 
-    <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 border-b border-white/10 pb-10">
-      <div class="max-w-3xl">
-        <!-- Verification & Count Badge -->
-        <div class="inline-flex items-center gap-2 rounded-full border border-cyan-glow/30 bg-cyan-glow/5 px-3.5 py-1 font-mono text-xs text-cyan-glow mb-4">
-          <span class="h-1.5 w-1.5 rounded-full bg-emerald-glow animate-pulse"></span>
-          <span>{categoryAgencies.length} {agencyCountLabel}</span>
-          <span class="text-slate-500">•</span>
-          <span class="text-slate-300">{lang === 'ru' ? 'Актуально на' : 'Updated'} {verifiedStamp}</span>
-        </div>
-
-        <div class="flex items-start gap-4">
-          <div class="rounded-2xl border border-white/10 bg-white/[0.04] p-3 shadow-inner hidden sm:block">
-            <CategoryIcon category={cat.id} class="h-12 w-12" />
+      <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 border-b border-[#e9ebf4] pb-8">
+        <div class="max-w-3xl">
+          <!-- Verification & Count Badge -->
+          <div class="inline-flex items-center gap-2 rounded-full border border-[#ded6ff] bg-[#f0edff] px-3.5 py-1 text-xs font-semibold text-[#6336ed] mb-4">
+            <span class="h-1.5 w-1.5 rounded-full bg-[#009e54] animate-pulse"></span>
+            <span>{categoryAgencies.length} {agencyCountLabel}</span>
+            <span class="text-[#cbd1e2]">•</span>
+            <span class="text-[#59617e]">{lang === 'ru' ? 'Актуально на' : 'Updated'} {verifiedStamp}</span>
           </div>
-          <div>
-            <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-white break-words">
-              {cat.title[lang]}
-            </h1>
-            <p class="mt-4 text-sm sm:text-base leading-relaxed text-slate-300">
-              {cat.intro[lang]}
-            </p>
+
+          <div class="flex items-start gap-4">
+            <div class="w-14 h-14 rounded-2xl bg-[#f0edff] text-[#6336ed] p-3 flex items-center justify-center shrink-0 hidden sm:flex">
+              <CategoryIcon category={cat.id} class="h-8 w-8" />
+            </div>
+            <div>
+              <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-[#17172c] break-words">
+                {cat.title[lang]}
+              </h1>
+              <p class="mt-3 text-sm sm:text-base leading-relaxed text-[#59617e]">
+                {cat.intro[lang]}
+              </p>
+            </div>
           </div>
-        </div>
 
-        <!-- Focus Pills -->
-        <div class="mt-6 flex flex-wrap items-center gap-2 text-xs font-mono">
-          <span class="text-slate-400 uppercase tracking-wider">{lang === 'ru' ? 'Фокус:' : 'Core Focus:'}</span>
-          <span class="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-1 text-slate-300">
-            {cat.focus[lang]}
-          </span>
-        </div>
-      </div>
-
-      <!-- Quick Category Quick-Stats Card -->
-      <div class="w-full lg:w-80 rounded-2xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-xl font-mono text-xs">
-        <h4 class="uppercase tracking-wider text-slate-400 mb-3 font-semibold">
-          {lang === 'ru' ? 'Отраслевые бенчмарки' : 'Sector Benchmarks'}
-        </h4>
-        <div class="space-y-3">
-          <div class="flex justify-between border-b border-white/5 pb-2">
-            <span class="text-slate-400">{lang === 'ru' ? 'Внедрение от:' : 'Entry Tier:'}</span>
-            <span class="font-bold text-white">
-              {lang === 'ru' ? `${cat.cost.rub[0].toLocaleString('ru-RU')} ₽` : `$${cat.cost.usd[0].toLocaleString('en-US')}`}
+          <!-- Focus Pills -->
+          <div class="mt-5 flex flex-wrap items-center gap-2 text-xs">
+            <span class="text-[#59617e] uppercase font-bold tracking-wider">{lang === 'ru' ? 'Фокус внедрения:' : 'Core Focus:'}</span>
+            <span class="rounded-lg border border-[#e5e7f3] bg-[#f8f9fe] px-3 py-1 text-[#17172c] font-medium">
+              {cat.focus[lang]}
             </span>
           </div>
-          <div class="flex justify-between border-b border-white/5 pb-2">
-            <span class="text-slate-400">{lang === 'ru' ? 'Окупаемость:' : 'Avg ROI:'}</span>
-            <span class="font-bold text-emerald-400">1–3 {lang === 'ru' ? 'месяца' : 'months'}</span>
-          </div>
-          <div class="flex justify-between border-b border-white/5 pb-2">
-            <span class="text-slate-400">{lang === 'ru' ? 'Экономия часов:' : 'Hours / Seat:'}</span>
-            <span class="font-bold text-cyan-glow">~{cat.hoursPerSeat} {lang === 'ru' ? 'ч/мес на место' : 'hrs/mo/seat'}</span>
-          </div>
-          <div class="flex justify-between pt-1">
-            <span class="text-slate-400">{lang === 'ru' ? 'Статус аудита:' : 'Audit Status:'}</span>
-            <span class="text-emerald-400 font-semibold">{lang === 'ru' ? 'Верифицировано' : 'Anti-Hallucination'}</span>
+        </div>
+
+        <!-- Quick Category Benchmarks Card -->
+        <div class="w-full lg:w-80 card p-5 font-mono text-xs shadow-sm bg-white border border-[#e9ebf4]">
+          <h4 class="uppercase tracking-wider text-[#17172c] mb-3 font-bold font-sans">
+            {lang === 'ru' ? 'Отраслевые бенчмарки' : 'Sector Benchmarks'}
+          </h4>
+          <div class="space-y-3">
+            <div class="flex justify-between border-b border-[#f0f2fa] pb-2">
+              <span class="text-[#59617e] font-sans">{lang === 'ru' ? 'Внедрение от:' : 'Entry Tier:'}</span>
+              <span class="font-bold text-[#17172c]">
+                {lang === 'ru' ? `${cat.cost.rub[0].toLocaleString('ru-RU')} ₽` : `$${cat.cost.usd[0].toLocaleString('en-US')}`}
+              </span>
+            </div>
+            <div class="flex justify-between border-b border-[#f0f2fa] pb-2">
+              <span class="text-[#59617e] font-sans">{lang === 'ru' ? 'Окупаемость:' : 'Avg ROI:'}</span>
+              <span class="font-bold text-[#009e54]">1–3 {lang === 'ru' ? 'месяца' : 'months'}</span>
+            </div>
+            <div class="flex justify-between border-b border-[#f0f2fa] pb-2">
+              <span class="text-[#59617e] font-sans">{lang === 'ru' ? 'Экономия часов:' : 'Hours / Seat:'}</span>
+              <span class="font-bold text-[#6336ed]">~{cat.hoursPerSeat} {lang === 'ru' ? 'ч/мес на место' : 'hrs/mo/seat'}</span>
+            </div>
+            <div class="flex justify-between pt-1">
+              <span class="text-[#59617e] font-sans">{lang === 'ru' ? 'Статус аудита:' : 'Audit Status:'}</span>
+              <span class="text-[#009e54] font-bold font-sans">{lang === 'ru' ? 'Верифицировано' : 'Audited 2026'}</span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Category-Specific Filter Bar -->
-  <section class="py-2">
-    <FilterBar lang={lang} targetContainerId="category-agencies-grid" />
-  </section>
-
-  <!-- Ranked Agencies Grid for this Category -->
-  <section class="pb-16">
-    <div id="category-agencies-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {categoryAgencies.map((agency, index) => (
-        <AgencyCard agency={agency} lang={lang} rank={index + 1} />
-      ))}
-    </div>
-  </section>
-
-  <!-- Category-specific Cost & ROI Calculator -->
-  <RoiCalculator lang={lang} initialCategoryId={cat.id} />
-
-  <!-- Rich FAQ Section with Accordions (Answering 2026 pricing & architectural queries) -->
-  <section class="py-16 border-t border-white/10 scroll-mt-20" id="faq">
-    <div class="max-w-3xl mx-auto">
-      <div class="text-center mb-10">
-        <span class="font-mono text-xs uppercase tracking-wider text-cyan-glow">
-          {lang === 'ru' ? 'Экспертные ответы' : 'Expert Knowledge & Benchmarks'}
-        </span>
-        <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-white mt-1">
-          {lang === 'ru' ? 'Часто задаваемые вопросы (FAQ)' : 'Frequently Asked Questions'}
+    <!-- Ranked Agencies Grid for this Category -->
+    <section class="py-6">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-xl font-bold text-[#17172c]">
+          {lang === 'ru' ? 'Верифицированные компании направления' : 'Verified Category Integrators'}
         </h2>
-        <p class="mt-2 text-xs sm:text-sm text-slate-400">
-          {lang === 'ru'
-            ? `Актуальные ценовые диапазоны, архитектурные особенности и правовые аспекты внедрения в ${YEAR} году.`
-            : `Production pricing ranges, integration architectures, and compliance benchmarks for ${YEAR}.`}
-        </p>
+        <span class="text-xs text-[#59617e]">
+          {categoryAgencies.length} {lang === 'ru' ? 'позиций' : 'ranked'}
+        </span>
       </div>
 
-      <div class="space-y-4 prose-faq">
-        {faqList.map((item, idx) => (
-          <details
-            class="group rounded-2xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-xl transition hover:border-cyan-glow/40 open:border-cyan-glow/50 open:bg-white/[0.05]"
-            open={idx === 0}
-          >
-            <summary class="flex items-center justify-between cursor-pointer list-none text-base font-semibold text-white group-hover:text-cyan-glow transition">
-              <span class="pr-4">{item.q}</span>
-              <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-white/10 text-xs font-mono text-slate-400 group-open:rotate-180 transition-transform">
-                &darr;
-              </span>
-            </summary>
-            <div class="mt-4 border-t border-white/5 pt-4 text-sm leading-relaxed text-slate-300">
-              {item.a}
-            </div>
-          </details>
+      <div id="category-agencies-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {categoryAgencies.map((agency, index) => (
+          <AgencyCard agency={agency} lang={lang} rank={index + 1} />
         ))}
       </div>
-    </div>
-  </section>
+    </section>
+
+    <!-- Category-specific Cost & ROI Calculator -->
+    <RoiCalculator lang={lang} initialCategoryId={cat.id} />
+
+    <!-- Rich FAQ Section with Accordions -->
+    <section class="py-12 border-t border-[#e9ebf4] scroll-mt-20" id="faq">
+      <div class="max-w-3xl mx-auto">
+        <div class="text-center mb-8">
+          <span class="text-xs uppercase font-bold tracking-wider text-[#6336ed]">
+            {lang === 'ru' ? 'Экспертные ответы' : 'Expert Knowledge & Benchmarks'}
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#17172c] mt-1">
+            {lang === 'ru' ? 'Часто задаваемые вопросы (FAQ)' : 'Frequently Asked Questions'}
+          </h2>
+          <p class="mt-2 text-xs sm:text-sm text-[#59617e]">
+            {lang === 'ru'
+              ? `Актуальные ценовые диапазоны, архитектурные особенности и правовые аспекты внедрения в ${YEAR} году.`
+              : `Production pricing ranges, integration architectures, and compliance benchmarks for ${YEAR}.`}
+          </p>
+        </div>
+
+        <div class="space-y-3 prose-faq">
+          {faqList.map((item, idx) => (
+            <details
+              class="card p-4 sm:p-5 bg-white border border-[#e9ebf4] transition hover:border-[#8d67ff] open:border-[#6336ed] open:shadow-sm"
+              open={idx === 0}
+            >
+              <summary class="flex items-center justify-between cursor-pointer list-none text-sm sm:text-base font-bold text-[#17172c] hover:text-[#6336ed] transition">
+                <span class="pr-4">{item.q}</span>
+                <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#f0edff] text-xs font-bold text-[#6336ed]">
+                  &darr;
+                </span>
+              </summary>
+              <div class="mt-3 border-t border-[#f0f2fa] pt-3 text-xs sm:text-sm leading-relaxed text-[#59617e]">
+                {item.a}
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  </div>
 </Layout>
