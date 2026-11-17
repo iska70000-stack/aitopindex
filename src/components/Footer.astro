@@ -53,25 +53,22 @@ const { lang } = Astro.props;
         <a href="/sitemap.xml" target="_blank">/sitemap.xml</a>
       </div>
 
-      <!-- Col 5: Newsletter / Subscription -->
+      <!-- Col 5: Editorial & Directory Submissions -->
       <div>
-        <h4>{lang === 'ru' ? 'Будьте в курсе' : 'Stay in the Loop'}</h4>
+        <h4>{lang === 'ru' ? 'Редакция и заявки' : 'Editorial & Submissions'}</h4>
         <p class="footer-desc" style="margin-top:0">
           {lang === 'ru'
-            ? 'Еженедельный дайджест трендов и новых проверенных подрядчиков.'
-            : 'Updates and verified benchmark reports from the global AI ecosystem.'}
+            ? 'Подайте заявку на добавление компании или обновление сведений.'
+            : 'Submit an AI organization for domain verification or request a profile update.'}
         </p>
-        <form id="subscribe-form" onsubmit="event.preventDefault(); alert(window.__LANG === 'ru' ? 'Спасибо за подписку!' : 'Thank you for subscribing!');">
-          <input
-            type="email"
-            placeholder={lang === 'ru' ? 'Ваш рабочий email' : 'Email address'}
-            required
-            aria-label="Email address"
-          />
-          <button type="submit" class="cta">
-            {lang === 'ru' ? 'ОК' : 'Join'}
-          </button>
-        </form>
+        <div class="flex flex-col gap-2 mt-2">
+          <a href={`/${lang}/submit/`} class="cta text-xs py-2 px-3 justify-center">
+            {lang === 'ru' ? 'Подать заявку →' : 'Submit Organization →'}
+          </a>
+          <a href="mailto:submit@aitopindex.com" class="text-[11px] font-mono text-[#6336ed] hover:underline">
+            submit@aitopindex.com
+          </a>
+        </div>
       </div>
     </div>
 

@@ -1,5 +1,6 @@
 ---
 import type { Agency, Category, Lang } from '../lib/data';
+import { getPlatformStats, extractCountry } from '../lib/stats';
 import CategoryIcon from './CategoryIcon.astro';
 
 interface Props {
@@ -10,43 +11,9 @@ interface Props {
   isCategoryPage?: boolean;
 }
 
-const { agencies, categories, lang, initialCategory = 'all', isCategoryPage = false } = Astro.props;
+const { agencies, categories, lang, initialCategory = 'all' } = Astro.props;
 
-// Helper to determine flag & country from agency hq
-function getCountryInfo(agency: Agency): { flag: string; name: string } {
-  const hqStr = (agency.hq?.en || '').toLowerCase();
-  if (hqStr.includes('usa') || hqStr.includes('united states') || hqStr.includes('san francisco') || hqStr.includes('new york')) {
-    return { flag: '🇺🇸', name: lang === 'ru' ? 'США' : 'United States' };
-  }
-  if (hqStr.includes('uk') || hqStr.includes('united kingdom') || hqStr.includes('london')) {
-    return { flag: '🇬🇧', name: lang === 'ru' ? 'Великобритания' : 'United Kingdom' };
-  }
-  if (hqStr.includes('canada') || hqStr.includes('toronto') || hqStr.includes('vancouver')) {
-    return { flag: '🇨🇦', name: lang === 'ru' ? 'Канада' : 'Canada' };
-  }
-  if (hqStr.includes('germany') || hqStr.includes('berlin') || hqStr.includes('munich')) {
-    return { flag: '🇩🇪', name: lang === 'ru' ? 'Германия' : 'Germany' };
-  }
-  if (hqStr.includes('france') || hqStr.includes('paris')) {
-    return { flag: '🇫🇷', name: lang === 'ru' ? 'Франция' : 'France' };
-  }
-  if (hqStr.includes('cyprus') || hqStr.includes('limassol')) {
-    return { flag: '🇨🇾', name: lang === 'ru' ? 'Кипр' : 'Cyprus' };
-  }
-  if (hqStr.includes('russia') || hqStr.includes('moscow') || hqStr.includes('saint petersburg')) {
-    return { flag: '🇷🇺', name: lang === 'ru' ? 'Россия' : 'Russia' };
-  }
-  if (hqStr.includes('uae') || hqStr.includes('dubai')) {
-    return { flag: '🇦🇪', name: lang === 'ru' ? 'ОАЭ' : 'UAE' };
-  }
-  if (hqStr.includes('israel') || hqStr.includes('tel aviv')) {
-    return { flag: '🇮🇱', name: lang === 'ru' ? 'Израиль' : 'Israel' };
-  }
-  if (hqStr.includes('singapore')) {
-    return { flag: '🇸🇬', name: lang === 'ru' ? 'Сингапур' : 'Singapore' };
-  }
-  return { flag: '🌐', name: agency.hq?.[lang] || (lang === 'ru' ? 'Международный' : 'Global') };
-}
+const stats = getPlatformStats();
 
 // Brandmark styling generator
 const brandmarkStyles = [
@@ -57,64 +24,12 @@ const brandmarkStyles = [
   'bg-gradient-to-br from-[#10b981]/15 to-[#059669]/20 text-[#047857] border-[#a7f3d0]',
 ];
 
-// Top Specialists data
-const specialists = [
-  {
-    name: 'Dr. Fei-Fei Li',
-    initials: 'FL',
-    country: lang === 'ru' ? 'США' : 'United States',
-    flag: '🇺🇸',
-    role: lang === 'ru' ? 'Профессор Стэнфорда, AI-исследователь' : 'AI Researcher & Professor',
-    tags: ['Computer Vision', 'Multimodal AI'],
-    rating: '4.98',
-    avatarGrad: 'a1',
-  },
-  {
-    name: 'Ilya Sutskever',
-    initials: 'IS',
-    country: lang === 'ru' ? 'Канада' : 'Canada',
-    flag: '🇨🇦',
-    role: lang === 'ru' ? 'Сооснователь SSI, экс-OpenAI' : 'AI Research Leader, SSI',
-    tags: ['LLMs', 'Deep Learning'],
-    rating: '4.97',
-    avatarGrad: 'a2',
-  },
-  {
-    name: 'Andrej Karpathy',
-    initials: 'AK',
-    country: lang === 'ru' ? 'США' : 'United States',
-    flag: '🇺🇸',
-    role: lang === 'ru' ? 'AI-педагог и архитектор моделей' : 'AI Educator & Builder',
-    tags: ['LLMs', 'AI Engineering'],
-    rating: '4.96',
-    avatarGrad: 'a3',
-  },
-  {
-    name: 'Demis Hassabis',
-    initials: 'DH',
-    country: lang === 'ru' ? 'Великобритания' : 'United Kingdom',
-    flag: '🇬🇧',
-    role: lang === 'ru' ? 'CEO Google DeepMind, Nobel 2024' : 'CEO Google DeepMind',
-    tags: ['AGI', 'Reinforcement Learning'],
-    rating: '4.95',
-    avatarGrad: 'a4',
-  },
-  {
-    name: 'Yann LeCun',
-    initials: 'YL',
-    country: lang === 'ru' ? 'США' : 'United States',
-    flag: '🇺🇸',
-    role: lang === 'ru' ? 'Главный AI-ученый Meta, профессор NYU' : 'Chief AI Scientist & NYU Prof',
-    tags: ['Deep Learning', 'Open Source AI'],
-    rating: '4.94',
-    avatarGrad: 'a5',
-  },
-];
+// Sort alphabetically or by verifiedDate so there is no misleading artificial "score" ranking
+const sortedAgencies = [...agencies].sort((a, b) => a.name.localeCompare(b.name));
 
 // Pre-render client data JSON for instant interactive search & filter
-const agenciesClientData = agencies.map((a, idx) => {
-  const cInfo = getCountryInfo(a);
-  const trendPercent = (+(1.2 + ((a.score * 7) % 35) / 10).toFixed(1));
+const agenciesClientData = sortedAgencies.map((a) => {
+  const cInfo = extractCountry(a);
   return {
     id: a.id,
     name: a.name,
@@ -122,23 +37,32 @@ const agenciesClientData = agencies.map((a, idx) => {
     categories: a.categories,
     categoryNames: a.categories.map((cId) => categories.find((c) => c.id === cId)?.title[lang] || cId),
     entityType: a.entityType || 'integrator',
+    entityLabel: a.entityType === 'platform'
+      ? (lang === 'ru' ? 'Платформа' : 'AI Platform')
+      : (lang === 'ru' ? 'Интегратор' : 'Integrator'),
     region: a.region || 'global',
-    country: cInfo.name,
+    countryCode: cInfo.code,
+    country: cInfo.name[lang],
+    countryEn: cInfo.name.en,
     flag: cInfo.flag,
+    budget: a.minProjectBudget[lang],
     techStack: a.techStack,
-    score: a.score,
-    scoreFormatted: a.score.toFixed(1),
-    trend: `+${trendPercent}%`,
+    verifiedDate: a.verifiedDate,
     profileUrl: `/${lang}/agency/${a.id}/`,
     website: a.website,
     verified: a.status === 'verified',
   };
 });
+
+const integratorPct = stats.companiesCount > 0
+  ? Math.round((stats.integratorsCount / stats.companiesCount) * 100)
+  : 50;
+const platformPct = 100 - integratorPct;
 ---
 
 <div id="top-index-app" class="w-full">
   <!-- ============================================================ -->
-  <!-- HERO SECTION                                                 -->
+  <!-- HERO SECTION (100% Real Database Metrics)                    -->
   <!-- ============================================================ -->
   <section class="hero">
     <div class="wrap">
@@ -146,28 +70,28 @@ const agenciesClientData = agencies.map((a, idx) => {
         <!-- Hero Text -->
         <div class="hero-text">
           <span class="eyebrow">
-            ✦ GLOBAL AI RANKING PLATFORM ✦
+            ✦ {lang === 'ru' ? 'НЕЗАВИСИМЫЙ B2B-КАТАЛОГ ИИ' : 'INDEPENDENT B2B AI DIRECTORY'} ✦
           </span>
           <h1>
             {lang === 'ru' ? (
-              <>Глобальный рейтинг <span class="gradient-text">Top Index</span></>
+              <>Международный каталог <span class="gradient-text">Top Index</span></>
             ) : (
               <>The Global AI <span class="gradient-text">Top Index</span></>
             )}
           </h1>
           <p class="hero-lead">
             {lang === 'ru'
-              ? 'Рейтинг ведущих ИИ-компаний, интеграторов и специалистов мира — проверенные данные, реальные кейсы и аудит для глобальной экосистемы ИИ.'
-              : 'Rankings of leading AI companies and specialists worldwide — trusted, data-driven, and updated in real time for the global AI ecosystem.'}
+              ? 'Структурированный реестр ИИ-интеграторов, студий разработки агентов и корпоративных AI-платформ — с проверкой доменов, стека технологий и открытой методологией.'
+              : 'A structured directory of AI implementation agencies, agent developers, and enterprise AI platforms — with verified domains, tech stacks, and transparent classification.'}
           </p>
           <div class="hero-ctas">
             <a class="cta" href="#rankings">
-              <svg class="icon"><use href="#i-trend"/></svg>
-              <span>{lang === 'ru' ? 'Смотреть рейтинг →' : 'Explore Rankings →'}</span>
+              <svg class="icon"><use href="#i-building"/></svg>
+              <span>{lang === 'ru' ? 'Открыть каталог →' : 'Explore Directory →'}</span>
             </a>
-            <a class="cta secondary" href="#methodology">
+            <a class="cta secondary" href={`/${lang}/methodology/`}>
               <span>◎</span>
-              <span>{lang === 'ru' ? 'Как устроен рейтинг' : 'See How It Works'}</span>
+              <span>{lang === 'ru' ? 'Методология проверки' : 'Verification Standard'}</span>
             </a>
           </div>
         </div>
@@ -185,34 +109,34 @@ const agenciesClientData = agencies.map((a, idx) => {
           <div class="spark s4"></div>
         </div>
 
-        <!-- Hero 4 Stats Counters -->
+        <!-- Hero 4 Real Stats Counters from DB -->
         <div class="hero-stats">
           <div class="hero-stat">
-            <span class="stat-icon"><svg class="icon"><use href="#i-trophy"/></svg></span>
+            <span class="stat-icon"><svg class="icon"><use href="#i-building"/></svg></span>
             <span>
-              <strong>12,500+</strong>
-              <small>{lang === 'ru' ? 'Компаний в индексе' : 'AI Companies Ranked'}</small>
-            </span>
-          </div>
-          <div class="hero-stat">
-            <span class="stat-icon"><svg class="icon"><use href="#i-people"/></svg></span>
-            <span>
-              <strong>48,000+</strong>
-              <small>{lang === 'ru' ? 'ИИ-специалистов' : 'AI Specialists Listed'}</small>
+              <strong data-stat="companies">{stats.companiesCount}</strong>
+              <small>{lang === 'ru' ? 'Компаний в каталоге' : 'Verified Organizations'}</small>
             </span>
           </div>
           <div class="hero-stat">
             <span class="stat-icon"><svg class="icon"><use href="#i-layers"/></svg></span>
             <span>
-              <strong>180+</strong>
-              <small>{lang === 'ru' ? 'Стран и регионов' : 'Countries & Regions'}</small>
+              <strong data-stat="integrators">{stats.integratorsCount} / {stats.platformsCount}</strong>
+              <small>{lang === 'ru' ? 'Интеграторы / Платформы' : 'Integrators / Platforms'}</small>
             </span>
           </div>
           <div class="hero-stat">
-            <span class="stat-icon"><svg class="icon"><use href="#i-trend"/></svg></span>
+            <span class="stat-icon"><svg class="icon"><use href="#i-globe"/></svg></span>
             <span>
-              <strong>50+</strong>
-              <small>{lang === 'ru' ? 'Категорий внедрения' : 'AI Categories'}</small>
+              <strong data-stat="countries">{stats.countriesCount}</strong>
+              <small>{lang === 'ru' ? 'Подтверждённых стран' : 'Confirmed Countries'}</small>
+            </span>
+          </div>
+          <div class="hero-stat">
+            <span class="stat-icon"><svg class="icon"><use href="#i-spark"/></svg></span>
+            <span>
+              <strong data-stat="categories">{stats.categoriesCount}</strong>
+              <small>{lang === 'ru' ? 'Отраслевых вертикалей' : 'AI Verticals'}</small>
             </span>
           </div>
         </div>
@@ -227,8 +151,8 @@ const agenciesClientData = agencies.map((a, idx) => {
           <input
             id="search"
             type="text"
-            placeholder={lang === 'ru' ? 'Поиск ИИ-компаний, специалистов, технологий (#OpenAI, Voice, RAG)...' : 'Search AI companies, specialists, categories, or technologies...'}
-            aria-label="Search companies"
+            placeholder={lang === 'ru' ? 'Поиск по названию, стране или стеку (напр. OpenAI, Voice, RAG, n8n)...' : 'Search companies, countries, categories, or tech stack (e.g. RAG, n8n, Voice)...'}
+            aria-label={lang === 'ru' ? 'Поиск компаний' : 'Search companies'}
             autocomplete="off"
             oninput="window.applyAppFilters()"
           />
@@ -244,26 +168,23 @@ const agenciesClientData = agencies.map((a, idx) => {
             <span>{lang === 'ru' ? 'Фильтры' : 'Filters'}</span>
           </span>
 
-          <!-- Region Filter -->
+          <!-- Country Filter (Populated dynamically from real DB) -->
           <label class="filter-chip">
             <span>🌐</span>
-            <select id="region-filter" aria-label="Region" onchange="window.applyAppFilters()">
-              <option value="">{lang === 'ru' ? 'Регион: Все' : 'Region: Global'}</option>
-              <option value="United States">{lang === 'ru' ? 'США (United States)' : 'United States'}</option>
-              <option value="United Kingdom">{lang === 'ru' ? 'Великобритания (UK)' : 'United Kingdom'}</option>
-              <option value="Canada">{lang === 'ru' ? 'Канада (Canada)' : 'Canada'}</option>
-              <option value="Germany">{lang === 'ru' ? 'Германия (Germany)' : 'Germany'}</option>
-              <option value="France">{lang === 'ru' ? 'Франция (France)' : 'France'}</option>
-              <option value="Cyprus">{lang === 'ru' ? 'Кипр (Cyprus)' : 'Cyprus'}</option>
-              <option value="Russia">{lang === 'ru' ? 'Россия (CIS)' : 'Russia / CIS'}</option>
-              <option value="UAE">{lang === 'ru' ? 'ОАЭ (UAE)' : 'UAE / MENA'}</option>
+            <select id="region-filter" aria-label={lang === 'ru' ? 'Страна' : 'Country'} onchange="window.applyAppFilters()">
+              <option value="">{lang === 'ru' ? 'Страна: Все' : 'Country: All'}</option>
+              {stats.countryBreakdown.map((c) => (
+                <option value={c.code}>
+                  {c.flag} {c.name[lang]} ({c.count})
+                </option>
+              ))}
             </select>
           </label>
 
           <!-- Category Filter -->
           <label class="filter-chip">
             <span>◈</span>
-            <select id="category-filter" aria-label="Category" onchange="window.applyAppFilters()">
+            <select id="category-filter" aria-label={lang === 'ru' ? 'Категория' : 'Category'} onchange="window.applyAppFilters()">
               <option value="">{lang === 'ru' ? 'Категория: Все' : 'Category: All'}</option>
               {categories.map((c) => (
                 <option value={c.id} selected={initialCategory === c.id}>
@@ -273,48 +194,37 @@ const agenciesClientData = agencies.map((a, idx) => {
             </select>
           </label>
 
-          <!-- Industry / Entity Type Filter -->
+          <!-- Company Type Filter -->
           <label class="filter-chip">
             <span>🏢</span>
-            <select id="industry-filter" aria-label="Industry" onchange="window.applyAppFilters()">
-              <option value="">{lang === 'ru' ? 'Тип: Все' : 'Industry: All'}</option>
-              <option value="integrator">{lang === 'ru' ? 'B2B Интегратор / Студия' : 'B2B Integrator / Studio'}</option>
-              <option value="platform">{lang === 'ru' ? 'Enterprise ИИ-Платформа' : 'Enterprise AI Platform'}</option>
+            <select id="industry-filter" aria-label={lang === 'ru' ? 'Тип компании' : 'Company Type'} onchange="window.applyAppFilters()">
+              <option value="">{lang === 'ru' ? 'Тип: Все' : 'Type: All'}</option>
+              <option value="integrator">{lang === 'ru' ? 'B2B Интегратор / Агентство' : 'B2B Integrator / Agency'}</option>
+              <option value="platform">{lang === 'ru' ? 'Enterprise AI-Платформа' : 'Enterprise AI Platform'}</option>
             </select>
           </label>
 
-          <!-- Expertise / Tech Filter -->
+          <!-- Technology Stack Filter -->
           <label class="filter-chip">
             <span>⌘</span>
-            <select id="expertise-filter" aria-label="Expertise" onchange="window.applyAppFilters()">
-              <option value="">{lang === 'ru' ? 'Стек: Любой' : 'Expertise: All'}</option>
-              <option value="openai">OpenAI / GPT-4o</option>
-              <option value="rag">Enterprise RAG / Vector DB</option>
-              <option value="voice">Voice Agents / Retell / Vapi</option>
-              <option value="n8n">n8n / Make Automation</option>
+            <select id="expertise-filter" aria-label={lang === 'ru' ? 'Технология' : 'Technology'} onchange="window.applyAppFilters()">
+              <option value="">{lang === 'ru' ? 'Стек: Любой' : 'Stack: All'}</option>
+              <option value="openai">OpenAI / GPT</option>
+              <option value="rag">RAG / Vector DB</option>
+              <option value="voice">Voice AI / Vapi / Retell</option>
+              <option value="n8n">n8n / Make</option>
               <option value="langchain">LangChain / LangGraph</option>
               <option value="python">Python / PyTorch</option>
               <option value="anthropic">Anthropic Claude</option>
             </select>
           </label>
 
-          <!-- Rating Filter -->
+          <!-- Sort Order (Neutral, no fake scores) -->
           <label class="filter-chip">
-            <span>☆</span>
-            <select id="rating-filter" aria-label="Minimum rating" onchange="window.applyAppFilters()">
-              <option value="0">{lang === 'ru' ? 'Балл: Любой' : 'Rating: Any'}</option>
-              <option value="90">{lang === 'ru' ? 'Балл: 90+' : 'Score: 90+'}</option>
-              <option value="95">{lang === 'ru' ? 'Балл: 95+' : 'Score: 95+'}</option>
-              <option value="97">{lang === 'ru' ? 'Балл: 97+' : 'Score: 97+'}</option>
-            </select>
-          </label>
-
-          <!-- Verification Filter -->
-          <label class="filter-chip">
-            <span>🛡️</span>
-            <select id="verification-filter" aria-label="Verification" onchange="window.applyAppFilters()">
-              <option value="">{lang === 'ru' ? 'Статус: Все' : 'Verification: All'}</option>
-              <option value="verified">{lang === 'ru' ? 'Только проверенные' : 'Verified Only'}</option>
+            <span>⇅</span>
+            <select id="sort-filter" aria-label={lang === 'ru' ? 'Сортировка' : 'Sort'} onchange="window.applyAppFilters()">
+              <option value="alpha">{lang === 'ru' ? 'Сортировка: По алфавиту (A–Z)' : 'Sort: Alphabetical (A–Z)'}</option>
+              <option value="recent">{lang === 'ru' ? 'Сортировка: Недавно проверенные' : 'Sort: Recently Audited'}</option>
             </select>
           </label>
 
@@ -328,131 +238,170 @@ const agenciesClientData = agencies.map((a, idx) => {
   </section>
 
   <!-- ============================================================ -->
-  <!-- MAIN CONTENT: DASHBOARD (RANKINGS + LANDSCAPE)               -->
+  <!-- MAIN CONTENT: DIRECTORY & GLOBAL LANDSCAPE                   -->
   <!-- ============================================================ -->
   <div class="wrap content">
     <section class="dashboard" id="rankings">
-      <!-- Left Column: Top Ranked Companies -->
+      <!-- Left Column: Verified Directory List -->
       <div>
         <div class="section-head">
           <div class="heading-title">
             <svg class="icon heading-icon"><use href="#i-building"/></svg>
             <div>
-              <h2>{lang === 'ru' ? 'Лидеры рейтинга компаний' : 'Top Ranked Companies'}</h2>
-              <p>{lang === 'ru' ? 'Ведущие мировые ИИ-компании и интеграторы, ранжированные по эффективности, инновациям и надежности.' : "The world's leading AI companies, ranked by performance, innovation, impact and trust."}</p>
+              <h2>{lang === 'ru' ? 'Каталог проверенных ИИ-организаций' : 'Verified AI Directory'}</h2>
+              <p>
+                {lang === 'ru'
+                  ? `Показано организаций: `
+                  : `Showing organizations: `}
+                <strong id="filtered-count" class="text-[#17172c]">{sortedAgencies.length}</strong>
+                {lang === 'ru' ? ` из ${stats.companiesCount} (сортировка по алфавиту, без накрученных баллов)` : ` of ${stats.companiesCount} (neutral sorting, zero artificial scores)`}
+              </p>
             </div>
           </div>
-          <a class="more" href="#rankings" onclick="document.getElementById('search')?.focus()">
-            {lang === 'ru' ? 'Смотреть весь рейтинг →' : 'View Full Rankings →'}
+          <a class="more" href={`/${lang}/methodology/`}>
+            {lang === 'ru' ? 'О статусах проверки →' : 'About Verification →'}
           </a>
         </div>
 
-        <div class="card rank-card">
-          <!-- Table Header -->
-          <div class="table-head">
+        <div class="card rank-card overflow-hidden">
+          <!-- Table Header (Clean grid with no overlapping tags) -->
+          <div class="hidden md:grid grid-cols-[36px_minmax(180px,1.5fr)_minmax(150px,1.1fr)_minmax(100px,0.7fr)_minmax(105px,0.8fr)_24px] items-center gap-3 bg-[#f5f6fa] text-[#49506c] font-extrabold text-[10px] uppercase tracking-wider px-4 py-3 -mx-3 border-b border-[#e9eaf3]">
             <span>#</span>
-            <span>{lang === 'ru' ? 'Компания' : 'Company'}</span>
-            <span>{lang === 'ru' ? 'Категории и специализация' : 'Primary AI Categories'}</span>
-            <span>{lang === 'ru' ? 'Trust Score' : 'Trust Score'}</span>
-            <span>{lang === 'ru' ? 'Регион' : 'Region'}</span>
-            <span>{lang === 'ru' ? 'Тренд (30д)' : 'Trend (30d)'}</span>
+            <span>{lang === 'ru' ? 'Организация и домен' : 'Organization'}</span>
+            <span>{lang === 'ru' ? 'Тип и направления' : 'Type & Categories'}</span>
+            <span>{lang === 'ru' ? 'Бюджет от' : 'Min Budget'}</span>
+            <span>{lang === 'ru' ? 'Страна' : 'Country'}</span>
+            <span></span>
           </div>
 
-          <!-- Company List Container (populated by SSR & client JS) -->
-          <div id="company-list">
-            {agencies.slice(0, 25).map((agency, idx) => {
-              const cInfo = getCountryInfo(agency);
-              const rankNum = idx + 1;
-              const trend = `+${(1.2 + ((agency.score * 7) % 35) / 10).toFixed(1)}%`;
+          <!-- Company List Container -->
+          <div id="company-list" class="divide-y divide-[#eff0f6]">
+            {sortedAgencies.slice(0, 30).map((agency, idx) => {
+              const cInfo = extractCountry(agency);
+              const rowNum = idx + 1;
               const gradClass = brandmarkStyles[idx % brandmarkStyles.length];
               const primaryCategories = agency.categories.slice(0, 2).map((cId) => categories.find((c) => c.id === cId)?.title[lang] || cId);
+              const entityLabel = agency.entityType === 'platform'
+                ? (lang === 'ru' ? 'Платформа' : 'Platform')
+                : (lang === 'ru' ? 'Интегратор' : 'Integrator');
 
               return (
                 <div
-                  class="company cursor-pointer"
+                  class="grid grid-cols-[28px_1fr_auto] md:grid-cols-[36px_minmax(180px,1.5fr)_minmax(150px,1.1fr)_minmax(100px,0.7fr)_minmax(105px,0.8fr)_24px] items-center gap-3 py-3 px-2 hover:bg-[#fafbfe] transition-colors cursor-pointer"
                   onclick={`window.location.href='/${lang}/agency/${agency.id}/'`}
                   data-agency-row={agency.id}
                 >
-                  <span class="rank-no">{rankNum}</span>
-                  
-                  <div class="company-info">
-                    <div class={`brandmark ${gradClass}`}>
+                  <span class="w-6 h-6 rounded-full bg-[#eef0f8] text-[#17172c] font-bold text-[10px] grid place-items-center shrink-0">
+                    {rowNum}
+                  </span>
+
+                  <div class="flex items-center gap-2.5 min-w-0">
+                    <div class={`w-8 h-8 rounded-lg ${gradClass} border flex items-center justify-center shrink-0 font-bold text-xs`}>
                       {agency.name.charAt(0).toUpperCase()}
                     </div>
-                    <div style="min-width:0">
-                      <div class="company-name flex items-center gap-1">
-                        <a href={`/${lang}/agency/${agency.id}/`} class="hover:underline">
+                    <div class="min-w-0">
+                      <div class="flex items-center gap-1.5">
+                        <a href={`/${lang}/agency/${agency.id}/`} class="font-bold text-[13px] text-[#17172c] hover:text-[#6336ed] truncate">
                           {agency.name}
                         </a>
-                        <span class="verify" title="Verified by Top Index">●</span>
+                        <span class="text-[#147dff] text-[10px] shrink-0" title={lang === 'ru' ? 'Домен подтверждён' : 'Verified domain'}>●</span>
                       </div>
-                      <div class="company-desc">
-                        {cInfo.flag} {cInfo.name} · {agency.description[lang]}
+                      <p class="text-[11px] text-[#59617e] truncate mt-0.5">
+                        {agency.description[lang]}
+                      </p>
+                      <!-- Mobile compact metadata -->
+                      <div class="flex flex-wrap items-center gap-1.5 mt-1.5 md:hidden">
+                        <span class="text-[9.5px] font-semibold px-1.5 py-0.5 rounded bg-[#f5f6fa] border border-[#e5e7f3] text-[#49506c]">
+                          {entityLabel}
+                        </span>
+                        <span class="text-[10px] text-[#59617e]">{cInfo.flag} {cInfo.name[lang]}</span>
+                        <span class="text-[10px] font-semibold text-[#17172c]">{agency.minProjectBudget[lang]}</span>
                       </div>
                     </div>
                   </div>
 
-                  <div class="tags">
+                  <!-- Desktop Classification & Categories (with strict non-overlapping wrap) -->
+                  <div class="hidden md:flex flex-wrap items-center gap-1 min-w-0">
+                    <span class="inline-block px-1.5 py-0.5 rounded bg-[#f5f6fa] border border-[#dfe1ee] text-[#49506c] text-[9.5px] font-bold">
+                      {entityLabel}
+                    </span>
                     {primaryCategories.map((t) => (
-                      <span class="tag">{t}</span>
+                      <span class="tag max-w-[140px] truncate">{t}</span>
                     ))}
                   </div>
 
-                  <div class="score-cell">
-                    <div class="score">{agency.score.toFixed(1)}</div>
-                    <div class="score-track">
-                      <div class="score-fill" style={`width: ${Math.min(100, agency.score)}%`}></div>
-                    </div>
+                  <!-- Budget -->
+                  <div class="hidden md:block text-[11px] font-semibold text-[#17172c] truncate">
+                    {agency.minProjectBudget[lang]}
                   </div>
 
-                  <div class="region">
-                    {cInfo.flag} {cInfo.name}
+                  <!-- Country -->
+                  <div class="hidden md:block text-[11px] text-[#4b5570] truncate">
+                    {cInfo.flag} {cInfo.name[lang]}
                   </div>
 
-                  <div class="trend">
-                    ▲ {trend}
-                  </div>
-
-                  <div class="right-chevron">›</div>
+                  <div class="text-[#6f7692] text-sm font-bold text-right">›</div>
                 </div>
               );
             })}
           </div>
 
+          <!-- Load All / Pagination Info -->
+          {sortedAgencies.length > 30 && (
+            <div id="show-all-wrap" class="py-3 text-center border-t border-[#eff0f6]">
+              <button
+                type="button"
+                onclick="window.showAllAgencies()"
+                class="text-xs font-bold text-[#6336ed] hover:underline cursor-pointer"
+              >
+                {lang === 'ru' ? `Показать все ${sortedAgencies.length} организаций ↓` : `Show all ${sortedAgencies.length} organizations ↓`}
+              </button>
+            </div>
+          )}
+
           <!-- Empty state -->
-          <div id="emptyState">
+          <div id="emptyState" class="hidden py-10 text-center text-[#59617e] text-xs">
             {lang === 'ru'
-              ? 'Компании по заданным критериям не найдены. Попробуйте сбросить фильтры поиска.'
+              ? 'Компании по заданным критериям не найдены. Попробуйте сбросить фильтры.'
               : 'No companies match these filters. Try clearing some filters.'}
           </div>
         </div>
 
         <p class="demo-note">
           {lang === 'ru'
-            ? 'Регулярная верификация: баллы доверия, технологии и кейсы внедрения подтверждены методологией Top Index 2026.'
-            : 'Regular verification: trust scores, tech stacks, and production cases are audited by Top Index Research 2026.'}
+            ? 'Примечание: Компании отсортированы нейтрально по алфавиту. Подтверждён статус официального домена; балльная система Trust Score находится на этапе утверждения методологии.'
+            : 'Note: Organizations are listed in neutral alphabetical order. Official domains are verified; formal Trust Score weighting is pending methodology approval.'}
         </p>
       </div>
 
-      <!-- Right Column: Global AI Landscape Card -->
-      <aside class="card landscape">
-        <div class="land-head">
-          <div>
-            <strong>🌐 {lang === 'ru' ? 'Глобальный ландшафт ИИ' : 'Global AI Landscape'}</strong>
-            <small>{lang === 'ru' ? 'Активность ИИ-компаний и специалистов по регионам мира.' : 'AI excellence across regions, companies and specialists.'}</small>
+      <!-- Right Column: Real Global AI Landscape Card -->
+      <aside class="card landscape flex flex-col justify-between">
+        <div>
+          <div class="land-head">
+            <div>
+              <strong>🌐 {lang === 'ru' ? 'География каталога' : 'Directory Geography'}</strong>
+              <small>{lang === 'ru' ? 'Реальное распределение опубликованных компаний по странам.' : 'Real geographic distribution of listed organizations.'}</small>
+            </div>
           </div>
-          <div class="tabs" aria-label="Map region">
-            <button class="active" data-tab="Global" onclick="window.switchMapTab('Global', this)">Global</button>
-            <button data-tab="US" onclick="window.switchMapTab('US', this)">US</button>
-            <button data-tab="EU" onclick="window.switchMapTab('EU', this)">EU</button>
-            <button data-tab="Asia" onclick="window.switchMapTab('Asia', this)">Asia</button>
-          </div>
-        </div>
 
-        <div class="land-body">
-          <!-- World SVG Map with dots and hot spots -->
-          <div class="map-area" id="world-map">
-            <svg class="world-svg" viewBox="0 0 330 165" aria-label="Stylized world map showing regions">
+          <div class="tabs mb-3 flex-wrap" aria-label="Filter by region">
+            <button class="active" data-tab="all" onclick="window.filterByRegionTab('all', this)">
+              {lang === 'ru' ? 'Все' : 'All'} ({stats.companiesCount})
+            </button>
+            <button data-tab="usa-eu" onclick="window.filterByRegionTab('usa-eu', this)">
+              US & EU ({stats.regionBreakdown['usa-eu']})
+            </button>
+            <button data-tab="cis-mena" onclick="window.filterByRegionTab('cis-mena', this)">
+              CIS/MENA ({stats.regionBreakdown['cis-mena']})
+            </button>
+            <button data-tab="global" onclick="window.filterByRegionTab('global', this)">
+              Global ({stats.regionBreakdown.global})
+            </button>
+          </div>
+
+          <!-- Stylized World Map -->
+          <div class="map-area mb-3" id="world-map">
+            <svg class="world-svg" viewBox="0 0 330 165" aria-label="World map showing regions with listed AI companies">
               <defs>
                 <pattern id="dots" width="4" height="4" patternUnits="userSpaceOnUse">
                   <circle cx="1" cy="1" r="1" fill="#9da8ee" opacity=".72"/>
@@ -473,116 +422,101 @@ const agenciesClientData = agencies.map((a, idx) => {
               <g fill="url(#hot)">
                 <circle cx="88" cy="47" r="24"/>
                 <circle cx="160" cy="52" r="19"/>
-                <circle cx="258" cy="64" r="24"/>
-                <circle cx="286" cy="122" r="13"/>
+                <circle cx="210" cy="45" r="20"/>
+                <circle cx="286" cy="122" r="10"/>
               </g>
               <g class="map-hot">
                 <circle cx="88" cy="47" r="3"/>
                 <circle cx="160" cy="52" r="3"/>
-                <circle cx="258" cy="64" r="3"/>
+                <circle cx="210" cy="45" r="3"/>
                 <circle cx="286" cy="122" r="3"/>
               </g>
             </svg>
           </div>
 
-          <div class="land-metrics">
-            <div>
-              <svg class="icon"><use href="#i-building"/></svg>
-              <span>
-                <strong>12,500+</strong>
-                <small>{lang === 'ru' ? 'ИИ-компаний' : 'Companies'}</small>
-              </span>
+          <!-- Real Country Breakdown List (Clickable to filter) -->
+          <div class="space-y-1.5 border-t border-[#eff0f7] pt-3">
+            <div class="text-[10px] font-extrabold uppercase tracking-wider text-[#49506c] mb-2">
+              {lang === 'ru' ? 'Компании по странам (нажмите для фильтра):' : 'Organizations by Country (Click to filter):'}
             </div>
-            <div>
-              <svg class="icon"><use href="#i-people"/></svg>
-              <span>
-                <strong>48,000+</strong>
-                <small>{lang === 'ru' ? 'Специалистов' : 'Specialists'}</small>
-              </span>
-            </div>
-            <div>
-              <svg class="icon"><use href="#i-layers"/></svg>
-              <span>
-                <strong>180+</strong>
-                <small>{lang === 'ru' ? 'Стран и регионов' : 'Countries & Regions'}</small>
-              </span>
+            <div class="grid grid-cols-2 gap-1.5">
+              {stats.countryBreakdown.map((c) => (
+                <button
+                  type="button"
+                  onclick={`window.filterByCountry('${c.code}')`}
+                  class="flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-[#f8f9fe] hover:bg-[#f0edff] border border-[#e5e7f3] hover:border-[#8d67ff] text-[11px] transition-colors cursor-pointer text-left"
+                >
+                  <span class="truncate text-[#17172c] font-medium">{c.flag} {c.name[lang]}</span>
+                  <span class="font-bold text-[#6336ed] ml-1">{c.count}</span>
+                </button>
+              ))}
             </div>
           </div>
         </div>
 
-        <div class="growth">
-          <div>
-            <div class="growth-label">
-              {lang === 'ru' ? 'Рост ИИ-экосистемы ⓘ' : 'AI Ecosystem Growth ⓘ'}
-            </div>
-            <div class="growth-number">+42.7%</div>
-            <small style="font-size:9px;color:var(--sub)">
-              {lang === 'ru' ? 'Годовой темп роста (YoY 2026–2027)' : 'Global AI ecosystem growth (YoY, 2026–2027)'}
-            </small>
+        <!-- Real Catalog Composition (Replaces fake +42.7% Growth Chart) -->
+        <div class="mt-4 pt-3 border-t border-[#eff0f7]">
+          <div class="flex items-center justify-between text-[10px] font-bold text-[#17172c] mb-1.5">
+            <span>{lang === 'ru' ? 'Структура базы данных' : 'Catalog Composition'}</span>
+            <span class="text-[#59617e] font-normal">{stats.companiesCount} {lang === 'ru' ? 'всего' : 'total'}</span>
           </div>
-
-          <svg class="growth-chart" viewBox="0 0 200 55" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1">
-                <stop stop-color="#8b62fb" stop-opacity=".25"/>
-                <stop offset="1" stop-color="#8b62fb" stop-opacity="0"/>
-              </linearGradient>
-            </defs>
-            <path d="M0 52 20 43 37 40 54 36 70 37 92 31 110 33 127 24 143 22 166 12 190 9 200 7 200 55 0 55Z" fill="url(#chartFill)"/>
-            <path d="M0 52 20 43 37 40 54 36 70 37 92 31 110 33 127 24 143 22 166 12 190 9 200 7" fill="none" stroke="#7550ed" stroke-width="2"/>
-            <g fill="#7550ed">
-              <circle cx="54" cy="36" r="2.5"/>
-              <circle cx="127" cy="24" r="2.5"/>
-              <circle cx="190" cy="9" r="2.5"/>
-            </g>
-          </svg>
+          <div class="w-full h-2.5 rounded-full bg-[#ede8ff] overflow-hidden flex">
+            <div class="h-full bg-[#6336ed]" style={`width: ${integratorPct}%`} title="Integrators"></div>
+            <div class="h-full bg-[#38bdf8]" style={`width: ${platformPct}%`} title="Platforms"></div>
+          </div>
+          <div class="flex items-center justify-between text-[10px] text-[#59617e] mt-1.5">
+            <span class="flex items-center gap-1">
+              <span class="w-2 h-2 rounded-full bg-[#6336ed]"></span>
+              {lang === 'ru' ? 'Интеграторы' : 'Integrators'}: <strong class="text-[#17172c]">{stats.integratorsCount}</strong> ({integratorPct}%)
+            </span>
+            <span class="flex items-center gap-1">
+              <span class="w-2 h-2 rounded-full bg-[#38bdf8]"></span>
+              {lang === 'ru' ? 'Платформы' : 'Platforms'}: <strong class="text-[#17172c]">{stats.platformsCount}</strong> ({platformPct}%)
+            </span>
+          </div>
         </div>
       </aside>
     </section>
 
     <!-- ============================================================ -->
-    <!-- TOP AI SPECIALISTS SECTION                                   -->
+    <!-- AI SPECIALISTS DIRECTORY (Honest Empty / Open Call State)    -->
     <!-- ============================================================ -->
     <section class="experts-section" id="specialists">
       <div class="section-head">
         <div class="heading-title">
           <svg class="icon heading-icon"><use href="#i-user"/></svg>
           <div>
-            <h2>{lang === 'ru' ? 'Ведущие эксперты и архитекторы ИИ' : 'Top AI Specialists'}</h2>
-            <p>{lang === 'ru' ? 'Исследователи, инженеры и архитекторы мирового уровня, ранжированные по вкладу и репутации.' : 'World-class AI experts, researchers, and builders, ranked by impact, expertise, and reputation.'}</p>
+            <h2>{lang === 'ru' ? 'Каталог AI-специалистов' : 'AI Specialists Directory'}</h2>
+            <p>{lang === 'ru' ? 'Подтверждённые инженеры, исследователи и системные архитекторы (открыт приём заявок).' : 'Verified AI engineers, researchers, and solutions architects (open for applications).'}</p>
           </div>
         </div>
-        <a class="more" href="#specialists">
-          {lang === 'ru' ? 'Все специалисты →' : 'View All Specialists →'}
-        </a>
       </div>
 
-      <div class="expert-grid" id="expert-grid">
-        {specialists.map((e) => (
-          <div class="card expert">
-            <div class="expert-top">
-              <div class={`avatar ${e.avatarGrad}`}>{e.initials}</div>
-              <div style="min-width:0">
-                <div class="expert-name flex items-center gap-1">
-                  <span>{e.name}</span>
-                  <span class="verify" style="color:#147dff">●</span>
-                </div>
-                <div class="expert-country">{e.flag} {e.country}</div>
-              </div>
-              <span class="expert-rating">★ {e.rating}</span>
-            </div>
-            <div class="expert-role">{e.role}</div>
-            <div class="expert-tags">
-              {e.tags.map((t) => (
-                <span class="tag">{t}</span>
-              ))}
-            </div>
-            <div class="verified-line flex items-center gap-1">
-              <span>♢</span>
-              <span>{lang === 'ru' ? 'Верифицированный эксперт' : 'Verified Expert*'}</span>
-            </div>
-          </div>
-        ))}
+      <div class="card p-6 sm:p-8 bg-gradient-to-r from-[#fbfcff] to-[#f4f3ff] border border-[#e4e2ff] flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="max-w-2xl">
+          <span class="inline-block text-[10px] font-bold uppercase tracking-wider text-[#6336ed] bg-[#f0edff] border border-[#ded6ff] px-2.5 py-0.5 rounded-full mb-2">
+            {lang === 'ru' ? 'Формирование реестра специалистов' : 'Specialist Registry Opening'}
+          </span>
+          <h3 class="text-lg font-extrabold text-[#17172c]">
+            {lang === 'ru'
+              ? 'Раздел верифицированных специалистов находится на стадии наполнения'
+              : 'Verified AI Specialists Registry is Currently Open for Onboarding'}
+          </h3>
+          <p class="text-xs sm:text-sm text-[#59617e] mt-1.5 leading-relaxed">
+            {lang === 'ru'
+              ? 'Мы не публикуем вымышленные профили, чужие фотографии или сгенерированные оценки. Если вы AI-архитектор, ML-инженер или руководитель внедрения с подтверждёнными проектами — подайте заявку на прохождение проверки и включение в каталог.'
+              : 'We do not publish synthetic expert profiles, placeholder photos, or fabricated ratings. If you are an AI architect, ML engineer, or implementation lead with verifiable case studies, apply to join our verified directory.'}
+          </p>
+        </div>
+        <div class="shrink-0">
+          <button
+            type="button"
+            onclick="if(typeof window.openSubmitAiModal==='function'){window.openSubmitAiModal();}else{window.location.href=`/${lang}/submit/`;}"
+            class="cta text-xs py-3 px-5"
+          >
+            {lang === 'ru' ? 'Подать профиль специалиста →' : 'Apply as AI Specialist →'}
+          </button>
+        </div>
       </div>
     </section>
 
@@ -595,11 +529,11 @@ const agenciesClientData = agencies.map((a, idx) => {
           <svg class="icon heading-icon"><use href="#i-layers"/></svg>
           <div>
             <h2>{lang === 'ru' ? 'Сферы внедрения ИИ' : 'AI Specialization Categories'}</h2>
-            <p>{lang === 'ru' ? 'Выберите отраслевое направление для перехода к специализированному рейтингу и бенчмаркам.' : 'Select an AI domain to explore verified integrators and production benchmarks.'}</p>
+            <p>{lang === 'ru' ? 'Количество компаний в каждой категории рассчитывается автоматически по текущей базе данных.' : 'Organization counts in each category are computed dynamically from the live database.'}</p>
           </div>
         </div>
         <span class="font-mono text-xs font-semibold text-[#6336ed] bg-[#f0edff] px-2.5 py-1 rounded-full border border-[#ded6ff]">
-          9 {lang === 'ru' ? 'направлений' : 'verticals'}
+          {stats.categoriesCount} {lang === 'ru' ? 'направлений' : 'verticals'}
         </span>
       </div>
 
@@ -617,7 +551,7 @@ const agenciesClientData = agencies.map((a, idx) => {
                     <CategoryIcon category={c.id} class="w-5 h-5" />
                   </span>
                   <span class="text-[11px] font-semibold text-[#6336ed] bg-[#f0edff] px-2 py-0.5 rounded-full">
-                    {catAgenciesCount} {lang === 'ru' ? 'команд' : 'agencies'}
+                    {catAgenciesCount} {lang === 'ru' ? 'организаций' : 'listed'}
                   </span>
                 </div>
                 <h3 class="text-sm font-bold text-[#17172c] group-hover:text-[#6336ed] transition-colors leading-snug">
@@ -628,7 +562,7 @@ const agenciesClientData = agencies.map((a, idx) => {
                 </p>
               </div>
               <div class="mt-3 pt-2.5 border-t border-[#f0f2fa] flex items-center justify-between text-[11px] font-semibold text-[#6336ed]">
-                <span>{lang === 'ru' ? 'Открыть категорию' : 'Explore vertical'}</span>
+                <span>{lang === 'ru' ? 'Перейти в категорию' : 'Explore category'}</span>
                 <span>→</span>
               </div>
             </a>
@@ -638,84 +572,84 @@ const agenciesClientData = agencies.map((a, idx) => {
     </section>
 
     <!-- ============================================================ -->
-    <!-- 4 FEATURE CARDS (METHODOLOGY, REVIEWS, TRENDS, AWARDS)       -->
+    <!-- 4 HONEST FEATURE CARDS (Methodology & Transparency)          -->
     <!-- ============================================================ -->
     <section class="features" id="methodology">
       <article class="card feature">
         <svg class="icon feature-symbol"><use href="#i-layers"/></svg>
         <div>
-          <h3>{lang === 'ru' ? 'Наша методология' : 'Our Methodology'}</h3>
-          <p>{lang === 'ru' ? 'Прозрачная модель оценки на основе реальных внедрений, стека и показателей окупаемости.' : 'A transparent, data-driven ranking framework combining impact and trust.'}</p>
-          <a class="more" href={`/${lang}/methodology/`}>{lang === 'ru' ? 'О методологии →' : 'See Methodology →'}</a>
+          <h3>{lang === 'ru' ? 'Открытая методология' : 'Catalog Methodology'}</h3>
+          <p>{lang === 'ru' ? 'Четкое разделение B2B-интеграторов и AI-платформ. Прозрачные критерии включения.' : 'Clear separation of B2B integrators and SaaS platforms with documented listing criteria.'}</p>
+          <a class="more" href={`/${lang}/methodology/`}>{lang === 'ru' ? 'Подробнее →' : 'See Methodology →'}</a>
         </div>
       </article>
 
       <article class="card feature">
         <svg class="icon feature-symbol"><use href="#i-shield"/></svg>
         <div>
-          <h3>{lang === 'ru' ? 'Проверенные отзывы' : 'Verified Reviews'}</h3>
-          <p>{lang === 'ru' ? 'Реальная обратная связь от корпоративных заказчиков и глобального ИИ-сообщества.' : 'Real feedback from clients, partners, and the global AI community.'}</p>
-          <a class="more" href={`/${lang}/methodology/`}>{lang === 'ru' ? 'Стандарты аудита →' : 'Read Reviews →'}</a>
+          <h3>{lang === 'ru' ? 'Проверка доменов' : 'Domain Verification'}</h3>
+          <p>{lang === 'ru' ? 'Каждая компания проверяется на наличие рабочего официального домена и HTTPS.' : 'Every listed organization is checked for an active official corporate domain and HTTPS.'}</p>
+          <a class="more" href={`/${lang}/methodology/`}>{lang === 'ru' ? 'Стандарты проверки →' : 'Audit Standards →'}</a>
         </div>
       </article>
 
       <article class="card feature">
-        <svg class="icon feature-symbol"><use href="#i-trend"/></svg>
+        <svg class="icon feature-symbol"><use href="#i-building"/></svg>
         <div>
-          <h3>{lang === 'ru' ? 'Тренды и аналитика' : 'AI Trends & Insights'}</h3>
-          <p>{lang === 'ru' ? 'Глубокий анализ рынка генеративного ИИ, голосовых агентов и корпоративных RAG.' : 'In-depth market analysis and perspectives on artificial intelligence.'}</p>
-          <a class="more" href="#insights">{lang === 'ru' ? 'Смотреть тренды →' : 'Explore Insights →'}</a>
+          <h3>{lang === 'ru' ? 'Независимый реестр' : 'Neutral B2B Registry'}</h3>
+          <p>{lang === 'ru' ? 'Мы не продаем места в выдаче и не публикуем выдуманные рейтинги без методики.' : 'Non-paid listings with neutral sorting and zero fabricated ratings or reviews.'}</p>
+          <a class="more" href={`/${lang}/about/`}>{lang === 'ru' ? 'О принципах →' : 'About Principles →'}</a>
         </div>
       </article>
 
-      <article class="card feature" id="awards">
-        <svg class="icon feature-symbol"><use href="#i-trophy"/></svg>
+      <article class="card feature">
+        <svg class="icon feature-symbol"><use href="#i-spark"/></svg>
         <div>
-          <h3>{lang === 'ru' ? 'Премия Top Index Awards' : 'Top Index Awards'}</h3>
-          <p>{lang === 'ru' ? 'Ежегодное признание наиболее инновационных и результативных ИИ-организаций.' : 'Global recognition of innovative and impactful AI organizations.'}</p>
-          <a class="more" href="#awards">{lang === 'ru' ? 'Подробнее о премии →' : 'View Awards →'}</a>
+          <h3>{lang === 'ru' ? 'Структурированные данные' : 'Structured Discovery'}</h3>
+          <p>{lang === 'ru' ? 'Полная разметка Schema.org и открытый формат данных для корпоративных заказчиков.' : 'Clean Schema.org structured metadata for enterprise sourcing and AI search crawlers.'}</p>
+          <a class="more" href={`/${lang}/submit/`}>{lang === 'ru' ? 'Подать заявку →' : 'Apply for Listing →'}</a>
         </div>
       </article>
     </section>
   </div>
 
   <!-- ============================================================ -->
-  <!-- LATEST AI INSIGHTS BANNER SECTION                            -->
+  <!-- PLATFORM RESOURCES & GUIDES BANNER                           -->
   <!-- ============================================================ -->
   <section class="insights" id="insights">
     <div class="wrap insights-grid">
       <div class="insight-intro">
-        <h2>{lang === 'ru' ? 'Свежая аналитика ИИ' : 'Latest AI Insights'}</h2>
-        <p>{lang === 'ru' ? 'Тренды рынка, анализ динамики рейтинга и прогнозы развития экосистемы искусственного интеллекта.' : "Market trends, rankings analysis, and expert perspectives from the global AI ecosystem."}</p>
-        <a href="#insights">{lang === 'ru' ? 'Все статьи →' : 'View All Insights →'}</a>
+        <h2>{lang === 'ru' ? 'Инструменты и стандарты' : 'Platform Resources'}</h2>
+        <p>{lang === 'ru' ? 'Документация по отбору ИИ-подрядчиков, расчёту бюджета внедрения и добавлению вашей компании в каталог.' : 'Documentation for evaluating AI vendors, estimating implementation scope, and joining the index.'}</p>
+        <a href={`/${lang}/methodology/`}>{lang === 'ru' ? 'Методология →' : 'Read Methodology →'}</a>
       </div>
 
-      <article class="story">
+      <a href={`/${lang}/methodology/`} class="story hover:shadow-lg transition-shadow">
         <div class="story-art">✦</div>
         <div>
-          <span class="category">{lang === 'ru' ? 'Анализ рынка' : 'Market Analysis'}</span>
-          <h3>{lang === 'ru' ? 'Отчет Top Index 2027: ключевые тренды, лидеры и перспективы' : "The Global AI 2027 Report: Key Trends, Winners, and What's Next"}</h3>
-          <small>{lang === 'ru' ? 'Редакционный обзор · 8 мин чтения' : 'Editorial preview · 8 min read'}</small>
+          <span class="category">{lang === 'ru' ? 'Документация' : 'Documentation'}</span>
+          <h3>{lang === 'ru' ? 'Как Top Index проверяет домены и разделяет интеграторов и платформы' : 'How Top Index Verifies Domains & Separates Integrators from Platforms'}</h3>
+          <small>{lang === 'ru' ? 'Стандарт каталога' : 'Verification Standard'}</small>
         </div>
-      </article>
+      </a>
 
-      <article class="story">
+      <a href={`/${lang}/#calculator`} class="story hover:shadow-lg transition-shadow">
         <div class="story-art robot">◉</div>
         <div>
-          <span class="category">{lang === 'ru' ? 'Технологии' : 'Technology'}</span>
-          <h3>{lang === 'ru' ? 'Эра мультимодальных агентов: от текстовых моделей к автономным процессам' : 'The Rise of Multimodal AI: From Models to Real-World Impact'}</h3>
-          <small>{lang === 'ru' ? 'Технический дайджест · 6 мин чтения' : 'Editorial preview · 6 min read'}</small>
+          <span class="category">{lang === 'ru' ? 'Инструмент' : 'Estimator'}</span>
+          <h3>{lang === 'ru' ? 'Калькулятор ориентировочного бюджета и экономии часов при внедрении ИИ' : 'Interactive AI Implementation Cost & Hours Saved Estimator'}</h3>
+          <small>{lang === 'ru' ? 'Предварительная оценка' : 'Scope Estimator'}</small>
         </div>
-      </article>
+      </a>
 
-      <article class="story">
+      <a href={`/${lang}/about/`} class="story hover:shadow-lg transition-shadow">
         <div class="story-art city">▥</div>
         <div>
-          <span class="category">{lang === 'ru' ? 'Индустрия' : 'Industry'}</span>
-          <h3>{lang === 'ru' ? 'Рынки-лидеры внедрения ИИ: какие страны задают стандарты окупаемости' : 'Top AI Markets: Countries Leading the Next Wave of Enterprise Adoption'}</h3>
-          <small>{lang === 'ru' ? 'Глобальный аудит · 7 мин чтения' : 'Editorial preview · 7 min read'}</small>
+          <span class="category">{lang === 'ru' ? 'О платформе' : 'About'}</span>
+          <h3>{lang === 'ru' ? 'Редакционная независимость и история развития каталога с 2024 года' : 'Editorial Independence & Directory Evolution (2024–2026)'}</h3>
+          <small>{lang === 'ru' ? 'Принципы проекта' : 'Platform Charter'}</small>
         </div>
-      </article>
+      </a>
     </div>
   </section>
 </div>
@@ -726,67 +660,102 @@ const agenciesClientData = agencies.map((a, idx) => {
 <script is:inline define:vars={{ agenciesClientData, lang }}>
   window.__APP_AGENCIES = agenciesClientData;
   window.__APP_LANG = lang;
+  window.__SHOW_ALL = false;
+  window.__REGION_TAB = 'all';
 
   const escapeHTML = (str) =>
     String(str).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
+  window.showAllAgencies = function() {
+    window.__SHOW_ALL = true;
+    window.applyAppFilters();
+  };
+
+  window.filterByRegionTab = function(regionKey, btn) {
+    window.__REGION_TAB = regionKey;
+    document.querySelectorAll('.tabs button').forEach((b) => b.classList.toggle('active', b === btn));
+    const map = document.getElementById('world-map');
+    if (map) {
+      map.style.filter = regionKey === 'all' ? 'none'
+        : regionKey === 'usa-eu' ? 'hue-rotate(15deg)'
+        : regionKey === 'cis-mena' ? 'hue-rotate(60deg)'
+        : 'hue-rotate(-30deg)';
+    }
+    window.applyAppFilters();
+  };
+
+  window.filterByCountry = function(countryCode) {
+    const sel = document.getElementById('region-filter');
+    if (sel) {
+      sel.value = countryCode;
+      window.applyAppFilters();
+      document.getElementById('rankings')?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   window.applyAppFilters = function() {
     const q = (document.getElementById('search')?.value || '').trim().toLowerCase();
-    const region = document.getElementById('region-filter')?.value || '';
+    const countryCode = document.getElementById('region-filter')?.value || '';
     const category = document.getElementById('category-filter')?.value || '';
     const industry = document.getElementById('industry-filter')?.value || '';
     const expertise = document.getElementById('expertise-filter')?.value || '';
-    const minRating = Number(document.getElementById('rating-filter')?.value || 0);
-    const verification = document.getElementById('verification-filter')?.value || '';
+    const sortMode = document.getElementById('sort-filter')?.value || 'alpha';
 
     const listContainer = document.getElementById('company-list');
     const emptyState = document.getElementById('emptyState');
+    const countEl = document.getElementById('filtered-count');
+    const showAllWrap = document.getElementById('show-all-wrap');
     if (!listContainer) return;
 
-    const filtered = window.__APP_AGENCIES.filter((c) => {
-      // 1. Search Query
+    let filtered = window.__APP_AGENCIES.filter((c) => {
+      if (window.__REGION_TAB !== 'all' && c.region !== window.__REGION_TAB) return false;
       if (q) {
         const matchName = c.name.toLowerCase().includes(q);
         const matchDesc = c.description.toLowerCase().includes(q);
-        const matchCountry = c.country.toLowerCase().includes(q);
+        const matchCountry = c.country.toLowerCase().includes(q) || c.countryEn.toLowerCase().includes(q);
         const matchTags = c.techStack.some((t) => t.toLowerCase().includes(q));
         const matchCats = c.categories.some((cat) => cat.toLowerCase().includes(q));
         if (!matchName && !matchDesc && !matchCountry && !matchTags && !matchCats) return false;
       }
-
-      // 2. Region
-      if (region && !c.country.toLowerCase().includes(region.toLowerCase())) return false;
-
-      // 3. Category
+      if (countryCode && c.countryCode !== countryCode) return false;
       if (category && !c.categories.includes(category)) return false;
-
-      // 4. Industry / EntityType
       if (industry && c.entityType !== industry) return false;
-
-      // 5. Expertise
       if (expertise) {
         const expLower = expertise.toLowerCase();
         const hasTech = c.techStack.some((t) => t.toLowerCase().includes(expLower));
         const hasCat = c.categories.some((cat) => cat.toLowerCase().includes(expLower));
         if (!hasTech && !hasCat) return false;
       }
-
-      // 6. Rating Score
-      if (minRating > 0 && c.score < minRating) return false;
-
-      // 7. Verification
-      if (verification === 'verified' && !c.verified) return false;
-
       return true;
     });
 
+    if (sortMode === 'recent') {
+      filtered = [...filtered].sort((a, b) => (b.verifiedDate || '').localeCompare(a.verifiedDate || ''));
+    } else {
+      filtered = [...filtered].sort((a, b) => a.name.localeCompare(b.name));
+    }
+
+    if (countEl) countEl.textContent = String(filtered.length);
+
     if (filtered.length === 0) {
       listContainer.innerHTML = '';
+      if (emptyState) emptyState.classList.remove('hidden');
       if (emptyState) emptyState.style.display = 'block';
+      if (showAllWrap) showAllWrap.style.display = 'none';
       return;
     }
 
-    if (emptyState) emptyState.style.display = 'none';
+    if (emptyState) {
+      emptyState.classList.add('hidden');
+      emptyState.style.display = 'none';
+    }
+
+    const limit = window.__SHOW_ALL || q || countryCode || category || industry || expertise ? filtered.length : 30;
+    const toRender = filtered.slice(0, limit);
+
+    if (showAllWrap) {
+      showAllWrap.style.display = filtered.length > limit ? 'block' : 'none';
+    }
 
     const brandmarkGradients = [
       'bg-gradient-to-br from-[#66b8fb]/15 to-[#6336ed]/20 text-[#4f35e3] border-[#d8d5fb]',
@@ -796,57 +765,71 @@ const agenciesClientData = agencies.map((a, idx) => {
       'bg-gradient-to-br from-[#10b981]/15 to-[#059669]/20 text-[#047857] border-[#a7f3d0]',
     ];
 
-    listContainer.innerHTML = filtered.slice(0, 35).map((c, idx) => {
-      const rankNum = idx + 1;
+    listContainer.innerHTML = toRender.map((c, idx) => {
+      const rowNum = idx + 1;
       const grad = brandmarkGradients[idx % brandmarkGradients.length];
-      const tagsHtml = c.categoryNames.slice(0, 2).map((t) => `<span class="tag">${escapeHTML(t)}</span>`).join('');
+      const tagsHtml = c.categoryNames.slice(0, 2).map((t) => `<span class="tag max-w-[140px] truncate">${escapeHTML(t)}</span>`).join('');
+      const mobileLabel = c.entityType === 'platform' ? (lang === 'ru' ? 'Платформа' : 'Platform') : (lang === 'ru' ? 'Интегратор' : 'Integrator');
 
       return `
-        <div class="company cursor-pointer" onclick="window.location.href='${c.profileUrl}'" data-agency-row="${c.id}">
-          <span class="rank-no">${rankNum}</span>
-          <div class="company-info">
-            <div class="brandmark ${grad}">${escapeHTML(c.name.charAt(0).toUpperCase())}</div>
-            <div style="min-width:0">
-              <div class="company-name flex items-center gap-1">
-                <a href="${c.profileUrl}">${escapeHTML(c.name)}</a>
-                <span class="verify" title="Verified by Top Index">●</span>
+        <div
+          class="grid grid-cols-[28px_1fr_auto] md:grid-cols-[36px_minmax(180px,1.5fr)_minmax(150px,1.1fr)_minmax(100px,0.7fr)_minmax(105px,0.8fr)_24px] items-center gap-3 py-3 px-2 hover:bg-[#fafbfe] transition-colors cursor-pointer"
+          onclick="window.location.href='${c.profileUrl}'"
+          data-agency-row="${c.id}"
+        >
+          <span class="w-6 h-6 rounded-full bg-[#eef0f8] text-[#17172c] font-bold text-[10px] grid place-items-center shrink-0">
+            ${rowNum}
+          </span>
+          <div class="flex items-center gap-2.5 min-w-0">
+            <div class="w-8 h-8 rounded-lg ${grad} border flex items-center justify-center shrink-0 font-bold text-xs">
+              ${escapeHTML(c.name.charAt(0).toUpperCase())}
+            </div>
+            <div class="min-w-0">
+              <div class="flex items-center gap-1.5">
+                <a href="${c.profileUrl}" class="font-bold text-[13px] text-[#17172c] hover:text-[#6336ed] truncate">
+                  ${escapeHTML(c.name)}
+                </a>
+                <span class="text-[#147dff] text-[10px] shrink-0" title="Verified domain">●</span>
               </div>
-              <div class="company-desc">${c.flag} ${escapeHTML(c.country)} · ${escapeHTML(c.description)}</div>
+              <p class="text-[11px] text-[#59617e] truncate mt-0.5">
+                ${escapeHTML(c.description)}
+              </p>
+              <div class="flex flex-wrap items-center gap-1.5 mt-1.5 md:hidden">
+                <span class="text-[9.5px] font-semibold px-1.5 py-0.5 rounded bg-[#f5f6fa] border border-[#e5e7f3] text-[#49506c]">
+                  ${escapeHTML(mobileLabel)}
+                </span>
+                <span class="text-[10px] text-[#59617e]">${c.flag} ${escapeHTML(c.country)}</span>
+                <span class="text-[10px] font-semibold text-[#17172c]">${escapeHTML(c.budget)}</span>
+              </div>
             </div>
           </div>
-          <div class="tags">${tagsHtml}</div>
-          <div class="score-cell">
-            <div class="score">${c.scoreFormatted}</div>
-            <div class="score-track">
-              <div class="score-fill" style="width: ${Math.min(100, c.score)}%"></div>
-            </div>
+          <div class="hidden md:flex flex-wrap items-center gap-1 min-w-0">
+            <span class="inline-block px-1.5 py-0.5 rounded bg-[#f5f6fa] border border-[#dfe1ee] text-[#49506c] text-[9.5px] font-bold">
+              ${escapeHTML(mobileLabel)}
+            </span>
+            ${tagsHtml}
           </div>
-          <div class="region">${c.flag} ${escapeHTML(c.country)}</div>
-          <div class="trend">▲ ${escapeHTML(c.trend)}</div>
-          <div class="right-chevron">›</div>
+          <div class="hidden md:block text-[11px] font-semibold text-[#17172c] truncate">
+            ${escapeHTML(c.budget)}
+          </div>
+          <div class="hidden md:block text-[11px] text-[#4b5570] truncate">
+            ${c.flag} ${escapeHTML(c.country)}
+          </div>
+          <div class="text-[#6f7692] text-sm font-bold text-right">›</div>
         </div>
       `;
     }).join('');
   };
 
   window.resetAllFilters = function() {
-    ['search', 'region-filter', 'category-filter', 'industry-filter', 'expertise-filter', 'verification-filter'].forEach((id) => {
+    ['search', 'region-filter', 'category-filter', 'industry-filter', 'expertise-filter'].forEach((id) => {
       const el = document.getElementById(id);
       if (el) el.value = '';
     });
-    const rEl = document.getElementById('rating-filter');
-    if (rEl) rEl.value = '0';
+    const sEl = document.getElementById('sort-filter');
+    if (sEl) sEl.value = 'alpha';
+    window.__REGION_TAB = 'all';
+    document.querySelectorAll('.tabs button').forEach((b) => b.classList.toggle('active', b.getAttribute('data-tab') === 'all'));
     window.applyAppFilters();
-  };
-
-  window.switchMapTab = function(tabName, btn) {
-    document.querySelectorAll('.tabs button').forEach((b) => b.classList.toggle('active', b === btn));
-    const map = document.getElementById('world-map');
-    if (map) {
-      map.style.filter = tabName === 'Global' ? 'none'
-        : tabName === 'US' ? 'hue-rotate(25deg)'
-        : tabName === 'EU' ? 'hue-rotate(60deg)'
-        : 'hue-rotate(-45deg)';
-    }
   };
 </script>

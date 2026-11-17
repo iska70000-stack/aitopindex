@@ -9,10 +9,6 @@ interface Props {
 
 const { agency, lang, rank } = Astro.props;
 
-// Calculate rating
-const rating = Math.min(5.0, +(4.0 + (agency.score - 70) * (1.0 / 30)).toFixed(1));
-const reviews = Math.round(agency.score * 1.35);
-
 // Monogram letter & soft modern gradient
 const initial = agency.name.charAt(0).toUpperCase();
 const brandmarkStyles = [
@@ -30,6 +26,10 @@ const tags = agency.techStack.slice(0, 5);
 
 // Clean website link
 const cleanUrl = agency.website.startsWith('http') ? agency.website : `https://${agency.website}`;
+
+const entityLabel = agency.entityType === 'platform'
+  ? (lang === 'ru' ? 'Платформа' : 'AI Platform')
+  : (lang === 'ru' ? 'Интегратор' : 'Integrator');
 ---
 
 <article
@@ -39,21 +39,19 @@ const cleanUrl = agency.website.startsWith('http') ? agency.website : `https://$
   data-name={agency.name.toLowerCase()}
   data-categories={agency.categories.join(' ')}
   data-tags={agency.techStack.map((t) => t.toLowerCase().replace(/\s+/g, '')).join(' ')}
-  data-rating={rating}
-  data-reviews={reviews}
   data-score={agency.score}
   data-verified={agency.status === 'verified' ? 'true' : 'false'}
 >
   <div>
     <div class="flex items-start gap-3">
-      <!-- Квадратный градиентный логотип-монограмма слева -->
+      <!-- Монограмма -->
       <div class={`w-12 h-12 rounded-xl ${selectedGrad} border flex items-center justify-center shrink-0 select-none font-bold text-lg`}>
         {initial}
       </div>
 
       <!-- Основной контент карточки -->
       <div class="flex-1 min-w-0">
-        <!-- Верхняя строка: Название + Синяя галочка + Рейтинг со звездой -->
+        <!-- Верхняя строка: Позиция + Название + Тип -->
         <div class="flex items-center justify-between gap-1.5">
           <div class="flex items-center gap-1.5 min-w-0">
             {typeof rank === 'number' && (
@@ -65,21 +63,24 @@ const cleanUrl = agency.website.startsWith('http') ? agency.website : `https://$
               <a href={`/${lang}/agency/${agency.id}/`}>{agency.name}</a>
             </h2>
             {agency.status === 'verified' && (
-              <span class="text-[#147dff] text-xs shrink-0" title="Verified by Top Index">●</span>
+              <span class="text-[#147dff] text-xs shrink-0" title={lang === 'ru' ? 'Домен и сведения проверены' : 'Verified domain & listing'}>●</span>
             )}
           </div>
 
-          <div class="flex items-center gap-1.5 shrink-0">
-            <div class="flex items-center gap-1 text-[12px] font-bold text-[#17172c]">
-              <span class="text-[#f59e0b] text-[13px] leading-none">★</span>
-              <span>{rating.toFixed(1)}</span>
-              <span class="text-[#59617e] font-normal text-[11px]">({reviews})</span>
-            </div>
-          </div>
+          <span class="shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#f5f6fa] border border-[#e5e7f3] text-[#49506c]">
+            {entityLabel}
+          </span>
         </div>
 
-        <!-- Описание внедрения в 1-2 строки -->
-        <p class="text-[12.5px] text-[#59617e] leading-[1.42] mt-1 line-clamp-2">
+        <!-- Локация и бюджет -->
+        <div class="flex items-center gap-2 text-[11px] text-[#59617e] mt-1">
+          <span class="truncate">{agency.hq[lang]}</span>
+          <span>•</span>
+          <span class="font-semibold text-[#17172c] shrink-0">{agency.minProjectBudget[lang]}</span>
+        </div>
+
+        <!-- Описание внедрения -->
+        <p class="text-[12.5px] text-[#59617e] leading-[1.42] mt-1.5 line-clamp-2">
           {agency.description[lang]}
         </p>
 
@@ -95,7 +96,7 @@ const cleanUrl = agency.website.startsWith('http') ? agency.website : `https://$
     </div>
   </div>
 
-  <!-- Три кнопки действий внизу в один ряд (Contact | Cases | Site) -->
+  <!-- Три кнопки действий (Contact | Profile | Site) -->
   <div class="grid grid-cols-3 gap-1.5 mt-3 pt-2.5 border-t border-[#f0f2fa]">
     <button
       type="button"
@@ -116,7 +117,7 @@ const cleanUrl = agency.website.startsWith('http') ? agency.website : `https://$
         <rect x="3" y="7" width="18" height="13" rx="2"></rect>
         <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
       </svg>
-      <span>{lang === 'ru' ? 'Кейсы' : 'Cases'}</span>
+      <span>{lang === 'ru' ? 'Профиль' : 'Profile'}</span>
     </a>
 
     <a

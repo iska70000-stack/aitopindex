@@ -137,12 +137,12 @@ const agencyData = Object.fromEntries(
         <div class="lg:col-span-5 flex flex-col justify-between rounded-2xl border border-[#ded6ff] bg-gradient-to-br from-[#fbfcff] to-[#f0edff] p-6 shadow-sm">
           <div>
             <span class="font-mono text-xs uppercase tracking-wider text-[#6336ed] font-bold">
-              {lang === 'ru' ? 'Ориентировочный расчёт' : 'Estimated Business Value'}
+              {lang === 'ru' ? 'Предварительная оценка (не гарантия)' : 'Preliminary Estimate (Non-Binding)'}
             </span>
 
             <!-- Cost Range -->
             <div class="mt-4">
-              <span class="text-xs text-[#59617e] block">{lang === 'ru' ? 'Бюджет внедрения под ключ:' : 'Setup Cost Range:'}</span>
+              <span class="text-xs text-[#59617e] block">{lang === 'ru' ? 'Ориентировочная стоимость внедрения:' : 'Estimated Implementation Cost:'}</span>
               <div class="font-mono text-2xl font-extrabold text-[#6336ed] sm:text-3xl mt-1" data-result-cost>
                 {lang === 'ru' ? '250 000 — 1 500 000 ₽' : '$4,000 — $25,000'}
               </div>
@@ -151,19 +151,25 @@ const agencyData = Object.fromEntries(
             <!-- Hours Saved -->
             <div class="mt-5 grid grid-cols-2 gap-4 border-y border-[#e2ddfc] py-4 font-mono">
               <div>
-                <span class="text-[10px] uppercase text-[#59617e] block font-sans">{lang === 'ru' ? 'Экономия часов:' : 'Hours Saved:'}</span>
+                <span class="text-[10px] uppercase text-[#59617e] block font-sans">{lang === 'ru' ? 'Оценка экономии часов:' : 'Estimated Hours Saved:'}</span>
                 <span class="text-xl font-bold text-[#009e54]" data-result-hours>550 ч/мес</span>
               </div>
               <div>
-                <span class="text-[10px] uppercase text-[#59617e] block font-sans">{lang === 'ru' ? 'Срок окупаемости:' : 'Est. Payback:'}</span>
+                <span class="text-[10px] uppercase text-[#59617e] block font-sans">{lang === 'ru' ? 'Расчетный срок окупаемости:' : 'Estimated Payback Period:'}</span>
                 <span class="text-xl font-bold text-[#6336ed]">1–3 {lang === 'ru' ? 'мес.' : 'mos'}</span>
               </div>
             </div>
 
+            <p class="mt-2.5 text-[10px] text-[#59617e] leading-snug">
+              {lang === 'ru'
+                ? '* Предварительный расчет на основе выбранных параметров (размер команды × отраслевой коэффициент категории). Не является публичной офертой или гарантией финансового результата.'
+                : '* Preliminary estimate calculated from selected team size and category assumptions. Figures are illustrative benchmarks, not a guarantee of financial return.'}
+            </p>
+
             <!-- Top 3 Matching Agencies -->
-            <div class="mt-5">
+            <div class="mt-4">
               <span class="font-mono text-[10px] uppercase tracking-wider text-[#59617e] block mb-2.5 font-bold">
-                {lang === 'ru' ? 'Топ-3 подрядчика по вашим критериям:' : 'Top 3 Matching Verified Agencies:'}
+                {lang === 'ru' ? 'Подходящие компании из каталога:' : 'Matching Agencies in Directory:'}
               </span>
               <div class="space-y-2" data-result-agencies>
                 <!-- Populated via JS -->

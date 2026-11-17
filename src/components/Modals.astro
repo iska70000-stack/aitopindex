@@ -241,37 +241,43 @@ const categoriesModalData = categories.map((c) => ({
   // Open Submit AI Modal
   window.openSubmitAiModal = function() {
     const cats = window.__CATEGORIES;
+    const isRu = window.__LANG === 'ru';
     openModal(`
       <div class="flex items-center justify-between mb-4 border-b border-[#e5e7f3] pb-3">
         <div>
           <h3 class="text-[16px] font-bold text-[#17172c]">${t.submitTitle}</h3>
-          <p class="text-[12px] text-[#59617e] mt-0.5">${window.__LANG === 'ru' ? 'Бесплатная верификация и включение в глобальный индекс' : 'Independent verification and directory listing'}</p>
+          <p class="text-[12px] text-[#59617e] mt-0.5">${isRu ? 'Бесплатная проверка домена и включение в каталог (статус Pending)' : 'Domain audit and catalog inclusion (initial Pending status)'}</p>
         </div>
-        <button type="button" onclick="closeModal()" class="w-8 h-8 rounded-full bg-[#f5f6fa] border border-[#e5e7f3] text-[#59617e] hover:text-[#17172c] flex items-center justify-center text-sm cursor-pointer">✕</button>
+        <button type="button" onclick="closeModal()" aria-label="Close" class="w-8 h-8 rounded-full bg-[#f5f6fa] border border-[#e5e7f3] text-[#59617e] hover:text-[#17172c] flex items-center justify-center text-sm cursor-pointer">✕</button>
       </div>
 
-      <form onsubmit="event.preventDefault(); showToast('${t.submitSuccess}'); closeModal();" class="space-y-3">
+      <form id="modal-submit-form" onsubmit="window.handleSubmitAiForm(event)" class="space-y-3">
+        <!-- Honeypot anti-spam -->
+        <input type="text" name="website_hp" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0" />
+
         <div>
           <label class="block text-[11.5px] font-semibold text-[#17172c] mb-1">${t.submitName} *</label>
           <input
             type="text"
+            name="orgName"
             required
             placeholder="${t.submitNamePh}"
             class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3.5 py-2 text-sm text-[#17172c] placeholder:text-[#59617e]/60 focus:outline-none focus:border-[#6336ed]"
           />
         </div>
 
-        <div class="grid grid-cols-2 gap-2">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
           <div>
             <label class="block text-[11.5px] font-semibold text-[#17172c] mb-1">${t.submitCat} *</label>
-            <select class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3 py-2 text-xs text-[#17172c] focus:outline-none focus:border-[#6336ed]">
-              ${cats.map((c) => `<option value="${c.id}">${c.title}</option>`).join('')}
+            <select name="orgCategory" class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3 py-2 text-xs text-[#17172c] focus:outline-none focus:border-[#6336ed]">
+              ${cats.map((c) => `<option value="${c.title}">${c.title}</option>`).join('')}
             </select>
           </div>
           <div>
             <label class="block text-[11.5px] font-semibold text-[#17172c] mb-1">${t.submitSite} *</label>
             <input
               type="text"
+              name="orgDomain"
               required
               placeholder="company.com"
               class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3 py-2 text-xs text-[#17172c] placeholder:text-[#59617e]/60 focus:outline-none focus:border-[#6336ed]"
@@ -282,6 +288,7 @@ const categoriesModalData = categories.map((c) => ({
         <div>
           <label class="block text-[11.5px] font-semibold text-[#17172c] mb-1">${t.submitDesc} *</label>
           <textarea
+            name="orgDesc"
             required
             rows="2"
             placeholder="${t.submitDescPh}"
@@ -290,10 +297,10 @@ const categoriesModalData = categories.map((c) => ({
         </div>
 
         <div>
-          <label class="block text-[11.5px] font-semibold text-[#17172c] mb-1">${t.submitTags} *</label>
+          <label class="block text-[11.5px] font-semibold text-[#17172c] mb-1">${t.submitTags} <span class="text-[#59617e] font-normal">(${isRu ? 'необязательно' : 'optional'})</span></label>
           <input
             type="text"
-            required
+            name="orgStack"
             placeholder="${t.submitTagsPh}"
             class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3.5 py-2 text-xs text-[#17172c] placeholder:text-[#59617e]/60 focus:outline-none focus:border-[#6336ed]"
           />
@@ -303,21 +310,103 @@ const categoriesModalData = categories.map((c) => ({
           <label class="block text-[11.5px] font-semibold text-[#17172c] mb-1">${t.submitEmail} *</label>
           <input
             type="email"
+            name="orgEmail"
             required
             placeholder="${t.submitEmailPh}"
             class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3.5 py-2 text-xs text-[#17172c] placeholder:text-[#59617e]/60 focus:outline-none focus:border-[#6336ed]"
           />
         </div>
 
+        <div id="submit-form-error" class="hidden rounded-lg bg-[#fef2f2] border border-[#fecaca] p-2.5 text-[11.5px] text-[#b91c1c]"></div>
+
         <div class="pt-2">
           <button
             type="submit"
+            id="modal-submit-btn"
             class="w-full cta py-2.5 text-sm font-bold justify-center"
           >
             ${t.submitBtn} &rarr;
           </button>
         </div>
       </form>
+      <div id="modal-submit-ready" class="hidden space-y-3 text-center py-2"></div>
     `);
+  };
+
+  window.handleSubmitAiForm = function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const isRu = window.__LANG === 'ru';
+    const errBox = document.getElementById('submit-form-error');
+    const readyBox = document.getElementById('modal-submit-ready');
+
+    const fd = new FormData(form);
+    if (fd.get('website_hp')) return; // Honeypot triggered
+
+    const name = String(fd.get('orgName') || '').trim();
+    const category = String(fd.get('orgCategory') || '').trim();
+    const rawDomain = String(fd.get('orgDomain') || '').trim();
+    const desc = String(fd.get('orgDesc') || '').trim();
+    const stack = String(fd.get('orgStack') || '').trim() || 'Not specified';
+    const email = String(fd.get('orgEmail') || '').trim();
+
+    const normDomain = rawDomain.toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').split('/')[0];
+    if (!normDomain || !normDomain.includes('.')) {
+      if (errBox) {
+        errBox.textContent = isRu ? 'Укажите корректный домен сайта (например, company.com).' : 'Please enter a valid website domain (e.g., company.com).';
+        errBox.classList.remove('hidden');
+      }
+      return;
+    }
+
+    // Duplicate domain check against catalog
+    const duplicate = window.__AGENCIES.find((a) => {
+      const d = a.website.toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').split('/')[0];
+      return d === normDomain;
+    });
+
+    if (duplicate) {
+      if (errBox) {
+        errBox.innerHTML = isRu
+          ? `Компания с доменом <strong>${normDomain}</strong> уже есть в каталоге (<a href="${duplicate.profileUrl}" class="underline font-bold">${duplicate.name}</a>). Используйте кнопку «Подтвердить профиль» на её странице.`
+          : `An organization with domain <strong>${normDomain}</strong> is already listed (<a href="${duplicate.profileUrl}" class="underline font-bold">${duplicate.name}</a>). Use "Claim Profile" on its page.`;
+        errBox.classList.remove('hidden');
+      }
+      return;
+    }
+
+    if (errBox) errBox.classList.add('hidden');
+
+    const mailSubject = encodeURIComponent(`AITopIndex Submission [Pending]: ${name} (${normDomain})`);
+    const mailBody = encodeURIComponent(
+      `Organization: ${name}\nDomain: https://${normDomain}\nCategory: ${category}\nTech Stack: ${stack}\nWork Email: ${email}\n\nDescription:\n${desc}`
+    );
+    const tgText = encodeURIComponent(
+      `🚀 Заявка в AITopIndex [Pending]:\nКомпания: ${name}\nДомен: https://${normDomain}\nКатегория: ${category}\nСтек: ${stack}\nEmail: ${email}\nОписание: ${desc}`
+    );
+
+    form.classList.add('hidden');
+    if (readyBox) {
+      readyBox.innerHTML = `
+        <div class="w-10 h-10 rounded-full bg-[#f0edff] text-[#6336ed] flex items-center justify-center mx-auto text-lg font-bold">✓</div>
+        <h4 class="text-sm font-bold text-[#17172c]">
+          ${isRu ? 'Данные проверены и готовы к отправке редакции' : 'Application Validated & Ready for Editorial Review'}
+        </h4>
+        <p class="text-xs text-[#59617e] leading-relaxed">
+          ${isRu
+            ? 'Поскольку сайт работает на статическом хостинге без прямой БД, отправьте сформированную заявку редактору по email или в Telegram для ручной проверки и присвоения статуса.'
+            : 'Our static directory routes submissions directly to our editorial verification queue. Send your validated application via email or Telegram:'}
+        </p>
+        <div class="flex flex-col sm:flex-row gap-2 pt-2">
+          <a href="mailto:submit@aitopindex.com?subject=${mailSubject}&body=${mailBody}" class="cta flex-1 text-xs py-2.5 justify-center">
+            ${isRu ? 'Отправить на Email ↗' : 'Send via Email ↗'}
+          </a>
+          <a href="https://t.me/aitopindex?text=${tgText}" target="_blank" rel="noopener noreferrer" class="cta secondary flex-1 text-xs py-2.5 justify-center">
+            ${isRu ? 'Отправить в Telegram ↗' : 'Send via Telegram ↗'}
+          </a>
+        </div>
+      `;
+      readyBox.classList.remove('hidden');
+    }
   };
 </script>
