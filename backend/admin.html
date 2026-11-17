@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AITopIndex Admin — Moderation & Leads</title>
+  <style>
+    :root { --bg:#fbfcff; --card:#ffffff; --ink:#17172c; --sub:#59617e; --purple:#6336ed; --line:#e5e7f3; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: Inter, system-ui, sans-serif; background:var(--bg); color:var(--ink); font-size:13px; }
+    .wrap { max-width:1280px; margin:0 auto; padding:24px; }
+    .topbar { background:#fff; border-bottom:1px solid var(--line); padding:14px 24px; display:flex; align-items:center; justify-content:space-between; }
+    .brand { font-weight:800; font-size:16px; color:var(--purple); }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:18px; box-shadow:0 4px 14px rgba(23,23,44,0.04); }
+    .grid-4 { display:grid; grid-template-columns:repeat(auto-fit, minmax(180px,1fr)); gap:14px; margin-bottom:20px; }
+    .stat-num { font-size:24px; font-weight:800; color:var(--purple); margin-top:4px; }
+    .tabs { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+    .tab { padding:8px 14px; border-radius:8px; border:1px solid var(--line); background:#fff; cursor:pointer; font-weight:600; color:var(--sub); }
+    .tab.active { background:#f0edff; border-color:var(--purple); color:var(--purple); }
+    table { width:100%; border-collapse:collapse; font-size:12px; }
+    th, td { text-align:left; padding:10px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
+    th { font-size:11px; text-transform:uppercase; color:var(--sub); background:#f8f9fe; }
+    .badge { display:inline-block; padding:3px 8px; border-radius:99px; font-size:10px; font-weight:700; }
+    .badge.pending, .badge.new { background:#fef3c7; color:#b45309; }
+    .badge.approved, .badge.published, .badge.qualified { background:#d1fae5; color:#047857; }
+    .badge.rejected, .badge.spam { background:#fee2e2; color:#b91c1c; }
+    .badge.draft { background:#e0e7ff; color:#4338ca; }
+    .btn { padding:6px 10px; border-radius:6px; border:1px solid var(--line); background:#fff; cursor:pointer; font-size:11px; font-weight:600; }
+    .btn.primary { background:var(--purple); color:#fff; border-color:var(--purple); }
+    .btn.approve { background:#059669; color:#fff; border-color:#059669; }
+    .btn.reject { background:#dc2626; color:#fff; border-color:#dc2626; }
+    input, select { padding:8px 10px; border-radius:8px; border:1px solid var(--line); font-size:13px; width:100%; }
+    .login-box { max-width:360px; margin:80px auto; }
+    .hidden { display:none !important; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">Top Index Admin</div>
+    <div id="user-controls" class="hidden" style="display:flex;gap:10px;align-items:center;">
+      <button class="btn primary" onclick="syncJson()">Sync Published to agencies.json</button>
+      <span id="admin-user-label" style="color:var(--sub);font-weight:600;"></span>
+      <button class="btn" onclick="logout()">Logout</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Login View -->
+    <div id="login-view" class="card login-box">
+      <h2 style="margin-top:0">Admin Sign In</h2>
+      <form onsubmit="handleLogin(event)" style="display:grid;gap:12px;">
+        <div>
+          <label style="font-size:11px;font-weight:700;">Username</label>
+          <input type="text" id="login-user" required autocomplete="username" />
+        </div>
+        <div>
+          <label style="font-size:11px;font-weight:700;">Password</label>
+          <input type="password" id="login-pass" required autocomplete="current-password" />
+        </div>
+        <div id="login-error" style="color:#dc2626;font-size:12px;" class="hidden"></div>
+        <button type="submit" class="btn primary" style="padding:10px;">Sign In</button>
+      </form>
+    </div>
+
+    <!-- Dashboard View -->
+    <div id="admin-view" class="hidden">
+      <div class="grid-4" id="stats-grid"></div>
+
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab('submissions', this)">Listing Submissions</button>
+        <button class="tab" onclick="switchTab('leads', this)">Client Leads (Find Partner)</button>
+        <button class="tab" onclick="switchTab('companies', this)">Companies &amp; Drafts</button>
+        <button class="tab" onclick="switchTab('logs', this)">Activity Log</button>
+      </div>
+
+      <div class="card" id="panel-content">Loading...</div>
+    </div>
+  </main>
+
+  <script>
+    let activeTab = 'submissions';
+
+    function esc(s) {
+      return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    async function checkAuth() {
+      const r = await fetch('/api/admin/me');
+      if (r.ok) {
+        const d = await r.json();
+        document.getElementById('login-view').classList.add('hidden');
+        document.getElementById('admin-view').classList.remove('hidden');
+        document.getElementById('user-controls').classList.remove('hidden');
+        document.getElementById('admin-user-label').textContent = d.admin.username;
+        loadDashboard();
+        loadTab();
+      }
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const err = document.getElementById('login-error');
+      err.classList.add('hidden');
+      const r = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: document.getElementById('login-user').value,
+          password: document.getElementById('login-pass').value,
+        }),
+      });
+      if (!r.ok) {
+        const d = await r.json().catch(() => ({}));
+        err.textContent = d.error || 'Login failed';
+        err.classList.remove('hidden');
+        return;
+      }
+      checkAuth();
+    }
+
+    async function logout() {
+      await fetch('/api/admin/logout', { method: 'POST' });
+      location.reload();
+    }
+
+    async function loadDashboard() {
+      const r = await fetch('/api/admin/dashboard');
+      if (!r.ok) return;
+      const d = await r.json();
+      document.getElementById('stats-grid').innerHTML = `
+        <div class="card"><div>Published Companies</div><div class="stat-num">${d.publishedCompanies}</div></div>
+        <div class="card"><div>Draft Candidates</div><div class="stat-num">${d.draftCompanies}</div></div>
+        <div class="card"><div>Pending Submissions</div><div class="stat-num">${d.pendingSubmissions}</div></div>
+        <div class="card"><div>Active Client Leads</div><div class="stat-num">${d.newLeads}</div></div>
+      `;
+    }
+
+    function switchTab(tab, btn) {
+      activeTab = tab;
+      document.querySelectorAll('.tab').forEach(b => b.classList.toggle('active', b === btn));
+      loadTab();
+    }
+
+    async function loadTab() {
+      const el = document.getElementById('panel-content');
+      el.textContent = 'Loading...';
+      if (activeTab === 'submissions') {
+        const d = await (await fetch('/api/admin/submissions')).json();
+        if (!d.submissions.length) { el.innerHTML = '<p>No submissions yet.</p>'; return; }
+        el.innerHTML = `<table>
+          <thead><tr><th>ID</th><th>Organization</th><th>Domain</th><th>Category</th><th>Email</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody>${d.submissions.map(s => `
+            <tr>
+              <td><strong>${esc(s.submission_uid)}</strong><br><small>${esc(s.created_at)}</small></td>
+              <td><strong>${esc(s.organization_name)}</strong><br><small>${esc(s.description)}</small></td>
+              <td><a href="${esc(s.website_url)}" target="_blank">${esc(s.normalized_domain)}</a></td>
+              <td>${esc(s.category_id)}</td>
+              <td>${esc(s.work_email)}</td>
+              <td><span class="badge ${esc(s.status)}">${esc(s.status)}</span></td>
+              <td style="display:flex;gap:4px;flex-wrap:wrap;">
+                <button class="btn approve" onclick="moderateSub(${s.id}, 'approved')">Approve</button>
+                <button class="btn reject" onclick="moderateSub(${s.id}, 'rejected')">Reject</button>
+                <button class="btn" onclick="moderateSub(${s.id}, 'duplicate')">Duplicate</button>
+              </td>
+            </tr>
+          `).join('')}</tbody>
+        </table>`;
+      } else if (activeTab === 'leads') {
+        const d = await (await fetch('/api/admin/leads')).json();
+        if (!d.leads.length) { el.innerHTML = '<p>No client leads yet.</p>'; return; }
+        el.innerHTML = `<table>
+          <thead><tr><th>ID</th><th>Client Company</th><th>Contact</th><th>Solution</th><th>Budget</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody>${d.leads.map(l => `
+            <tr>
+              <td><strong>${esc(l.lead_uid)}</strong></td>
+              <td><strong>${esc(l.company_name)}</strong><br><small>${esc(l.country)} · ${esc(l.industry)}</small></td>
+              <td>${esc(l.contact_name)}<br><small>${esc(l.work_email)}</small></td>
+              <td><strong>${esc(l.required_solution)}</strong><br><small>${esc(l.project_description)}</small></td>
+              <td>${esc(l.estimated_budget || '—')}</td>
+              <td><span class="badge ${esc(l.status)}">${esc(l.status)}</span></td>
+              <td>
+                <select onchange="updateLead(${l.id}, this.value)">
+                  ${['new','qualified','in_progress','closed_won','closed_lost','spam'].map(st => `<option value="${st}" ${l.status===st?'selected':''}>${st}</option>`).join('')}
+                </select>
+              </td>
+            </tr>
+          `).join('')}</tbody>
+        </table>`;
+      } else if (activeTab === 'companies') {
+        const d = await (await fetch('/api/admin/companies')).json();
+        el.innerHTML = `<p style="margin-top:0">Total records in DB: <strong>${d.companies.length}</strong></p>
+        <table>
+          <thead><tr><th>Name</th><th>Domain</th><th>Type</th><th>Verification</th><th>Publication</th></tr></thead>
+          <tbody>${d.companies.slice(0, 100).map(c => `
+            <tr>
+              <td><strong>${esc(c.name)}</strong></td>
+              <td>${esc(c.normalized_domain)}</td>
+              <td>${esc(c.entity_type)}</td>
+              <td>${esc(c.verification_status)}</td>
+              <td><span class="badge ${esc(c.publication_status)}">${esc(c.publication_status)}</span></td>
+            </tr>
+          `).join('')}</tbody>
+        </table>`;
+      } else if (activeTab === 'logs') {
+        const d = await (await fetch('/api/admin/audit-logs')).json();
+        el.innerHTML = `<table>
+          <thead><tr><th>Time</th><th>Actor</th><th>Action</th><th>Entity</th><th>Details</th></tr></thead>
+          <tbody>${d.logs.map(l => `
+            <tr>
+              <td>${esc(l.created_at)}</td>
+              <td>${esc(l.actor)}</td>
+              <td><strong>${esc(l.action)}</strong></td>
+              <td>${esc(l.entity_type)}:${esc(l.entity_id)}</td>
+              <td><small>${esc(l.details_json)}</small></td>
+            </tr>
+          `).join('')}</tbody>
+        </table>`;
+      }
+    }
+
+    async function moderateSub(id, status) {
+      await fetch(`/api/admin/submissions/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status }),
+      });
+      loadDashboard();
+      loadTab();
+    }
+
+    async function updateLead(id, status) {
+      await fetch(`/api/admin/leads/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status }),
+      });
+      loadDashboard();
+    }
+
+    async function syncJson() {
+      const r = await fetch('/api/admin/sync-json', { method: 'POST' });
+      const d = await r.json();
+      alert(d.ok ? `Synced ${d.exportedCount} published companies to src/data/agencies.json` : 'Sync failed');
+    }
+
+    checkAuth();
+  </script>
+</body>
+</html>
