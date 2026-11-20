@@ -72,12 +72,43 @@ const { lang } = Astro.props;
       </div>
     </div>
 
+    <!-- TopIndex Network Cross-Linking -->
+    <div class="mt-6 pt-4 border-t border-[#eaeaf3] flex flex-wrap items-center justify-between gap-3">
+      <span class="text-[10px] font-extrabold uppercase tracking-wider text-[#59617e]">
+        TOPINDEX NETWORK
+      </span>
+      <nav aria-label="TopIndex Network" class="flex flex-wrap items-center gap-4 text-[11px]">
+        <a
+          href="https://bakutopindex.com"
+          target="_blank"
+          rel="noopener"
+          class="!inline !m-0 text-[#4d5771] hover:text-[#6336ed] font-medium transition-colors"
+        >
+          Baku Top Index
+        </a>
+        <span class="text-[#cbd1e2] select-none">•</span>
+        <a
+          href="https://cyprustopindex.com"
+          target="_blank"
+          rel="noopener"
+          class="!inline !m-0 text-[#4d5771] hover:text-[#6336ed] font-medium transition-colors"
+        >
+          Cyprus Top Index
+        </a>
+        <span class="text-[#cbd1e2] select-none">•</span>
+        <span class="inline-flex items-center gap-1.5 font-bold text-[#6336ed] bg-[#f0edff] border border-[#ded6ff] px-2.5 py-0.5 rounded-full text-[10.5px]">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#6336ed]"></span>
+          AI Top Index
+        </span>
+      </nav>
+    </div>
+
     <!-- Bottom Legal Bar -->
-    <div class="bottom">
+    <div class="bottom" style="margin-top: 14px;">
       <span>© 2024–2026 Top Index Research. Global AI Ranking Platform. All rights reserved.</span>
       <div class="flex items-center gap-4">
-        <a href={`/${lang}/privacy/`} class="hover:underline">{lang === 'ru' ? 'Конфиденциальность' : 'Privacy'}</a>
-        <a href={`/${lang}/terms/`} class="hover:underline">{lang === 'ru' ? 'Условия' : 'Terms'}</a>
+        <a href={`/${lang}/privacy/`} class="hover:underline !inline !m-0">{lang === 'ru' ? 'Конфиденциальность' : 'Privacy'}</a>
+        <a href={`/${lang}/terms/`} class="hover:underline !inline !m-0">{lang === 'ru' ? 'Условия' : 'Terms'}</a>
         <span class="text-[#8186a0]">v3.2</span>
       </div>
     </div>

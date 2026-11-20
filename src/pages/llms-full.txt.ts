@@ -39,6 +39,11 @@ All listings on AITopIndex are verified according to our open framework:
 2. Verified track record in deploying production LLMs, voice robots, n8n/Make workflows, RAG knowledge bases, or generative video.
 3. No hallucinated phone contacts or synthetic credentials.
 4. Independent scoring based on tool complexity, client case studies, and enterprise readiness.
+
+## TopIndex Network (Sister Directories)
+- Baku Top Index (https://bakutopindex.com) — Verified business & service directory of Baku, Azerbaijan.
+- Cyprus Top Index (https://cyprustopindex.com) — Verified business & service directory of Cyprus (Limassol, Nicosia, Larnaca, Paphos).
+- AI Top Index (https://aitopindex.com) — Curated directory of AI tools and services.
 `;
 
   return new Response(content, {

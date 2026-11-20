@@ -33,6 +33,11 @@ ${agenciesFor(c.id)
 - Agencies are verified by official corporate domains, published case studies, multi-agent stack depth, and public client deliverables.
 - To submit an agency for editorial review: ${SITE}/en/submit/
 - Full dataset with all ${agencies.length} companies available at: ${SITE}/llms-full.txt
+
+## TopIndex Network (Sister Directories)
+- Baku Top Index (https://bakutopindex.com) — Verified business & service directory of Baku, Azerbaijan.
+- Cyprus Top Index (https://cyprustopindex.com) — Verified business & service directory of Cyprus (Limassol, Nicosia, Larnaca, Paphos).
+- AI Top Index (https://aitopindex.com) — Curated directory of AI tools and services.
 `;
 
   return new Response(content, {
