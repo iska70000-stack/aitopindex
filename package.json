@@ -11,7 +11,8 @@
     "preview": "astro preview",
     "check": "astro check",
     "verify:links": "node scripts/auto-update.mjs --dry-run --no-ping",
-    "auto-update": "node scripts/auto-update.mjs"
+    "auto-update": "node scripts/auto-update.mjs",
+    "indexnow": "node scripts/ping-indexnow.mjs"
   },
   "engines": {
     "node": ">=22.12.0"
