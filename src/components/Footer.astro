@@ -1,11 +1,14 @@
 ---
-import { BRAND, categories, type Lang } from '../lib/data';
+import { categories, type Lang } from '../lib/data';
 
 interface Props {
   lang: Lang;
+  alternatePaths?: { en: string; ru: string };
 }
 
-const { lang } = Astro.props;
+const { lang, alternatePaths } = Astro.props;
+const enPath = alternatePaths?.en || '/en/';
+const ruPath = alternatePaths?.ru || '/ru/';
 ---
 
 <footer class="footer">
@@ -27,7 +30,7 @@ const { lang } = Astro.props;
       <!-- Col 2: Explore -->
       <div>
         <h4>{lang === 'ru' ? 'Навигация' : 'Explore'}</h4>
-        <a href={`/${lang}/#rankings`}>{lang === 'ru' ? 'Рейтинг компаний' : 'Rankings'}</a>
+        <a href={`/${lang}/#rankings`}>{lang === 'ru' ? 'Каталог компаний' : 'Directory'}</a>
         <a href={`/${lang}/#specialists`}>{lang === 'ru' ? 'ИИ-Специалисты' : 'Specialists'}</a>
         <a href={`/${lang}/#categories-section`}>{lang === 'ru' ? 'Сферы внедрения' : 'Categories'}</a>
         <a href={`/${lang}/methodology/`}>{lang === 'ru' ? 'Методология аудита' : 'Methodology'}</a>
@@ -65,51 +68,34 @@ const { lang } = Astro.props;
           <a href={`/${lang}/submit/`} class="cta text-xs py-2 px-3 justify-center">
             {lang === 'ru' ? 'Подать заявку →' : 'Submit Organization →'}
           </a>
-          <a href="mailto:submit@aitopindex.com" class="text-[11px] font-mono text-[#6336ed] hover:underline">
+          <a href="mailto:submit@aitopindex.com" class="text-[12px] font-mono text-[#6336ed] hover:underline">
             submit@aitopindex.com
           </a>
         </div>
       </div>
     </div>
 
-    <!-- TopIndex Network Cross-Linking -->
-    <div class="mt-6 pt-4 border-t border-[#eaeaf3] flex flex-wrap items-center justify-between gap-3">
-      <span class="text-[10px] font-extrabold uppercase tracking-wider text-[#59617e]">
-        TOPINDEX NETWORK
-      </span>
-      <nav aria-label="TopIndex Network" class="flex flex-wrap items-center gap-4 text-[11px]">
-        <a
-          href="https://bakutopindex.com"
-          target="_blank"
-          rel="noopener"
-          class="!inline !m-0 text-[#4d5771] hover:text-[#6336ed] font-medium transition-colors"
-        >
-          Baku Top Index
-        </a>
-        <span class="text-[#cbd1e2] select-none">•</span>
-        <a
-          href="https://cyprustopindex.com"
-          target="_blank"
-          rel="noopener"
-          class="!inline !m-0 text-[#4d5771] hover:text-[#6336ed] font-medium transition-colors"
-        >
-          Cyprus Top Index
-        </a>
-        <span class="text-[#cbd1e2] select-none">•</span>
-        <span class="inline-flex items-center gap-1.5 font-bold text-[#6336ed] bg-[#f0edff] border border-[#ded6ff] px-2.5 py-0.5 rounded-full text-[10.5px]">
-          <span class="w-1.5 h-1.5 rounded-full bg-[#6336ed]"></span>
-          AI Top Index
-        </span>
-      </nav>
-    </div>
-
-    <!-- Bottom Legal Bar -->
-    <div class="bottom" style="margin-top: 14px;">
-      <span>© 2024–2026 Top Index Research. Global AI Ranking Platform. All rights reserved.</span>
-      <div class="flex items-center gap-4">
+    <!-- Bottom Legal Bar + Language Switcher -->
+    <div class="bottom flex-wrap gap-3">
+      <span>© 2024-2026 Top Index Research.</span>
+      <div class="flex flex-wrap items-center gap-4">
+        <div class="inline-flex items-center gap-1" role="group" aria-label={lang === 'ru' ? 'Выбор языка' : 'Language switcher'}>
+          <a
+            href={enPath}
+            class={`!inline !m-0 px-1.5 py-0.5 rounded text-[11.5px] font-semibold transition-colors ${lang === 'en' ? 'text-[#6336ed] font-bold bg-[#f0edff] border border-[#ded6ff]' : 'text-[#59617e] hover:text-[#17172c]'}`}
+          >
+            EN
+          </a>
+          <span class="text-[#cbd1e2] select-none">|</span>
+          <a
+            href={ruPath}
+            class={`!inline !m-0 px-1.5 py-0.5 rounded text-[11.5px] font-semibold transition-colors ${lang === 'ru' ? 'text-[#6336ed] font-bold bg-[#f0edff] border border-[#ded6ff]' : 'text-[#59617e] hover:text-[#17172c]'}`}
+          >
+            RU
+          </a>
+        </div>
         <a href={`/${lang}/privacy/`} class="hover:underline !inline !m-0">{lang === 'ru' ? 'Конфиденциальность' : 'Privacy'}</a>
         <a href={`/${lang}/terms/`} class="hover:underline !inline !m-0">{lang === 'ru' ? 'Условия' : 'Terms'}</a>
-        <span class="text-[#8186a0]">v3.2</span>
       </div>
     </div>
   </div>

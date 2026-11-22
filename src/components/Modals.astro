@@ -174,7 +174,11 @@ const categoriesModalData = categories.map((c) => ({
         <div>
           <div class="flex items-center gap-1.5">
             <h3 class="text-[16px] font-bold text-[#17172c]">${agency.name}</h3>
-            <span class="text-[#147dff] text-sm">●</span>
+            <span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#e8f2ff] text-[#147dff] shrink-0" title="${window.__LANG === 'ru' ? 'Домен подтверждён' : 'Verified domain'}">
+              <svg class="w-2.5 h-2.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M16.704 5.29a1 1 0 0 1 .006 1.414l-7.25 7.3a1 1 0 0 1-1.42 0l-3.75-3.77a1 1 0 1 1 1.42-1.41l3.04 3.06 6.54-6.59a1 1 0 0 1 1.414-.004Z" clip-rule="evenodd" />
+              </svg>
+            </span>
           </div>
           <p class="text-[12px] text-[#59617e] mt-0.5">${t.contactSub}</p>
         </div>
@@ -246,7 +250,7 @@ const categoriesModalData = categories.map((c) => ({
       <div class="flex items-center justify-between mb-4 border-b border-[#e5e7f3] pb-3">
         <div>
           <h3 class="text-[16px] font-bold text-[#17172c]">${t.submitTitle}</h3>
-          <p class="text-[12px] text-[#59617e] mt-0.5">${isRu ? 'Бесплатная проверка домена и включение в каталог (статус Pending)' : 'Domain audit and catalog inclusion (initial Pending status)'}</p>
+          <p class="text-[12px] text-[#59617e] mt-0.5">${isRu ? 'Бесплатная проверка домена и публикация после модерации' : 'Free domain verification and listing after review'}</p>
         </div>
         <button type="button" onclick="closeModal()" aria-label="Close" class="w-8 h-8 rounded-full bg-[#f5f6fa] border border-[#e5e7f3] text-[#59617e] hover:text-[#17172c] flex items-center justify-center text-sm cursor-pointer">✕</button>
       </div>
@@ -285,12 +289,48 @@ const categoriesModalData = categories.map((c) => ({
           </div>
         </div>
 
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+          <div>
+            <label class="block text-[11.5px] font-semibold text-[#17172c] mb-1">${isRu ? 'Страна' : 'Country'} *</label>
+            <input
+              type="text"
+              name="orgCountry"
+              required
+              placeholder="${isRu ? 'США, ОАЭ, РФ...' : 'USA, UK, UAE...'}"
+              class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3 py-2 text-xs text-[#17172c] placeholder:text-[#59617e]/60 focus:outline-none focus:border-[#6336ed]"
+            />
+          </div>
+          <div>
+            <label class="block text-[11.5px] font-semibold text-[#17172c] mb-1">${isRu ? 'Тип организации' : 'Organization Type'} *</label>
+            <select name="orgType" required class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3 py-2 text-xs text-[#17172c] focus:outline-none focus:border-[#6336ed]">
+              <option value="integrator">${isRu ? 'Интегратор' : 'Integrator'}</option>
+              <option value="platform">${isRu ? 'Платформа' : 'Platform'}</option>
+              <option value="studio">${isRu ? 'Студия' : 'Studio'}</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-[11.5px] font-semibold text-[#17172c] mb-1">${isRu ? 'Бюджет (USD)' : 'Min Budget (USD)'} *</label>
+            <select name="orgBudget" required class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3 py-2 text-xs text-[#17172c] focus:outline-none focus:border-[#6336ed]">
+              <option value="<$3,000">&lt; $3,000</option>
+              <option value="$3,000–$10,000">$3,000 – $10,000</option>
+              <option value="$10,000–$25,000">$10,000 – $25,000</option>
+              <option value="$25,000+">$25,000+</option>
+              <option value="Enterprise">${isRu ? 'Enterprise / по запросу' : 'Enterprise / by quote'}</option>
+            </select>
+          </div>
+        </div>
+
         <div>
-          <label class="block text-[11.5px] font-semibold text-[#17172c] mb-1">${t.submitDesc} *</label>
+          <div class="flex items-center justify-between mb-1">
+            <label class="block text-[11.5px] font-semibold text-[#17172c]">${t.submitDesc} *</label>
+            <span id="orgDescCounter" class="text-[11px] font-mono text-[#59617e]">0 / 160</span>
+          </div>
           <textarea
             name="orgDesc"
             required
             rows="2"
+            maxlength="160"
+            oninput="const c = document.getElementById('orgDescCounter'); if(c) c.textContent = this.value.length + ' / 160';"
             placeholder="${t.submitDescPh}"
             class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3.5 py-2 text-xs text-[#17172c] placeholder:text-[#59617e]/60 focus:outline-none focus:border-[#6336ed]"
           ></textarea>
@@ -327,6 +367,9 @@ const categoriesModalData = categories.map((c) => ({
           >
             ${t.submitBtn} &rarr;
           </button>
+          <p class="text-center text-[11.5px] text-[#59617e] mt-2">
+            ${isRu ? 'Проверка занимает до 24 часов' : 'Review takes up to 24 hours'}
+          </p>
         </div>
       </form>
       <div id="modal-submit-ready" class="hidden space-y-3 text-center py-2"></div>
@@ -348,6 +391,9 @@ const categoriesModalData = categories.map((c) => ({
       organization_name: String(fd.get('orgName') || '').trim(),
       category_id: String(fd.get('orgCategory') || '').trim(),
       website_url: String(fd.get('orgDomain') || '').trim(),
+      country: String(fd.get('orgCountry') || '').trim(),
+      entity_type: String(fd.get('orgType') || 'integrator').trim(),
+      min_budget_usd: String(fd.get('orgBudget') || '').trim(),
       description: String(fd.get('orgDesc') || '').trim(),
       tech_stack: String(fd.get('orgStack') || '').trim(),
       work_email: String(fd.get('orgEmail') || '').trim(),

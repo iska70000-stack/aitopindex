@@ -4,18 +4,21 @@ import type { Lang } from '../lib/data';
 interface Props {
   lang: Lang;
   currentPath?: string;
+  alternatePaths?: { en: string; ru: string };
 }
 
-const { lang, currentPath = `/${lang}/` } = Astro.props;
+const { lang, currentPath = `/${lang}/`, alternatePaths } = Astro.props;
 
-// Determine switch links
-const enPath = currentPath.startsWith('/ru/')
-  ? currentPath.replace(/^\/ru\//, '/en/')
-  : currentPath === '/ru' ? '/en/' : currentPath;
+// Preserve exact page/category when switching language
+const enPath = alternatePaths?.en
+  || (currentPath.startsWith('/ru/')
+    ? currentPath.replace(/^\/ru\//, '/en/')
+    : currentPath === '/ru' ? '/en/' : currentPath);
 
-const ruPath = currentPath.startsWith('/en/')
-  ? currentPath.replace(/^\/en\//, '/ru/')
-  : currentPath === '/en' ? '/ru/' : currentPath;
+const ruPath = alternatePaths?.ru
+  || (currentPath.startsWith('/en/')
+    ? currentPath.replace(/^\/en\//, '/ru/')
+    : currentPath === '/en' ? '/ru/' : currentPath);
 ---
 
 <header class="topbar">
@@ -29,10 +32,7 @@ const ruPath = currentPath.startsWith('/en/')
     <!-- Desktop & Mobile Navigation Links -->
     <nav class="navigation" id="main-nav" aria-label="Main navigation">
       <a href={`/${lang}/#rankings`}>
-        {lang === 'ru' ? 'Рейтинг' : 'Rankings'}
-      </a>
-      <a href={`/${lang}/#rankings`}>
-        {lang === 'ru' ? 'Компании' : 'Companies'}
+        {lang === 'ru' ? 'Каталог' : 'Directory'}
       </a>
       <a href={`/${lang}/#specialists`}>
         {lang === 'ru' ? 'Специалисты' : 'Specialists'}
@@ -57,27 +57,29 @@ const ruPath = currentPath.startsWith('/en/')
       <button
         type="button"
         class="plain-btn login"
-        aria-label="Focus search"
+        aria-label={lang === 'ru' ? 'Поиск' : 'Focus search'}
         id="nav-search"
         onclick="const s = document.getElementById('search'); if(s) { s.focus(); s.scrollIntoView({behavior: 'smooth', block: 'center'}); }"
       >
         <svg class="icon"><use href="#i-search"/></svg>
       </button>
 
-      <!-- Language Switcher EN | RU -->
-      <div class="language">
+      <!-- Language Switcher EN | RU (always visible on desktop & mobile) -->
+      <div class="language" role="group" aria-label={lang === 'ru' ? 'Выбор языка' : 'Language switcher'}>
         <a
           href={enPath}
-          class={`px-1.5 py-0.5 rounded text-[11.5px] font-semibold transition-colors ${lang === 'en' ? 'text-[#6336ed] font-bold bg-[#f0edff]' : 'text-[#59617e] hover:text-[#17172c]'}`}
+          class={`px-1.5 py-1 rounded text-[12px] font-semibold transition-colors ${lang === 'en' ? 'text-[#6336ed] font-bold bg-[#f0edff] border border-[#ded6ff]' : 'text-[#59617e] hover:text-[#17172c]'}`}
           aria-label="Switch to English"
+          aria-current={lang === 'en' ? 'page' : undefined}
         >
           EN
         </a>
         <span class="text-[#cbd1e2] select-none text-[11px]">|</span>
         <a
           href={ruPath}
-          class={`px-1.5 py-0.5 rounded text-[11.5px] font-semibold transition-colors ${lang === 'ru' ? 'text-[#6336ed] font-bold bg-[#f0edff]' : 'text-[#59617e] hover:text-[#17172c]'}`}
+          class={`px-1.5 py-1 rounded text-[12px] font-semibold transition-colors ${lang === 'ru' ? 'text-[#6336ed] font-bold bg-[#f0edff] border border-[#ded6ff]' : 'text-[#59617e] hover:text-[#17172c]'}`}
           aria-label="Переключить на русский"
+          aria-current={lang === 'ru' ? 'page' : undefined}
         >
           RU
         </a>
@@ -93,34 +95,74 @@ const ruPath = currentPath.startsWith('/en/')
         {lang === 'ru' ? 'Добавить ИИ →' : 'Get Listed →'}
       </button>
 
-      <!-- Mobile Hamburger Button -->
+      <!-- Mobile Hamburger / Close Button -->
       <button
         type="button"
         class="plain-btn hamburger"
         id="menu-toggle"
         aria-controls="main-nav"
         aria-expanded="false"
-        aria-label="Open menu"
+        aria-label={lang === 'ru' ? 'Открыть меню' : 'Open menu'}
       >
-        ☰
+        <span id="menu-icon-open" aria-hidden="true">☰</span>
+        <span id="menu-icon-close" class="hidden" aria-hidden="true">✕</span>
       </button>
     </div>
   </div>
 </header>
 
-<script is:inline>
+<!-- Mobile Navigation Backdrop -->
+<div
+  id="mobile-nav-backdrop"
+  class="hidden fixed inset-0 z-30 bg-[#17172c]/50 backdrop-blur-[2px]"
+  aria-hidden="true"
+></div>
+
+<script is:inline define:vars={{ lang }}>
   const menuToggle = document.getElementById('menu-toggle');
   const mainNav = document.getElementById('main-nav');
+  const backdrop = document.getElementById('mobile-nav-backdrop');
+  const iconOpen = document.getElementById('menu-icon-open');
+  const iconClose = document.getElementById('menu-icon-close');
+
+  function setMenuState(opened) {
+    if (!mainNav || !menuToggle) return;
+    mainNav.classList.toggle('open', opened);
+    menuToggle.setAttribute('aria-expanded', String(opened));
+    menuToggle.setAttribute(
+      'aria-label',
+      opened
+        ? (lang === 'ru' ? 'Закрыть меню' : 'Close menu')
+        : (lang === 'ru' ? 'Открыть меню' : 'Open menu')
+    );
+    if (iconOpen && iconClose) {
+      iconOpen.classList.toggle('hidden', opened);
+      iconClose.classList.toggle('hidden', !opened);
+    }
+    if (backdrop) {
+      backdrop.classList.toggle('hidden', !opened);
+    }
+    document.body.style.overflow = opened ? 'hidden' : '';
+  }
+
   if (menuToggle && mainNav) {
     menuToggle.addEventListener('click', () => {
-      const opened = mainNav.classList.toggle('open');
-      menuToggle.setAttribute('aria-expanded', String(opened));
+      const willOpen = !mainNav.classList.contains('open');
+      setMenuState(willOpen);
     });
+
+    if (backdrop) {
+      backdrop.addEventListener('click', () => setMenuState(false));
+    }
+
     mainNav.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => {
-        mainNav.classList.remove('open');
-        menuToggle.setAttribute('aria-expanded', 'false');
-      });
+      link.addEventListener('click', () => setMenuState(false));
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && mainNav.classList.contains('open')) {
+        setMenuState(false);
+      }
     });
   }
 </script>

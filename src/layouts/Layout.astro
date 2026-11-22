@@ -131,7 +131,7 @@ const baseJsonLd = {
     </svg>
 
     <!-- Header Navigation -->
-    <Header lang={lang} currentPath={canonicalPath} />
+    <Header lang={lang} currentPath={canonicalPath} alternatePaths={alternatePaths} />
 
     <!-- Main Content Slot -->
     <main class="w-full">
@@ -139,24 +139,9 @@ const baseJsonLd = {
     </main>
 
     <!-- Footer -->
-    <Footer lang={lang} />
+    <Footer lang={lang} alternatePaths={alternatePaths} />
 
     <!-- Modals & Bottom Sheets (Contact, Cases, Submit AI, Toasts) -->
     <Modals lang={lang} />
-
-    <!-- Mobile Sticky CTA Banner -->
-    <aside class="mobile-cta" aria-label="Mobile Call to Action">
-      <div>
-        <strong>{lang === 'ru' ? 'Вступить в экосистему ИИ' : 'Join the Global AI Ecosystem'}</strong>
-        <small>{lang === 'ru' ? 'Добавьте компанию, получите охват по всему миру.' : 'Get listed. Gain visibility worldwide.'}</small>
-      </div>
-      <button
-        type="button"
-        class="cta"
-        onclick="if(typeof window.openSubmitAiModal==='function'){window.openSubmitAiModal();}else{window.location.href=`/${lang}/submit/`;}"
-      >
-        {lang === 'ru' ? 'Подать заявку →' : 'Get Listed →'}
-      </button>
-    </aside>
   </body>
 </html>

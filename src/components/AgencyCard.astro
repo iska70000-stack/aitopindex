@@ -63,24 +63,32 @@ const entityLabel = agency.entityType === 'platform'
               <a href={`/${lang}/agency/${agency.id}/`}>{agency.name}</a>
             </h2>
             {agency.status === 'verified' && (
-              <span class="text-[#147dff] text-xs shrink-0" title={lang === 'ru' ? 'Домен и сведения проверены' : 'Verified domain & listing'}>●</span>
+              <span
+                class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#e8f2ff] text-[#147dff] shrink-0"
+                title={lang === 'ru' ? 'Домен подтверждён' : 'Verified domain'}
+                aria-label={lang === 'ru' ? 'Домен подтверждён' : 'Verified domain'}
+              >
+                <svg class="w-2.5 h-2.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M16.704 5.29a1 1 0 0 1 .006 1.414l-7.25 7.3a1 1 0 0 1-1.42 0l-3.75-3.77a1 1 0 1 1 1.42-1.41l3.04 3.06 6.54-6.59a1 1 0 0 1 1.414-.004Z" clip-rule="evenodd" />
+                </svg>
+              </span>
             )}
           </div>
 
-          <span class="shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#f5f6fa] border border-[#e5e7f3] text-[#49506c]">
+          <span class="shrink-0 text-[10.5px] font-semibold px-2 py-0.5 rounded-full bg-[#f5f6fa] border border-[#e5e7f3] text-[#49506c]">
             {entityLabel}
           </span>
         </div>
 
         <!-- Локация и бюджет -->
-        <div class="flex items-center gap-2 text-[11px] text-[#59617e] mt-1">
+        <div class="flex items-center gap-2 text-[12px] text-[#59617e] mt-1">
           <span class="truncate">{agency.hq[lang]}</span>
           <span>•</span>
           <span class="font-semibold text-[#17172c] shrink-0">{agency.minProjectBudget[lang]}</span>
         </div>
 
         <!-- Описание внедрения -->
-        <p class="text-[12.5px] text-[#59617e] leading-[1.42] mt-1.5 line-clamp-2">
+        <p class="text-[14px] sm:text-[12.5px] text-[#59617e] leading-[1.45] mt-1.5 line-clamp-2">
           {agency.description[lang]}
         </p>
 
