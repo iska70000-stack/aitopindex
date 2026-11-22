@@ -1,6 +1,7 @@
 ---
 import type { Agency, Category, Lang } from '../lib/data';
 import { getPlatformStats, extractCountry } from '../lib/stats';
+import { FLAG_SVGS, getFlagSvg, splitBudget } from '../lib/flags';
 import CategoryIcon from './CategoryIcon.astro';
 
 interface Props {
@@ -14,6 +15,7 @@ interface Props {
 const { agencies, categories, lang, initialCategory = 'all' } = Astro.props;
 
 const stats = getPlatformStats();
+const PAGE_SIZE = 20;
 
 // Brandmark styling generator
 const brandmarkStyles = [
@@ -26,6 +28,7 @@ const brandmarkStyles = [
 
 // Sort alphabetically or by verifiedDate so there is no misleading artificial "score" ranking
 const sortedAgencies = [...agencies].sort((a, b) => a.name.localeCompare(b.name));
+const totalPages = Math.max(1, Math.ceil(sortedAgencies.length / PAGE_SIZE));
 
 // Pre-render client data JSON for instant interactive search & filter
 const agenciesClientData = sortedAgencies.map((a) => {
@@ -44,7 +47,6 @@ const agenciesClientData = sortedAgencies.map((a) => {
     countryCode: cInfo.code,
     country: cInfo.name[lang],
     countryEn: cInfo.name.en,
-    flag: cInfo.flag,
     budget: a.minProjectBudget[lang],
     techStack: a.techStack,
     verifiedDate: a.verifiedDate,
@@ -174,12 +176,12 @@ const platformPct = 100 - integratorPct;
 
           <!-- Country Filter (Populated dynamically from real DB) -->
           <label class="filter-chip">
-            <span class="shrink-0">🌐</span>
+            <span id="region-filter-flag" class="shrink-0 inline-flex items-center" set:html={getFlagSvg('GLOBAL')} />
             <select id="region-filter" aria-label={lang === 'ru' ? 'Страна' : 'Country'} onchange="window.applyAppFilters()">
               <option value="">{lang === 'ru' ? 'Страна: Все' : 'Country: All'}</option>
               {stats.countryBreakdown.map((c) => (
                 <option value={c.code}>
-                  {c.flag} {c.name[lang]} ({c.count})
+                  {c.name[lang]} ({c.count})
                 </option>
               ))}
             </select>
@@ -269,7 +271,7 @@ const platformPct = 100 - integratorPct;
 
         <div class="card rank-card overflow-hidden">
           <!-- Table Header (Clean grid without numbering) -->
-          <div class="hidden md:grid grid-cols-[minmax(210px,1.6fr)_minmax(160px,1.1fr)_minmax(110px,0.75fr)_minmax(110px,0.8fr)_24px] items-center gap-3 bg-[#f5f6fa] text-[#49506c] font-extrabold text-[10.5px] uppercase tracking-wider px-4 py-3 -mx-3 border-b border-[#e9eaf3]">
+          <div class="hidden md:grid grid-cols-[minmax(215px,1.6fr)_minmax(150px,1.05fr)_minmax(122px,0.8fr)_minmax(122px,0.85fr)_20px] items-center gap-3 bg-[#f5f6fa] text-[#49506c] font-extrabold text-[10.5px] uppercase tracking-wider px-4 py-3 -mx-3 border-b border-[#e9eaf3]">
             <span>{lang === 'ru' ? 'Организация и стек' : 'Organization & Stack'}</span>
             <span>{lang === 'ru' ? 'Тип и направления' : 'Type & Categories'}</span>
             <span>{lang === 'ru' ? 'Бюджет от' : 'Min Budget'}</span>
@@ -279,8 +281,9 @@ const platformPct = 100 - integratorPct;
 
           <!-- Company List Container -->
           <div id="company-list" class="divide-y divide-[#eff0f6]">
-            {sortedAgencies.slice(0, 30).map((agency, idx) => {
+            {sortedAgencies.slice(0, PAGE_SIZE).map((agency, idx) => {
               const cInfo = extractCountry(agency);
+              const budgetParts = splitBudget(agency.minProjectBudget[lang]);
               const gradClass = brandmarkStyles[idx % brandmarkStyles.length];
               const primaryCategories = agency.categories.slice(0, 2).map((cId) => categories.find((c) => c.id === cId)?.title[lang] || cId);
               const stackTags = agency.techStack.slice(0, 3);
@@ -290,7 +293,7 @@ const platformPct = 100 - integratorPct;
 
               return (
                 <div
-                  class="grid grid-cols-[1fr_auto] md:grid-cols-[minmax(210px,1.6fr)_minmax(160px,1.1fr)_minmax(110px,0.75fr)_minmax(110px,0.8fr)_24px] items-center gap-3 py-3.5 px-2 hover:bg-[#fafbfe] transition-colors cursor-pointer"
+                  class="grid grid-cols-[1fr_auto] md:grid-cols-[minmax(215px,1.6fr)_minmax(150px,1.05fr)_minmax(122px,0.8fr)_minmax(122px,0.85fr)_20px] items-center gap-3 py-3.5 px-2 hover:bg-[#fafbfe] transition-colors cursor-pointer"
                   onclick={`window.location.href='/${lang}/agency/${agency.id}/'`}
                   data-agency-row={agency.id}
                 >
@@ -326,12 +329,15 @@ const platformPct = 100 - integratorPct;
                         </div>
                       )}
                       <!-- Mobile compact metadata -->
-                      <div class="flex flex-wrap items-center gap-1.5 mt-2 md:hidden">
+                      <div class="flex flex-wrap items-center gap-2 mt-2 md:hidden">
                         <span class="text-[11px] font-semibold px-2 py-0.5 rounded bg-[#f5f6fa] border border-[#e5e7f3] text-[#49506c]">
                           {entityLabel}
                         </span>
-                        <span class="text-[11.5px] text-[#59617e]">{cInfo.flag} {cInfo.name[lang]}</span>
-                        <span class="text-[11.5px] font-semibold text-[#17172c]">{agency.minProjectBudget[lang]}</span>
+                        <span class="inline-flex items-center gap-1.5 text-[11.5px] text-[#59617e]">
+                          <Fragment set:html={getFlagSvg(cInfo.code)} />
+                          <span>{cInfo.name[lang]}</span>
+                        </span>
+                        <span class="text-[11.5px] font-semibold text-[#17172c]">{budgetParts.main}</span>
                       </div>
                     </div>
                   </div>
@@ -346,14 +352,18 @@ const platformPct = 100 - integratorPct;
                     ))}
                   </div>
 
-                  <!-- Budget -->
-                  <div class="hidden md:block text-[12px] font-semibold text-[#17172c] truncate">
-                    {agency.minProjectBudget[lang]}
+                  <!-- Budget (Two-line format, zero truncation) -->
+                  <div class="hidden md:flex flex-col leading-snug">
+                    <span class="text-[12px] font-bold text-[#17172c] whitespace-nowrap">{budgetParts.main}</span>
+                    {budgetParts.note && (
+                      <span class="text-[10.5px] text-[#6b728e] font-normal mt-0.5 leading-tight">{budgetParts.note}</span>
+                    )}
                   </div>
 
-                  <!-- Country -->
-                  <div class="hidden md:block text-[12px] text-[#4b5570] truncate">
-                    {cInfo.flag} {cInfo.name[lang]}
+                  <!-- Country (Crisp vector SVG flag) -->
+                  <div class="hidden md:flex items-center gap-2 text-[12px] text-[#4b5570] min-w-0">
+                    <Fragment set:html={getFlagSvg(cInfo.code)} />
+                    <span class="truncate">{cInfo.name[lang]}</span>
                   </div>
 
                   <div class="text-[#6f7692] text-sm font-bold text-right">›</div>
@@ -362,16 +372,43 @@ const platformPct = 100 - integratorPct;
             })}
           </div>
 
-          <!-- Load All / Pagination Info -->
-          {sortedAgencies.length > 30 && (
-            <div id="show-all-wrap" class="py-3 text-center border-t border-[#eff0f6]">
-              <button
-                type="button"
-                onclick="window.showAllAgencies()"
-                class="text-xs font-bold text-[#6336ed] hover:underline cursor-pointer"
-              >
-                {lang === 'ru' ? `Показать все ${sortedAgencies.length} организаций ↓` : `Show all ${sortedAgencies.length} organizations ↓`}
-              </button>
+          <!-- Pagination Bar (20 per page) -->
+          {sortedAgencies.length > PAGE_SIZE && (
+            <div id="pagination-bar" class="py-3.5 px-2 border-t border-[#eff0f6] flex flex-wrap items-center justify-between gap-3">
+              <span id="pagination-summary" class="text-[11.5px] text-[#59617e]">
+                {lang === 'ru'
+                  ? `Показано 1–${Math.min(PAGE_SIZE, sortedAgencies.length)} из ${sortedAgencies.length}`
+                  : `Showing 1–${Math.min(PAGE_SIZE, sortedAgencies.length)} of ${sortedAgencies.length}`}
+              </span>
+              <div id="pagination-controls" class="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  disabled
+                  class="px-2.5 py-1.5 rounded-lg border border-[#e5e7f3] text-[11.5px] font-semibold text-[#9aa0b8] cursor-not-allowed"
+                >
+                  ←
+                </button>
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                  <button
+                    type="button"
+                    onclick={`window.goToPage(${p})`}
+                    class={`min-w-[32px] h-[30px] px-2 rounded-lg text-[11.5px] font-bold transition-colors cursor-pointer ${
+                      p === 1
+                        ? 'page-btn-active bg-[#6336ed] text-white border border-[#6336ed] shadow-sm'
+                        : 'bg-white text-[#394464] border border-[#e5e7f3] hover:border-[#8d67ff] hover:text-[#6336ed]'
+                    }`}
+                  >
+                    {p}
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  onclick="window.goToPage(2)"
+                  class="px-2.5 py-1.5 rounded-lg border border-[#e5e7f3] bg-white text-[11.5px] font-semibold text-[#394464] hover:border-[#8d67ff] hover:text-[#6336ed] cursor-pointer"
+                >
+                  →
+                </button>
+              </div>
             </div>
           )}
 
@@ -390,108 +427,144 @@ const platformPct = 100 - integratorPct;
         </p>
       </div>
 
-      <!-- Right Column: Real Global AI Landscape Card -->
-      <aside class="card landscape flex flex-col justify-between">
-        <div>
-          <div class="land-head">
-            <div>
-              <strong>🌐 {lang === 'ru' ? 'География каталога' : 'Directory Geography'}</strong>
-              <small>{lang === 'ru' ? 'Реальное распределение опубликованных компаний по странам.' : 'Real geographic distribution of listed organizations.'}</small>
+      <!-- Right Column: Sticky Sidebar (Directory Geography + Quick Inquiry CTA) -->
+      <div class="sticky-sidebar">
+        <aside class="card landscape flex flex-col justify-between">
+          <div>
+            <div class="land-head">
+              <div>
+                <strong class="inline-flex items-center gap-1.5">
+                  <svg class="icon w-4 h-4 text-[#6336ed]" aria-hidden="true"><use href="#i-globe"/></svg>
+                  <span>{lang === 'ru' ? 'География каталога' : 'Directory Geography'}</span>
+                </strong>
+                <small>{lang === 'ru' ? 'Реальное распределение опубликованных компаний по странам.' : 'Real geographic distribution of listed organizations.'}</small>
+              </div>
+            </div>
+
+            <div class="tabs mb-3 flex-wrap" aria-label="Filter by region">
+              <button class="active" data-tab="all" onclick="window.filterByRegionTab('all', this)">
+                {lang === 'ru' ? 'Все' : 'All'} ({stats.companiesCount})
+              </button>
+              <button data-tab="usa-eu" onclick="window.filterByRegionTab('usa-eu', this)">
+                US & EU ({stats.regionBreakdown['usa-eu']})
+              </button>
+              <button data-tab="cis-mena" onclick="window.filterByRegionTab('cis-mena', this)">
+                CIS/MENA ({stats.regionBreakdown['cis-mena']})
+              </button>
+              <button data-tab="global" onclick="window.filterByRegionTab('global', this)">
+                Global ({stats.regionBreakdown.global})
+              </button>
+            </div>
+
+            <!-- Stylized World Map -->
+            <div class="map-area mb-3" id="world-map">
+              <svg class="world-svg" viewBox="0 0 330 165" aria-label="World map showing regions with listed AI companies">
+                <defs>
+                  <pattern id="dots" width="4" height="4" patternUnits="userSpaceOnUse">
+                    <circle cx="1" cy="1" r="1" fill="#9da8ee" opacity=".72"/>
+                  </pattern>
+                  <radialGradient id="hot">
+                    <stop stop-color="#9766ff" stop-opacity=".8"/>
+                    <stop offset="1" stop-color="#9766ff" stop-opacity="0"/>
+                  </radialGradient>
+                </defs>
+                <g fill="url(#dots)" stroke="#ccd1f9" stroke-width=".5">
+                  <path d="M18 41 34 24 70 17 95 31 115 29 128 47 112 54 104 77 92 85 77 75 60 90 50 73 38 70 30 56 15 53Z"/>
+                  <path d="M86 87 114 92 132 109 126 127 117 144 106 156 98 145 90 124 77 108Z"/>
+                  <path d="M141 29 161 20 178 26 192 22 218 30 241 22 274 32 306 49 317 66 298 77 283 70 260 83 242 73 223 79 204 67 187 79 172 64 150 64 142 49Z"/>
+                  <path d="M154 78 189 73 208 92 199 121 181 149 169 140 161 117 148 101Z"/>
+                  <path d="M265 105 289 101 318 117 308 140 278 137 260 122Z"/>
+                  <path d="M120 12 132 8 146 14 140 26 129 29Z"/>
+                </g>
+                <g fill="url(#hot)">
+                  <circle cx="88" cy="47" r="24"/>
+                  <circle cx="160" cy="52" r="19"/>
+                  <circle cx="210" cy="45" r="20"/>
+                  <circle cx="286" cy="122" r="10"/>
+                </g>
+                <g class="map-hot">
+                  <circle cx="88" cy="47" r="3"/>
+                  <circle cx="160" cy="52" r="3"/>
+                  <circle cx="210" cy="45" r="3"/>
+                  <circle cx="286" cy="122" r="3"/>
+                </g>
+              </svg>
+            </div>
+
+            <!-- Real Country Breakdown List (Clickable to filter) -->
+            <div class="space-y-1.5 border-t border-[#eff0f7] pt-3">
+              <div class="text-[10px] font-extrabold uppercase tracking-wider text-[#49506c] mb-2">
+                {lang === 'ru' ? 'Компании по странам (нажмите для фильтра):' : 'Organizations by Country (Click to filter):'}
+              </div>
+              <div class="grid grid-cols-2 gap-1.5">
+                {stats.countryBreakdown.map((c) => (
+                  <button
+                    type="button"
+                    onclick={`window.filterByCountry('${c.code}')`}
+                    class="flex items-center justify-between gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#f8f9fe] hover:bg-[#f0edff] border border-[#e5e7f3] hover:border-[#8d67ff] text-[11px] transition-colors cursor-pointer text-left min-w-0"
+                  >
+                    <span class="inline-flex items-center gap-1.5 truncate text-[#17172c] font-medium min-w-0">
+                      <Fragment set:html={getFlagSvg(c.code)} />
+                      <span class="truncate">{c.name[lang]}</span>
+                    </span>
+                    <span class="font-bold text-[#6336ed] shrink-0">{c.count}</span>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
-          <div class="tabs mb-3 flex-wrap" aria-label="Filter by region">
-            <button class="active" data-tab="all" onclick="window.filterByRegionTab('all', this)">
-              {lang === 'ru' ? 'Все' : 'All'} ({stats.companiesCount})
-            </button>
-            <button data-tab="usa-eu" onclick="window.filterByRegionTab('usa-eu', this)">
-              US & EU ({stats.regionBreakdown['usa-eu']})
-            </button>
-            <button data-tab="cis-mena" onclick="window.filterByRegionTab('cis-mena', this)">
-              CIS/MENA ({stats.regionBreakdown['cis-mena']})
-            </button>
-            <button data-tab="global" onclick="window.filterByRegionTab('global', this)">
-              Global ({stats.regionBreakdown.global})
-            </button>
-          </div>
-
-          <!-- Stylized World Map -->
-          <div class="map-area mb-3" id="world-map">
-            <svg class="world-svg" viewBox="0 0 330 165" aria-label="World map showing regions with listed AI companies">
-              <defs>
-                <pattern id="dots" width="4" height="4" patternUnits="userSpaceOnUse">
-                  <circle cx="1" cy="1" r="1" fill="#9da8ee" opacity=".72"/>
-                </pattern>
-                <radialGradient id="hot">
-                  <stop stop-color="#9766ff" stop-opacity=".8"/>
-                  <stop offset="1" stop-color="#9766ff" stop-opacity="0"/>
-                </radialGradient>
-              </defs>
-              <g fill="url(#dots)" stroke="#ccd1f9" stroke-width=".5">
-                <path d="M18 41 34 24 70 17 95 31 115 29 128 47 112 54 104 77 92 85 77 75 60 90 50 73 38 70 30 56 15 53Z"/>
-                <path d="M86 87 114 92 132 109 126 127 117 144 106 156 98 145 90 124 77 108Z"/>
-                <path d="M141 29 161 20 178 26 192 22 218 30 241 22 274 32 306 49 317 66 298 77 283 70 260 83 242 73 223 79 204 67 187 79 172 64 150 64 142 49Z"/>
-                <path d="M154 78 189 73 208 92 199 121 181 149 169 140 161 117 148 101Z"/>
-                <path d="M265 105 289 101 318 117 308 140 278 137 260 122Z"/>
-                <path d="M120 12 132 8 146 14 140 26 129 29Z"/>
-              </g>
-              <g fill="url(#hot)">
-                <circle cx="88" cy="47" r="24"/>
-                <circle cx="160" cy="52" r="19"/>
-                <circle cx="210" cy="45" r="20"/>
-                <circle cx="286" cy="122" r="10"/>
-              </g>
-              <g class="map-hot">
-                <circle cx="88" cy="47" r="3"/>
-                <circle cx="160" cy="52" r="3"/>
-                <circle cx="210" cy="45" r="3"/>
-                <circle cx="286" cy="122" r="3"/>
-              </g>
-            </svg>
-          </div>
-
-          <!-- Real Country Breakdown List (Clickable to filter) -->
-          <div class="space-y-1.5 border-t border-[#eff0f7] pt-3">
-            <div class="text-[10px] font-extrabold uppercase tracking-wider text-[#49506c] mb-2">
-              {lang === 'ru' ? 'Компании по странам (нажмите для фильтра):' : 'Organizations by Country (Click to filter):'}
+          <!-- Real Catalog Composition -->
+          <div class="mt-4 pt-3 border-t border-[#eff0f7]">
+            <div class="flex items-center justify-between text-[10px] font-bold text-[#17172c] mb-1.5">
+              <span>{lang === 'ru' ? 'Структура базы данных' : 'Catalog Composition'}</span>
+              <span class="text-[#59617e] font-normal">{stats.companiesCount} {lang === 'ru' ? 'всего' : 'total'}</span>
             </div>
-            <div class="grid grid-cols-2 gap-1.5">
-              {stats.countryBreakdown.map((c) => (
-                <button
-                  type="button"
-                  onclick={`window.filterByCountry('${c.code}')`}
-                  class="flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-[#f8f9fe] hover:bg-[#f0edff] border border-[#e5e7f3] hover:border-[#8d67ff] text-[11px] transition-colors cursor-pointer text-left"
-                >
-                  <span class="truncate text-[#17172c] font-medium">{c.flag} {c.name[lang]}</span>
-                  <span class="font-bold text-[#6336ed] ml-1">{c.count}</span>
-                </button>
-              ))}
+            <div class="w-full h-2.5 rounded-full bg-[#ede8ff] overflow-hidden flex">
+              <div class="h-full bg-[#6336ed]" style={`width: ${integratorPct}%`} title="Integrators"></div>
+              <div class="h-full bg-[#38bdf8]" style={`width: ${platformPct}%`} title="Platforms"></div>
+            </div>
+            <div class="flex items-center justify-between text-[10px] text-[#59617e] mt-1.5">
+              <span class="flex items-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-[#6336ed]"></span>
+                {lang === 'ru' ? 'Интеграторы' : 'Integrators'}: <strong class="text-[#17172c]">{stats.integratorsCount}</strong> ({integratorPct}%)
+              </span>
+              <span class="flex items-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-[#38bdf8]"></span>
+                {lang === 'ru' ? 'Платформы' : 'Platforms'}: <strong class="text-[#17172c]">{stats.platformsCount}</strong> ({platformPct}%)
+              </span>
             </div>
           </div>
-        </div>
+        </aside>
 
-        <!-- Real Catalog Composition (Replaces fake +42.7% Growth Chart) -->
-        <div class="mt-4 pt-3 border-t border-[#eff0f7]">
-          <div class="flex items-center justify-between text-[10px] font-bold text-[#17172c] mb-1.5">
-            <span>{lang === 'ru' ? 'Структура базы данных' : 'Catalog Composition'}</span>
-            <span class="text-[#59617e] font-normal">{stats.companiesCount} {lang === 'ru' ? 'всего' : 'total'}</span>
-          </div>
-          <div class="w-full h-2.5 rounded-full bg-[#ede8ff] overflow-hidden flex">
-            <div class="h-full bg-[#6336ed]" style={`width: ${integratorPct}%`} title="Integrators"></div>
-            <div class="h-full bg-[#38bdf8]" style={`width: ${platformPct}%`} title="Platforms"></div>
-          </div>
-          <div class="flex items-center justify-between text-[10px] text-[#59617e] mt-1.5">
-            <span class="flex items-center gap-1">
-              <span class="w-2 h-2 rounded-full bg-[#6336ed]"></span>
-              {lang === 'ru' ? 'Интеграторы' : 'Integrators'}: <strong class="text-[#17172c]">{stats.integratorsCount}</strong> ({integratorPct}%)
+        <!-- Compact Quick Inquiry Card (Contact Us) -->
+        <div class="card p-4 bg-gradient-to-br from-[#ffffff] to-[#f6f4ff] border border-[#e3dfff]">
+          <div class="flex items-start gap-2.5">
+            <span class="w-8 h-8 rounded-lg bg-[#f0edff] border border-[#ded6ff] text-[#6336ed] flex items-center justify-center shrink-0">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              </svg>
             </span>
-            <span class="flex items-center gap-1">
-              <span class="w-2 h-2 rounded-full bg-[#38bdf8]"></span>
-              {lang === 'ru' ? 'Платформы' : 'Platforms'}: <strong class="text-[#17172c]">{stats.platformsCount}</strong> ({platformPct}%)
-            </span>
+            <div class="min-w-0">
+              <h3 class="text-[13px] font-extrabold text-[#17172c] leading-snug">
+                {lang === 'ru' ? 'Не нашли подходящего подрядчика?' : 'Need a tailored AI shortlist?'}
+              </h3>
+              <p class="text-[11.5px] text-[#59617e] leading-relaxed mt-1">
+                {lang === 'ru'
+                  ? 'Напишите нам — поможем сориентироваться по каталогу, задачам и стеку внедрения.'
+                  : 'Message our editorial team — we will help you navigate verified vendors for your stack.'}
+              </p>
+            </div>
           </div>
+          <button
+            type="button"
+            onclick="if(typeof window.openContactUsModal==='function'){window.openContactUsModal();}"
+            class="w-full cta text-xs py-2.5 px-3 mt-3 justify-center"
+          >
+            <span>{lang === 'ru' ? 'Связаться с нами →' : 'Contact Us →'}</span>
+          </button>
         </div>
-      </aside>
+      </div>
     </section>
 
     <!-- ============================================================ -->
@@ -673,18 +746,30 @@ const platformPct = 100 - integratorPct;
 <!-- ============================================================ -->
 <!-- CLIENT INTERACTIVITY SCRIPT                                  -->
 <!-- ============================================================ -->
-<script is:inline define:vars={{ agenciesClientData, lang }}>
+<script is:inline define:vars={{ agenciesClientData, lang, FLAG_SVGS, PAGE_SIZE }}>
   window.__APP_AGENCIES = agenciesClientData;
   window.__APP_LANG = lang;
-  window.__SHOW_ALL = false;
+  window.__CURRENT_PAGE = 1;
   window.__REGION_TAB = 'all';
 
   const escapeHTML = (str) =>
     String(str).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-  window.showAllAgencies = function() {
-    window.__SHOW_ALL = true;
-    window.applyAppFilters();
+  const getFlagHtml = (code) => FLAG_SVGS[code] || FLAG_SVGS.GLOBAL;
+
+  const splitBudgetClient = (raw) => {
+    const trimmed = String(raw || '').trim();
+    const paren = trimmed.match(/^([^(]+?)\s*\(([^)]+)\)$/);
+    if (paren) return { main: paren[1].trim(), note: paren[2].trim() };
+    const dot = trimmed.match(/^(Enterprise)\s*[·•]\s*(.+)$/i);
+    if (dot) return { main: dot[1].trim(), note: dot[2].trim() };
+    return { main: trimmed, note: '' };
+  };
+
+  window.goToPage = function(page) {
+    window.__CURRENT_PAGE = page;
+    window.applyAppFilters(true);
+    document.getElementById('rankings')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   window.filterByRegionTab = function(regionKey, btn) {
@@ -697,19 +782,19 @@ const platformPct = 100 - integratorPct;
         : regionKey === 'cis-mena' ? 'hue-rotate(60deg)'
         : 'hue-rotate(-30deg)';
     }
-    window.applyAppFilters();
+    window.applyAppFilters(false);
   };
 
   window.filterByCountry = function(countryCode) {
     const sel = document.getElementById('region-filter');
     if (sel) {
       sel.value = countryCode;
-      window.applyAppFilters();
-      document.getElementById('rankings')?.scrollIntoView({ behavior: 'smooth' });
+      window.applyAppFilters(false);
+      document.getElementById('rankings')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
-  window.applyAppFilters = function() {
+  window.applyAppFilters = function(keepPage = false) {
     const q = (document.getElementById('search')?.value || '').trim().toLowerCase();
     const countryCode = document.getElementById('region-filter')?.value || '';
     const category = document.getElementById('category-filter')?.value || '';
@@ -717,10 +802,18 @@ const platformPct = 100 - integratorPct;
     const expertise = document.getElementById('expertise-filter')?.value || '';
     const sortMode = document.getElementById('sort-filter')?.value || 'alpha';
 
+    // Update dynamic vector SVG flag inside Country filter chip
+    const flagSlot = document.getElementById('region-filter-flag');
+    if (flagSlot) {
+      flagSlot.innerHTML = getFlagHtml(countryCode || 'GLOBAL');
+    }
+
     const listContainer = document.getElementById('company-list');
     const emptyState = document.getElementById('emptyState');
     const countEl = document.getElementById('filtered-count');
-    const showAllWrap = document.getElementById('show-all-wrap');
+    const paginationBar = document.getElementById('pagination-bar');
+    const paginationSummary = document.getElementById('pagination-summary');
+    const paginationControls = document.getElementById('pagination-controls');
     if (!listContainer) return;
 
     let filtered = window.__APP_AGENCIES.filter((c) => {
@@ -755,9 +848,11 @@ const platformPct = 100 - integratorPct;
 
     if (filtered.length === 0) {
       listContainer.innerHTML = '';
-      if (emptyState) emptyState.classList.remove('hidden');
-      if (emptyState) emptyState.style.display = 'block';
-      if (showAllWrap) showAllWrap.style.display = 'none';
+      if (emptyState) {
+        emptyState.classList.remove('hidden');
+        emptyState.style.display = 'block';
+      }
+      if (paginationBar) paginationBar.style.display = 'none';
       return;
     }
 
@@ -766,11 +861,42 @@ const platformPct = 100 - integratorPct;
       emptyState.style.display = 'none';
     }
 
-    const limit = window.__SHOW_ALL || q || countryCode || category || industry || expertise ? filtered.length : 30;
-    const toRender = filtered.slice(0, limit);
+    const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+    if (!keepPage) {
+      window.__CURRENT_PAGE = 1;
+    } else if (window.__CURRENT_PAGE > totalPages) {
+      window.__CURRENT_PAGE = totalPages;
+    } else if (window.__CURRENT_PAGE < 1) {
+      window.__CURRENT_PAGE = 1;
+    }
 
-    if (showAllWrap) {
-      showAllWrap.style.display = filtered.length > limit ? 'block' : 'none';
+    const page = window.__CURRENT_PAGE;
+    const startIdx = (page - 1) * PAGE_SIZE;
+    const endIdx = Math.min(startIdx + PAGE_SIZE, filtered.length);
+    const toRender = filtered.slice(startIdx, endIdx);
+
+    if (paginationBar) {
+      if (totalPages <= 1) {
+        paginationBar.style.display = 'none';
+      } else {
+        paginationBar.style.display = 'flex';
+        if (paginationSummary) {
+          paginationSummary.textContent = lang === 'ru'
+            ? `Показано ${startIdx + 1}–${endIdx} из ${filtered.length}`
+            : `Showing ${startIdx + 1}–${endIdx} of ${filtered.length}`;
+        }
+        if (paginationControls) {
+          const prevDisabled = page <= 1;
+          const nextDisabled = page >= totalPages;
+          let btns = `<button type="button" ${prevDisabled ? 'disabled' : `onclick="window.goToPage(${page - 1})"`} class="px-2.5 py-1.5 rounded-lg border border-[#e5e7f3] text-[11.5px] font-semibold ${prevDisabled ? 'text-[#9aa0b8] cursor-not-allowed' : 'bg-white text-[#394464] hover:border-[#8d67ff] hover:text-[#6336ed] cursor-pointer'}">←</button>`;
+          for (let p = 1; p <= totalPages; p++) {
+            const active = p === page;
+            btns += `<button type="button" onclick="window.goToPage(${p})" class="min-w-[32px] h-[30px] px-2 rounded-lg text-[11.5px] font-bold transition-colors cursor-pointer ${active ? 'page-btn-active bg-[#6336ed] text-white border border-[#6336ed] shadow-sm' : 'bg-white text-[#394464] border border-[#e5e7f3] hover:border-[#8d67ff] hover:text-[#6336ed]'}">${p}</button>`;
+          }
+          btns += `<button type="button" ${nextDisabled ? 'disabled' : `onclick="window.goToPage(${page + 1})"`} class="px-2.5 py-1.5 rounded-lg border border-[#e5e7f3] text-[11.5px] font-semibold ${nextDisabled ? 'text-[#9aa0b8] cursor-not-allowed' : 'bg-white text-[#394464] hover:border-[#8d67ff] hover:text-[#6336ed] cursor-pointer'}">→</button>`;
+          paginationControls.innerHTML = btns;
+        }
+      }
     }
 
     const brandmarkGradients = [
@@ -782,15 +908,17 @@ const platformPct = 100 - integratorPct;
     ];
 
     listContainer.innerHTML = toRender.map((c, idx) => {
-      const grad = brandmarkGradients[idx % brandmarkGradients.length];
+      const grad = brandmarkGradients[(startIdx + idx) % brandmarkGradients.length];
       const tagsHtml = c.categoryNames.slice(0, 2).map((t) => `<span class="tag max-w-[140px] truncate">${escapeHTML(t)}</span>`).join('');
       const stackHtml = (c.techStack || []).slice(0, 3).map((tag) => `<span class="text-[10.5px] font-medium px-1.5 py-0.5 rounded bg-[#f4f3ff] text-[#5836c7] border border-[#e6e2ff]">${escapeHTML(tag)}</span>`).join('');
       const mobileLabel = c.entityType === 'platform' ? (lang === 'ru' ? 'Платформа' : 'Platform') : (lang === 'ru' ? 'Интегратор' : 'Integrator');
       const verifiedTitle = lang === 'ru' ? 'Домен подтверждён' : 'Verified domain';
+      const budgetParts = splitBudgetClient(c.budget);
+      const flagSvg = getFlagHtml(c.countryCode);
 
       return `
         <div
-          class="grid grid-cols-[1fr_auto] md:grid-cols-[minmax(210px,1.6fr)_minmax(160px,1.1fr)_minmax(110px,0.75fr)_minmax(110px,0.8fr)_24px] items-center gap-3 py-3.5 px-2 hover:bg-[#fafbfe] transition-colors cursor-pointer"
+          class="grid grid-cols-[1fr_auto] md:grid-cols-[minmax(215px,1.6fr)_minmax(150px,1.05fr)_minmax(122px,0.8fr)_minmax(122px,0.85fr)_20px] items-center gap-3 py-3.5 px-2 hover:bg-[#fafbfe] transition-colors cursor-pointer"
           onclick="window.location.href='${c.profileUrl}'"
           data-agency-row="${c.id}"
         >
@@ -813,12 +941,15 @@ const platformPct = 100 - integratorPct;
                 ${escapeHTML(c.description)}
               </p>
               ${stackHtml ? `<div class="flex flex-wrap items-center gap-1 mt-1.5">${stackHtml}</div>` : ''}
-              <div class="flex flex-wrap items-center gap-1.5 mt-2 md:hidden">
+              <div class="flex flex-wrap items-center gap-2 mt-2 md:hidden">
                 <span class="text-[11px] font-semibold px-2 py-0.5 rounded bg-[#f5f6fa] border border-[#e5e7f3] text-[#49506c]">
                   ${escapeHTML(mobileLabel)}
                 </span>
-                <span class="text-[11.5px] text-[#59617e]">${c.flag} ${escapeHTML(c.country)}</span>
-                <span class="text-[11.5px] font-semibold text-[#17172c]">${escapeHTML(c.budget)}</span>
+                <span class="inline-flex items-center gap-1.5 text-[11.5px] text-[#59617e]">
+                  ${flagSvg}
+                  <span>${escapeHTML(c.country)}</span>
+                </span>
+                <span class="text-[11.5px] font-semibold text-[#17172c]">${escapeHTML(budgetParts.main)}</span>
               </div>
             </div>
           </div>
@@ -828,11 +959,13 @@ const platformPct = 100 - integratorPct;
             </span>
             ${tagsHtml}
           </div>
-          <div class="hidden md:block text-[12px] font-semibold text-[#17172c] truncate">
-            ${escapeHTML(c.budget)}
+          <div class="hidden md:flex flex-col leading-snug">
+            <span class="text-[12px] font-bold text-[#17172c] whitespace-nowrap">${escapeHTML(budgetParts.main)}</span>
+            ${budgetParts.note ? `<span class="text-[10.5px] text-[#6b728e] font-normal mt-0.5 leading-tight">${escapeHTML(budgetParts.note)}</span>` : ''}
           </div>
-          <div class="hidden md:block text-[12px] text-[#4b5570] truncate">
-            ${c.flag} ${escapeHTML(c.country)}
+          <div class="hidden md:flex items-center gap-2 text-[12px] text-[#4b5570] min-w-0">
+            ${flagSvg}
+            <span class="truncate">${escapeHTML(c.country)}</span>
           </div>
           <div class="text-[#6f7692] text-sm font-bold text-right">›</div>
         </div>
@@ -849,6 +982,6 @@ const platformPct = 100 - integratorPct;
     if (sEl) sEl.value = 'alpha';
     window.__REGION_TAB = 'all';
     document.querySelectorAll('.tabs button').forEach((b) => b.classList.toggle('active', b.getAttribute('data-tab') === 'all'));
-    window.applyAppFilters();
+    window.applyAppFilters(false);
   };
 </script>
