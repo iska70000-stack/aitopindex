@@ -21,6 +21,11 @@ export function getDb(dbPath = DEFAULT_DB_PATH) {
   const schemaSql = fs.readFileSync(path.join(__dirname, 'schema.sql'), 'utf8');
   db.exec(schemaSql);
 
+  const emailCols = db.prepare('PRAGMA table_info(email_queue)').all();
+  if (!emailCols.some((c) => c.name === 'reply_to')) {
+    db.exec("ALTER TABLE email_queue ADD COLUMN reply_to TEXT NOT NULL DEFAULT ''");
+  }
+
   dbInstance = db;
   seedInitialData(db);
   return db;

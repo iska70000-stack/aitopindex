@@ -213,12 +213,12 @@ const categoriesModalData = categories.map((c) => ({
         <div class="bg-[#f8f9fe] border border-[#e2e7f3] rounded-xl p-3 flex items-center justify-between gap-2">
           <div class="min-w-0">
             <div class="text-[11px] font-semibold text-[#59617e]">Directory Inquiry</div>
-            <a href="mailto:submit@aitopindex.com?subject=Inquiry%20regarding%20${encodeURIComponent(agency.name)}" class="text-[13px] font-medium text-[#17172c] hover:text-[#6336ed]">
-              submit@aitopindex.com
+            <a href="mailto:hello@aitopindex.com?subject=Inquiry%20regarding%20${encodeURIComponent(agency.name)}" class="text-[13px] font-medium text-[#17172c] hover:text-[#6336ed]">
+              hello@aitopindex.com
             </a>
           </div>
           <a
-            href="mailto:submit@aitopindex.com?subject=Inquiry%20regarding%20${encodeURIComponent(agency.name)}"
+            href="mailto:hello@aitopindex.com?subject=Inquiry%20regarding%20${encodeURIComponent(agency.name)}"
             class="shrink-0 px-3 py-1.5 rounded-lg bg-white border border-[#ded6ff] text-[11.5px] font-bold text-[#6336ed] hover:bg-[#f0edff] transition-colors"
           >
             Email
@@ -599,6 +599,151 @@ const categoriesModalData = categories.map((c) => ({
       if (btn) {
         btn.disabled = false;
         btn.textContent = isRu ? 'Отправить запрос на подбор →' : 'Request AI Solution →';
+      }
+    }
+  };
+
+  // Open Contact Us Modal (Обратная связь -> POST /api/contact)
+  window.openContactUsModal = function() {
+    const isRu = window.__LANG === 'ru';
+    const subjects = isRu
+      ? [
+          'Предложение о сотрудничестве',
+          'Сообщить об ошибке на сайте',
+          'Вопрос по размещению',
+          'Другое',
+        ]
+      : [
+          'Partnership inquiry',
+          'Report a bug / issue',
+          'Listing question',
+          'Other',
+        ];
+
+    openModal(`
+      <div class="flex items-center justify-between mb-4 border-b border-[#e5e7f3] pb-3">
+        <div>
+          <h3 class="text-[16px] font-bold text-[#17172c]">${isRu ? 'Обратная связь' : 'Contact Us'}</h3>
+          <p class="text-[12px] text-[#59617e] mt-0.5">${isRu ? 'Напишите нам на hello@aitopindex.com' : 'Send a message to hello@aitopindex.com'}</p>
+        </div>
+        <button type="button" onclick="closeModal()" aria-label="Close" class="w-8 h-8 rounded-full bg-[#f5f6fa] border border-[#e5e7f3] text-[#59617e] hover:text-[#17172c] flex items-center justify-center text-sm cursor-pointer">✕</button>
+      </div>
+
+      <form id="modal-contact-us-form" onsubmit="window.handleContactUsForm(event)" class="space-y-3">
+        <input type="text" name="website_hp" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0" />
+
+        <div>
+          <label class="block text-[12px] font-semibold text-[#17172c] mb-1">${isRu ? 'Ваш Email' : 'Your Email'} *</label>
+          <input
+            type="email"
+            name="email"
+            required
+            placeholder="name@company.com"
+            class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3.5 py-2.5 text-sm text-[#17172c] placeholder:text-[#59617e]/60 focus:outline-none focus:border-[#6336ed]"
+          />
+        </div>
+
+        <div>
+          <label class="block text-[12px] font-semibold text-[#17172c] mb-1">${isRu ? 'Тема обращения' : 'Subject'} *</label>
+          <select
+            name="subject"
+            required
+            class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3 py-2.5 text-sm text-[#17172c] focus:outline-none focus:border-[#6336ed]"
+          >
+            ${subjects.map((s) => `<option value="${s}">${s}</option>`).join('')}
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-[12px] font-semibold text-[#17172c] mb-1">${isRu ? 'Сообщение' : 'Message'} *</label>
+          <textarea
+            name="message"
+            required
+            rows="4"
+            minlength="5"
+            maxlength="3000"
+            placeholder="${isRu ? 'Опишите ваш вопрос или предложение...' : 'Write your question or inquiry...'}"
+            class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3.5 py-2.5 text-sm text-[#17172c] placeholder:text-[#59617e]/60 focus:outline-none focus:border-[#6336ed]"
+          ></textarea>
+        </div>
+
+        <div id="contact-us-error" class="hidden rounded-lg bg-[#fef2f2] border border-[#fecaca] p-2.5 text-[12px] text-[#b91c1c]"></div>
+
+        <div class="pt-1">
+          <button
+            type="submit"
+            id="modal-contact-us-btn"
+            class="w-full cta py-2.5 text-sm font-bold justify-center"
+          >
+            ${isRu ? 'Отправить сообщение →' : 'Send Message →'}
+          </button>
+        </div>
+      </form>
+      <div id="modal-contact-us-ready" class="hidden space-y-3 text-center py-3"></div>
+    `);
+  };
+
+  window.handleContactUsForm = async function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const isRu = window.__LANG === 'ru';
+    const errBox = document.getElementById('contact-us-error');
+    const readyBox = document.getElementById('modal-contact-us-ready');
+    const btn = document.getElementById('modal-contact-us-btn');
+
+    const fd = new FormData(form);
+    if (fd.get('website_hp')) return;
+
+    const payload = {
+      email: String(fd.get('email') || '').trim(),
+      subject: String(fd.get('subject') || '').trim(),
+      message: String(fd.get('message') || '').trim(),
+      lang: window.__LANG || 'en',
+      website_hp: '',
+    };
+
+    if (errBox) errBox.classList.add('hidden');
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = isRu ? 'Отправка...' : 'Sending...';
+    }
+
+    try {
+      const resp = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await resp.json().catch(() => ({}));
+      if (!resp.ok || !data.ok) {
+        if (errBox) {
+          errBox.textContent = data.error || (isRu ? 'Не удалось отправить сообщение. Проверьте поля.' : 'Could not send message. Please check fields.');
+          errBox.classList.remove('hidden');
+        }
+        return;
+      }
+
+      form.classList.add('hidden');
+      if (readyBox) {
+        readyBox.innerHTML = `
+          <div class="w-10 h-10 rounded-full bg-[#e6f7ef] text-[#009e54] flex items-center justify-center mx-auto text-lg font-bold">✓</div>
+          <h4 class="text-sm font-bold text-[#17172c]">${isRu ? 'Сообщение отправлено. Мы ответим в ближайшее время' : 'Message sent. We will get back to you shortly'}</h4>
+          <p class="text-xs text-[#59617e]">ID: <strong>${data.message_id || ''}</strong></p>
+          <button type="button" onclick="closeModal()" class="cta text-xs py-2 px-5 mt-2">${isRu ? 'Закрыть' : 'Close'}</button>
+        `;
+        readyBox.classList.remove('hidden');
+      }
+    } catch {
+      if (errBox) {
+        errBox.textContent = isRu
+          ? 'Ошибка сети. Введённый текст сохранён — попробуйте ещё раз.'
+          : 'Network error reaching API. Your message is preserved — please retry.';
+        errBox.classList.remove('hidden');
+      }
+    } finally {
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = isRu ? 'Отправить сообщение →' : 'Send Message →';
       }
     }
   };

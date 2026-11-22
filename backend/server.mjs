@@ -251,6 +251,84 @@ export const server = http.createServer(async (req, res) => {
       });
     }
 
+    // 2b. Public POST /api/contact (Contact Us / Обратная связь)
+    if (method === 'POST' && pathname === '/api/contact') {
+      const ip = getClientIp(req);
+      if (!submitLimiter.check(ip)) {
+        return sendJson(res, 429, { error: 'Too many requests. Please wait a few minutes.' });
+      }
+
+      const body = await readJsonBody(req);
+      if (body.website_hp) {
+        return sendJson(res, 200, { ok: true, message: 'Message sent. We will get back to you shortly.' });
+      }
+
+      const lang = body.lang === 'ru' ? 'ru' : 'en';
+      const senderEmail = String(body.email || '').trim().toLowerCase();
+      const subject = String(body.subject || '').trim();
+      const message = String(body.message || '').trim();
+
+      if (!isValidEmail(senderEmail)) {
+        return sendJson(res, 400, { error: lang === 'ru' ? 'Укажите корректный email.' : 'Please enter a valid email address.' });
+      }
+
+      if (subject.length < 2 || subject.length > 150) {
+        return sendJson(res, 400, { error: lang === 'ru' ? 'Выберите тему обращения.' : 'Please select a subject.' });
+      }
+
+      if (message.length < 5 || message.length > 3000) {
+        return sendJson(res, 400, { error: lang === 'ru' ? 'Введите сообщение (от 5 до 3000 символов).' : 'Please enter a message (5 to 3000 characters).' });
+      }
+
+      const msgUid = `MSG-${crypto.randomInt(100000, 999999)}`;
+
+      db.prepare(`
+        INSERT INTO contact_messages (message_uid, sender_email, subject, message, lang, ip, status)
+        VALUES (?, ?, ?, ?, ?, ?, 'new')
+      `).run(msgUid, senderEmail, subject, message, lang, ip);
+
+      logAudit(db, {
+        actor: 'public_contact',
+        action: 'contact.created',
+        entityType: 'contact_message',
+        entityId: msgUid,
+        details: { subject, lang, ip },
+      });
+
+      enqueueAdminEmail(db, {
+        recipient: 'hello@aitopindex.com',
+        replyTo: senderEmail,
+        subject: `[AITopIndex Contact] ${subject}`,
+        bodyText: [
+          `Type: Contact Us Message`,
+          `From (Reply-To): ${senderEmail}`,
+          `Subject: ${subject}`,
+          `Language: ${lang.toUpperCase()}`,
+          `Message ID: ${msgUid}`,
+          `Date: ${new Date().toISOString()}`,
+          ``,
+          `Message:`,
+          message,
+        ].join('\n'),
+      });
+
+      enqueueHermesEvent(db, 'contact.created', {
+        message_id: msgUid,
+        sender_email: senderEmail,
+        subject,
+        message,
+        lang,
+      });
+
+      return sendJson(res, 201, {
+        ok: true,
+        message_id: msgUid,
+        message: lang === 'ru'
+          ? 'Сообщение отправлено. Мы ответим в ближайшее время.'
+          : 'Message sent. We will get back to you shortly.',
+      });
+    }
+
     // 3. Public POST /api/leads (Find an AI Partner)
     if (method === 'POST' && pathname === '/api/leads') {
       const ip = getClientIp(req);

@@ -40,26 +40,39 @@ export function formatHermesMessage(eventType, envelope) {
     ].join('\n');
   }
 
+  if (eventType === 'contact.created') {
+    return [
+      'New AITopIndex Contact Message',
+      '',
+      `Subject: ${d.subject || ''}`,
+      `From: ${d.sender_email || ''}`,
+      `Language: ${(d.lang || 'en').toUpperCase()}`,
+      `Message: ${String(d.message || '').slice(0, 500)}`,
+      '',
+      `Message ID: ${d.message_id || ''}`,
+    ].join('\n');
+  }
+
   return `AITopIndex Event: ${eventType} (${envelope.event_id})`;
 }
 
 /**
  * Enqueues an admin email notification without blocking or failing the primary DB transaction.
  */
-export function enqueueAdminEmail(db, { subject, bodyText, bodyHtml = '' }) {
-  const recipient = process.env.ADMIN_ALERT_EMAIL || '';
-  if (!recipient) {
+export function enqueueAdminEmail(db, { recipient = '', replyTo = '', subject, bodyText, bodyHtml = '' }) {
+  const target = recipient || process.env.ADMIN_ALERT_EMAIL || '';
+  if (!target) {
     db.prepare(`
-      INSERT INTO email_queue (recipient, subject, body_text, body_html, status, last_error)
-      VALUES (?, ?, ?, ?, 'pending', 'ADMIN_ALERT_EMAIL not configured')
-    `).run('unconfigured', subject, bodyText, bodyHtml);
+      INSERT INTO email_queue (recipient, reply_to, subject, body_text, body_html, status, last_error)
+      VALUES (?, ?, ?, ?, ?, 'pending', 'ADMIN_ALERT_EMAIL not configured')
+    `).run('unconfigured', replyTo, subject, bodyText, bodyHtml);
     return { queued: true, configured: false };
   }
 
   db.prepare(`
-    INSERT INTO email_queue (recipient, subject, body_text, body_html, status)
-    VALUES (?, ?, ?, ?, 'pending')
-  `).run(recipient, subject, bodyText, bodyHtml);
+    INSERT INTO email_queue (recipient, reply_to, subject, body_text, body_html, status)
+    VALUES (?, ?, ?, ?, ?, 'pending')
+  `).run(target, replyTo, subject, bodyText, bodyHtml);
 
   setImmediate(() => processEmailQueue(db).catch(() => {}));
   return { queued: true, configured: true };
@@ -68,9 +81,9 @@ export function enqueueAdminEmail(db, { subject, bodyText, bodyHtml = '' }) {
 export async function processEmailQueue(db) {
   const resendKey = process.env.RESEND_API_KEY;
   const fromEmail = process.env.EMAIL_FROM || 'noreply@aitopindex.com';
-  const adminEmail = process.env.ADMIN_ALERT_EMAIL;
+  const adminEmail = process.env.ADMIN_ALERT_EMAIL || 'hello@aitopindex.com';
 
-  if (!resendKey || !adminEmail) return;
+  if (!resendKey) return;
 
   const pending = db.prepare(`
     SELECT * FROM email_queue
@@ -90,6 +103,7 @@ export async function processEmailQueue(db) {
         body: JSON.stringify({
           from: fromEmail,
           to: [targetRecipient],
+          reply_to: row.reply_to || undefined,
           subject: row.subject,
           text: row.body_text,
           html: row.body_html || undefined,

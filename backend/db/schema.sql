@@ -99,6 +99,7 @@ CREATE TABLE IF NOT EXISTS specialists (
 CREATE TABLE IF NOT EXISTS email_queue (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   recipient TEXT NOT NULL,
+  reply_to TEXT NOT NULL DEFAULT '',
   subject TEXT NOT NULL,
   body_text TEXT NOT NULL,
   body_html TEXT NOT NULL DEFAULT '',
@@ -107,6 +108,19 @@ CREATE TABLE IF NOT EXISTS email_queue (
   last_error TEXT NOT NULL DEFAULT '',
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
   sent_at TEXT
+);
+
+-- Public Contact Form Messages
+CREATE TABLE IF NOT EXISTS contact_messages (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  message_uid TEXT NOT NULL UNIQUE,
+  sender_email TEXT NOT NULL,
+  subject TEXT NOT NULL,
+  message TEXT NOT NULL,
+  lang TEXT NOT NULL DEFAULT 'en',
+  ip TEXT NOT NULL DEFAULT '',
+  status TEXT NOT NULL DEFAULT 'new',
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
 -- Hermes Agent Event Outbox

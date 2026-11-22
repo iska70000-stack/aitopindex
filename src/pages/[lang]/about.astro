@@ -117,6 +117,13 @@ const alternatePaths = {
         <a href={`/${lang}/methodology/`} class="btn-ghost text-xs">
           <span>{lang === 'ru' ? 'Читать методологию' : 'Read Methodology'}</span>
         </a>
+        <button
+          type="button"
+          onclick="if(typeof window.openContactUsModal==='function'){window.openContactUsModal();}"
+          class="btn-ghost text-xs cursor-pointer"
+        >
+          <span>{lang === 'ru' ? 'Обратная связь' : 'Contact Us'}</span>
+        </button>
       </div>
     </div>
   </div>

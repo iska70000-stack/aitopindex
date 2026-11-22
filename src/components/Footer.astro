@@ -64,13 +64,40 @@ const ruPath = alternatePaths?.ru || '/ru/';
             ? 'Подайте заявку на добавление компании или обновление сведений.'
             : 'Submit an AI organization for domain verification or request a profile update.'}
         </p>
-        <div class="flex flex-col gap-2 mt-2">
+        <div class="flex flex-col gap-2.5 mt-2">
           <a href={`/${lang}/submit/`} class="cta text-xs py-2 px-3 justify-center">
             {lang === 'ru' ? 'Подать заявку →' : 'Submit Organization →'}
           </a>
-          <a href="mailto:submit@aitopindex.com" class="text-[12px] font-mono text-[#6336ed] hover:underline">
-            submit@aitopindex.com
-          </a>
+          <div class="flex items-center gap-1.5">
+            <a
+              href="mailto:hello@aitopindex.com"
+              class="!inline !m-0 text-[12px] font-mono text-[#6336ed] hover:underline truncate"
+            >
+              hello@aitopindex.com
+            </a>
+            <button
+              type="button"
+              onclick={`navigator.clipboard?.writeText('hello@aitopindex.com').then(()=>window.showToast&&window.showToast('${lang === 'ru' ? 'Скопировано' : 'Copied'}')).catch(()=>{})`}
+              class="inline-flex items-center justify-center w-6 h-6 rounded-md bg-[#f5f6fa] hover:bg-[#f0edff] border border-[#e2e7f3] hover:border-[#ded6ff] text-[#59617e] hover:text-[#6336ed] transition-colors shrink-0 cursor-pointer"
+              title={lang === 'ru' ? 'Копировать email' : 'Copy email'}
+              aria-label={lang === 'ru' ? 'Копировать hello@aitopindex.com' : 'Copy hello@aitopindex.com'}
+            >
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+            </button>
+          </div>
+          <button
+            type="button"
+            onclick="if(typeof window.openContactUsModal==='function'){window.openContactUsModal();}"
+            class="inline-flex items-center justify-center gap-1.5 text-[12px] font-semibold text-[#17172c] hover:text-[#6336ed] bg-[#f8f9fe] hover:bg-[#f0edff] border border-[#dfe1ee] hover:border-[#ded6ff] rounded-lg px-3 py-1.5 transition-colors cursor-pointer"
+          >
+            <svg class="w-3.5 h-3.5 text-[#6336ed] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <span>{lang === 'ru' ? 'Обратная связь' : 'Contact Us'}</span>
+          </button>
         </div>
       </div>
     </div>
