@@ -15,6 +15,7 @@ import {
   RateLimiter,
 } from './lib/security.mjs';
 import { enqueueAdminEmail, enqueueHermesEvent } from './lib/notifications.mjs';
+import { syncCatalogSafely } from './scripts/sync-catalog.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = path.resolve(__dirname, '..');
@@ -23,6 +24,142 @@ const PORT = Number(process.env.PORT || 4390);
 const SESSION_SECRET = process.env.SESSION_SECRET || (process.env.NODE_ENV !== 'production' ? 'dev-local-session-secret-change-in-prod' : crypto.randomBytes(32).toString('hex'));
 const ADMIN_PANEL_URL = process.env.ADMIN_PANEL_URL || 'https://www.aitopindex.com/admin';
 const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || '*';
+const ATI_INTERNAL_SECRET = process.env.ATI_INTERNAL_SECRET || '';
+
+const CATEGORY_ALIASES = {
+  sales: 'sales',
+  'ai sales agents & crm automation': 'sales',
+  'ai-sales-crm-agents': 'sales',
+  video: 'video',
+  'ai video, commercials & film studios': 'video',
+  'ai-video-film-production': 'video',
+  voice: 'voice',
+  'ai voice agents & call center automation': 'voice',
+  'ai-voice-call-agents': 'voice',
+  realestate: 'realestate',
+  'ai agents for real estate & developers': 'realestate',
+  'ai-for-real-estate': 'realestate',
+  healthcare: 'healthcare',
+  'ai automation for clinics, dental & medspas': 'healthcare',
+  'ai-for-healthcare-clinics': 'healthcare',
+  workflows: 'workflows',
+  'n8n, make & autonomous workflow agencies': 'workflows',
+  'n8n-make-workflow-agencies': 'workflows',
+  ecommerce: 'ecommerce',
+  'ai agents for e-commerce & marketplaces': 'ecommerce',
+  'ai-for-ecommerce-retail': 'ecommerce',
+  enterprise: 'enterprise',
+  'enterprise rag, private llms & legal ai': 'enterprise',
+  'enterprise-rag-custom-llms': 'enterprise',
+  geo: 'geo',
+  'geo (ai search optimization) & ai web studios': 'geo',
+  'geo-ai-search-agencies': 'geo',
+};
+
+function normalizeCategoryId(raw) {
+  const key = String(raw || '').trim().toLowerCase();
+  if (CATEGORY_ALIASES[key]) return CATEGORY_ALIASES[key];
+  if (key.includes('rag') || key.includes('enterprise') || key.includes('legal')) return 'enterprise';
+  if (key.includes('sales') || key.includes('crm')) return 'sales';
+  if (key.includes('video') || key.includes('film')) return 'video';
+  if (key.includes('voice') || key.includes('call')) return 'voice';
+  if (key.includes('real estate') || key.includes('недвижим')) return 'realestate';
+  if (key.includes('health') || key.includes('clinic') || key.includes('медицин')) return 'healthcare';
+  if (key.includes('n8n') || key.includes('make') || key.includes('workflow')) return 'workflows';
+  if (key.includes('commerce') || key.includes('маркетплейс')) return 'ecommerce';
+  if (key.includes('geo')) return 'geo';
+  return 'enterprise';
+}
+
+function moderateSubmission(db, { sub, newStatus, actor, notes, categoryId }) {
+  const canonicalCat = normalizeCategoryId(categoryId || sub.category_id);
+
+  db.prepare(`
+    UPDATE submissions
+    SET status = ?, moderator_notes = ?, category_id = ?, reviewed_by = ?, reviewed_at = datetime('now'), updated_at = datetime('now')
+    WHERE id = ?
+  `).run(newStatus, notes ?? sub.moderator_notes, canonicalCat, actor, sub.id);
+
+  if (newStatus === 'approved') {
+    const existing = db.prepare('SELECT id FROM companies WHERE normalized_domain = ?').get(sub.normalized_domain);
+    const stackArr = sub.tech_stack
+      ? sub.tech_stack.split(',').map((s) => s.trim()).filter(Boolean).slice(0, 8)
+      : [];
+    const today = new Date().toISOString().slice(0, 10);
+
+    if (existing) {
+      db.prepare(`
+        UPDATE companies SET
+          name = ?, categories_json = ?, tech_stack_json = ?, description_en = ?,
+          verification_status = 'verified', publication_status = 'published',
+          verified_date = ?, updated_at = datetime('now')
+        WHERE id = ?
+      `).run(
+        sub.organization_name,
+        JSON.stringify([canonicalCat]),
+        JSON.stringify(stackArr),
+        sub.description,
+        today,
+        existing.id
+      );
+    } else {
+      const newId = slugifyId(sub.organization_name);
+      db.prepare(`
+        INSERT INTO companies (
+          id, name, normalized_domain, website, entity_type, region,
+          categories_json, tech_stack_json, description_en, description_ru,
+          verification_status, publication_status, source, verified_date
+        ) VALUES (?, ?, ?, ?, 'integrator', 'global', ?, ?, ?, ?, 'verified', 'published', ?, ?)
+      `).run(
+        newId,
+        sub.organization_name,
+        sub.normalized_domain,
+        sub.website_url,
+        JSON.stringify([canonicalCat]),
+        JSON.stringify(stackArr),
+        sub.description,
+        sub.description,
+        `submission:${sub.submission_uid}`,
+        today
+      );
+    }
+
+    if (sub.work_email) {
+      enqueueAdminEmail(db, {
+        recipient: sub.work_email,
+        subject: sub.lang === 'ru'
+          ? `Ваша компания ${sub.organization_name} одобрена в AITopIndex`
+          : `${sub.organization_name} is now approved on AITopIndex`,
+        bodyText: sub.lang === 'ru'
+          ? `Здравствуйте!\n\nЗаявка ${sub.submission_uid} для ${sub.organization_name} (${sub.normalized_domain}) одобрена и опубликована в каталоге AITopIndex: https://www.aitopindex.com/ru/\n\nС уважением,\nКоманда AITopIndex`
+          : `Hello,\n\nYour submission ${sub.submission_uid} for ${sub.organization_name} (${sub.normalized_domain}) has been approved and published on AITopIndex: https://www.aitopindex.com/\n\nBest regards,\nAITopIndex Editorial Team`,
+      });
+    }
+  }
+
+  logAudit(db, {
+    actor,
+    action: `submission.${newStatus}`,
+    entityType: 'submission',
+    entityId: sub.submission_uid,
+    details: { domain: sub.normalized_domain, notes: notes ?? sub.moderator_notes, category: canonicalCat },
+  });
+}
+
+function moderateLead(db, { lead, newStatus, actor, notes, matched }) {
+  db.prepare(`
+    UPDATE leads SET status = ?, moderator_notes = ?, matched_company_ids_json = ?, updated_at = datetime('now')
+    WHERE id = ?
+  `).run(newStatus, notes ?? lead.moderator_notes, matched ?? lead.matched_company_ids_json, lead.id);
+
+  logAudit(db, {
+    actor,
+    action: `lead.${newStatus}`,
+    entityType: 'lead',
+    entityId: lead.lead_uid,
+    details: { notes: notes ?? lead.moderator_notes },
+  });
+}
 
 const db = getDb();
 const submitLimiter = new RateLimiter(15 * 60 * 1000, 8);
@@ -506,66 +643,7 @@ export const server = http.createServer(async (req, res) => {
         const notes = body.moderator_notes !== undefined ? String(body.moderator_notes) : sub.moderator_notes;
         const categoryId = body.category_id ? String(body.category_id) : sub.category_id;
 
-        db.prepare(`
-          UPDATE submissions
-          SET status = ?, moderator_notes = ?, category_id = ?, reviewed_by = ?, reviewed_at = datetime('now'), updated_at = datetime('now')
-          WHERE id = ?
-        `).run(newStatus, notes, categoryId, admin.username, id);
-
-        if (newStatus === 'approved') {
-          // Upsert unique company by normalized_domain (never creates duplicate!)
-          const existing = db.prepare('SELECT id FROM companies WHERE normalized_domain = ?').get(sub.normalized_domain);
-          const stackArr = sub.tech_stack
-            ? sub.tech_stack.split(',').map((s) => s.trim()).filter(Boolean)
-            : [];
-          const today = new Date().toISOString().slice(0, 10);
-
-          if (existing) {
-            db.prepare(`
-              UPDATE companies SET
-                name = ?, categories_json = ?, tech_stack_json = ?, description_en = ?,
-                verification_status = 'verified', publication_status = 'published',
-                verified_date = ?, updated_at = datetime('now')
-              WHERE id = ?
-            `).run(
-              sub.organization_name,
-              JSON.stringify([categoryId]),
-              JSON.stringify(stackArr),
-              sub.description,
-              today,
-              existing.id
-            );
-          } else {
-            const newId = slugifyId(sub.organization_name);
-            db.prepare(`
-              INSERT INTO companies (
-                id, name, normalized_domain, website, entity_type, region,
-                categories_json, tech_stack_json, description_en, description_ru,
-                verification_status, publication_status, source, verified_date
-              ) VALUES (?, ?, ?, ?, 'integrator', 'global', ?, ?, ?, ?, 'verified', 'published', ?, ?)
-            `).run(
-              newId,
-              sub.organization_name,
-              sub.normalized_domain,
-              sub.website_url,
-              JSON.stringify([categoryId]),
-              JSON.stringify(stackArr),
-              sub.description,
-              sub.description,
-              `submission:${sub.submission_uid}`,
-              today
-            );
-          }
-        }
-
-        logAudit(db, {
-          actor: admin.username,
-          action: `submission.${newStatus}`,
-          entityType: 'submission',
-          entityId: sub.submission_uid,
-          details: { domain: sub.normalized_domain, notes },
-        });
-
+        moderateSubmission(db, { sub, newStatus, actor: admin.username, notes, categoryId });
         return sendJson(res, 200, { ok: true, status: newStatus });
       }
 
@@ -587,19 +665,7 @@ export const server = http.createServer(async (req, res) => {
           ? JSON.stringify(body.matched_company_ids)
           : lead.matched_company_ids_json;
 
-        db.prepare(`
-          UPDATE leads SET status = ?, moderator_notes = ?, matched_company_ids_json = ?, updated_at = datetime('now')
-          WHERE id = ?
-        `).run(newStatus, notes, matched, id);
-
-        logAudit(db, {
-          actor: admin.username,
-          action: `lead.${newStatus}`,
-          entityType: 'lead',
-          entityId: lead.lead_uid,
-          details: { notes },
-        });
-
+        moderateLead(db, { lead, newStatus, actor: admin.username, notes, matched });
         return sendJson(res, 200, { ok: true });
       }
 
@@ -643,6 +709,59 @@ export const server = http.createServer(async (req, res) => {
       }
 
       return sendJson(res, 404, { error: 'Admin API endpoint not found' });
+    }
+
+    // 5b. Internal Telegram / Hermes Moderation Endpoint (localhost + X-Internal-Secret)
+    if (method === 'POST' && pathname === '/internal/moderation') {
+      const providedSecret = String(req.headers['x-internal-secret'] || '');
+      if (
+        !ATI_INTERNAL_SECRET ||
+        providedSecret.length !== ATI_INTERNAL_SECRET.length ||
+        !crypto.timingSafeEqual(Buffer.from(providedSecret), Buffer.from(ATI_INTERNAL_SECRET))
+      ) {
+        return sendJson(res, 401, { ok: false, error: 'Unauthorized internal call' });
+      }
+
+      const body = await readJsonBody(req);
+      const action = String(body.action || '');
+      const targetId = String(body.targetId || '').trim();
+      const actor = `telegram:${String(body.adminUserId || 'admin')}`;
+
+      if (action === 'sub_approve' || action === 'sub_reject') {
+        const sub = db.prepare('SELECT * FROM submissions WHERE submission_uid = ?').get(targetId);
+        if (!sub) return sendJson(res, 404, { ok: false, error: `Submission ${targetId} not found` });
+
+        const newStatus = action === 'sub_approve' ? 'approved' : 'rejected';
+        moderateSubmission(db, { sub, newStatus, actor });
+
+        if (newStatus === 'approved' && process.env.ATI_ENABLE_AUTO_SYNC !== 'false') {
+          setImmediate(() => {
+            try {
+              syncCatalogSafely({
+                force: true,
+                actor,
+                verifyBuild: true,
+                deploy: Boolean(process.env.VERCEL_TOKEN),
+              });
+            } catch (syncErr) {
+              console.error('[Telegram Auto-Sync Error]', syncErr.message);
+            }
+          });
+        }
+
+        return sendJson(res, 200, { ok: true, status: newStatus, targetId });
+      }
+
+      if (action === 'lead_work' || action === 'lead_spam') {
+        const lead = db.prepare('SELECT * FROM leads WHERE lead_uid = ?').get(targetId);
+        if (!lead) return sendJson(res, 404, { ok: false, error: `Lead ${targetId} not found` });
+
+        const newStatus = action === 'lead_work' ? 'in_progress' : 'spam';
+        moderateLead(db, { lead, newStatus, actor });
+        return sendJson(res, 200, { ok: true, status: newStatus, targetId });
+      }
+
+      return sendJson(res, 400, { ok: false, error: 'Unknown moderation action' });
     }
 
     // 6. Serve Admin Panel HTML

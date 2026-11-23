@@ -151,7 +151,37 @@ export function enqueueHermesEvent(db, eventType, payload) {
   return eventId;
 }
 
+export function buildHermesReplyMarkup(eventType, envelope) {
+  const d = envelope.data || {};
+  if (eventType === 'listing.submitted' && d.submission_id) {
+    return {
+      inline_keyboard: [
+        [
+          { text: '✅ Одобрить', callback_data: `ati:sub_approve:${d.submission_id}` },
+          { text: '❌ Отклонить', callback_data: `ati:sub_reject:${d.submission_id}` },
+        ],
+      ],
+    };
+  }
+
+  if (eventType === 'lead.created' && d.lead_id) {
+    return {
+      inline_keyboard: [
+        [
+          { text: '✅ В работу', callback_data: `ati:lead_work:${d.lead_id}` },
+          { text: '🗑 Спам', callback_data: `ati:lead_spam:${d.lead_id}` },
+        ],
+      ],
+    };
+  }
+
+  return undefined;
+}
+
 export async function dispatchHermesEvents(db) {
+  const tgToken = process.env.TELEGRAM_BOT_TOKEN;
+  const tgChatId = process.env.TELEGRAM_CHAT_ID || process.env.TELEGRAM_HOME_CHANNEL;
+
   const cliPython = process.env.HERMES_CLI_PYTHON; // e.g. /root/.hermes/hermes-agent/venv/bin/python
   const cliScript = process.env.HERMES_CLI_SCRIPT || '/root/.hermes/hermes-agent/hermes_cli/main.py';
   const cliTarget = process.env.HERMES_CLI_TARGET; // e.g. telegram:Исмаил (dm)
@@ -159,7 +189,7 @@ export async function dispatchHermesEvents(db) {
   const webhookUrl = process.env.HERMES_WEBHOOK_URL;
   const webhookSecret = process.env.HERMES_WEBHOOK_SECRET;
 
-  if ((!cliPython || !cliTarget) && (!webhookUrl || !webhookSecret)) {
+  if ((!tgToken || !tgChatId) && (!cliPython || !cliTarget) && (!webhookUrl || !webhookSecret)) {
     return { dispatched: 0, skipped: 'Hermes transport not configured' };
   }
 
@@ -176,8 +206,26 @@ export async function dispatchHermesEvents(db) {
     try {
       const envelope = JSON.parse(row.payload_json);
 
-      if (cliPython && cliTarget) {
-        // Safe local delivery via Hermes CLI `hermes send --to` (zero public port exposure)
+      if (tgToken && tgChatId) {
+        const messageText = formatHermesMessage(row.event_type, envelope);
+        const replyMarkup = buildHermesReplyMarkup(row.event_type, envelope);
+        const resp = await fetch(`https://api.telegram.org/bot${tgToken}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: tgChatId,
+            text: messageText,
+            disable_web_page_preview: true,
+            reply_markup: replyMarkup,
+          }),
+          signal: AbortSignal.timeout(10000),
+        });
+        const data = await resp.json().catch(() => ({}));
+        if (!resp.ok || !data.ok) {
+          throw new Error(data.description || `Telegram HTTP ${resp.status}`);
+        }
+      } else if (cliPython && cliTarget) {
+        // Fallback: safe local delivery via Hermes CLI `hermes send --to`
         const messageText = formatHermesMessage(row.event_type, envelope);
         await execFileAsync(cliPython, [cliScript, 'send', '--to', cliTarget, messageText], {
           timeout: 15000,

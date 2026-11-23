@@ -25,6 +25,8 @@ export const FLAG_SVGS: Record<string, string> = {
 
   AU: `<svg ${BASE_ATTR}><rect width="24" height="16" fill="#012169"/><g transform="scale(0.5)"><path d="M0 0L24 16M24 0L0 16" stroke="#fff" stroke-width="3.2"/><path d="M0 0L24 16M24 0L0 16" stroke="#c8102e" stroke-width="1.5"/><path d="M12 0V16M0 8H24" stroke="#fff" stroke-width="5"/><path d="M12 0V16M0 8H24" stroke="#c8102e" stroke-width="3"/></g><g fill="#fff"><circle cx="6" cy="12" r="1.4"/><circle cx="18" cy="4" r="0.9"/><circle cx="20.5" cy="7.2" r="0.85"/><circle cx="18" cy="12.5" r="1"/><circle cx="15.5" cy="8.2" r="0.85"/><circle cx="19.2" cy="9.6" r="0.55"/></g></svg>`,
 
+  IN: `<svg ${BASE_ATTR}><rect width="24" height="5.34" y="0" fill="#ff9933"/><rect width="24" height="5.34" y="5.33" fill="#ffffff"/><rect width="24" height="5.34" y="10.66" fill="#138808"/><circle cx="12" cy="8" r="1.9" fill="none" stroke="#000080" stroke-width="0.7"/><circle cx="12" cy="8" r="0.45" fill="#000080"/></svg>`,
+
   GLOBAL: `<svg class="inline-block w-[16px] h-[16px] text-[#6336ed] shrink-0 align-middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c4 4 4 14 0 18M12 3c-4 4-4 14 0 18"/></svg>`,
 };
 

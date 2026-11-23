@@ -38,6 +38,9 @@ export function extractCountry(agency: Agency): CountryMeta {
   if (hq.includes('australia') || hq.includes('sydney')) {
     return { code: 'AU', flag: '🇦🇺', name: { en: 'Australia', ru: 'Австралия' } };
   }
+  if (hq.includes('india') || hq.includes('bengaluru') || hq.includes('bangalore')) {
+    return { code: 'IN', flag: '🇮🇳', name: { en: 'India', ru: 'Индия' } };
+  }
 
   return {
     code: 'GLOBAL',
