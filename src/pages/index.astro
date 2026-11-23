@@ -26,7 +26,7 @@ const categoryItemListJsonLd = {
     '@type': 'ListItem',
     position: i + 1,
     name: c.title[lang],
-    url: `${SITE}/${lang}/${c.slug[lang]}/`,
+    url: `${SITE}/${c.slug[lang]}/`,
     description: c.short[lang],
   })),
 };
@@ -36,26 +36,10 @@ const categoryItemListJsonLd = {
   title={meta.title}
   description={meta.description}
   lang={lang}
-  canonicalPath="/en/"
-  alternatePaths={{ en: '/en/', ru: '/ru/' }}
+  canonicalPath="/"
+  alternatePaths={{ en: '/', ru: '/ru/' }}
   jsonLd={categoryItemListJsonLd}
 >
-  <!-- Client-Side RU detection for root / visitors -->
-  <script is:inline>
-    try {
-      const isBot = /bot|googlebot|crawler|spider|robot|crawling/i.test(navigator.userAgent);
-      if (!isBot) {
-        const userLang = (navigator.language || '').toLowerCase();
-        if (userLang.startsWith('ru') || userLang.startsWith('be') || userLang.startsWith('kk')) {
-          if (!sessionStorage.getItem('preferred_lang')) {
-            sessionStorage.setItem('preferred_lang', 'ru');
-            window.location.replace('/ru/');
-          }
-        }
-      }
-    } catch (e) {}
-  </script>
-
   <DirectoryApp
     agencies={listAgencies}
     categories={categories}

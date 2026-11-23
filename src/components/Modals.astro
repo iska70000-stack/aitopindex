@@ -1,5 +1,5 @@
 ---
-import { agencies, categories, type Lang } from '../lib/data';
+import { agencies, agencyPath, categories, type Lang } from '../lib/data';
 
 interface Props {
   lang: Lang;
@@ -20,7 +20,7 @@ const agenciesModalData = agencies.map((a) => ({
   description: a.description[lang],
   agents: a.deployedAgents[lang],
   stack: a.techStack,
-  profileUrl: `/${lang}/agency/${a.id}/`,
+  profileUrl: agencyPath(lang, a.id),
 }));
 
 const categoriesModalData = categories.map((c) => ({

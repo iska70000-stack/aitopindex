@@ -1,5 +1,5 @@
 ---
-import type { Agency, Category, Lang } from '../lib/data';
+import { agencyPath, langPath, type Agency, type Category, type Lang } from '../lib/data';
 import { getPlatformStats, extractCountry } from '../lib/stats';
 import { FLAG_SVGS, getFlagSvg, splitBudget } from '../lib/flags';
 import CategoryIcon from './CategoryIcon.astro';
@@ -16,6 +16,7 @@ const { agencies, categories, lang, initialCategory = 'all' } = Astro.props;
 
 const stats = getPlatformStats();
 const PAGE_SIZE = 20;
+const submitUrl = langPath(lang, '/submit/');
 
 // Brandmark styling generator
 const brandmarkStyles = [
@@ -50,7 +51,7 @@ const agenciesClientData = sortedAgencies.map((a) => {
     budget: a.minProjectBudget[lang],
     techStack: a.techStack,
     verifiedDate: a.verifiedDate,
-    profileUrl: `/${lang}/agency/${a.id}/`,
+    profileUrl: agencyPath(lang, a.id),
     website: a.website,
     verified: a.status === 'verified',
   };
@@ -94,7 +95,7 @@ const platformPct = 100 - integratorPct;
             <button
               type="button"
               class="cta secondary cursor-pointer"
-              onclick="if(typeof window.openSubmitAiModal==='function'){window.openSubmitAiModal();}else{window.location.href=`/${lang}/submit/`;}"
+              onclick={`if(typeof window.openSubmitAiModal==='function'){window.openSubmitAiModal();}else{window.location.href='${submitUrl}';}`}
             >
               <span>+</span>
               <span>{lang === 'ru' ? 'Добавить компанию' : 'Get Listed'}</span>
@@ -264,7 +265,7 @@ const platformPct = 100 - integratorPct;
               </p>
             </div>
           </div>
-          <a class="more" href={`/${lang}/methodology/`}>
+          <a class="more" href={langPath(lang, '/methodology/')}>
             {lang === 'ru' ? 'О статусах проверки →' : 'About Verification →'}
           </a>
         </div>
@@ -290,11 +291,12 @@ const platformPct = 100 - integratorPct;
               const entityLabel = agency.entityType === 'platform'
                 ? (lang === 'ru' ? 'Платформа' : 'Platform')
                 : (lang === 'ru' ? 'Интегратор' : 'Integrator');
+              const profileUrl = agencyPath(lang, agency.id);
 
               return (
                 <div
                   class="grid grid-cols-[1fr_auto] md:grid-cols-[minmax(215px,1.6fr)_minmax(150px,1.05fr)_minmax(122px,0.8fr)_minmax(122px,0.85fr)_20px] items-center gap-3 py-3.5 px-2 hover:bg-[#fafbfe] transition-colors cursor-pointer"
-                  onclick={`window.location.href='/${lang}/agency/${agency.id}/'`}
+                  onclick={`window.location.href='${profileUrl}'`}
                   data-agency-row={agency.id}
                 >
                   <div class="flex items-start gap-3 min-w-0">
@@ -303,7 +305,7 @@ const platformPct = 100 - integratorPct;
                     </div>
                     <div class="min-w-0 flex-1">
                       <div class="flex items-center gap-1.5 min-w-0">
-                        <a href={`/${lang}/agency/${agency.id}/`} class="font-bold text-[15px] md:text-[13.5px] text-[#17172c] hover:text-[#6336ed] truncate">
+                        <a href={profileUrl} class="font-bold text-[15px] md:text-[13.5px] text-[#17172c] hover:text-[#6336ed] truncate">
                           {agency.name}
                         </a>
                         <span
@@ -600,7 +602,7 @@ const platformPct = 100 - integratorPct;
         <div class="shrink-0">
           <button
             type="button"
-            onclick="if(typeof window.openSubmitAiModal==='function'){window.openSubmitAiModal();}else{window.location.href=`/${lang}/submit/`;}"
+            onclick={`if(typeof window.openSubmitAiModal==='function'){window.openSubmitAiModal();}else{window.location.href='${submitUrl}';}`}
             class="cta text-xs py-3 px-5"
           >
             {lang === 'ru' ? 'Подать профиль специалиста →' : 'Apply as AI Specialist →'}
@@ -631,7 +633,7 @@ const platformPct = 100 - integratorPct;
           const catAgenciesCount = agencies.filter((a) => a.categories.includes(c.id)).length;
           return (
             <a
-              href={`/${lang}/${c.slug[lang]}/`}
+              href={langPath(lang, `/${c.slug[lang]}/`)}
               class="card p-4 hover:shadow-md hover:border-[#8d67ff] transition-all group flex flex-col justify-between"
             >
               <div>
@@ -669,7 +671,7 @@ const platformPct = 100 - integratorPct;
         <div>
           <h3>{lang === 'ru' ? 'Открытая методология' : 'Catalog Methodology'}</h3>
           <p>{lang === 'ru' ? 'Четкое разделение B2B-интеграторов и AI-платформ. Прозрачные критерии включения.' : 'Clear separation of B2B integrators and SaaS platforms with documented listing criteria.'}</p>
-          <a class="more" href={`/${lang}/methodology/`}>{lang === 'ru' ? 'Подробнее →' : 'See Methodology →'}</a>
+          <a class="more" href={langPath(lang, '/methodology/')}>{lang === 'ru' ? 'Подробнее →' : 'See Methodology →'}</a>
         </div>
       </article>
 
@@ -678,7 +680,7 @@ const platformPct = 100 - integratorPct;
         <div>
           <h3>{lang === 'ru' ? 'Проверка доменов' : 'Domain Verification'}</h3>
           <p>{lang === 'ru' ? 'Каждая компания проверяется на наличие рабочего официального домена и HTTPS.' : 'Every listed organization is checked for an active official corporate domain and HTTPS.'}</p>
-          <a class="more" href={`/${lang}/methodology/`}>{lang === 'ru' ? 'Стандарты проверки →' : 'Audit Standards →'}</a>
+          <a class="more" href={langPath(lang, '/methodology/')}>{lang === 'ru' ? 'Стандарты проверки →' : 'Audit Standards →'}</a>
         </div>
       </article>
 
@@ -687,7 +689,7 @@ const platformPct = 100 - integratorPct;
         <div>
           <h3>{lang === 'ru' ? 'Независимый реестр' : 'Neutral B2B Registry'}</h3>
           <p>{lang === 'ru' ? 'Мы не продаем места в выдаче и не публикуем выдуманные рейтинги без методики.' : 'Non-paid listings with neutral sorting and zero fabricated ratings or reviews.'}</p>
-          <a class="more" href={`/${lang}/about/`}>{lang === 'ru' ? 'О принципах →' : 'About Principles →'}</a>
+          <a class="more" href={langPath(lang, '/about/')}>{lang === 'ru' ? 'О принципах →' : 'About Principles →'}</a>
         </div>
       </article>
 
@@ -696,7 +698,7 @@ const platformPct = 100 - integratorPct;
         <div>
           <h3>{lang === 'ru' ? 'Структурированные данные' : 'Structured Discovery'}</h3>
           <p>{lang === 'ru' ? 'Полная разметка Schema.org и открытый формат данных для корпоративных заказчиков.' : 'Clean Schema.org structured metadata for enterprise sourcing and AI search crawlers.'}</p>
-          <a class="more" href={`/${lang}/submit/`}>{lang === 'ru' ? 'Подать заявку →' : 'Apply for Listing →'}</a>
+          <a class="more" href={langPath(lang, '/submit/')}>{lang === 'ru' ? 'Подать заявку →' : 'Apply for Listing →'}</a>
         </div>
       </article>
     </section>
@@ -710,10 +712,10 @@ const platformPct = 100 - integratorPct;
       <div class="insight-intro">
         <h2>{lang === 'ru' ? 'Инструменты и стандарты' : 'Platform Resources'}</h2>
         <p>{lang === 'ru' ? 'Документация по отбору ИИ-подрядчиков, расчёту бюджета внедрения и добавлению вашей компании в каталог.' : 'Documentation for evaluating AI vendors, estimating implementation scope, and joining the index.'}</p>
-        <a href={`/${lang}/methodology/`}>{lang === 'ru' ? 'Методология →' : 'Read Methodology →'}</a>
+        <a href={langPath(lang, '/methodology/')}>{lang === 'ru' ? 'Методология →' : 'Read Methodology →'}</a>
       </div>
 
-      <a href={`/${lang}/methodology/`} class="story hover:shadow-lg transition-shadow">
+      <a href={langPath(lang, '/methodology/')} class="story hover:shadow-lg transition-shadow">
         <div class="story-art">✦</div>
         <div>
           <span class="category">{lang === 'ru' ? 'Документация' : 'Documentation'}</span>
@@ -722,7 +724,7 @@ const platformPct = 100 - integratorPct;
         </div>
       </a>
 
-      <a href={`/${lang}/#calculator`} class="story hover:shadow-lg transition-shadow">
+      <a href={langPath(lang, '/#calculator')} class="story hover:shadow-lg transition-shadow">
         <div class="story-art robot">◉</div>
         <div>
           <span class="category">{lang === 'ru' ? 'Инструмент' : 'Estimator'}</span>
@@ -731,7 +733,7 @@ const platformPct = 100 - integratorPct;
         </div>
       </a>
 
-      <a href={`/${lang}/about/`} class="story hover:shadow-lg transition-shadow">
+      <a href={langPath(lang, '/about/')} class="story hover:shadow-lg transition-shadow">
         <div class="story-art city">▥</div>
         <div>
           <span class="category">{lang === 'ru' ? 'О платформе' : 'About'}</span>

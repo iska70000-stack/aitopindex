@@ -13,7 +13,7 @@ ${agencies
     (a, i) => `### ${i + 1}. ${a.name}
 - **ID**: ${a.id}
 - **Website**: ${a.website}
-- **Internal Profile**: ${SITE}/en/agency/${a.id}/
+- **Internal Profile**: ${SITE}/agency/${a.id}/
 - **Type**: ${a.type}
 - **Entity Type**: ${a.entityType === 'platform' ? 'Enterprise AI Platform' : 'B2B Agency / Integrator'}
 - **Region**: ${a.region === 'global' ? 'Global Enterprise' : a.region === 'cis-mena' ? 'CIS / Russia / MENA' : 'USA & Europe'}

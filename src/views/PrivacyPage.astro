@@ -1,12 +1,12 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import { type Lang, LANGS, BRAND, YEAR } from '../../lib/data';
+import Layout from '../layouts/Layout.astro';
+import { type Lang, BRAND, YEAR, langPath } from '../lib/data';
 
-export function getStaticPaths() {
-  return LANGS.map((lang) => ({ params: { lang } }));
+interface Props {
+  lang: Lang;
 }
 
-const { lang } = Astro.params as { lang: Lang };
+const { lang } = Astro.props;
 
 const title = lang === 'ru'
   ? `Политика конфиденциальности | ${BRAND}`
@@ -17,7 +17,7 @@ const description = lang === 'ru'
   : `AITopIndex Privacy Policy: data protection practices, analytics disclosure, compliance with GDPR and international data standards.`;
 
 const alternatePaths = {
-  en: '/en/privacy/',
+  en: '/privacy/',
   ru: '/ru/privacy/',
 };
 ---
@@ -26,7 +26,7 @@ const alternatePaths = {
   title={title}
   description={description}
   lang={lang}
-  canonicalPath={`/${lang}/privacy/`}
+  canonicalPath={langPath(lang, '/privacy/')}
   alternatePaths={alternatePaths}
 >
   <div class="py-12 max-w-3xl mx-auto space-y-8">

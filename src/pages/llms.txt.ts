@@ -13,7 +13,7 @@ AITopIndex (https://www.aitopindex.com) is the authoritative global directory of
 ${categories
   .map(
     (c, i) => `### ${i + 1}. ${c.title.en}
-- **EN URL**: ${SITE}/en/${c.slug.en}/
+- **EN URL**: ${SITE}/${c.slug.en}/
 - **RU URL**: ${SITE}/ru/${c.slug.ru}/
 - **Focus**: ${c.focus.en}
 - **Budget Tier**: $${c.cost.usd[0].toLocaleString('en-US')} - $${c.cost.usd[1].toLocaleString('en-US')} USD
@@ -31,7 +31,7 @@ ${agenciesFor(c.id)
 ## Autonomous Verification Protocol
 - No synthetic phone numbers are permitted.
 - Agencies are verified by official corporate domains, published case studies, multi-agent stack depth, and public client deliverables.
-- To submit an agency for editorial review: ${SITE}/en/submit/
+- To submit an agency for editorial review: ${SITE}/submit/
 - Full dataset with all ${agencies.length} companies available at: ${SITE}/llms-full.txt
 
 ## TopIndex Network (Sister Directories)

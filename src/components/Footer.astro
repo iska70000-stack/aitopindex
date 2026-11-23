@@ -1,5 +1,5 @@
 ---
-import { categories, type Lang } from '../lib/data';
+import { categories, langPath, type Lang } from '../lib/data';
 
 interface Props {
   lang: Lang;
@@ -7,7 +7,7 @@ interface Props {
 }
 
 const { lang, alternatePaths } = Astro.props;
-const enPath = alternatePaths?.en || '/en/';
+const enPath = alternatePaths?.en || '/';
 const ruPath = alternatePaths?.ru || '/ru/';
 ---
 
@@ -16,7 +16,7 @@ const ruPath = alternatePaths?.ru || '/ru/';
     <div class="footer-grid">
       <!-- Col 1: Brand & Description -->
       <div>
-        <a class="logo" href={`/${lang}/`} aria-label="Top Index home">
+        <a class="logo" href={langPath(lang, '/')} aria-label="Top Index home">
           <span class="logo-symbol"></span>
           <span>Top Index<sup style="font-size:7px;align-self:flex-start;margin-top:3px">™</sup></span>
         </a>
@@ -30,17 +30,17 @@ const ruPath = alternatePaths?.ru || '/ru/';
       <!-- Col 2: Explore -->
       <div>
         <h4>{lang === 'ru' ? 'Навигация' : 'Explore'}</h4>
-        <a href={`/${lang}/#rankings`}>{lang === 'ru' ? 'Каталог компаний' : 'Directory'}</a>
-        <a href={`/${lang}/#specialists`}>{lang === 'ru' ? 'ИИ-Специалисты' : 'Specialists'}</a>
-        <a href={`/${lang}/#categories-section`}>{lang === 'ru' ? 'Сферы внедрения' : 'Categories'}</a>
-        <a href={`/${lang}/methodology/`}>{lang === 'ru' ? 'Методология аудита' : 'Methodology'}</a>
+        <a href={langPath(lang, '/#rankings')}>{lang === 'ru' ? 'Каталог компаний' : 'Directory'}</a>
+        <a href={langPath(lang, '/#specialists')}>{lang === 'ru' ? 'ИИ-Специалисты' : 'Specialists'}</a>
+        <a href={langPath(lang, '/#categories-section')}>{lang === 'ru' ? 'Сферы внедрения' : 'Categories'}</a>
+        <a href={langPath(lang, '/methodology/')}>{lang === 'ru' ? 'Методология аудита' : 'Methodology'}</a>
       </div>
 
       <!-- Col 3: Categories -->
       <div>
         <h4>{lang === 'ru' ? 'Категории ИИ' : 'Categories'}</h4>
         {categories.slice(0, 5).map((cat) => (
-          <a href={`/${lang}/${cat.slug[lang]}/`}>
+          <a href={langPath(lang, `/${cat.slug[lang]}/`)}>
             {cat.title[lang]}
           </a>
         ))}
@@ -49,8 +49,8 @@ const ruPath = alternatePaths?.ru || '/ru/';
       <!-- Col 4: Resources & AI Crawlers -->
       <div>
         <h4>{lang === 'ru' ? 'Ресурсы и AI' : 'Resources & AI'}</h4>
-        <a href={`/${lang}/#insights`}>{lang === 'ru' ? 'Аналитика и тренды' : 'Insights & Trends'}</a>
-        <a href={`/${lang}/about/`}>{lang === 'ru' ? 'О платформе' : 'About Platform'}</a>
+        <a href={langPath(lang, '/#insights')}>{lang === 'ru' ? 'Аналитика и тренды' : 'Insights & Trends'}</a>
+        <a href={langPath(lang, '/about/')}>{lang === 'ru' ? 'О платформе' : 'About Platform'}</a>
         <a href="/llms.txt" target="_blank">/llms.txt (LLM Summary)</a>
         <a href="/llms-full.txt" target="_blank">/llms-full.txt (Full)</a>
         <a href="/sitemap.xml" target="_blank">/sitemap.xml</a>
@@ -65,7 +65,7 @@ const ruPath = alternatePaths?.ru || '/ru/';
             : 'Submit an AI organization for domain verification or request a profile update.'}
         </p>
         <div class="flex flex-col gap-2.5 mt-2">
-          <a href={`/${lang}/submit/`} class="cta text-xs py-2 px-3 justify-center">
+          <a href={langPath(lang, '/submit/')} class="cta text-xs py-2 px-3 justify-center">
             {lang === 'ru' ? 'Подать заявку →' : 'Submit Organization →'}
           </a>
           <div class="flex items-center gap-1.5">
@@ -121,8 +121,8 @@ const ruPath = alternatePaths?.ru || '/ru/';
             RU
           </a>
         </div>
-        <a href={`/${lang}/privacy/`} class="hover:underline !inline !m-0">{lang === 'ru' ? 'Конфиденциальность' : 'Privacy'}</a>
-        <a href={`/${lang}/terms/`} class="hover:underline !inline !m-0">{lang === 'ru' ? 'Условия' : 'Terms'}</a>
+        <a href={langPath(lang, '/privacy/')} class="hover:underline !inline !m-0">{lang === 'ru' ? 'Конфиденциальность' : 'Privacy'}</a>
+        <a href={langPath(lang, '/terms/')} class="hover:underline !inline !m-0">{lang === 'ru' ? 'Условия' : 'Terms'}</a>
       </div>
     </div>
   </div>

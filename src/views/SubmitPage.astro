@@ -1,12 +1,12 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import { categories, type Lang, LANGS, BRAND } from '../../lib/data';
+import Layout from '../layouts/Layout.astro';
+import { categories, type Lang, BRAND, langPath } from '../lib/data';
 
-export function getStaticPaths() {
-  return LANGS.map((lang) => ({ params: { lang } }));
+interface Props {
+  lang: Lang;
 }
 
-const { lang } = Astro.params as { lang: Lang };
+const { lang } = Astro.props;
 
 const title = lang === 'ru'
   ? `Подать заявку в рейтинг ИИ-агентств | ${BRAND}`
@@ -17,7 +17,7 @@ const description = lang === 'ru'
   : 'Free application form for AI agent development agencies, automation integrators, and generative video studios to be verified and listed on AITopIndex.';
 
 const alternatePaths = {
-  en: '/en/submit/',
+  en: '/submit/',
   ru: '/ru/submit/',
 };
 ---
@@ -26,7 +26,7 @@ const alternatePaths = {
   title={title}
   description={description}
   lang={lang}
-  canonicalPath={`/${lang}/submit/`}
+  canonicalPath={langPath(lang, '/submit/')}
   alternatePaths={alternatePaths}
 >
   <div class="py-12 max-w-3xl mx-auto">
@@ -179,7 +179,7 @@ const alternatePaths = {
             <span>{lang === 'ru' ? 'Отправить напрямую в Telegram редакции' : 'Fast-Track via Telegram'}</span>
             <span>↗</span>
           </a>
-          <a href={`/${lang}/`} class="btn-ghost text-xs py-2.5 px-5">
+          <a href={langPath(lang, '/')} class="btn-ghost text-xs py-2.5 px-5">
             &larr; {lang === 'ru' ? 'Вернуться в каталог' : 'Back to Directory'}
           </a>
         </div>

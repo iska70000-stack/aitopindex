@@ -1,40 +1,28 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import AgencyCard from '../../components/AgencyCard.astro';
-import FilterBar from '../../components/FilterBar.astro';
-import RoiCalculator from '../../components/RoiCalculator.astro';
-import CategoryIcon from '../../components/CategoryIcon.astro';
+import Layout from '../layouts/Layout.astro';
+import AgencyCard from '../components/AgencyCard.astro';
+import FilterBar from '../components/FilterBar.astro';
+import RoiCalculator from '../components/RoiCalculator.astro';
+import CategoryIcon from '../components/CategoryIcon.astro';
 import {
-  categories,
   agenciesFor,
   YEAR,
   formatMonthYear,
   latestVerified,
   plural,
   SITE,
+  langPath,
   type Lang,
-  LANGS,
   type Category,
   type FaqItem,
-} from '../../lib/data';
+} from '../lib/data';
 
-export function getStaticPaths() {
-  const paths: { params: { lang: Lang; category: string }; props: { cat: Category } }[] = [];
-
-  for (const lang of LANGS) {
-    for (const cat of categories) {
-      paths.push({
-        params: { lang, category: cat.slug[lang] },
-        props: { cat },
-      });
-    }
-  }
-
-  return paths;
+interface Props {
+  lang: Lang;
+  cat: Category;
 }
 
-const { lang } = Astro.params as { lang: Lang; category: string };
-const { cat } = Astro.props as { cat: Category };
+const { lang, cat } = Astro.props;
 
 const categoryAgencies = agenciesFor(cat.id, lang);
 const verifiedStamp = formatMonthYear(latestVerified(), lang);
@@ -42,11 +30,13 @@ const verifiedStamp = formatMonthYear(latestVerified(), lang);
 // Category FAQs
 const faqList: FaqItem[] = cat.faq(YEAR)[lang];
 
-// Alternate URLs for hreflang
+// Alternate URLs for hreflang (EN at root '/', RU under '/ru/')
 const alternatePaths = {
-  en: `/en/${cat.slug.en}/`,
+  en: `/${cat.slug.en}/`,
   ru: `/ru/${cat.slug.ru}/`,
 };
+
+const canonicalPath = langPath(lang, `/${cat.slug[lang]}/`);
 
 const agencyCountLabel = plural(
   lang,
@@ -69,7 +59,7 @@ const collectionPageJsonLd = {
   '@type': 'CollectionPage',
   name: title,
   description: cat.intro[lang],
-  url: `${SITE}/${lang}/${cat.slug[lang]}/`,
+  url: `${SITE}${canonicalPath}`,
   about: {
     '@type': 'Thing',
     name: cat.title[lang],
@@ -114,7 +104,7 @@ const faqPageJsonLd = {
   title={title}
   description={description}
   lang={lang}
-  canonicalPath={`/${lang}/${cat.slug[lang]}/`}
+  canonicalPath={canonicalPath}
   alternatePaths={alternatePaths}
   jsonLd={[collectionPageJsonLd, itemListJsonLd, faqPageJsonLd]}
 >
@@ -122,9 +112,9 @@ const faqPageJsonLd = {
     <!-- Category Header & Breadcrumbs -->
     <section class="pb-8">
       <nav class="flex items-center gap-2 font-mono text-xs text-[#59617e] mb-5">
-        <a href={`/${lang}/`} class="hover:text-[#6336ed] transition">{lang === 'ru' ? 'Главная' : 'Home'}</a>
+        <a href={langPath(lang, '/')} class="hover:text-[#6336ed] transition">{lang === 'ru' ? 'Главная' : 'Home'}</a>
         <span>/</span>
-        <a href={`/${lang}/#categories-section`} class="hover:text-[#6336ed] transition">{lang === 'ru' ? 'Категории' : 'Categories'}</a>
+        <a href={langPath(lang, '/#categories-section')} class="hover:text-[#6336ed] transition">{lang === 'ru' ? 'Категории' : 'Categories'}</a>
         <span>/</span>
         <span class="text-[#17172c] font-bold">{cat.title[lang]}</span>
       </nav>

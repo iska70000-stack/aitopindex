@@ -1,6 +1,6 @@
 ---
 import type { Category, Lang } from '../lib/data';
-import { agenciesFor, plural } from '../lib/data';
+import { agenciesFor, categoryPath, plural } from '../lib/data';
 import CategoryIcon from './CategoryIcon.astro';
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 
 const { category, lang } = Astro.props;
 const count = agenciesFor(category.id).length;
-const href = `/${lang}/${category.slug[lang]}/`;
+const href = categoryPath(lang, category.id);
 
 const agencyCountLabel = plural(
   lang,

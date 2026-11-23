@@ -1,5 +1,5 @@
 ---
-import type { Lang } from '../lib/data';
+import { langPath, type Lang } from '../lib/data';
 
 interface Props {
   lang: Lang;
@@ -7,46 +7,48 @@ interface Props {
   alternatePaths?: { en: string; ru: string };
 }
 
-const { lang, currentPath = `/${lang}/`, alternatePaths } = Astro.props;
+const { lang, currentPath = langPath(lang, '/'), alternatePaths } = Astro.props;
 
-// Preserve exact page/category when switching language
+// Preserve exact page/category when switching language (EN at root '/', RU at '/ru/')
 const enPath = alternatePaths?.en
   || (currentPath.startsWith('/ru/')
-    ? currentPath.replace(/^\/ru\//, '/en/')
-    : currentPath === '/ru' ? '/en/' : currentPath);
+    ? currentPath.replace(/^\/ru/, '')
+    : currentPath === '/ru' ? '/' : currentPath);
 
 const ruPath = alternatePaths?.ru
-  || (currentPath.startsWith('/en/')
-    ? currentPath.replace(/^\/en\//, '/ru/')
-    : currentPath === '/en' ? '/ru/' : currentPath);
+  || (currentPath.startsWith('/ru/') || currentPath === '/ru'
+    ? currentPath
+    : `/ru${currentPath.startsWith('/') ? currentPath : '/' + currentPath}`);
+
+const submitUrl = langPath(lang, '/submit/');
 ---
 
 <header class="topbar">
   <div class="wrap top-inner">
     <!-- Brand Logo -->
-    <a class="logo" href={`/${lang}/`} aria-label="Top Index home">
+    <a class="logo" href={langPath(lang, '/')} aria-label="Top Index home">
       <span class="logo-symbol"></span>
       <span>Top Index<sup style="font-size:7px;align-self:flex-start;margin-top:3px">™</sup></span>
     </a>
 
     <!-- Desktop & Mobile Navigation Links -->
     <nav class="navigation" id="main-nav" aria-label="Main navigation">
-      <a href={`/${lang}/#rankings`}>
+      <a href={langPath(lang, '/#rankings')}>
         {lang === 'ru' ? 'Каталог' : 'Directory'}
       </a>
-      <a href={`/${lang}/#specialists`}>
+      <a href={langPath(lang, '/#specialists')}>
         {lang === 'ru' ? 'Специалисты' : 'Specialists'}
       </a>
-      <a href={`/${lang}/#categories-section`}>
+      <a href={langPath(lang, '/#categories-section')}>
         {lang === 'ru' ? 'Категории' : 'Categories'}
       </a>
-      <a href={`/${lang}/#insights`}>
+      <a href={langPath(lang, '/#insights')}>
         {lang === 'ru' ? 'Аналитика' : 'Insights'}
       </a>
-      <a href={`/${lang}/methodology/`}>
+      <a href={langPath(lang, '/methodology/')}>
         {lang === 'ru' ? 'Методология' : 'Methodology'}
       </a>
-      <a href={`/${lang}/about/`}>
+      <a href={langPath(lang, '/about/')}>
         {lang === 'ru' ? 'О проекте' : 'About'}
       </a>
     </nav>
@@ -90,7 +92,7 @@ const ruPath = alternatePaths?.ru
         type="button"
         class="cta"
         id="get-listed"
-        onclick="if(typeof window.openSubmitAiModal==='function'){window.openSubmitAiModal();}else{window.location.href=`/${lang}/submit/`;}"
+        onclick={`if(typeof window.openSubmitAiModal==='function'){window.openSubmitAiModal();}else{window.location.href='${submitUrl}';}`}
       >
         {lang === 'ru' ? 'Добавить ИИ →' : 'Get Listed →'}
       </button>

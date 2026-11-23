@@ -1,5 +1,5 @@
 ---
-import type { Agency, Lang } from '../lib/data';
+import { agencyPath, type Agency, type Lang } from '../lib/data';
 
 interface Props {
   agency: Agency;
@@ -8,6 +8,7 @@ interface Props {
 }
 
 const { agency, lang, rank } = Astro.props;
+const profileHref = agencyPath(lang, agency.id);
 
 // Monogram letter & soft modern gradient
 const initial = agency.name.charAt(0).toUpperCase();
@@ -60,7 +61,7 @@ const entityLabel = agency.entityType === 'platform'
               </span>
             )}
             <h2 class="text-[15px] font-bold text-[#17172c] tracking-tight truncate hover:text-[#6336ed] transition-colors">
-              <a href={`/${lang}/agency/${agency.id}/`}>{agency.name}</a>
+              <a href={profileHref}>{agency.name}</a>
             </h2>
             {agency.status === 'verified' && (
               <span
@@ -118,7 +119,7 @@ const entityLabel = agency.entityType === 'platform'
     </button>
 
     <a
-      href={`/${lang}/agency/${agency.id}/`}
+      href={profileHref}
       class="h-[32px] rounded-lg bg-[#f8f9fe] hover:bg-[#f0edff] border border-[#e2e7f3] hover:border-[#ded6ff] flex items-center justify-center gap-1 text-[11px] font-semibold text-[#17172c] hover:text-[#6336ed] transition-colors"
     >
       <svg class="w-3 h-3 text-[#59617e] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

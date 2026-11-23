@@ -1,12 +1,7 @@
 import type { APIRoute } from 'astro';
-import { agencies, categories, LANGS, SITE, type Lang } from '../../lib/data';
+import { agencies, categories, SITE } from '../../lib/data';
 
-export function getStaticPaths() {
-  return LANGS.map((lang) => ({ params: { lang } }));
-}
-
-export const GET: APIRoute = async ({ params }) => {
-  const lang = (params.lang || 'en') as Lang;
+export const GET: APIRoute = async () => {
   const today = new Date().toISOString().slice(0, 10);
 
   interface SitemapUrl {
@@ -20,17 +15,15 @@ export const GET: APIRoute = async ({ params }) => {
 
   const entries: SitemapUrl[] = [];
 
-  // 1. Homepage for this language
   entries.push({
-    loc: `${SITE}/${lang}/`,
-    en: `${SITE}/en/`,
+    loc: `${SITE}/ru/`,
+    en: `${SITE}/`,
     ru: `${SITE}/ru/`,
     priority: '1.0',
     changefreq: 'daily',
     lastmod: today,
   });
 
-  // 2. Core static pages for this language
   const staticPages: { slug: string; priority: string }[] = [
     { slug: 'submit', priority: '0.8' },
     { slug: 'methodology', priority: '0.7' },
@@ -41,8 +34,8 @@ export const GET: APIRoute = async ({ params }) => {
 
   for (const p of staticPages) {
     entries.push({
-      loc: `${SITE}/${lang}/${p.slug}/`,
-      en: `${SITE}/en/${p.slug}/`,
+      loc: `${SITE}/ru/${p.slug}/`,
+      en: `${SITE}/${p.slug}/`,
       ru: `${SITE}/ru/${p.slug}/`,
       priority: p.priority,
       changefreq: 'monthly',
@@ -50,12 +43,11 @@ export const GET: APIRoute = async ({ params }) => {
     });
   }
 
-  // 3. Categories for this language
   for (const cat of categories) {
-    const enUrl = `${SITE}/en/${cat.slug.en}/`;
+    const enUrl = `${SITE}/${cat.slug.en}/`;
     const ruUrl = `${SITE}/ru/${cat.slug.ru}/`;
     entries.push({
-      loc: lang === 'ru' ? ruUrl : enUrl,
+      loc: ruUrl,
       en: enUrl,
       ru: ruUrl,
       priority: '0.9',
@@ -64,12 +56,11 @@ export const GET: APIRoute = async ({ params }) => {
     });
   }
 
-  // 4. Agencies for this language
   for (const a of agencies) {
-    const enUrl = `${SITE}/en/agency/${a.id}/`;
+    const enUrl = `${SITE}/agency/${a.id}/`;
     const ruUrl = `${SITE}/ru/agency/${a.id}/`;
     entries.push({
-      loc: lang === 'ru' ? ruUrl : enUrl,
+      loc: ruUrl,
       en: enUrl,
       ru: ruUrl,
       priority: '0.7',

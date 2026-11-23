@@ -1,0 +1,14 @@
+---
+import CategoryPage from '../../views/CategoryPage.astro';
+import { categories, type Category } from '../../lib/data';
+
+export function getStaticPaths() {
+  return categories.map((cat) => ({
+    params: { category: cat.slug.ru },
+    props: { cat },
+  }));
+}
+
+const { cat } = Astro.props as { cat: Category };
+---
+<CategoryPage lang="ru" cat={cat} />

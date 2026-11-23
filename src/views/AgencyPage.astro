@@ -1,33 +1,21 @@
 ---
-import Layout from '../../../layouts/Layout.astro';
+import Layout from '../layouts/Layout.astro';
 import {
-  agencies,
   categoryById,
   formatDate,
   rankIn,
+  langPath,
   type Agency,
   type Lang,
-  LANGS,
-} from '../../../lib/data';
-import { CATEGORY_METRICS } from '../../../lib/agencyMetrics';
+} from '../lib/data';
+import { CATEGORY_METRICS } from '../lib/agencyMetrics';
 
-export function getStaticPaths() {
-  const paths: { params: { lang: Lang; id: string }; props: { agency: Agency } }[] = [];
-
-  for (const lang of LANGS) {
-    for (const agency of agencies) {
-      paths.push({
-        params: { lang, id: agency.id },
-        props: { agency },
-      });
-    }
-  }
-
-  return paths;
+interface Props {
+  lang: Lang;
+  agency: Agency;
 }
 
-const { lang } = Astro.params as { lang: Lang; id: string };
-const { agency } = Astro.props as { agency: Agency };
+const { lang, agency } = Astro.props;
 
 const title = lang === 'ru'
   ? `${agency.name} — Профиль и стек внедрения ИИ | Top Index`
@@ -36,9 +24,11 @@ const title = lang === 'ru'
 const description = agency.description[lang];
 
 const alternatePaths = {
-  en: `/en/agency/${agency.id}/`,
+  en: `/agency/${agency.id}/`,
   ru: `/ru/agency/${agency.id}/`,
 };
+
+const canonicalPath = langPath(lang, `/agency/${agency.id}/`);
 
 const primaryCategory = agency.categories[0] || 'sales';
 const catMetrics = CATEGORY_METRICS[primaryCategory] || CATEGORY_METRICS.sales;
@@ -76,16 +66,16 @@ const agencyJsonLd = {
   title={title}
   description={description}
   lang={lang}
-  canonicalPath={`/${lang}/agency/${agency.id}/`}
+  canonicalPath={canonicalPath}
   alternatePaths={alternatePaths}
   jsonLd={agencyJsonLd}
 >
   <div class="wrap py-10 max-w-4xl">
     <!-- Breadcrumb -->
     <nav class="flex items-center gap-2 font-mono text-xs text-[#59617e] mb-6">
-      <a href={`/${lang}/`} class="hover:text-[#6336ed] transition">{lang === 'ru' ? 'Главная' : 'Home'}</a>
+      <a href={langPath(lang, '/')} class="hover:text-[#6336ed] transition">{lang === 'ru' ? 'Главная' : 'Home'}</a>
       <span>/</span>
-      <a href={`/${lang}/#rankings`} class="hover:text-[#6336ed] transition">{lang === 'ru' ? 'Рейтинг' : 'Rankings'}</a>
+      <a href={langPath(lang, '/#rankings')} class="hover:text-[#6336ed] transition">{lang === 'ru' ? 'Каталог' : 'Directory'}</a>
       <span>/</span>
       <span class="text-[#17172c] font-bold">{agency.name}</span>
     </nav>
@@ -160,7 +150,7 @@ const agencyJsonLd = {
             const rank = rankIn(catId, agency.id, lang);
             return (
               <a
-                href={`/${lang}/${cat.slug[lang]}/`}
+                href={langPath(lang, `/${cat.slug[lang]}/`)}
                 class="inline-flex items-center gap-2 rounded-xl border border-[#e5e7f3] bg-[#f8f9fe] px-3.5 py-2 text-xs font-semibold text-[#17172c] hover:border-[#6336ed] hover:text-[#6336ed] transition"
               >
                 <span class="rounded bg-[#f0edff] px-1.5 py-0.5 text-[10px] font-bold text-[#6336ed]">
@@ -300,7 +290,7 @@ const agencyJsonLd = {
           </span>
         </div>
         <div class="flex items-center gap-3 w-full sm:w-auto">
-          <a href={`/${lang}/#calculator`} class="cta secondary text-xs flex-1 sm:flex-initial text-center justify-center">
+          <a href={langPath(lang, '/#calculator')} class="cta secondary text-xs flex-1 sm:flex-initial text-center justify-center">
             <span>{lang === 'ru' ? 'Калькулятор окупаемости' : 'Open Calculator'}</span>
           </a>
           <a

@@ -34,7 +34,7 @@ const description = 'The requested page could not be found. Explore verified AI 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {categories.map((c) => (
           <a
-            href={`/en/${c.slug.en}/`}
+            href={`/${c.slug.en}/`}
             class="flex items-center justify-between p-3 rounded-xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.06] hover:border-cyan-glow/40 transition group"
           >
             <span class="text-xs text-white group-hover:text-cyan-glow font-medium">
@@ -47,7 +47,7 @@ const description = 'The requested page could not be found. Explore verified AI 
     </div>
 
     <div class="pt-4 flex flex-wrap justify-center gap-4 font-mono text-xs">
-      <a href="/en/" class="btn-primary">
+      <a href="/" class="btn-primary">
         <span>&larr; Return to Global Home</span>
       </a>
       <a href="/ru/" class="btn-ghost">

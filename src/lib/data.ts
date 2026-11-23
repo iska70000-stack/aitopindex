@@ -161,8 +161,17 @@ export const hostOf = (url: string) => new URL(url).hostname.replace(/^www\./, '
 
 export const url = (p: string) => `${SITE}${p.startsWith('/') ? p : '/' + p}`;
 
-export const categoryPath = (lang: Lang, id: CategoryId) => `/${lang}/${categoryById(id).slug[lang]}/`;
-export const agencyPath = (lang: Lang, id: string) => `/${lang}/agency/${id}/`;
+/** Prefix for localized routes: '' for default EN (root), '/ru' for Russian */
+export const langPrefix = (lang: Lang): string => (lang === 'ru' ? '/ru' : '');
+
+/** Build a localized route path (EN at root '/', RU under '/ru/') */
+export const langPath = (lang: Lang, subPath = '/'): string => {
+  const clean = subPath.startsWith('/') ? subPath : '/' + subPath;
+  return lang === 'ru' ? `/ru${clean}` : clean;
+};
+
+export const categoryPath = (lang: Lang, id: CategoryId) => langPath(lang, `/${categoryById(id).slug[lang]}/`);
+export const agencyPath = (lang: Lang, id: string) => langPath(lang, `/agency/${id}/`);
 
 export const otherLang = (lang: Lang): Lang => (lang === 'en' ? 'ru' : 'en');
 

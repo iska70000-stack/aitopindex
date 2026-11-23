@@ -1,0 +1,14 @@
+---
+import AgencyPage from '../../../views/AgencyPage.astro';
+import { agencies, type Agency } from '../../../lib/data';
+
+export function getStaticPaths() {
+  return agencies.map((agency) => ({
+    params: { id: agency.id },
+    props: { agency },
+  }));
+}
+
+const { agency } = Astro.props as { agency: Agency };
+---
+<AgencyPage lang="ru" agency={agency} />

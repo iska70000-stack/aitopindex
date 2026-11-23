@@ -1,0 +1,50 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import DirectoryApp from '../../components/DirectoryApp.astro';
+import RoiCalculator from '../../components/RoiCalculator.astro';
+import {
+  agencies,
+  agenciesByLang,
+  categories,
+  SITE,
+} from '../../lib/data';
+
+const lang = 'ru';
+const totalAgencies = agencies.length;
+const listAgencies = agenciesByLang(lang);
+
+const meta = {
+  title: 'Top Index — Глобальный рейтинг ИИ-компаний и специалистов 2026',
+  description: `Рейтинг ${totalAgencies}+ проверенных ИИ-компаний, интеграторов агентов и архитекторов решений. Сравнение стеков, показателей окупаемости и Trust Score.`,
+};
+
+const categoryItemListJsonLd = {
+  '@type': 'ItemList',
+  name: 'Категории внедрения ИИ-агентов',
+  itemListElement: categories.map((c, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: c.title[lang],
+    url: `${SITE}/ru/${c.slug[lang]}/`,
+    description: c.short[lang],
+  })),
+};
+---
+
+<Layout
+  title={meta.title}
+  description={meta.description}
+  lang={lang}
+  canonicalPath="/ru/"
+  alternatePaths={{ en: '/', ru: '/ru/' }}
+  jsonLd={categoryItemListJsonLd}
+>
+  <DirectoryApp
+    agencies={listAgencies}
+    categories={categories}
+    lang={lang}
+    initialCategory="all"
+  />
+
+  <RoiCalculator lang={lang} />
+</Layout>

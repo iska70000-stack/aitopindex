@@ -1,13 +1,13 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import IndexEvolution from '../../components/IndexEvolution.astro';
-import { type Lang, LANGS, agencies } from '../../lib/data';
+import Layout from '../layouts/Layout.astro';
+import IndexEvolution from '../components/IndexEvolution.astro';
+import { type Lang, agencies, langPath } from '../lib/data';
 
-export function getStaticPaths() {
-  return LANGS.map((lang) => ({ params: { lang } }));
+interface Props {
+  lang: Lang;
 }
 
-const { lang } = Astro.params as { lang: Lang };
+const { lang } = Astro.props;
 
 const title = lang === 'ru'
   ? `О проекте AITopIndex | Миссия, стандарты и независимость`
@@ -18,7 +18,7 @@ const description = lang === 'ru'
   : `Learn about AITopIndex — the premier independent B2B directory and ranking index of verified AI agent developers, integrators, and film studios.`;
 
 const alternatePaths = {
-  en: '/en/about/',
+  en: '/about/',
   ru: '/ru/about/',
 };
 ---
@@ -27,7 +27,7 @@ const alternatePaths = {
   title={title}
   description={description}
   lang={lang}
-  canonicalPath={`/${lang}/about/`}
+  canonicalPath={langPath(lang, '/about/')}
   alternatePaths={alternatePaths}
 >
   <div class="py-12 max-w-4xl mx-auto space-y-12">
@@ -111,10 +111,10 @@ const alternatePaths = {
           : 'Submit your organization for formal accreditation or claim an existing profile to update your verified technology stack.'}
       </p>
       <div class="flex flex-wrap justify-center gap-4 pt-2">
-        <a href={`/${lang}/submit/`} class="btn-primary text-xs">
+        <a href={langPath(lang, '/submit/')} class="btn-primary text-xs">
           <span>{lang === 'ru' ? 'Подать заявку на аудит' : 'Submit for Verification'}</span>
         </a>
-        <a href={`/${lang}/methodology/`} class="btn-ghost text-xs">
+        <a href={langPath(lang, '/methodology/')} class="btn-ghost text-xs">
           <span>{lang === 'ru' ? 'Читать методологию' : 'Read Methodology'}</span>
         </a>
         <button

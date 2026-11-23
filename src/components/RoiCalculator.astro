@@ -1,6 +1,5 @@
 ---
-import { categories, type CategoryId, type Lang } from '../lib/data';
-import { agenciesFor } from '../lib/data';
+import { categories, agenciesFor, langPath, type CategoryId, type Lang } from '../lib/data';
 
 interface Props {
   lang: Lang;
@@ -8,6 +7,8 @@ interface Props {
 }
 
 const { lang, initialCategoryId = 'sales' } = Astro.props;
+const submitUrl = langPath(lang, '/submit/');
+const methodologyUrl = langPath(lang, '/methodology/');
 
 // Precompute top 3 agencies for each category to inject as JSON for instant client-side matching
 const agencyData = Object.fromEntries(
@@ -180,14 +181,14 @@ const agencyData = Object.fromEntries(
           <div class="mt-6 pt-3 flex flex-col sm:flex-row gap-3">
             <button
               type="button"
-              onclick="if(typeof window.openSubmitAiModal==='function'){window.openSubmitAiModal();}else{window.location.href=`/${lang}/submit/`;}"
+              onclick={`if(typeof window.openSubmitAiModal==='function'){window.openSubmitAiModal();}else{window.location.href='${submitUrl}';}`}
               class="flex-1 cta text-xs text-center justify-center py-2.5"
             >
               <span>{lang === 'ru' ? 'Подать заявку на внедрение' : 'Submit Integration Request'}</span>
               <span>→</span>
             </button>
             <a
-              href={`/${lang}/methodology/`}
+              href={methodologyUrl}
               class="flex-1 cta secondary text-xs text-center justify-center py-2.5"
             >
               <span>{lang === 'ru' ? 'Методология расчёта' : 'Audit Methodology'} &rarr;</span>
@@ -216,6 +217,7 @@ const agencyData = Object.fromEntries(
     }
 
     const lang = calcEl.dataset.lang || 'en';
+    const langPrefix = lang === 'ru' ? '/ru' : '';
     const catSelect = calcEl.querySelector<HTMLSelectElement>('[data-calc-category]');
     const teamBtns = calcEl.querySelectorAll<HTMLButtonElement>('[data-team-size]');
     const crmBtns = calcEl.querySelectorAll<HTMLButtonElement>('[data-crm-stack]');
@@ -253,14 +255,14 @@ const agencyData = Object.fromEntries(
           .map((a: any) => `
             <div class="flex items-center justify-between rounded-lg bg-white border border-[#e2ddfc] p-2.5 text-xs">
               <div class="min-w-0 pr-2">
-                <a href="/${lang}/agency/${a.id}/" class="font-bold text-[#17172c] hover:text-[#6336ed] truncate block">
+                <a href="${langPrefix}/agency/${a.id}/" class="font-bold text-[#17172c] hover:text-[#6336ed] truncate block">
                   ${a.name}
                 </a>
                 <span class="text-[10px] text-[#59617e] block">
                   ${lang === 'ru' ? 'Бюджет:' : 'From:'} ${a.budget} · ${lang === 'ru' ? 'Окупаемость:' : 'ROI:'} ${a.roi}
                 </span>
               </div>
-              <a href="/${lang}/agency/${a.id}/" class="text-[11px] font-bold text-[#6336ed] hover:underline shrink-0">
+              <a href="${langPrefix}/agency/${a.id}/" class="text-[11px] font-bold text-[#6336ed] hover:underline shrink-0">
                 ${lang === 'ru' ? 'Кейсы' : 'View'} &rarr;
               </a>
             </div>

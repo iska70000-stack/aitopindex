@@ -15,10 +15,10 @@ export const GET: APIRoute = async () => {
 
   const entries: SitemapUrl[] = [];
 
-  // 1. Root & Homepages
+  // 1. Root (EN) & Russian Homepages
   entries.push({
-    loc: `${SITE}/en/`,
-    en: `${SITE}/en/`,
+    loc: `${SITE}/`,
+    en: `${SITE}/`,
     ru: `${SITE}/ru/`,
     priority: '1.0',
     changefreq: 'daily',
@@ -26,104 +26,46 @@ export const GET: APIRoute = async () => {
   });
   entries.push({
     loc: `${SITE}/ru/`,
-    en: `${SITE}/en/`,
+    en: `${SITE}/`,
     ru: `${SITE}/ru/`,
     priority: '1.0',
     changefreq: 'daily',
     lastmod: today,
   });
 
-  // 2. Submit pages
-  entries.push({
-    loc: `${SITE}/en/submit/`,
-    en: `${SITE}/en/submit/`,
-    ru: `${SITE}/ru/submit/`,
-    priority: '0.8',
-    changefreq: 'monthly',
-    lastmod: today,
-  });
-  entries.push({
-    loc: `${SITE}/ru/submit/`,
-    en: `${SITE}/en/submit/`,
-    ru: `${SITE}/ru/submit/`,
-    priority: '0.8',
-    changefreq: 'monthly',
-    lastmod: today,
-  });
+  // 2. Core static pages (EN at root, RU under /ru/)
+  const staticPages: { slug: string; priority: string }[] = [
+    { slug: 'submit', priority: '0.8' },
+    { slug: 'methodology', priority: '0.7' },
+    { slug: 'about', priority: '0.7' },
+    { slug: 'privacy', priority: '0.5' },
+    { slug: 'terms', priority: '0.5' },
+  ];
 
-  // 3. Methodology pages
-  entries.push({
-    loc: `${SITE}/en/methodology/`,
-    en: `${SITE}/en/methodology/`,
-    ru: `${SITE}/ru/methodology/`,
-    priority: '0.7',
-    changefreq: 'monthly',
-    lastmod: today,
-  });
-  entries.push({
-    loc: `${SITE}/ru/methodology/`,
-    en: `${SITE}/en/methodology/`,
-    ru: `${SITE}/ru/methodology/`,
-    priority: '0.7',
-    changefreq: 'monthly',
-    lastmod: today,
-  });
+  for (const p of staticPages) {
+    const enUrl = `${SITE}/${p.slug}/`;
+    const ruUrl = `${SITE}/ru/${p.slug}/`;
+    entries.push({
+      loc: enUrl,
+      en: enUrl,
+      ru: ruUrl,
+      priority: p.priority,
+      changefreq: 'monthly',
+      lastmod: today,
+    });
+    entries.push({
+      loc: ruUrl,
+      en: enUrl,
+      ru: ruUrl,
+      priority: p.priority,
+      changefreq: 'monthly',
+      lastmod: today,
+    });
+  }
 
-  // 4. About pages
-  entries.push({
-    loc: `${SITE}/en/about/`,
-    en: `${SITE}/en/about/`,
-    ru: `${SITE}/ru/about/`,
-    priority: '0.7',
-    changefreq: 'monthly',
-    lastmod: today,
-  });
-  entries.push({
-    loc: `${SITE}/ru/about/`,
-    en: `${SITE}/en/about/`,
-    ru: `${SITE}/ru/about/`,
-    priority: '0.7',
-    changefreq: 'monthly',
-    lastmod: today,
-  });
-
-  // 5. Privacy & Terms pages
-  entries.push({
-    loc: `${SITE}/en/privacy/`,
-    en: `${SITE}/en/privacy/`,
-    ru: `${SITE}/ru/privacy/`,
-    priority: '0.5',
-    changefreq: 'monthly',
-    lastmod: today,
-  });
-  entries.push({
-    loc: `${SITE}/ru/privacy/`,
-    en: `${SITE}/en/privacy/`,
-    ru: `${SITE}/ru/privacy/`,
-    priority: '0.5',
-    changefreq: 'monthly',
-    lastmod: today,
-  });
-  entries.push({
-    loc: `${SITE}/en/terms/`,
-    en: `${SITE}/en/terms/`,
-    ru: `${SITE}/ru/terms/`,
-    priority: '0.5',
-    changefreq: 'monthly',
-    lastmod: today,
-  });
-  entries.push({
-    loc: `${SITE}/ru/terms/`,
-    en: `${SITE}/en/terms/`,
-    ru: `${SITE}/ru/terms/`,
-    priority: '0.5',
-    changefreq: 'monthly',
-    lastmod: today,
-  });
-
-  // 4. Categories (9 categories x 2 langs)
+  // 3. Categories (9 categories x 2 langs)
   for (const cat of categories) {
-    const enUrl = `${SITE}/en/${cat.slug.en}/`;
+    const enUrl = `${SITE}/${cat.slug.en}/`;
     const ruUrl = `${SITE}/ru/${cat.slug.ru}/`;
 
     entries.push({
@@ -144,9 +86,9 @@ export const GET: APIRoute = async () => {
     });
   }
 
-  // 5. Verified Agencies (80+ agencies x 2 langs)
+  // 4. Verified Agencies (86 agencies x 2 langs)
   for (const a of agencies) {
-    const enUrl = `${SITE}/en/agency/${a.id}/`;
+    const enUrl = `${SITE}/agency/${a.id}/`;
     const ruUrl = `${SITE}/ru/agency/${a.id}/`;
     const lastmod = a.verifiedDate || today;
 
