@@ -28,7 +28,7 @@ const brandmarkStyles = [
 ];
 
 // Sort alphabetically or by verifiedDate so there is no misleading artificial "score" ranking
-const sortedAgencies = [...agencies].sort((a, b) => a.name.localeCompare(b.name));
+const sortedAgencies = [...agencies].sort((a, b) => a.name.localeCompare(b.name, lang));
 const totalPages = Math.max(1, Math.ceil(sortedAgencies.length / PAGE_SIZE));
 
 // Pre-render client data JSON for instant interactive search & filter
@@ -92,14 +92,13 @@ const platformPct = 100 - integratorPct;
               <svg class="icon"><use href="#i-building"/></svg>
               <span>{lang === 'ru' ? 'Найти AI-компании →' : 'Find AI Companies →'}</span>
             </a>
-            <button
-              type="button"
+            <a
+              href={submitUrl}
               class="cta secondary cursor-pointer"
-              onclick={`if(typeof window.openSubmitAiModal==='function'){window.openSubmitAiModal();}else{window.location.href='${submitUrl}';}`}
             >
               <span>+</span>
               <span>{lang === 'ru' ? 'Добавить компанию' : 'Get Listed'}</span>
-            </button>
+            </a>
           </div>
         </div>
 
@@ -261,7 +260,7 @@ const platformPct = 100 - integratorPct;
                   ? `Показано организаций: `
                   : `Showing organizations: `}
                 <strong id="filtered-count" class="text-[#17172c]">{sortedAgencies.length}</strong>
-                {lang === 'ru' ? ` из ${stats.companiesCount} (сортировка по алфавиту, без накрученных баллов)` : ` of ${stats.companiesCount} (neutral sorting, zero artificial scores)`}
+                {lang === 'ru' ? ` из ${stats.companiesCount}` : ` of ${stats.companiesCount}`}
               </p>
             </div>
           </div>
@@ -311,6 +310,7 @@ const platformPct = 100 - integratorPct;
                         <span
                           class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#e8f2ff] text-[#147dff] shrink-0"
                           title={lang === 'ru' ? 'Домен подтверждён' : 'Verified domain'}
+                          role="img"
                           aria-label={lang === 'ru' ? 'Домен подтверждён' : 'Verified domain'}
                         >
                           <svg class="w-2.5 h-2.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -424,8 +424,8 @@ const platformPct = 100 - integratorPct;
 
         <p class="demo-note">
           {lang === 'ru'
-            ? 'Примечание: Компании отсортированы нейтрально по алфавиту. Подтверждён статус официального домена; балльная система Trust Score находится на этапе утверждения методологии.'
-            : 'Note: Organizations are listed in neutral alphabetical order. Official domains are verified; formal Trust Score weighting is pending methodology approval.'}
+            ? 'Отметка «Домен подтверждён» означает, что редакция проверила официальный сайт компании.'
+            : 'The verified domain badge means our editors checked the company’s official website.'}
         </p>
       </div>
 
@@ -600,13 +600,12 @@ const platformPct = 100 - integratorPct;
           </p>
         </div>
         <div class="shrink-0">
-          <button
-            type="button"
-            onclick={`if(typeof window.openSubmitAiModal==='function'){window.openSubmitAiModal();}else{window.location.href='${submitUrl}';}`}
+          <a
+            href="mailto:hello@aitopindex.com?subject=AI%20Specialist%20Profile"
             class="cta text-xs py-3 px-5"
           >
-            {lang === 'ru' ? 'Подать профиль специалиста →' : 'Apply as AI Specialist →'}
-          </button>
+            {lang === 'ru' ? 'Написать о профиле специалиста →' : 'Contact Us About a Specialist Profile →'}
+          </a>
         </div>
       </div>
     </section>
@@ -842,8 +841,6 @@ const platformPct = 100 - integratorPct;
 
     if (sortMode === 'recent') {
       filtered = [...filtered].sort((a, b) => (b.verifiedDate || '').localeCompare(a.verifiedDate || ''));
-    } else {
-      filtered = [...filtered].sort((a, b) => a.name.localeCompare(b.name));
     }
 
     if (countEl) countEl.textContent = String(filtered.length);
@@ -933,7 +930,7 @@ const platformPct = 100 - integratorPct;
                 <a href="${c.profileUrl}" class="font-bold text-[15px] md:text-[13.5px] text-[#17172c] hover:text-[#6336ed] truncate">
                   ${escapeHTML(c.name)}
                 </a>
-                <span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#e8f2ff] text-[#147dff] shrink-0" title="${verifiedTitle}" aria-label="${verifiedTitle}">
+                <span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#e8f2ff] text-[#147dff] shrink-0" title="${verifiedTitle}" role="img" aria-label="${verifiedTitle}">
                   <svg class="w-2.5 h-2.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                     <path fill-rule="evenodd" d="M16.704 5.29a1 1 0 0 1 .006 1.414l-7.25 7.3a1 1 0 0 1-1.42 0l-3.75-3.77a1 1 0 1 1 1.42-1.41l3.04 3.06 6.54-6.59a1 1 0 0 1 1.414-.004Z" clip-rule="evenodd" />
                   </svg>

@@ -88,14 +88,13 @@ const submitUrl = langPath(lang, '/submit/');
       </div>
 
       <!-- CTA Get Listed Button -->
-      <button
-        type="button"
+      <a
+        href={submitUrl}
         class="cta"
         id="get-listed"
-        onclick={`if(typeof window.openSubmitAiModal==='function'){window.openSubmitAiModal();}else{window.location.href='${submitUrl}';}`}
       >
-        {lang === 'ru' ? 'Добавить ИИ →' : 'Get Listed →'}
-      </button>
+        {lang === 'ru' ? 'Добавить компанию →' : 'Get Listed →'}
+      </a>
 
       <!-- Mobile Hamburger / Close Button -->
       <button

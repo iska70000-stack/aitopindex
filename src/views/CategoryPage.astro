@@ -47,12 +47,12 @@ const agencyCountLabel = plural(
 
 // Meta details
 const title = lang === 'ru'
-  ? `${cat.title.ru} — Рейтинг агентств и платформ ${YEAR} | Top Index`
-  : `${cat.title.en} — Top Verified Companies & Integrators ${YEAR} | Top Index`;
+  ? `${cat.title.ru} — Каталог компаний ${YEAR} | Top Index`
+  : `${cat.title.en} — Company Directory ${YEAR} | Top Index`;
 
 const description = lang === 'ru'
-  ? `Рейтинг проверенных агентств по направлению «${cat.title.ru}». Сравнение стеков, цен, кейсов и сроков окупаемости. Независимый аудит Top Index.`
-  : `The definitive index of verified partners for ${cat.title.en}. Compare real pricing tiers, tech stacks, and case studies. Zero-hallucination verification.`;
+  ? `Компании и платформы по направлению «${cat.title.ru}». Сравните инструменты, специализацию и ориентиры по бюджету.`
+  : `Browse companies and platforms for ${cat.title.en}. Compare their specialties, tools, and indicative budgets.`;
 
 // JSON-LD Schemas: CollectionPage + ItemList + FAQPage
 const collectionPageJsonLd = {
@@ -69,7 +69,7 @@ const collectionPageJsonLd = {
 
 const itemListJsonLd = {
   '@type': 'ItemList',
-  name: `Top ${cat.title[lang]} Companies`,
+  name: cat.title[lang],
   numberOfItems: categoryAgencies.length,
   itemListElement: categoryAgencies.map((a, i) => ({
     '@type': 'ListItem',
@@ -181,20 +181,20 @@ const faqPageJsonLd = {
       </div>
     </section>
 
-    <!-- Ranked Agencies Grid for this Category -->
+    <!-- Companies in this category -->
     <section class="py-6">
       <div class="flex items-center justify-between mb-4">
         <h2 class="text-xl font-bold text-[#17172c]">
-          {lang === 'ru' ? 'Верифицированные компании направления' : 'Verified Category Integrators'}
+          {lang === 'ru' ? 'Компании и платформы' : 'Companies and Platforms'}
         </h2>
         <span class="text-xs text-[#59617e]">
-          {categoryAgencies.length} {lang === 'ru' ? 'позиций' : 'ranked'}
+          {categoryAgencies.length} {agencyCountLabel}
         </span>
       </div>
 
       <div id="category-agencies-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {categoryAgencies.map((agency, index) => (
-          <AgencyCard agency={agency} lang={lang} rank={index + 1} />
+        {categoryAgencies.map((agency) => (
+          <AgencyCard agency={agency} lang={lang} />
         ))}
       </div>
     </section>

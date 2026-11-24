@@ -4,10 +4,9 @@ import { agencyPath, type Agency, type Lang } from '../lib/data';
 interface Props {
   agency: Agency;
   lang: Lang;
-  rank?: number;
 }
 
-const { agency, lang, rank } = Astro.props;
+const { agency, lang } = Astro.props;
 const profileHref = agencyPath(lang, agency.id);
 
 // Monogram letter & soft modern gradient
@@ -40,7 +39,6 @@ const entityLabel = agency.entityType === 'platform'
   data-name={agency.name.toLowerCase()}
   data-categories={agency.categories.join(' ')}
   data-tags={agency.techStack.map((t) => t.toLowerCase().replace(/\s+/g, '')).join(' ')}
-  data-score={agency.score}
   data-verified={agency.status === 'verified' ? 'true' : 'false'}
 >
   <div>
@@ -52,14 +50,9 @@ const entityLabel = agency.entityType === 'platform'
 
       <!-- Основной контент карточки -->
       <div class="flex-1 min-w-0">
-        <!-- Верхняя строка: Позиция + Название + Тип -->
+        <!-- Название и тип -->
         <div class="flex items-center justify-between gap-1.5">
           <div class="flex items-center gap-1.5 min-w-0">
-            {typeof rank === 'number' && (
-              <span class="text-[10px] font-mono font-bold text-[#6336ed] bg-[#f0edff] px-1.5 py-0.5 rounded border border-[#ded6ff] shrink-0">
-                #{rank}
-              </span>
-            )}
             <h2 class="text-[15px] font-bold text-[#17172c] tracking-tight truncate hover:text-[#6336ed] transition-colors">
               <a href={profileHref}>{agency.name}</a>
             </h2>
@@ -67,6 +60,7 @@ const entityLabel = agency.entityType === 'platform'
               <span
                 class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#e8f2ff] text-[#147dff] shrink-0"
                 title={lang === 'ru' ? 'Домен подтверждён' : 'Verified domain'}
+                role="img"
                 aria-label={lang === 'ru' ? 'Домен подтверждён' : 'Verified domain'}
               >
                 <svg class="w-2.5 h-2.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">

@@ -3,7 +3,6 @@ import Layout from '../layouts/Layout.astro';
 import {
   categoryById,
   formatDate,
-  rankIn,
   langPath,
   type Agency,
   type Lang,
@@ -112,10 +111,11 @@ const agencyJsonLd = {
         <div class="flex items-center gap-3">
           <button
             type="button"
-            id="open-claim-modal-btn"
+            data-profile-name={agency.name}
+            onclick="window.openContactUsModal?.(this.dataset.profileName)"
             class="cta secondary text-xs py-2.5 px-3.5"
           >
-            <span>{lang === 'ru' ? 'Подтвердить профиль' : 'Claim Profile'}</span>
+            <span>{lang === 'ru' ? 'Запросить правку профиля' : 'Request a Profile Update'}</span>
           </button>
           <!-- Official external link -->
           <a
@@ -139,23 +139,19 @@ const agencyJsonLd = {
         </p>
       </div>
 
-      <!-- Categories & Rankings -->
+      <!-- Categories -->
       <div class="mt-8">
         <h3 class="text-xs font-bold uppercase tracking-wider text-[#59617e] mb-3">
-          {lang === 'ru' ? 'Категории и позиции в рейтинге:' : 'Rankings by Category:'}
+          {lang === 'ru' ? 'Категории' : 'Categories'}
         </h3>
         <div class="flex flex-wrap gap-2.5">
           {agency.categories.map((catId) => {
             const cat = categoryById(catId);
-            const rank = rankIn(catId, agency.id, lang);
             return (
               <a
                 href={langPath(lang, `/${cat.slug[lang]}/`)}
                 class="inline-flex items-center gap-2 rounded-xl border border-[#e5e7f3] bg-[#f8f9fe] px-3.5 py-2 text-xs font-semibold text-[#17172c] hover:border-[#6336ed] hover:text-[#6336ed] transition"
               >
-                <span class="rounded bg-[#f0edff] px-1.5 py-0.5 text-[10px] font-bold text-[#6336ed]">
-                  #{rank}
-                </span>
                 <span>{cat.title[lang]}</span>
               </a>
             );
@@ -213,15 +209,12 @@ const agencyJsonLd = {
         <div class="flex items-center justify-between mb-2">
           <div>
             <span class="text-xs font-bold uppercase tracking-wider text-[#6336ed] block">
-              {catMetrics.lifecycleSubtitle[lang]}
+              {lang === 'ru' ? 'Пример для этой категории' : 'Example for This Category'}
             </span>
             <h3 class="text-xl font-bold text-[#17172c] mt-1">
               {catMetrics.lifecycleTitle[lang]}
             </h3>
           </div>
-          <span class="text-xs text-[#59617e] font-semibold hidden sm:inline">
-            {lang === 'ru' ? 'SLA & Аудит качества' : 'Production SLA Standard'}
-          </span>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-5">
@@ -241,41 +234,6 @@ const agencyJsonLd = {
               </div>
             </div>
           ))}
-        </div>
-      </div>
-
-      <!-- Dynamic Category-Specific ROI Benchmark Table -->
-      <div class="mt-10 border-t border-[#f0f2fa] pt-8">
-        <div class="mb-4">
-          <span class="text-xs font-bold uppercase tracking-wider text-[#009e54] block">
-            {catMetrics.roiSubtitle[lang]}
-          </span>
-          <h3 class="text-xl font-bold text-[#17172c] mt-1">
-            {catMetrics.roiTitle[lang]}
-          </h3>
-        </div>
-
-        <div class="overflow-x-auto rounded-2xl border border-[#e9ebf4] bg-white mt-4 shadow-sm">
-          <table class="w-full text-left text-xs">
-            <thead>
-              <tr class="border-b border-[#f0f2fa] bg-[#f8f9fe] text-[#59617e]">
-                <th class="p-3.5 font-bold">{lang === 'ru' ? 'Метрика процесса' : 'Operational Metric'}</th>
-                <th class="p-3.5 font-bold text-[#b91c1c]">{lang === 'ru' ? 'Традиционный подход' : 'Legacy Human Team'}</th>
-                <th class="p-3.5 font-bold text-[#009e54]">{lang === 'ru' ? 'ИИ-пайплайн подрядчика' : 'Deployed AI Stack'}</th>
-                <th class="p-3.5 font-bold text-[#6336ed]">{lang === 'ru' ? 'Бизнес-эффект' : 'Business Delta'}</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-[#f0f2fa] text-[#59617e]">
-              {catMetrics.metrics.map((row) => (
-                <tr>
-                  <td class="p-3.5 font-semibold text-[#17172c]">{row.metric[lang]}</td>
-                  <td class="p-3.5 text-[#59617e]">{row.legacy[lang]}</td>
-                  <td class="p-3.5 text-[#009e54] font-bold">{row.aiStack[lang]}</td>
-                  <td class="p-3.5 text-[#6336ed] font-extrabold">{row.delta[lang]}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
         </div>
       </div>
 
@@ -305,107 +263,5 @@ const agencyJsonLd = {
       </div>
     </div>
 
-    <!-- Claim Profile Modal -->
-    <div id="claim-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-[#17172c]/60 backdrop-blur-sm">
-      <div class="relative w-full max-w-lg card rounded-2xl p-6 sm:p-8 space-y-5 bg-white border border-[#e5e7f3] shadow-2xl">
-        <div class="flex items-center justify-between border-b border-[#f0f2fa] pb-4">
-          <div>
-            <span class="text-xs uppercase font-bold tracking-wider text-[#6336ed]">
-              {lang === 'ru' ? 'Верификация владения' : 'Official Verification'}
-            </span>
-            <h3 class="text-xl font-bold text-[#17172c] mt-0.5">
-              {lang === 'ru' ? `Подтвердить профиль ${agency.name}` : `Claim ${agency.name} Profile`}
-            </h3>
-          </div>
-          <button type="button" id="close-claim-modal-btn" class="w-8 h-8 rounded-full bg-[#f8f9fe] border border-[#e5e7f3] text-[#59617e] hover:text-[#17172c] flex items-center justify-center text-sm cursor-pointer">
-            ✕
-          </button>
-        </div>
-
-        <form id="claim-profile-form" class="space-y-4">
-          <div>
-            <label class="block text-xs font-semibold text-[#17172c] mb-1.5">
-              {lang === 'ru' ? 'Ваше имя и должность *' : 'Your Name & Title *'}
-            </label>
-            <input type="text" name="repName" required placeholder={lang === 'ru' ? 'Иван Смирнов, CEO' : 'Alex Miller, Founder / Lead'} class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3.5 py-2 text-sm text-[#17172c] focus:outline-none focus:border-[#6336ed]" />
-          </div>
-
-          <div>
-            <label class="block text-xs font-semibold text-[#17172c] mb-1.5">
-              {lang === 'ru' ? `Корпоративный Email (@${new URL(agency.website).hostname.replace(/^www\./, '')}) *` : `Corporate Email (@${new URL(agency.website).hostname.replace(/^www\./, '')}) *`}
-            </label>
-            <input type="email" name="corporateEmail" required placeholder={`lead@${new URL(agency.website).hostname.replace(/^www\./, '')}`} class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3.5 py-2 text-sm text-[#17172c] focus:outline-none focus:border-[#6336ed]" />
-          </div>
-
-          <div>
-            <label class="block text-xs font-semibold text-[#17172c] mb-1.5">
-              {lang === 'ru' ? 'Telegram / WhatsApp для верификации *' : 'Telegram / WhatsApp for fast review *'}
-            </label>
-            <input type="text" name="contactHandle" required placeholder="@founder_handle" class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3.5 py-2 text-sm text-[#17172c] focus:outline-none focus:border-[#6336ed]" />
-          </div>
-
-          <div class="rounded-xl border border-[#e5e7f3] bg-[#f8f9fe] p-3 text-xs text-[#59617e]">
-            {lang === 'ru'
-              ? 'Редакция свяжется с вами для подтверждения доступа к редактированию стека, цен и кейсов.'
-              : 'Our editorial team will confirm domain ownership and grant profile editing credentials.'}
-          </div>
-
-          <div class="flex items-center gap-3 pt-2">
-            <button type="submit" class="cta flex-1 text-center justify-center py-2.5 text-xs cursor-pointer">
-              <span>{lang === 'ru' ? 'Отправить запрос' : 'Submit Claim Request'}</span>
-            </button>
-            <a
-              id="claim-telegram-fallback"
-              href={`https://t.me/aitopindex?text=${encodeURIComponent(`🚀 Запрос на подтверждение профиля: ${agency.name} (${agency.website})`)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="cta secondary text-xs py-2.5 px-4"
-            >
-              <span>Telegram</span>
-              <span>↗</span>
-            </a>
-          </div>
-        </form>
-      </div>
-    </div>
   </div>
 </Layout>
-
-<script is:inline>
-  const openClaimBtn = document.getElementById('open-claim-modal-btn');
-  const closeClaimBtn = document.getElementById('close-claim-modal-btn');
-  const claimModal = document.getElementById('claim-modal');
-  const claimForm = document.getElementById('claim-profile-form');
-
-  if (openClaimBtn && claimModal) {
-    openClaimBtn.addEventListener('click', () => {
-      claimModal.classList.remove('hidden');
-      claimModal.classList.add('flex');
-    });
-  }
-
-  if (closeClaimBtn && claimModal) {
-    closeClaimBtn.addEventListener('click', () => {
-      claimModal.classList.add('hidden');
-      claimModal.classList.remove('flex');
-    });
-  }
-
-  if (claimModal) {
-    claimModal.addEventListener('click', (e) => {
-      if (e.target === claimModal) {
-        claimModal.classList.add('hidden');
-        claimModal.classList.remove('flex');
-      }
-    });
-  }
-
-  if (claimForm) {
-    claimForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      alert(window.__LANG === 'ru' ? 'Запрос отправлен! Мы свяжемся с вами.' : 'Claim request submitted! We will contact you.');
-      claimModal?.classList.add('hidden');
-      claimModal?.classList.remove('flex');
-    });
-  }
-</script>

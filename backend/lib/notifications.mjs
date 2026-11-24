@@ -17,6 +17,8 @@ export function formatHermesMessage(eventType, envelope) {
       `Company: ${d.organization_name || ''}`,
       `Website: ${d.normalized_domain || ''}`,
       `Category: ${d.category_id || ''}`,
+      ...(d.tech_stack ? [`Tools: ${d.tech_stack}`] : []),
+      ...(d.case_study_url ? [`Example of work: ${d.case_study_url}`] : []),
       `Status: Pending Review`,
       `Duplicate Check: ${d.duplicate_check || 'Checked'}`,
       '',

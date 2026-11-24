@@ -1,5 +1,5 @@
 ---
-import { categories, agenciesFor, langPath, type CategoryId, type Lang } from '../lib/data';
+import { categories, agenciesFor, agencyPath, langPath, type CategoryId, type Lang } from '../lib/data';
 
 interface Props {
   lang: Lang;
@@ -7,27 +7,30 @@ interface Props {
 }
 
 const { lang, initialCategoryId = 'sales' } = Astro.props;
-const submitUrl = langPath(lang, '/submit/');
 const methodologyUrl = langPath(lang, '/methodology/');
 
-// Precompute top 3 agencies for each category to inject as JSON for instant client-side matching
+const stacks = [
+  { id: '', label: lang === 'ru' ? 'Любой инструмент' : 'Any tool' },
+  { id: 'amocrm', label: 'AmoCRM / Albato', match: /amocrm|albato/i },
+  { id: 'bitrix', label: 'Bitrix24', match: /bitrix|битрикс/i },
+  { id: 'hubspot', label: 'HubSpot', match: /hubspot/i },
+  { id: 'salesforce', label: 'Salesforce', match: /salesforce/i },
+  { id: 'n8n', label: 'n8n / Make', match: /\bn8n\b|^make(?:\.com)?$/i },
+  { id: 'custom', label: lang === 'ru' ? 'Свой API / база данных' : 'Custom API / Database', match: /^api$|custom\s+apis?|postgresql|\b(mysql|sqlite|mongodb|database)\b/i },
+];
+
 const agencyData = Object.fromEntries(
-  categories.map((c) => {
-    const top = agenciesFor(c.id, lang).slice(0, 3).map((a) => ({
-      id: a.id,
+  categories.map((c) => [c.id, {
+    costUsd: c.cost.usd,
+    costRub: c.cost.rub,
+    hoursPerSeat: c.hoursPerSeat,
+    agencies: agenciesFor(c.id, lang).map((a) => ({
       name: a.name,
-      website: a.website,
+      href: agencyPath(lang, a.id),
       budget: a.minProjectBudget[lang],
-      roi: a.avgRoiTime[lang],
-      stack: a.techStack.slice(0, 4),
-    }));
-    return [c.id, {
-      costUsd: c.cost.usd,
-      costRub: c.cost.rub,
-      hoursPerSeat: c.hoursPerSeat,
-      topAgencies: top,
-    }];
-  })
+      stacks: stacks.filter(({ match }) => match && a.techStack.some((tag) => match.test(tag))).map(({ id }) => id),
+    })),
+  }])
 );
 ---
 
@@ -50,8 +53,8 @@ const agencyData = Object.fromEntries(
         </h2>
         <p class="mt-2 text-sm leading-relaxed text-[#59617e]">
           {lang === 'ru'
-            ? 'Выберите специализацию, масштаб команды и стек — алгоритм рассчитает диапазон затрат, экономию часов и подберёт 3 лучших проверенных подрядчика.'
-            : 'Select your target category, team size, and CRM stack — calculate setup costs, monthly hours saved, and get matched with top 3 verified partners.'}
+            ? 'Выберите задачу и размер команды, чтобы оценить затраты и экономию времени. По выбранному инструменту мы покажем до трёх подходящих компаний.'
+            : 'Choose a category and team size to estimate cost and time savings. Select a tool to see up to three matching companies.'}
         </p>
       </div>
 
@@ -61,10 +64,10 @@ const agencyData = Object.fromEntries(
         <div class="space-y-5 lg:col-span-7">
           <!-- 1. Industry / Category -->
           <div>
-            <label class="block font-semibold text-xs text-[#17172c] uppercase tracking-wider mb-2">
+            <label for="calculator-category" class="block font-semibold text-xs text-[#17172c] uppercase tracking-wider mb-2">
               1. {lang === 'ru' ? 'Сфера внедрения ИИ:' : 'Target AI Field / Category:'}
             </label>
-            <select class="w-full bg-white border border-[#dfe1ee] text-[#17172c] text-sm rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#6336ed] cursor-pointer" data-calc-category>
+            <select id="calculator-category" class="w-full bg-white border border-[#dfe1ee] text-[#17172c] text-sm rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#6336ed] cursor-pointer" data-calc-category>
               {categories.map((c) => (
                 <option value={c.id} selected={c.id === initialCategoryId}>
                   {c.title[lang]}
@@ -109,14 +112,7 @@ const agencyData = Object.fromEntries(
               3. {lang === 'ru' ? 'Интеграционный стек / CRM:' : 'Primary CRM / Integration Stack:'}
             </label>
             <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 font-mono text-xs">
-              {[
-                { id: 'amocrm', label: 'AmoCRM / Albato' },
-                { id: 'bitrix', label: 'Bitrix24' },
-                { id: 'hubspot', label: 'HubSpot' },
-                { id: 'salesforce', label: 'Salesforce' },
-                { id: 'n8n', label: 'n8n / Make' },
-                { id: 'custom', label: 'Custom API / DB' },
-              ].map((stack, idx) => (
+              {stacks.map((stack, idx) => (
                 <button
                   type="button"
                   class={`w-full justify-center py-2 rounded-xl border text-center font-semibold text-[11px] transition cursor-pointer ${
@@ -150,14 +146,10 @@ const agencyData = Object.fromEntries(
             </div>
 
             <!-- Hours Saved -->
-            <div class="mt-5 grid grid-cols-2 gap-4 border-y border-[#e2ddfc] py-4 font-mono">
+            <div class="mt-5 border-y border-[#e2ddfc] py-4 font-mono">
               <div>
                 <span class="text-[10px] uppercase text-[#59617e] block font-sans">{lang === 'ru' ? 'Оценка экономии часов:' : 'Estimated Hours Saved:'}</span>
                 <span class="text-xl font-bold text-[#009e54]" data-result-hours>550 ч/мес</span>
-              </div>
-              <div>
-                <span class="text-[10px] uppercase text-[#59617e] block font-sans">{lang === 'ru' ? 'Расчетный срок окупаемости:' : 'Estimated Payback Period:'}</span>
-                <span class="text-xl font-bold text-[#6336ed]">1–3 {lang === 'ru' ? 'мес.' : 'mos'}</span>
               </div>
             </div>
 
@@ -167,21 +159,30 @@ const agencyData = Object.fromEntries(
                 : '* Preliminary estimate calculated from selected team size and category assumptions. Figures are illustrative benchmarks, not a guarantee of financial return.'}
             </p>
 
-            <!-- Top 3 Matching Agencies -->
+            <!-- Matching organizations -->
             <div class="mt-4">
               <span class="font-mono text-[10px] uppercase tracking-wider text-[#59617e] block mb-2.5 font-bold">
                 {lang === 'ru' ? 'Подходящие компании из каталога:' : 'Matching Agencies in Directory:'}
               </span>
-              <div class="space-y-2" data-result-agencies>
-                <!-- Populated via JS -->
-              </div>
+              <div class="space-y-2" data-result-agencies aria-live="polite"></div>
+              <template data-agency-result>
+                <div class="flex items-center justify-between rounded-lg bg-white border border-[#e2ddfc] p-2.5 text-xs">
+                  <div class="min-w-0 pr-2">
+                    <a class="font-bold text-[#17172c] hover:text-[#6336ed] truncate block" data-agency-name></a>
+                    <span class="text-[10px] text-[#59617e] block" data-agency-budget></span>
+                  </div>
+                  <a class="text-[11px] font-bold text-[#6336ed] hover:underline shrink-0" data-agency-link>
+                    {lang === 'ru' ? 'Профиль' : 'Profile'} &rarr;
+                  </a>
+                </div>
+              </template>
             </div>
           </div>
 
           <div class="mt-6 pt-3 flex flex-col sm:flex-row gap-3">
             <button
               type="button"
-              onclick={`if(typeof window.openSubmitAiModal==='function'){window.openSubmitAiModal();}else{window.location.href='${submitUrl}';}`}
+              onclick="window.openFindPartnerModal?.()"
               class="flex-1 cta text-xs text-center justify-center py-2.5"
             >
               <span>{lang === 'ru' ? 'Подать заявку на внедрение' : 'Submit Integration Request'}</span>
@@ -207,17 +208,24 @@ const agencyData = Object.fromEntries(
   function setupCalculator() {
     const calcEl = document.querySelector<HTMLElement>('[data-roi-calculator]');
     const dataEl = document.getElementById('calculator-data');
-    if (!calcEl || !dataEl) return;
+    if (!calcEl || !dataEl || calcEl.dataset.ready) return;
 
-    let config: Record<string, any> = {};
+    type Match = { name: string; href: string; budget: string; stacks: string[] };
+    type CalculatorCategory = {
+      costRub: [number, number];
+      costUsd: [number, number];
+      hoursPerSeat: number;
+      agencies: Match[];
+    };
+    let config: Record<string, CalculatorCategory>;
     try {
       config = JSON.parse(dataEl.textContent || '{}');
     } catch {
       return;
     }
+    calcEl.dataset.ready = 'true';
 
     const lang = calcEl.dataset.lang || 'en';
-    const langPrefix = lang === 'ru' ? '/ru' : '';
     const catSelect = calcEl.querySelector<HTMLSelectElement>('[data-calc-category]');
     const teamBtns = calcEl.querySelectorAll<HTMLButtonElement>('[data-team-size]');
     const crmBtns = calcEl.querySelectorAll<HTMLButtonElement>('[data-crm-stack]');
@@ -225,10 +233,12 @@ const agencyData = Object.fromEntries(
     const costEl = calcEl.querySelector<HTMLElement>('[data-result-cost]');
     const hoursEl = calcEl.querySelector<HTMLElement>('[data-result-hours]');
     const agenciesContainer = calcEl.querySelector<HTMLElement>('[data-result-agencies]');
+    const agencyTemplate = calcEl.querySelector<HTMLTemplateElement>('[data-agency-result]');
 
     let currentCat = catSelect?.value || 'sales';
     let currentMultiplier = 1.0;
     let currentSeats = 25;
+    let currentStack = '';
 
     function render() {
       const catData = config[currentCat];
@@ -249,26 +259,30 @@ const agencyData = Object.fromEntries(
       const hoursSaved = Math.round(currentSeats * catData.hoursPerSeat * 0.85);
       if (hoursEl) hoursEl.textContent = `${hoursSaved} ${lang === 'ru' ? 'ч/мес' : 'hrs/mo'}`;
 
-      // Render top agencies
-      if (agenciesContainer && catData.topAgencies) {
-        agenciesContainer.innerHTML = catData.topAgencies
-          .map((a: any) => `
-            <div class="flex items-center justify-between rounded-lg bg-white border border-[#e2ddfc] p-2.5 text-xs">
-              <div class="min-w-0 pr-2">
-                <a href="${langPrefix}/agency/${a.id}/" class="font-bold text-[#17172c] hover:text-[#6336ed] truncate block">
-                  ${a.name}
-                </a>
-                <span class="text-[10px] text-[#59617e] block">
-                  ${lang === 'ru' ? 'Бюджет:' : 'From:'} ${a.budget} · ${lang === 'ru' ? 'Окупаемость:' : 'ROI:'} ${a.roi}
-                </span>
-              </div>
-              <a href="${langPrefix}/agency/${a.id}/" class="text-[11px] font-bold text-[#6336ed] hover:underline shrink-0">
-                ${lang === 'ru' ? 'Кейсы' : 'View'} &rarr;
-              </a>
-            </div>
-          `)
-          .join('');
+      if (!agenciesContainer || !agencyTemplate) return;
+      const matches = catData.agencies.filter((agency) => !currentStack || agency.stacks.includes(currentStack)).slice(0, 3);
+      if (!matches.length) {
+        const message = document.createElement('p');
+        message.className = 'text-xs text-[#59617e]';
+        message.textContent = lang === 'ru'
+          ? 'В этой категории пока нет компаний с выбранным инструментом. Выберите другой инструмент или «Любой инструмент».'
+          : 'No companies in this category list this tool yet. Choose another tool or select “Any tool”.';
+        agenciesContainer.replaceChildren(message);
+        return;
       }
+
+      const rows = matches.map((agency) => {
+        const row = agencyTemplate.content.cloneNode(true) as DocumentFragment;
+        const name = row.querySelector<HTMLAnchorElement>('[data-agency-name]')!;
+        const profile = row.querySelector<HTMLAnchorElement>('[data-agency-link]')!;
+        const budget = row.querySelector<HTMLElement>('[data-agency-budget]')!;
+        name.textContent = agency.name;
+        name.href = profile.href = agency.href;
+        profile.setAttribute('aria-label', lang === 'ru' ? `Профиль ${agency.name}` : `${agency.name} profile`);
+        budget.textContent = `${lang === 'ru' ? 'Бюджет:' : 'Budget:'} ${agency.budget}`;
+        return row;
+      });
+      agenciesContainer.replaceChildren(...rows);
     }
 
     catSelect?.addEventListener('change', () => {
@@ -298,6 +312,7 @@ const agencyData = Object.fromEntries(
         });
         btn.setAttribute('aria-pressed', 'true');
         btn.className = 'w-full justify-center py-2 rounded-xl border text-center font-semibold text-[11px] transition cursor-pointer bg-[#f0edff] border-[#6336ed] text-[#6336ed]';
+        currentStack = btn.dataset.crmStack || '';
         render();
       });
     });

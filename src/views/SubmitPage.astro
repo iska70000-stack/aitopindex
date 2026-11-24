@@ -9,11 +9,11 @@ interface Props {
 const { lang } = Astro.props;
 
 const title = lang === 'ru'
-  ? `Подать заявку в рейтинг ИИ-агентств | ${BRAND}`
+  ? `Добавить ИИ-компанию в каталог | ${BRAND}`
   : `Submit Your AI Agency for Verification | ${BRAND}`;
 
 const description = lang === 'ru'
-  ? 'Самостоятельная подача заявки для агентств по разработке ИИ-агентов, интеграторов автоматизации и видеостудий на включение в независимый рейтинг AITopIndex.'
+  ? 'Бесплатная заявка на добавление компании в каталог AITopIndex. Укажите сайт, инструменты и ссылку на пример работы.'
   : 'Free application form for AI agent development agencies, automation integrators, and generative video studios to be verified and listed on AITopIndex.';
 
 const alternatePaths = {
@@ -36,18 +36,19 @@ const alternatePaths = {
         <span>{lang === 'ru' ? 'Открытый приём заявок' : 'Open Verification Call'}</span>
       </div>
       <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-        {lang === 'ru' ? 'Добавьте ваше агентство в индекс' : 'Apply for Verified Listing on AITopIndex'}
+        {lang === 'ru' ? 'Добавьте компанию в каталог AITopIndex' : 'Apply for Verified Listing on AITopIndex'}
       </h1>
       <p class="mt-3 text-sm sm:text-base text-slate-300">
         {lang === 'ru'
-          ? 'Мы проверяем реальные кейсы, технологический стек и прозрачность. Размещение в рейтинге бесплатное по результатам редакторского фактчекинга.'
-          : 'We independently audit production case studies, toolchains, and client deliverables. Listings are editorial and non-paid.'}
+          ? 'Размещение бесплатное. Мы проверяем сайт компании, инструменты и примеры работ. Рассмотрение занимает до 48 часов.'
+          : 'Listings are free. We review your website, tools, and examples of work within 48 hours.'}
       </p>
     </div>
 
     <!-- Application Form Card -->
     <div class="glass glow-border relative overflow-hidden rounded-3xl p-6 sm:p-10">
-      <form id="submit-agency-form" class="space-y-6">
+      <form id="submit-agency-form" method="post" class="space-y-6" data-lang={lang}>
+        <input type="text" name="website_hp" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
         <!-- 1. Agency Name -->
         <div>
           <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-300 mb-2" for="agency-name">
@@ -58,6 +59,9 @@ const alternatePaths = {
             name="name"
             type="text"
             required
+            minlength="2"
+            maxlength="150"
+            autocomplete="organization"
             placeholder={lang === 'ru' ? 'например: AI Flow Studio' : 'e.g. NextGen Automation Labs'}
             class="field"
           />
@@ -73,11 +77,13 @@ const alternatePaths = {
             name="website"
             type="url"
             required
+            pattern="https://.+"
+            autocomplete="url"
             placeholder="https://youragency.com"
             class="field"
           />
           <p class="mt-1.5 text-[11px] text-slate-400 font-mono">
-            {lang === 'ru' ? 'Домен и SSL-сертификат проверяются автоматически при модерации' : 'Domain and SSL certificate are verified automatically during moderation'}
+            {lang === 'ru' ? 'Ссылка должна начинаться с https://' : 'Use a link starting with https://'}
           </p>
         </div>
 
@@ -87,22 +93,31 @@ const alternatePaths = {
             {lang === 'ru' ? '3. Основная категория внедрения *' : '3. Primary AI Category *'}
           </label>
           <select id="agency-category" name="category" required class="field cursor-pointer font-sans">
+            <option value="" selected disabled>{lang === 'ru' ? 'Выберите категорию' : 'Select a category'}</option>
             {categories.map((c) => (
               <option value={c.id}>{c.title[lang]}</option>
             ))}
           </select>
         </div>
 
-        <!-- 4. Core Tech Stack -->
+        <div>
+          <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-300 mb-2" for="agency-description">
+            {lang === 'ru' ? '4. Что делает ваша компания? *' : '4. What does your company do? *'}
+          </label>
+          <textarea id="agency-description" name="description" required minlength="15" maxlength="1500" rows="3" class="field"></textarea>
+        </div>
+
+        <!-- Tools -->
         <div>
           <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-300 mb-2" for="agency-stack">
-            {lang === 'ru' ? '4. Ключевой технологический стек *' : '4. Core Tech Stack & Tools *'}
+            {lang === 'ru' ? '5. Какие инструменты вы используете? *' : '5. What tools do you use? *'}
           </label>
           <input
             id="agency-stack"
             name="stack"
             type="text"
             required
+            maxlength="300"
             placeholder={lang === 'ru' ? 'например: n8n, OpenAI API, Vapi, AmoCRM, LangGraph' : 'e.g. LangChain, CrewAI, Make, HubSpot, Anthropic'}
             class="field"
           />
@@ -111,50 +126,49 @@ const alternatePaths = {
         <!-- 5. Case Study or Portfolio Link -->
         <div>
           <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-300 mb-2" for="agency-case">
-            {lang === 'ru' ? '5. Ссылка на публичный кейс / портфолио *' : '5. Published Case Study or Portfolio Link *'}
+            {lang === 'ru' ? '6. Ссылка на пример работы или портфолио *' : '6. Link to an Example of Your Work or Portfolio *'}
           </label>
           <input
             id="agency-case"
             name="caseStudy"
             type="url"
             required
+            pattern="https?://.+"
+            maxlength="500"
             placeholder="https://youragency.com/case-studies"
             class="field"
           />
         </div>
 
-        <!-- 6. Contact Email or Telegram -->
+        <!-- Work email -->
         <div>
           <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-300 mb-2" for="agency-contact">
-            {lang === 'ru' ? '6. Контакт для связи (Telegram / Email) *' : '6. Direct Contact (Telegram @handle or Email) *'}
+            {lang === 'ru' ? '7. Рабочий email *' : '7. Work Email *'}
           </label>
           <input
             id="agency-contact"
-            name="contact"
-            type="text"
+            name="workEmail"
+            type="email"
             required
-            placeholder={lang === 'ru' ? '@username или founders@agency.ru' : '@founder or partners@agency.com'}
+            autocomplete="email"
+            placeholder="name@company.com"
             class="field"
           />
         </div>
 
-        <!-- Notice -->
-        <div class="rounded-xl border border-white/10 bg-white/[0.02] p-4 text-xs text-slate-400">
-          <p>
-            {lang === 'ru'
-              ? 'Стандарт верификации AITopIndex: мы проверяем рабочие домены, реальные B2B-кейсы и соответствие заявленному технологическому стеку перед выдачей статуса «Проверено».'
-              : 'AITopIndex Verification Standard: We audit live domains, real enterprise B2B case studies, and declared tech stack compliance before awarding Verified status.'}
-          </p>
-        </div>
+        <p id="application-error" role="alert" class="hidden text-sm font-semibold text-red-700"></p>
 
         <!-- Submit Button -->
-        <button type="submit" class="w-full btn-primary py-3.5 text-base cursor-pointer">
+        <button type="submit" disabled class="w-full btn-primary py-3.5 text-base cursor-pointer disabled:opacity-60">
           <span>{lang === 'ru' ? 'Отправить заявку на модерацию' : 'Submit Application for Editorial Review'}</span>
         </button>
       </form>
+      <noscript>
+        <p class="mt-4 text-sm">{lang === 'ru' ? 'Включите JavaScript, чтобы отправить заявку.' : 'Enable JavaScript to submit your application.'}</p>
+      </noscript>
 
       <!-- Success State (Hidden by default) -->
-      <div id="form-success" class="hidden text-center py-10 space-y-4">
+      <div id="form-success" class="hidden text-center py-10 space-y-4" tabindex="-1" data-nosnippet>
         <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-emerald-500 bg-emerald-500/10 text-emerald-400">
           <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
@@ -165,20 +179,11 @@ const alternatePaths = {
         </h3>
         <p class="text-sm text-slate-300 max-w-md mx-auto">
           {lang === 'ru'
-            ? 'Редакторы AITopIndex проверят ваш сайт и стек в течение 48 часов. При успешной верификации профиль появится в рейтинге и файле /llms.txt.'
-            : 'AITopIndex editors will verify your domain and case studies within 48 hours. Upon approval, your agency will be listed in the index and /llms.txt.'}
+            ? 'Заявка передана на рассмотрение. Если её одобрят, компания появится в каталоге.'
+            : 'Your application is under review. If approved, your company will appear in the directory.'}
         </p>
+        <p class="text-sm">{lang === 'ru' ? 'Номер заявки' : 'Application ID'} <strong id="application-id"></strong></p>
         <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
-          <a
-            id="telegram-fast-track"
-            href="https://t.me/aitopindex"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="btn-primary text-xs py-2.5 px-5"
-          >
-            <span>{lang === 'ru' ? 'Отправить напрямую в Telegram редакции' : 'Fast-Track via Telegram'}</span>
-            <span>↗</span>
-          </a>
           <a href={langPath(lang, '/')} class="btn-ghost text-xs py-2.5 px-5">
             &larr; {lang === 'ru' ? 'Вернуться в каталог' : 'Back to Directory'}
           </a>
@@ -189,28 +194,57 @@ const alternatePaths = {
 
   <script>
     function setupForm() {
-      const form = document.getElementById('submit-agency-form') as HTMLFormElement | null;
+      const form = document.querySelector<HTMLFormElement>('#submit-agency-form');
       const success = document.getElementById('form-success');
-      const tgLink = document.getElementById('telegram-fast-track') as HTMLAnchorElement | null;
-      if (!form || !success) return;
+      const applicationId = document.getElementById('application-id');
+      const error = document.getElementById('application-error');
+      const button = form?.querySelector<HTMLButtonElement>('button[type=submit]');
+      if (!form || !success || !applicationId || !error || !button || form.dataset.ready) return;
+      form.dataset.ready = 'true';
+      button.disabled = false;
+      const isRu = form.dataset.lang === 'ru';
 
-      form.addEventListener('submit', (e) => {
+      form.addEventListener('submit', async (e) => {
         e.preventDefault();
+        if (button.disabled) return;
         const data = new FormData(form);
-        const name = data.get('name') || '';
-        const website = data.get('website') || '';
-        const stack = data.get('stack') || '';
-        const contact = data.get('contact') || '';
+        const fallback = isRu ? 'Не удалось отправить заявку. Попробуйте ещё раз.' : 'The application could not be sent. Please try again.';
+        error.classList.add('hidden');
+        button.disabled = true;
+        form.setAttribute('aria-busy', 'true');
 
-        if (tgLink) {
-          const text = encodeURIComponent(
-            `🚀 Заявка в AITopIndex:\nКомпания: ${name}\nСайт: ${website}\nСтек: ${stack}\nКонтакт: ${contact}`
-          );
-          tgLink.href = `https://t.me/aitopindex?text=${text}`;
+        try {
+          const response = await fetch('/api/submissions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              organization_name: data.get('name'),
+              website_url: data.get('website'),
+              category_id: data.get('category'),
+              description: data.get('description'),
+              tech_stack: data.get('stack'),
+              case_study_url: data.get('caseStudy'),
+              work_email: data.get('workEmail'),
+              website_hp: data.get('website_hp'),
+              lang: isRu ? 'ru' : 'en',
+              source: 'web_listing_form',
+            }),
+          });
+          const result = await response.json().catch(() => ({}));
+          if (!response.ok || !result.ok || typeof result.submission_id !== 'string') {
+            throw new Error(response.status < 500 && typeof result.error === 'string' ? result.error : fallback);
+          }
+          applicationId.textContent = result.submission_id;
+          form.classList.add('hidden');
+          success.classList.remove('hidden');
+          success.focus();
+        } catch (err) {
+          error.textContent = err instanceof Error && err.name !== 'TypeError' ? err.message : fallback;
+          error.classList.remove('hidden');
+        } finally {
+          form.removeAttribute('aria-busy');
+          button.disabled = false;
         }
-
-        form.classList.add('hidden');
-        success.classList.remove('hidden');
       });
     }
 

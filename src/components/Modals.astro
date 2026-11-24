@@ -13,7 +13,6 @@ const agenciesModalData = agencies.map((a) => ({
   name: a.name,
   website: a.website,
   status: a.status,
-  score: a.score,
   hq: a.hq[lang],
   budget: a.minProjectBudget[lang],
   roi: a.avgRoiTime[lang],
@@ -38,6 +37,9 @@ const categoriesModalData = categories.map((c) => ({
 >
   <div
     id="modalSheet"
+    role="dialog"
+    aria-modal="true"
+    tabindex="-1"
     class="w-full max-w-[480px] bg-white border border-[#e5e7f3] rounded-t-2xl sm:rounded-2xl p-5 pb-8 sm:pb-6 max-h-[88vh] overflow-y-auto shadow-2xl animate-sheet text-[#17172c]"
   >
     <!-- Content injected dynamically -->
@@ -69,19 +71,6 @@ const categoriesModalData = categories.map((c) => ({
       agentsLabel: 'Deployed Autonomous Agents',
       stackLabel: 'Tech Stack',
       fullProfileBtn: 'View Complete Agency Profile &rarr;',
-      submitTitle: 'Submit AI Organization to Index',
-      submitName: 'Company / Agency Name',
-      submitNamePh: 'e.g. Apex Neural Labs',
-      submitCat: 'Primary AI Domain',
-      submitSite: 'Website Domain',
-      submitDesc: 'What do you implement? (1–2 sentences)',
-      submitDescPh: 'e.g. Building enterprise voice SDRs and RAG pipelines for financial services.',
-      submitTags: 'Tech Stack (comma-separated)',
-      submitTagsPh: 'OpenAI, LangChain, Python, n8n',
-      submitEmail: 'Official Work Email',
-      submitEmailPh: 'partners@company.com',
-      submitBtn: 'Submit to AI Top Index',
-      submitSuccess: 'AI organization submitted for verification audit!',
       savedAdded: 'Saved to bookmarks',
       savedRemoved: 'Removed from bookmarks',
     },
@@ -95,19 +84,6 @@ const categoriesModalData = categories.map((c) => ({
       agentsLabel: 'Внедряемые автономные ИИ-агенты',
       stackLabel: 'Технологический стек',
       fullProfileBtn: 'Подробный аудит компании &rarr;',
-      submitTitle: 'Добавить компанию в рейтинг ИИ',
-      submitName: 'Название компании / интегратора',
-      submitNamePh: 'Например: Apex Neural Labs',
-      submitCat: 'Основное направление ИИ',
-      submitSite: 'Домен сайта',
-      submitDesc: 'Что именно внедряете? (1–2 предложения)',
-      submitDescPh: 'Например: Внедрение голосовых ИИ-агентов и RAG-баз знаний для корпораций.',
-      submitTags: 'Стек технологий (через запятую)',
-      submitTagsPh: 'OpenAI, LangChain, Python, n8n',
-      submitEmail: 'Корпоративный Email',
-      submitEmailPh: 'partners@company.com',
-      submitBtn: 'Подать заявку в рейтинг',
-      submitSuccess: 'Заявка отправлена на аудит аккредитации!',
       savedAdded: 'Сохранено в избранное',
       savedRemoved: 'Удалено из избранного',
     }
@@ -140,14 +116,22 @@ const categoriesModalData = categories.map((c) => ({
   };
 
   // Modal open/close
+  let modalTrigger;
   window.openModal = function(html) {
     const backdrop = document.getElementById('modalBackdrop');
     const sheet = document.getElementById('modalSheet');
     if (!backdrop || !sheet) return;
+    if (backdrop.classList.contains('hidden')) modalTrigger = document.activeElement;
     sheet.innerHTML = html;
+    const heading = sheet.querySelector('h3');
+    if (heading) {
+      heading.id = 'modal-heading';
+      sheet.setAttribute('aria-labelledby', heading.id);
+    }
     backdrop.classList.remove('hidden');
     backdrop.classList.add('flex');
     document.body.style.overflow = 'hidden';
+    sheet.focus();
   };
 
   window.closeModal = function(e) {
@@ -158,8 +142,30 @@ const categoriesModalData = categories.map((c) => ({
         backdrop.classList.remove('flex');
       }
       document.body.style.overflow = '';
+      modalTrigger?.focus();
     }
   };
+
+  document.getElementById('modalSheet')?.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      window.closeModal();
+      return;
+    }
+    if (event.key !== 'Tab') return;
+    const sheet = event.currentTarget;
+    const controls = [...sheet.querySelectorAll('a[href], button, input, select, textarea')]
+      .filter((field) => field.tabIndex >= 0 && !field.disabled && field.getClientRects().length);
+    const first = controls[0];
+    const last = controls.at(-1);
+    if (!first || !last) return;
+    if (event.shiftKey && (document.activeElement === first || document.activeElement === sheet)) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
 
   // Open Contact Modal
   window.openContactModal = function(agencyId) {
@@ -240,213 +246,6 @@ const categoriesModalData = categories.map((c) => ({
         </a>
       </div>
     `);
-  };
-
-  // Open Submit AI Modal
-  window.openSubmitAiModal = function() {
-    const cats = window.__CATEGORIES;
-    const isRu = window.__LANG === 'ru';
-    openModal(`
-      <div class="flex items-center justify-between mb-4 border-b border-[#e5e7f3] pb-3">
-        <div>
-          <h3 class="text-[16px] font-bold text-[#17172c]">${t.submitTitle}</h3>
-          <p class="text-[12px] text-[#59617e] mt-0.5">${isRu ? 'Бесплатная проверка домена и публикация после модерации' : 'Free domain verification and listing after review'}</p>
-        </div>
-        <button type="button" onclick="closeModal()" aria-label="Close" class="w-8 h-8 rounded-full bg-[#f5f6fa] border border-[#e5e7f3] text-[#59617e] hover:text-[#17172c] flex items-center justify-center text-sm cursor-pointer">✕</button>
-      </div>
-
-      <form id="modal-submit-form" onsubmit="window.handleSubmitAiForm(event)" class="space-y-3">
-        <!-- Honeypot anti-spam -->
-        <input type="text" name="website_hp" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0" />
-
-        <div>
-          <label class="block text-[11.5px] font-semibold text-[#17172c] mb-1">${t.submitName} *</label>
-          <input
-            type="text"
-            name="orgName"
-            required
-            placeholder="${t.submitNamePh}"
-            class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3.5 py-2 text-sm text-[#17172c] placeholder:text-[#59617e]/60 focus:outline-none focus:border-[#6336ed]"
-          />
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-          <div>
-            <label class="block text-[11.5px] font-semibold text-[#17172c] mb-1">${t.submitCat} *</label>
-            <select name="orgCategory" class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3 py-2 text-xs text-[#17172c] focus:outline-none focus:border-[#6336ed]">
-              ${cats.map((c) => `<option value="${c.title}">${c.title}</option>`).join('')}
-            </select>
-          </div>
-          <div>
-            <label class="block text-[11.5px] font-semibold text-[#17172c] mb-1">${t.submitSite} *</label>
-            <input
-              type="text"
-              name="orgDomain"
-              required
-              placeholder="company.com"
-              class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3 py-2 text-xs text-[#17172c] placeholder:text-[#59617e]/60 focus:outline-none focus:border-[#6336ed]"
-            />
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-          <div>
-            <label class="block text-[11.5px] font-semibold text-[#17172c] mb-1">${isRu ? 'Страна' : 'Country'} *</label>
-            <input
-              type="text"
-              name="orgCountry"
-              required
-              placeholder="${isRu ? 'США, ОАЭ, РФ...' : 'USA, UK, UAE...'}"
-              class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3 py-2 text-xs text-[#17172c] placeholder:text-[#59617e]/60 focus:outline-none focus:border-[#6336ed]"
-            />
-          </div>
-          <div>
-            <label class="block text-[11.5px] font-semibold text-[#17172c] mb-1">${isRu ? 'Тип организации' : 'Organization Type'} *</label>
-            <select name="orgType" required class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3 py-2 text-xs text-[#17172c] focus:outline-none focus:border-[#6336ed]">
-              <option value="integrator">${isRu ? 'Интегратор' : 'Integrator'}</option>
-              <option value="platform">${isRu ? 'Платформа' : 'Platform'}</option>
-              <option value="studio">${isRu ? 'Студия' : 'Studio'}</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-[11.5px] font-semibold text-[#17172c] mb-1">${isRu ? 'Бюджет (USD)' : 'Min Budget (USD)'} *</label>
-            <select name="orgBudget" required class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3 py-2 text-xs text-[#17172c] focus:outline-none focus:border-[#6336ed]">
-              <option value="<$3,000">&lt; $3,000</option>
-              <option value="$3,000–$10,000">$3,000 – $10,000</option>
-              <option value="$10,000–$25,000">$10,000 – $25,000</option>
-              <option value="$25,000+">$25,000+</option>
-              <option value="Enterprise">${isRu ? 'Enterprise / по запросу' : 'Enterprise / by quote'}</option>
-            </select>
-          </div>
-        </div>
-
-        <div>
-          <div class="flex items-center justify-between mb-1">
-            <label class="block text-[11.5px] font-semibold text-[#17172c]">${t.submitDesc} *</label>
-            <span id="orgDescCounter" class="text-[11px] font-mono text-[#59617e]">0 / 160</span>
-          </div>
-          <textarea
-            name="orgDesc"
-            required
-            rows="2"
-            maxlength="160"
-            oninput="const c = document.getElementById('orgDescCounter'); if(c) c.textContent = this.value.length + ' / 160';"
-            placeholder="${t.submitDescPh}"
-            class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3.5 py-2 text-xs text-[#17172c] placeholder:text-[#59617e]/60 focus:outline-none focus:border-[#6336ed]"
-          ></textarea>
-        </div>
-
-        <div>
-          <label class="block text-[11.5px] font-semibold text-[#17172c] mb-1">${t.submitTags} <span class="text-[#59617e] font-normal">(${isRu ? 'необязательно' : 'optional'})</span></label>
-          <input
-            type="text"
-            name="orgStack"
-            placeholder="${t.submitTagsPh}"
-            class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3.5 py-2 text-xs text-[#17172c] placeholder:text-[#59617e]/60 focus:outline-none focus:border-[#6336ed]"
-          />
-        </div>
-
-        <div>
-          <label class="block text-[11.5px] font-semibold text-[#17172c] mb-1">${t.submitEmail} *</label>
-          <input
-            type="email"
-            name="orgEmail"
-            required
-            placeholder="${t.submitEmailPh}"
-            class="w-full rounded-xl bg-white border border-[#dfe1ee] px-3.5 py-2 text-xs text-[#17172c] placeholder:text-[#59617e]/60 focus:outline-none focus:border-[#6336ed]"
-          />
-        </div>
-
-        <div id="submit-form-error" class="hidden rounded-lg bg-[#fef2f2] border border-[#fecaca] p-2.5 text-[11.5px] text-[#b91c1c]"></div>
-
-        <div class="pt-2">
-          <button
-            type="submit"
-            id="modal-submit-btn"
-            class="w-full cta py-2.5 text-sm font-bold justify-center"
-          >
-            ${t.submitBtn} &rarr;
-          </button>
-          <p class="text-center text-[11.5px] text-[#59617e] mt-2">
-            ${isRu ? 'Проверка занимает до 24 часов' : 'Review takes up to 24 hours'}
-          </p>
-        </div>
-      </form>
-      <div id="modal-submit-ready" class="hidden space-y-3 text-center py-2"></div>
-    `);
-  };
-
-  window.handleSubmitAiForm = async function(e) {
-    e.preventDefault();
-    const form = e.target;
-    const isRu = window.__LANG === 'ru';
-    const errBox = document.getElementById('submit-form-error');
-    const readyBox = document.getElementById('modal-submit-ready');
-    const submitBtn = document.getElementById('modal-submit-btn');
-
-    const fd = new FormData(form);
-    if (fd.get('website_hp')) return; // Honeypot
-
-    const payload = {
-      organization_name: String(fd.get('orgName') || '').trim(),
-      category_id: String(fd.get('orgCategory') || '').trim(),
-      website_url: String(fd.get('orgDomain') || '').trim(),
-      country: String(fd.get('orgCountry') || '').trim(),
-      entity_type: String(fd.get('orgType') || 'integrator').trim(),
-      min_budget_usd: String(fd.get('orgBudget') || '').trim(),
-      description: String(fd.get('orgDesc') || '').trim(),
-      tech_stack: String(fd.get('orgStack') || '').trim(),
-      work_email: String(fd.get('orgEmail') || '').trim(),
-      lang: window.__LANG || 'en',
-      source: 'web_get_listed_modal',
-      website_hp: '',
-    };
-
-    if (errBox) errBox.classList.add('hidden');
-    if (submitBtn) {
-      submitBtn.disabled = true;
-      submitBtn.textContent = isRu ? 'Отправка...' : 'Submitting...';
-    }
-
-    try {
-      const resp = await fetch('/api/submissions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      const data = await resp.json().catch(() => ({}));
-
-      if (!resp.ok || !data.ok) {
-        if (errBox) {
-          errBox.textContent = data.error || (isRu ? 'Не удалось сохранить заявку. Проверьте поля и повторите попытку.' : 'Could not save submission. Please check fields and retry.');
-          errBox.classList.remove('hidden');
-        }
-        return;
-      }
-
-      form.classList.add('hidden');
-      if (readyBox) {
-        readyBox.innerHTML = `
-          <div class="w-10 h-10 rounded-full bg-[#e6f7ef] text-[#009e54] flex items-center justify-center mx-auto text-lg font-bold">✓</div>
-          <h4 class="text-sm font-bold text-[#17172c]">${data.message}</h4>
-          <p class="text-xs text-[#59617e]">ID: <strong>${data.submission_id}</strong> · Status: <strong>Pending</strong></p>
-          <button type="button" onclick="closeModal()" class="cta text-xs py-2 px-5 mt-2">${isRu ? 'Закрыть' : 'Close'}</button>
-        `;
-        readyBox.classList.remove('hidden');
-      }
-    } catch (netErr) {
-      if (errBox) {
-        errBox.textContent = isRu
-          ? 'Сервер временно недоступен. Ваши данные сохранены в форме — нажмите кнопку ещё раз.'
-          : 'Network error reaching API. Your form inputs are preserved — please try again.';
-        errBox.classList.remove('hidden');
-      }
-    } finally {
-      if (submitBtn) {
-        submitBtn.disabled = false;
-        submitBtn.textContent = `${t.submitBtn} →`;
-      }
-    }
   };
 
   // Open Find an AI Partner Modal (Client B2B Leads -> POST /api/leads)
@@ -604,7 +403,7 @@ const categoriesModalData = categories.map((c) => ({
   };
 
   // Open Contact Us Modal (Обратная связь -> POST /api/contact)
-  window.openContactUsModal = function() {
+  window.openContactUsModal = function(profileName) {
     const isRu = window.__LANG === 'ru';
     const subjects = isRu
       ? [
@@ -681,6 +480,11 @@ const categoriesModalData = categories.map((c) => ({
       </form>
       <div id="modal-contact-us-ready" class="hidden space-y-3 text-center py-3"></div>
     `);
+    if (profileName) {
+      const form = document.getElementById('modal-contact-us-form');
+      form.elements.namedItem('subject').value = subjects[2];
+      form.elements.namedItem('message').value = isRu ? `Компания: ${profileName}\n\n` : `Company: ${profileName}\n\n`;
+    }
   };
 
   window.handleContactUsForm = async function(e) {

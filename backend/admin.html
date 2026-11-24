@@ -158,7 +158,10 @@
           <tbody>${d.submissions.map(s => `
             <tr>
               <td><strong>${esc(s.submission_uid)}</strong><br><small>${esc(s.created_at)}</small></td>
-              <td><strong>${esc(s.organization_name)}</strong><br><small>${esc(s.description)}</small></td>
+              <td><strong>${esc(s.organization_name)}</strong><br><small>${esc(s.description)}</small>
+                ${s.tech_stack ? `<br><small>Tools: ${esc(s.tech_stack)}</small>` : ''}
+                ${s.case_study_url ? `<br><a href="${esc(s.case_study_url)}" target="_blank" rel="noopener noreferrer">Example of work ↗</a>` : ''}
+              </td>
               <td><a href="${esc(s.website_url)}" target="_blank">${esc(s.normalized_domain)}</a></td>
               <td>${esc(s.category_id)}</td>
               <td>${esc(s.work_email)}</td>

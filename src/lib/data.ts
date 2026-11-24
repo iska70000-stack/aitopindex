@@ -39,7 +39,7 @@ export interface Agency {
 
 export const agencies: Agency[] = (agenciesJson as Agency[])
   .filter((a) => a.status === 'verified')
-  .sort((a, b) => b.score - a.score || a.name.localeCompare(b.name));
+  .sort((a, b) => a.name.localeCompare(b.name, 'en'));
 
 /** Returns top 2 flagship agencies per category for the homepage preview (18 total). */
 export const featuredAgencies = (lang: Lang): Agency[] => {
@@ -89,20 +89,16 @@ export const agenciesByLang = (lang: Lang): Agency[] => {
       if (aGlobal && !bGlobal) return -1;
       if (!aGlobal && bGlobal) return 1;
     }
-    return b.score - a.score || a.name.localeCompare(b.name);
+    return a.name.localeCompare(b.name, lang);
   });
 };
 
 export const agencyById = (id: string) => agencies.find((a) => a.id === id);
 
 export const agenciesFor = (cat: CategoryId, lang?: Lang) => {
-  const pool = lang ? agenciesByLang(lang) : agencies;
-  return pool.filter((a) => a.categories.includes(cat));
+  return agencies.filter((a) => a.categories.includes(cat))
+    .sort((a, b) => a.name.localeCompare(b.name, lang ?? 'en'));
 };
-
-/** Ranked position of an agency inside a category (1-based). */
-export const rankIn = (cat: CategoryId, id: string, lang?: Lang) =>
-  agenciesFor(cat, lang).findIndex((a) => a.id === id) + 1;
 
 /* ------------------------------------------------------------------ */
 /* Stack filter pills                                                  */

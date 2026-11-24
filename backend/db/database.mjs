@@ -25,6 +25,10 @@ export function getDb(dbPath = DEFAULT_DB_PATH) {
   if (!emailCols.some((c) => c.name === 'reply_to')) {
     db.exec("ALTER TABLE email_queue ADD COLUMN reply_to TEXT NOT NULL DEFAULT ''");
   }
+  const submissionCols = db.prepare('PRAGMA table_info(submissions)').all();
+  if (!submissionCols.some((c) => c.name === 'case_study_url')) {
+    db.exec("ALTER TABLE submissions ADD COLUMN case_study_url TEXT NOT NULL DEFAULT ''");
+  }
 
   dbInstance = db;
   seedInitialData(db);

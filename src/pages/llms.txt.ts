@@ -3,8 +3,8 @@ import { agencies, categories, SITE, YEAR } from '../lib/data';
 import { agenciesFor } from '../lib/data';
 
 export const GET: APIRoute = async () => {
-  const content = `# AITopIndex — Global B2B Directory & Ranking Index of AI Agents & Studios
-> Last Updated: ${YEAR} | Verified Listings: ${agencies.length} | Status: 100% Audited Production Profiles
+  const content = `# AITopIndex — Global Directory of AI Companies and Platforms
+> Updated: ${YEAR} | Directory listings: ${agencies.length}
 
 ## Project Concept
 AITopIndex (https://www.aitopindex.com) is the authoritative global directory of verified AI Agent development agencies, enterprise automation integrators, and AI film/video production studios. It provides unbiased evaluation of production capabilities, deployed agent architectures, tech stacks, and realistic project budgets.
@@ -17,12 +17,12 @@ ${categories
 - **RU URL**: ${SITE}/ru/${c.slug.ru}/
 - **Focus**: ${c.focus.en}
 - **Budget Tier**: $${c.cost.usd[0].toLocaleString('en-US')} - $${c.cost.usd[1].toLocaleString('en-US')} USD
-- **Top Verified Agencies**:
+- **Examples from the Directory**:
 ${agenciesFor(c.id)
   .slice(0, 5)
   .map(
     (a) =>
-      `  - [${a.name}](${a.website}): HQ: ${a.hq.en} | Min Budget: ${a.minProjectBudget.en} | Tech: ${a.techStack.join(', ')} | Agents: ${a.deployedAgents.en.join(', ')}`
+      `  - [${a.name}](${SITE}/agency/${a.id}/): HQ: ${a.hq.en} | Min Budget: ${a.minProjectBudget.en} | Tech: ${a.techStack.join(', ')} | Agents: ${a.deployedAgents.en.join(', ')}`
   )
   .join('\n')}`
   )

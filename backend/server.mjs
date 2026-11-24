@@ -288,6 +288,7 @@ export const server = http.createServer(async (req, res) => {
       const categoryId = String(body.category_id || '').trim();
       const description = String(body.description || '').trim();
       const techStack = String(body.tech_stack || '').trim();
+      const caseStudyUrl = String(body.case_study_url || '').trim();
       const workEmail = String(body.work_email || '').trim().toLowerCase();
       const source = String(body.source || 'web_get_listed').trim().slice(0, 64);
 
@@ -306,6 +307,17 @@ export const server = http.createServer(async (req, res) => {
 
       if (description.length < 15 || description.length > 1500) {
         return sendJson(res, 400, { error: lang === 'ru' ? 'Опишите услуги компании (от 15 до 1500 символов).' : 'Please describe your services (15 to 1500 characters).' });
+      }
+
+      if (techStack.length > 300 || (source === 'web_listing_form' && !techStack)) {
+        return sendJson(res, 400, { error: lang === 'ru' ? 'Укажите инструменты компании (до 300 символов).' : 'Enter the tools your company uses (up to 300 characters).' });
+      }
+
+      if (caseStudyUrl || source === 'web_listing_form') {
+        const url = URL.parse(caseStudyUrl);
+        if (caseStudyUrl.length > 500 || !url || !['https:', 'http:'].includes(url.protocol) || url.username || url.password) {
+          return sendJson(res, 400, { error: lang === 'ru' ? 'Укажите действительную ссылку на опубликованный пример работы.' : 'Enter a valid link to a published example of your work.' });
+        }
       }
 
       if (!isValidEmail(workEmail)) {
@@ -340,9 +352,9 @@ export const server = http.createServer(async (req, res) => {
       const result = db.prepare(`
         INSERT INTO submissions (
           submission_uid, organization_name, normalized_domain, website_url,
-          category_id, description, tech_stack, work_email, lang, source, status
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')
-      `).run(submissionUid, orgName, normDomain, websiteUrl, categoryId, description, techStack, workEmail, lang, source);
+          category_id, description, tech_stack, case_study_url, work_email, lang, source, status
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')
+      `).run(submissionUid, orgName, normDomain, websiteUrl, categoryId, description, techStack, caseStudyUrl, workEmail, lang, source);
 
       logAudit(db, {
         actor: 'public_form',
@@ -360,6 +372,8 @@ export const server = http.createServer(async (req, res) => {
           `Company: ${orgName}`,
           `Domain: ${normDomain}`,
           `Category: ${categoryId}`,
+          `Tools: ${techStack || '—'}`,
+          `Example of work: ${caseStudyUrl || '—'}`,
           `Contact Email: ${workEmail}`,
           `Application ID: ${submissionUid}`,
           `Date: ${new Date().toISOString()}`,
@@ -373,6 +387,8 @@ export const server = http.createServer(async (req, res) => {
         organization_name: orgName,
         normalized_domain: normDomain,
         category_id: categoryId,
+        tech_stack: techStack,
+        case_study_url: caseStudyUrl,
         status: 'pending',
         duplicate_check: existingCompany ? `Draft match: ${existingCompany.name}` : 'No exact match found',
         admin_url: ADMIN_PANEL_URL,

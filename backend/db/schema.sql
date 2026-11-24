@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS submissions (
   category_id TEXT NOT NULL,
   description TEXT NOT NULL,
   tech_stack TEXT NOT NULL DEFAULT '',
+  case_study_url TEXT NOT NULL DEFAULT '',
   work_email TEXT NOT NULL,
   lang TEXT NOT NULL DEFAULT 'en',
   source TEXT NOT NULL DEFAULT 'web_get_listed',

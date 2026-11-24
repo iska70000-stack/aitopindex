@@ -17,7 +17,8 @@ process.env.ADMIN_USERNAME = 'admin';
 process.env.ADMIN_INIT_PASSWORD = 'test-secure-password-123';
 process.env.SESSION_SECRET = 'test-session-secret-123';
 // Simulate unreachable Email & Hermes endpoints to test resilience
-process.env.RESEND_API_KEY = 're_unreachable_test';
+delete process.env.RESEND_API_KEY;
+delete process.env.AITOPINDEX_TELEGRAM_BOT_TOKEN;
 process.env.ADMIN_ALERT_EMAIL = 'admin@example.com';
 process.env.HERMES_WEBHOOK_URL = 'http://127.0.0.1:59999/unreachable';
 process.env.HERMES_WEBHOOK_SECRET = 'hermes-test-secret';
@@ -35,9 +36,10 @@ try {
   const statsRes = await fetch(`${baseUrl}/api/stats`);
   assert.equal(statsRes.status, 200);
   const stats = await statsRes.json();
-  assert.equal(stats.companiesCount, 86);
+  const catalog = JSON.parse(fs.readFileSync(new URL('../src/data/agencies.json', import.meta.url), 'utf8'));
+  assert.equal(stats.companiesCount, catalog.filter((a) => a.status === 'verified').length);
   assert.equal(stats.draftsCount, 58);
-  console.log('[PASS] 1. DB Seed & /api/stats (86 published, 58 drafts)');
+  console.log('[PASS] 1. DB Seed & /api/stats');
 
   // 2. Invalid submission rejected
   const badSub = await fetch(`${baseUrl}/api/submissions`, {
@@ -48,24 +50,37 @@ try {
   assert.equal(badSub.status, 400);
   console.log('[PASS] 2. Invalid submission rejected (400)');
 
+  const application = {
+    organization_name: 'Test Neural Systems',
+    website_url: 'https://www.testneuralsystems.io/about',
+    category_id: 'enterprise',
+    description: 'Внедрение корпоративных RAG-систем и ИИ-агентов.',
+    tech_stack: 'Python, LangChain',
+    case_study_url: 'https://testneuralsystems.io/cases/rag',
+    work_email: 'founders@testneuralsystems.io',
+    lang: 'ru',
+    source: 'web_listing_form',
+  };
+  const invalidCase = await fetch(`${baseUrl}/api/submissions`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ ...application, case_study_url: 'not a link' }),
+  });
+  assert.equal(invalidCase.status, 400);
+
   // 3. Valid Get Listed submission (RU) even when Hermes/Email unreachable
   const validSub = await fetch(`${baseUrl}/api/submissions`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      organization_name: 'Test Neural Systems',
-      website_url: 'https://www.testneuralsystems.io/about',
-      category_id: 'enterprise',
-      description: 'Внедрение корпоративных RAG-систем и ИИ-агентов.',
-      tech_stack: 'Python, LangChain',
-      work_email: 'founders@testneuralsystems.io',
-      lang: 'ru',
-    }),
+    body: JSON.stringify(application),
   });
   assert.equal(validSub.status, 201);
   const subData = await validSub.json();
   assert.equal(subData.status, 'pending');
   assert.equal(subData.message, 'Заявка получена. Наша редакция рассмотрит её.');
+  const storedCase = getDb().prepare('SELECT case_study_url, tech_stack FROM submissions WHERE submission_uid = ?').get(subData.submission_id);
+  assert.equal(storedCase.case_study_url, application.case_study_url);
+  assert.equal(storedCase.tech_stack, application.tech_stack);
   console.log('[PASS] 3. Valid Get Listed saved despite unreachable Email/Hermes:', subData.submission_id);
 
   // 4. Duplicate submission check
@@ -140,21 +155,21 @@ try {
   assert.equal(approveRes.status, 200);
 
   const statsAfter = await (await fetch(`${baseUrl}/api/stats`)).json();
-  assert.equal(statsAfter.companiesCount, 87);
-  console.log('[PASS] 7. Admin moderation approved & published unique company (count=87)');
+  assert.equal(statsAfter.companiesCount, stats.companiesCount + 1);
+  console.log('[PASS] 7. Admin moderation approved & published unique company');
 
   // 8. Admin notifications & duplicates endpoints
   const notifRes = await fetch(`${baseUrl}/api/admin/notifications`, { headers: { Cookie: cookie } });
   assert.equal(notifRes.status, 200);
   const notifs = await notifRes.json();
-  assert.equal(notifs.emails.length, 2);
+  assert.equal(notifs.emails.length, 3);
   assert.equal(notifs.hermes.length, 2);
   console.log('[PASS] 8. Notification outbox endpoints verified');
 
   // 9. Hot Backup & Integrity Restore Verification
   const backupRes = runBackupAndVerify();
   assert.equal(backupRes.integrity, 'ok');
-  assert.equal(backupRes.counts.companies, 145); // 86 + 58 drafts + 1 approved
+  assert.equal(backupRes.counts.companies, stats.companiesCount + stats.draftsCount + 1);
   assert.equal(backupRes.counts.submissions, 1);
   assert.equal(backupRes.counts.leads, 1);
   console.log('[PASS] 9. Online SQLite Backup & Restore integrity verified:', backupRes.counts);

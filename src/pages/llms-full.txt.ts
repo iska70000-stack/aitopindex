@@ -10,7 +10,7 @@ export const GET: APIRoute = async () => {
 ## Master Index of Verified Agencies & Studios
 ${agencies
   .map(
-    (a, i) => `### ${i + 1}. ${a.name}
+    (a) => `### ${a.name}
 - **ID**: ${a.id}
 - **Website**: ${a.website}
 - **Internal Profile**: ${SITE}/agency/${a.id}/
@@ -22,7 +22,6 @@ ${agencies
 - **Min Project Budget**: ${a.minProjectBudget.en} (RU: ${a.minProjectBudget.ru})
 - **Avg ROI Time**: ${a.avgRoiTime.en} (RU: ${a.avgRoiTime.ru})
 - **Verification Date**: ${a.verifiedDate}
-- **Score**: ${a.score}/100
 - **Deployed AI Agents**:
   - EN: ${a.deployedAgents.en.join('; ')}
   - RU: ${a.deployedAgents.ru.join('; ')}
@@ -38,7 +37,7 @@ All listings on AITopIndex are verified according to our open framework:
 1. Active verifiable corporate domain with SSL and legitimate business presence.
 2. Verified track record in deploying production LLMs, voice robots, n8n/Make workflows, RAG knowledge bases, or generative video.
 3. No hallucinated phone contacts or synthetic credentials.
-4. Independent scoring based on tool complexity, client case studies, and enterprise readiness.
+4. Company listings are sorted alphabetically.
 
 ## TopIndex Network (Sister Directories)
 - Baku Top Index (https://bakutopindex.com) — Verified business & service directory of Baku, Azerbaijan.
