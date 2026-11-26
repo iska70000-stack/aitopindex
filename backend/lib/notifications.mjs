@@ -258,13 +258,95 @@ export async function dispatchHermesEvents(db) {
       `).run(row.id);
       dispatched++;
     } catch (err) {
+      const errMsg = String(err.message || err).slice(0, 500);
+      console.error(`[Hermes Dispatch Error] event=${row.event_id} type=${row.event_type} attempt=${row.attempts + 1}:`, errMsg);
       db.prepare(`
         UPDATE hermes_events SET attempts = attempts + 1, last_error = ?,
         status = CASE WHEN attempts + 1 >= 5 THEN 'failed' ELSE 'pending' END
         WHERE id = ?
-      `).run(String(err.message || err).slice(0, 500), row.id);
+      `).run(errMsg, row.id);
     }
   }
 
   return { dispatched };
+}
+
+/**
+ * Checks for pending submissions older than 24 hours and sends a daily Telegram
+ * reminder with inline Approve/Reject buttons (at most once every 23 hours unless forced).
+ */
+export async function sendPendingReminders(db, { force = false } = {}) {
+  const overdue = db.prepare(`
+    SELECT submission_uid, organization_name, normalized_domain, category_id, created_at
+    FROM submissions
+    WHERE status = 'pending'
+      AND datetime(created_at) <= datetime('now', '-24 hours')
+    ORDER BY created_at ASC
+  `).all();
+
+  if (overdue.length === 0) {
+    return { reminded: 0, pendingCount: 0 };
+  }
+
+  if (!force) {
+    const recent = db.prepare(`
+      SELECT id FROM audit_logs
+      WHERE action = 'reminder.pending_submissions'
+        AND datetime(created_at) > datetime('now', '-23 hours')
+      LIMIT 1
+    `).get();
+    if (recent) {
+      return { reminded: 0, pendingCount: overdue.length, skipped: 'cooldown' };
+    }
+  }
+
+  const tgToken = process.env.TELEGRAM_BOT_TOKEN;
+  const tgChatId = process.env.TELEGRAM_CHAT_ID || process.env.TELEGRAM_HOME_CHANNEL;
+  const adminUrl = process.env.ADMIN_PANEL_URL || 'https://www.aitopindex.com/admin';
+
+  if (!tgToken || !tgChatId) {
+    console.error('[Pending Reminder Error] TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID not configured');
+    return { reminded: 0, pendingCount: overdue.length, skipped: 'unconfigured' };
+  }
+
+  const lines = [
+    `⏰ Напоминание: ${overdue.length} заявок ожидают модерации более 24 часов`,
+    '',
+    ...overdue.slice(0, 10).map(
+      (s, i) => `${i + 1}. ${s.organization_name} (${s.normalized_domain}) — ${s.submission_uid} от ${s.created_at}`
+    ),
+    '',
+    `Админка: ${adminUrl}`,
+  ];
+
+  const inlineKeyboard = overdue.slice(0, 5).map((s) => [
+    { text: `✅ Одобрить ${s.organization_name.slice(0, 18)}`, callback_data: `ati:sub_approve:${s.submission_uid}` },
+    { text: `❌ Отклонить`, callback_data: `ati:sub_reject:${s.submission_uid}` },
+  ]);
+
+  const resp = await fetch(`https://api.telegram.org/bot${tgToken}/sendMessage`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      chat_id: tgChatId,
+      text: lines.join('\n'),
+      disable_web_page_preview: true,
+      reply_markup: { inline_keyboard: inlineKeyboard },
+    }),
+    signal: AbortSignal.timeout(10000),
+  });
+
+  const data = await resp.json().catch(() => ({}));
+  if (!resp.ok || !data.ok) {
+    const errText = data.description || `Telegram HTTP ${resp.status}`;
+    console.error('[Pending Reminder Error]', errText);
+    throw new Error(errText);
+  }
+
+  db.prepare(`
+    INSERT INTO audit_logs (actor, action, entity_type, entity_id, details_json)
+    VALUES ('scheduler', 'reminder.pending_submissions', 'system', 'submissions', ?)
+  `).run(JSON.stringify({ count: overdue.length, ids: overdue.map((s) => s.submission_uid) }));
+
+  return { reminded: overdue.length, pendingCount: overdue.length };
 }

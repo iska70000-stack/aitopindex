@@ -14,7 +14,7 @@ import {
   verifySessionToken,
   RateLimiter,
 } from './lib/security.mjs';
-import { enqueueAdminEmail, enqueueHermesEvent } from './lib/notifications.mjs';
+import { enqueueAdminEmail, enqueueHermesEvent, dispatchHermesEvents, processEmailQueue, sendPendingReminders } from './lib/notifications.mjs';
 import { syncCatalogSafely } from './scripts/sync-catalog.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -42,9 +42,10 @@ const CATEGORY_ALIASES = {
   healthcare: 'healthcare',
   'ai automation for clinics, dental & medspas': 'healthcare',
   'ai-for-healthcare-clinics': 'healthcare',
-  workflows: 'workflows',
-  'n8n, make & autonomous workflow agencies': 'workflows',
-  'n8n-make-workflow-agencies': 'workflows',
+  workflow: 'workflow',
+  workflows: 'workflow',
+  'n8n, make & autonomous workflow agencies': 'workflow',
+  'n8n-make-workflow-agencies': 'workflow',
   ecommerce: 'ecommerce',
   'ai agents for e-commerce & marketplaces': 'ecommerce',
   'ai-for-ecommerce-retail': 'ecommerce',
@@ -65,7 +66,7 @@ function normalizeCategoryId(raw) {
   if (key.includes('voice') || key.includes('call')) return 'voice';
   if (key.includes('real estate') || key.includes('недвижим')) return 'realestate';
   if (key.includes('health') || key.includes('clinic') || key.includes('медицин')) return 'healthcare';
-  if (key.includes('n8n') || key.includes('make') || key.includes('workflow')) return 'workflows';
+  if (key.includes('n8n') || key.includes('make') || key.includes('workflow')) return 'workflow';
   if (key.includes('commerce') || key.includes('маркетплейс')) return 'ecommerce';
   if (key.includes('geo')) return 'geo';
   return 'enterprise';
@@ -798,5 +799,19 @@ export const server = http.createServer(async (req, res) => {
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   server.listen(PORT, () => {
     console.log(`AITopIndex Backend listening on http://127.0.0.1:${PORT}`);
+
+    // Retry pending Telegram/Hermes and email deliveries every 60s
+    setInterval(() => {
+      dispatchHermesEvents(db).catch((err) => console.error('[Hermes Retry Loop Error]', err));
+      processEmailQueue(db).catch((err) => console.error('[Email Retry Loop Error]', err));
+    }, 60 * 1000).unref();
+
+    // Check every hour for unreviewed pending submissions > 24h (sends at most once per 24h)
+    setTimeout(() => {
+      sendPendingReminders(db).catch((err) => console.error('[Pending Reminder Error]', err));
+    }, 15 * 1000).unref();
+    setInterval(() => {
+      sendPendingReminders(db).catch((err) => console.error('[Pending Reminder Error]', err));
+    }, 60 * 60 * 1000).unref();
   });
 }
