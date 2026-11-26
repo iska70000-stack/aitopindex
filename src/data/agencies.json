@@ -4122,6 +4122,65 @@
     "region": "usa-eu"
   },
   {
+    "id": "the-agency",
+    "name": "The Agency",
+    "website": "https://theagency.io",
+    "type": "agency",
+    "entityType": "integrator",
+    "region": "global",
+    "categories": [
+      "geo",
+      "sales",
+      "workflow"
+    ],
+    "markets": [
+      "global",
+      "en"
+    ],
+    "hq": {
+      "en": "UK / Barcelona / Dubai",
+      "ru": "Великобритания / Барселона / Дубай"
+    },
+    "minProjectBudget": {
+      "en": "$2,000+/mo",
+      "ru": "от $2 000/мес"
+    },
+    "avgRoiTime": {
+      "en": "1–3 months",
+      "ru": "1–3 месяца"
+    },
+    "deployedAgents": {
+      "en": [
+        "AI Search Visibility & GEO System",
+        "Company Brain & Operating System",
+        "24/7 AI Sales & Booking Agents",
+        "Automated Outbound & Content Engine"
+      ],
+      "ru": [
+        "Система GEO-видимости в ИИ-поиске",
+        "База знаний «Company Brain» и ОС бизнеса",
+        "ИИ-агенты продаж и записи 24/7",
+        "Автоматический аутрич и контент-движок"
+      ]
+    },
+    "techStack": [
+      "GEO",
+      "AI Sales Agents",
+      "CRM Automation",
+      "Company Brain",
+      "JSON-LD",
+      "WhatsApp",
+      "SEO"
+    ],
+    "description": {
+      "en": "The Agency is an AI marketing & transformation agency (UK, Barcelona, Dubai) delivering GEO AI-search visibility, Company Brain OS, and 24/7 sales automation (300+ AI systems built; Netflix, Mercedes-Benz, Biovene).",
+      "ru": "The Agency — агентство ИИ-маркетинга и AI-трансформации (Великобритания, Барселона, ОАЭ): GEO-продвижение в ИИ, «Company Brain», ИИ-агенты продаж и CRM (300+ ИИ-систем; Netflix, Mercedes-Benz, Biovene)."
+    },
+    "score": 0,
+    "verifiedDate": "2026-11-26",
+    "status": "verified"
+  },
+  {
     "id": "twin24",
     "name": "TWIN (Twin24)",
     "website": "https://twin24.ai",
